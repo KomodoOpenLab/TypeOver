@@ -24,6 +24,11 @@
 		5A02A6DB16D401E2001ECCF4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A02A6B316D401E1001ECCF4 /* Foundation.framework */; };
 		5A02A6E316D401E2001ECCF4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5A02A6E116D401E2001ECCF4 /* InfoPlist.strings */; };
 		5A02A6E616D401E2001ECCF4 /* TypeOverTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A02A6E516D401E2001ECCF4 /* TypeOverTests.m */; };
+		5A2BDF2116F26C6F008D38B1 /* highlightedButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A2BDF1E16F26C6F008D38B1 /* highlightedButton.png */; };
+		5A2BDF2216F26C6F008D38B1 /* normalButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A2BDF1F16F26C6F008D38B1 /* normalButton.png */; };
+		5A2BDF2316F26C6F008D38B1 /* predictionWords.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A2BDF2016F26C6F008D38B1 /* predictionWords.txt */; };
+		5AA61CFB16DA7EAA00C60323 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA61CFA16DA7EAA00C60323 /* CustomButton.m */; };
+		5AD6DFF816D93531002B81D1 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD6DFF716D93531002B81D1 /* Social.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +65,12 @@
 		5A02A6E216D401E2001ECCF4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5A02A6E416D401E2001ECCF4 /* TypeOverTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TypeOverTests.h; sourceTree = "<group>"; };
 		5A02A6E516D401E2001ECCF4 /* TypeOverTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TypeOverTests.m; sourceTree = "<group>"; };
+		5A2BDF1E16F26C6F008D38B1 /* highlightedButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highlightedButton.png; sourceTree = "<group>"; };
+		5A2BDF1F16F26C6F008D38B1 /* normalButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = normalButton.png; sourceTree = "<group>"; };
+		5A2BDF2016F26C6F008D38B1 /* predictionWords.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = predictionWords.txt; sourceTree = "<group>"; };
+		5AA61CF916DA7EAA00C60323 /* CustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
+		5AA61CFA16DA7EAA00C60323 /* CustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
+		5AD6DFF716D93531002B81D1 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AD6DFF816D93531002B81D1 /* Social.framework in Frameworks */,
 				5A02A6B216D401E1001ECCF4 /* UIKit.framework in Frameworks */,
 				5A02A6B416D401E1001ECCF4 /* Foundation.framework in Frameworks */,
 				5A02A6B616D401E1001ECCF4 /* CoreGraphics.framework in Frameworks */,
@@ -108,6 +120,7 @@
 		5A02A6B016D401E1001ECCF4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5AD6DFF716D93531002B81D1 /* Social.framework */,
 				5A02A6B116D401E1001ECCF4 /* UIKit.framework */,
 				5A02A6B316D401E1001ECCF4 /* Foundation.framework */,
 				5A02A6B516D401E1001ECCF4 /* CoreGraphics.framework */,
@@ -121,6 +134,8 @@
 			children = (
 				5A02A6C016D401E1001ECCF4 /* AppDelegate.h */,
 				5A02A6C116D401E1001ECCF4 /* AppDelegate.m */,
+				5AA61CF916DA7EAA00C60323 /* CustomButton.h */,
+				5AA61CFA16DA7EAA00C60323 /* CustomButton.m */,
 				5A02A6C916D401E1001ECCF4 /* MainStoryboard_iPhone.storyboard */,
 				5A02A6CC16D401E1001ECCF4 /* MainStoryboard_iPad.storyboard */,
 				5A02A6CF16D401E1001ECCF4 /* ViewController.h */,
@@ -133,6 +148,9 @@
 		5A02A6B816D401E1001ECCF4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5A2BDF1E16F26C6F008D38B1 /* highlightedButton.png */,
+				5A2BDF1F16F26C6F008D38B1 /* normalButton.png */,
+				5A2BDF2016F26C6F008D38B1 /* predictionWords.txt */,
 				5A02A6B916D401E1001ECCF4 /* TypeOver-Info.plist */,
 				5A02A6BA16D401E1001ECCF4 /* InfoPlist.strings */,
 				5A02A6BD16D401E1001ECCF4 /* main.m */,
@@ -240,6 +258,9 @@
 				5A02A6C816D401E1001ECCF4 /* Default-568h@2x.png in Resources */,
 				5A02A6CB16D401E1001ECCF4 /* MainStoryboard_iPhone.storyboard in Resources */,
 				5A02A6CE16D401E1001ECCF4 /* MainStoryboard_iPad.storyboard in Resources */,
+				5A2BDF2116F26C6F008D38B1 /* highlightedButton.png in Resources */,
+				5A2BDF2216F26C6F008D38B1 /* normalButton.png in Resources */,
+				5A2BDF2316F26C6F008D38B1 /* predictionWords.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +298,7 @@
 				5A02A6BE16D401E1001ECCF4 /* main.m in Sources */,
 				5A02A6C216D401E1001ECCF4 /* AppDelegate.m in Sources */,
 				5A02A6D116D401E1001ECCF4 /* ViewController.m in Sources */,
+				5AA61CFB16DA7EAA00C60323 /* CustomButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +489,7 @@
 				5A02A6EB16D401E2001ECCF4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5A02A6EC16D401E2001ECCF4 /* Build configuration list for PBXNativeTarget "TypeOverTests" */ = {
 			isa = XCConfigurationList;
@@ -475,6 +498,7 @@
 				5A02A6EE16D401E2001ECCF4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
