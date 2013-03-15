@@ -169,29 +169,32 @@
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
         [st appendString:@". "];
         [textArea setText:st];
+        [self reset];
         shift = true;
     }
     if (cma) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
         [st appendString:@", "];
         [textArea setText:st];
+        [self reset];
         shift = false;
     }
     if (qm) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
         [st appendString:@"? "];
         [textArea setText:st];
+        [self reset];
         shift = true;
     }
     if (excl) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
         [st appendString:@"! "];
         [textArea setText:st];
+        [self reset];
         shift = true;
     }
     if (apos) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
-        add = [NSMutableString stringWithString:@"'"];
         [st appendString:@"'"];
         [textArea setText:st];
         shift = false;
@@ -199,7 +202,6 @@
     if (one) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
         [st appendString:@"1"];
-        add = [NSMutableString stringWithString:@"1"];
         [textArea setText:st];
         shift = false;
     }
@@ -692,8 +694,11 @@
     if (space) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
         [st appendString:@" "];
-        wordString = [NSMutableString stringWithString:@""];
         [textArea setText:st];
+        if (![predArray containsObject:wordString]) {
+            [predArray addObject:wordString];
+        }
+        [self reset];
     }
     if (zero) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
