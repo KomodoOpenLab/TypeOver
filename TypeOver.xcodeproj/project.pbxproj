@@ -26,9 +26,10 @@
 		5A02A6E616D401E2001ECCF4 /* TypeOverTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A02A6E516D401E2001ECCF4 /* TypeOverTests.m */; };
 		5A2BDF2116F26C6F008D38B1 /* highlightedButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A2BDF1E16F26C6F008D38B1 /* highlightedButton.png */; };
 		5A2BDF2216F26C6F008D38B1 /* normalButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A2BDF1F16F26C6F008D38B1 /* normalButton.png */; };
-		5A2BDF2316F26C6F008D38B1 /* predictionWords.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A2BDF2016F26C6F008D38B1 /* predictionWords.txt */; };
 		5AA61CFB16DA7EAA00C60323 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA61CFA16DA7EAA00C60323 /* CustomButton.m */; };
 		5AD6DFF816D93531002B81D1 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD6DFF716D93531002B81D1 /* Social.framework */; };
+		6C1133F416F6333B0073734E /* predictionButtonHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C1133F316F6333B0073734E /* predictionButtonHighlighted.png */; };
+		6C4395D916FA51BE00ABC4A9 /* en_wordlist.xml in Resources */ = {isa = PBXBuildFile; fileRef = 6C4395D816FA51BE00ABC4A9 /* en_wordlist.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,10 +68,11 @@
 		5A02A6E516D401E2001ECCF4 /* TypeOverTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TypeOverTests.m; sourceTree = "<group>"; };
 		5A2BDF1E16F26C6F008D38B1 /* highlightedButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highlightedButton.png; sourceTree = "<group>"; };
 		5A2BDF1F16F26C6F008D38B1 /* normalButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = normalButton.png; sourceTree = "<group>"; };
-		5A2BDF2016F26C6F008D38B1 /* predictionWords.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = predictionWords.txt; sourceTree = "<group>"; };
 		5AA61CF916DA7EAA00C60323 /* CustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
 		5AA61CFA16DA7EAA00C60323 /* CustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
 		5AD6DFF716D93531002B81D1 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		6C1133F316F6333B0073734E /* predictionButtonHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = predictionButtonHighlighted.png; sourceTree = "<group>"; };
+		6C4395D816FA51BE00ABC4A9 /* en_wordlist.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = en_wordlist.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,9 +150,10 @@
 		5A02A6B816D401E1001ECCF4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6C4395D816FA51BE00ABC4A9 /* en_wordlist.xml */,
+				6C1133F316F6333B0073734E /* predictionButtonHighlighted.png */,
 				5A2BDF1E16F26C6F008D38B1 /* highlightedButton.png */,
 				5A2BDF1F16F26C6F008D38B1 /* normalButton.png */,
-				5A2BDF2016F26C6F008D38B1 /* predictionWords.txt */,
 				5A02A6B916D401E1001ECCF4 /* TypeOver-Info.plist */,
 				5A02A6BA16D401E1001ECCF4 /* InfoPlist.strings */,
 				5A02A6BD16D401E1001ECCF4 /* main.m */,
@@ -260,7 +263,8 @@
 				5A02A6CE16D401E1001ECCF4 /* MainStoryboard_iPad.storyboard in Resources */,
 				5A2BDF2116F26C6F008D38B1 /* highlightedButton.png in Resources */,
 				5A2BDF2216F26C6F008D38B1 /* normalButton.png in Resources */,
-				5A2BDF2316F26C6F008D38B1 /* predictionWords.txt in Resources */,
+				6C1133F416F6333B0073734E /* predictionButtonHighlighted.png in Resources */,
+				6C4395D916FA51BE00ABC4A9 /* en_wordlist.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

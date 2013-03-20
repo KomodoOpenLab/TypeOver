@@ -30,12 +30,6 @@
     [repeatTimer invalidate];
     repeatTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(repeat) userInfo:nil repeats:YES];
     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, abc2Button); // VO curser moves to abc2
-    NSString *words = [[NSBundle mainBundle] pathForResource:@"predictionWords" ofType:@"txt"];
-    NSData *data = [NSData dataWithContentsOfFile:words];
-    NSString *st = [[NSString alloc] initWithBytes:[data bytes]
-                                            length:[data length]
-                                          encoding:NSUTF8StringEncoding];
-    predArray = [[st componentsSeparatedByString:@" "] mutableCopy];
     inputRate = 4.0;
     selectionRate = inputRate / 100;
     shift = true;
@@ -134,13 +128,36 @@
     else {
         [wordString appendString:add];
     }
+	[predArray removeAllObjects];
+    NSString *words = [[NSBundle mainBundle] pathForResource:@"en_wordlist" ofType:@"xml"];
+    NSString *URL = words;
+    NSString *agentString = @"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_6; en-us) AppleWebKit/525.27.1 (KHTML, like Gecko) Version/3.2.1 Safari/525.27.1";
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
+                                    [NSURL URLWithString:URL]];
+    [request setValue:agentString forHTTPHeaderField:@"User-Agent"];
+    NSData* xmlFile = [ NSURLConnection sendSynchronousRequest:request returningResponse: nil error: nil ];
+    
+    
+    predArray = [[NSMutableArray alloc] init];
+    errorParsing=NO;
+    count = 0;
+    
+    rssParser = [[NSXMLParser alloc] initWithData:xmlFile];
+    
+    // You may need to turn some of these on depending on the type of XML file you are parsing
+    [rssParser setShouldProcessNamespaces:NO];
+    [rssParser setShouldReportNamespacePrefixes:NO];
+    [rssParser setShouldResolveExternalEntities:NO];
+	[rssParser setDelegate:self];
+    [rssParser parse];
     NSString *st = @"SELF BEGINSWITH[cd] '";
     st = [st stringByAppendingString:[NSString stringWithFormat:@"%@", wordString]];
     st = [st stringByAppendingString:@"'"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"%@", st]];
-    NSArray *results = [predArray filteredArrayUsingPredicate:predicate];
-    if (results.count > 0) {
-        [predictionButton setTitle:[NSString stringWithFormat:@"%@", [results objectAtIndex:0]] forState:UIControlStateNormal];
+    [predResultsArray removeAllObjects];
+    predResultsArray = [[predArray filteredArrayUsingPredicate:predicate] mutableCopy];
+    if (predResultsArray.count > 0) {
+        [predictionButton setTitle:[NSString stringWithFormat:@"%@", [predResultsArray objectAtIndex:0]] forState:UIControlStateNormal];
     }
     else {
         [predictionButton setTitle:@"" forState:UIControlStateNormal];
@@ -150,8 +167,67 @@
 
 - (void)reset {
     [predictionButton setTitle:@"" forState:UIControlStateNormal];
+    [predResultsArray removeAllObjects];
     wordString = [NSMutableString stringWithString:@""];
     add = [NSMutableString stringWithString:@""];
+    pred = false;
+}
+
+- (void)parserDidStartDocument:(NSXMLParser *)parser{
+    NSLog(@"File found and parsing started");
+    
+}
+
+- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
+    
+    NSString *errorString = [NSString stringWithFormat:@"Error code %ld", (long)[parseError code]];
+    NSLog(@"Error parsing XML: %@", errorString);
+    
+    
+    errorParsing=YES;
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict{
+    currentElement = [elementName copy];
+    ElementValue = [[NSMutableString alloc] init];
+    attribs = [attributeDict copy];
+    
+    if ([elementName isEqualToString:@"w"]) {
+        item = [[NSMutableDictionary alloc] init];
+    }
+    
+}
+
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string{
+    [ElementValue appendString:string];
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName{
+    if ([elementName isEqualToString:@"w"]) {
+        [predArray addObject:[item copy]];
+        if (count<10)
+        {
+            NSString* strFreq = [attribs objectForKey:@"f"];
+            int nFreq = [strFreq intValue];
+            NSLog(@"ended word: %@ freq=%d",ElementValue,nFreq);
+        }
+        count++;
+    } else {
+        [item setObject:ElementValue forKey:elementName];
+    }
+    
+}
+
+- (void)parserDidEndDocument:(NSXMLParser *)parser {
+    
+    if (errorParsing == NO)
+    {
+        NSLog(@"XML processing done!");
+        NSLog(@"Total number of words: %d",count);
+    } else {
+        NSLog(@"Error occurred during XML processing");
+    }
+    
 }
 
 
@@ -714,6 +790,37 @@
     [selectionTimer invalidate];
 }
 
+- (void)prediction {
+    if (pred) {
+        if (![textArea.text isEqualToString:@""]) {
+            NSString *st = textArea.text;
+            NSString *wst = wordString;
+            NSMutableString *final;
+            st = [st substringToIndex:[st length] - [wst length]];
+            textArea.text = st;
+            final = [NSMutableString stringWithString:st];
+            if (![textArea.text isEqualToString:@""]) {
+                [final appendString:predictionButton.titleLabel.text];
+                [final appendString:@" "];
+                textArea.text = final;
+            }
+            else {
+                final = [NSMutableString stringWithString:predictionButton.titleLabel.text];
+                [final appendString:@" "];
+                textArea.text = final;
+            }
+            [self reset];
+        }
+    }
+    [predictionButton setBackgroundImage:[UIImage imageNamed:@"normalButton.png"] forState:UIControlStateNormal];
+    secondWord = false;
+    thirdWord = false;
+    fourthWord = false;
+    noWord = false;
+    [selectionProgressView setProgress:0.0];
+    [selectionTimer invalidate];
+}
+
 
 
 
@@ -735,6 +842,7 @@
     [self tuv8];
     [self wxyz9];
     [self space0];
+	[self prediction];
     if (fs == false && cma == false && qm == false && excl == false && apos == false && one == false) {
         fs = true;
         cma = false;
@@ -815,6 +923,7 @@
     [self tuv8];
     [self wxyz9];
     [self space0];
+	[self prediction];
     if (a == false && b == false && c == false && two == false) {
         a = true;
         b = false;
@@ -867,6 +976,7 @@
     [self tuv8];
     [self wxyz9];
     [self space0];
+	[self prediction];
     if (d == false && e == false && f == false && three == false) {
         d = true;
         e = false;
@@ -919,6 +1029,7 @@
     [self tuv8];
     [self wxyz9];
     [self space0];
+	[self prediction];
     if (g == false && h == false && i == false && four == false) {
         g = true;
         h = false;
@@ -971,6 +1082,7 @@
     [self tuv8];
     [self wxyz9];
     [self space0];
+	[self prediction];
     if (j == false && k == false && l == false && five == false) {
         j = true;
         k = false;
@@ -1023,6 +1135,7 @@
     [self tuv8];
     [self wxyz9];
     [self space0];
+	[self prediction];
     if (m == false && n == false && o == false && six == false) {
         m = true;
         n = false;
@@ -1075,6 +1188,7 @@
     [self tuv8];
     [self wxyz9];
     [self space0];
+	[self prediction];
     if (p == false && q == false && r == false && s == false && seven == false) {
         p = true;
         q = false;
@@ -1140,6 +1254,7 @@
     [self pqrs7];
     [self wxyz9];
     [self space0];
+	[self prediction];
     if (t == false && u == false && v == false && eight == false) {
         t = true;
         u = false;
@@ -1192,6 +1307,7 @@
     [self pqrs7];
     [self tuv8];
     [self space0];
+	[self prediction];
     if (w == false && x == false && y == false && z == false && nine == false) {
         w = true;
         x = false;
@@ -1266,6 +1382,7 @@
     [self pqrs7];
     [self tuv8];
     [self wxyz9];
+	[self prediction];
     if (space == false && zero == false) {
         space = true;
         zero = false;
@@ -1289,26 +1406,92 @@
 }
 
 - (IBAction)predictionAct:(id)sender {
-    if (![predictionButton.titleLabel.text isEqualToString:@""]) {
-        if (![textArea.text isEqualToString:@""]) {
-            NSString *st = textArea.text;
-            NSString *wst = wordString;
-            NSMutableString *final;
-            st = [st substringToIndex:[st length] - [wst length]];
-            textArea.text = st;
-            final = [NSMutableString stringWithString:st];
-            if (![textArea.text isEqualToString:@""]) {
-                [final appendString:predictionButton.titleLabel.text];
-                [final appendString:@" "];
-                textArea.text = final;
-            }
-            else {
-                final = [NSMutableString stringWithString:predictionButton.titleLabel.text];
-                [final appendString:@" "];
-                textArea.text = final;
-            }
-            [self reset];
+    [self punct1];
+    [self abc2];
+    [self def3];
+    [self ghi4];
+    [self jkl5];
+    [self mno6];
+    [self pqrs7];
+    [self tuv8];
+    [self wxyz9];
+    [self space0];
+    if (predResultsArray.count > 0) {
+        if (secondWord == false && thirdWord == false && fourthWord == false && noWord == false) {
+            [predictionButton setTitle:[predResultsArray objectAtIndex:0] forState:UIControlStateNormal];
+            secondWord = true;
+            thirdWord = false;
+            fourthWord = false;
+            noWord = false;
+            pred = true;
         }
+        else if (secondWord) {
+			if (predResultsArray.count >= 2) {
+				[predictionButton setTitle:[predResultsArray objectAtIndex:1] forState:UIControlStateNormal];
+				secondWord = false;
+				thirdWord = true;
+				fourthWord = false;
+				noWord = false;
+				pred = true;
+			}
+			else {
+				[predictionButton setTitle:@"" forState:UIControlStateNormal];
+				secondWord = false;
+				thirdWord = false;
+				fourthWord = false;
+				noWord = false;
+				pred = false;
+			}
+        }
+        else if (thirdWord) {
+			if (predResultsArray.count >= 3) {
+				[predictionButton setTitle:[predResultsArray objectAtIndex:2] forState:UIControlStateNormal];
+				secondWord = false;
+				thirdWord = false;
+				fourthWord = true;
+				noWord = false;
+				pred = true;
+			}
+			else {
+				[predictionButton setTitle:@"" forState:UIControlStateNormal];
+				secondWord = false;
+				thirdWord = false;
+				fourthWord = false;
+				noWord = false;
+				pred = false;
+			}
+        }
+        else if (fourthWord) {
+			if (predResultsArray.count >= 4) {
+				[predictionButton setTitle:[predResultsArray objectAtIndex:3] forState:UIControlStateNormal];
+				secondWord = false;
+				thirdWord = false;
+				fourthWord = false;
+				noWord = true;
+				pred = true;
+			}
+			else {
+				[predictionButton setTitle:@"" forState:UIControlStateNormal];
+				secondWord = false;
+				thirdWord = false;
+				fourthWord = false;
+				noWord = false;
+				pred = false;
+			}
+        }
+        else if (noWord) {
+            [predictionButton setTitle:@"" forState:UIControlStateNormal];
+            secondWord = false;
+            thirdWord = false;
+            fourthWord = false;
+            noWord = false;
+            pred = false;
+        }
+        [predictionButton setBackgroundImage:[UIImage imageNamed:@"predictionButtonHighlighted.png"] forState:UIControlStateNormal];
+        [inputTimer invalidate];
+        [selectionTimer invalidate];
+        inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(prediction) userInfo:nil repeats:NO];
+        selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
     }
 }
 
@@ -1323,6 +1506,7 @@
     [self tuv8];
     [self wxyz9];
     [self space0];
+	[self prediction];
     NSString *st = textArea.text;
     NSString *wst = wordString;
     if ([st length] > 0) {
@@ -1354,6 +1538,7 @@
     [self tuv8];
     [self wxyz9];
     [self space0];
+	[self prediction];
     if (![textArea.text isEqualToString:@""]) {
         clearString = textArea.text;
         [textArea setText:@""];

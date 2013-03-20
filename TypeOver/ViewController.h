@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <Social/Social.h>
 
-@interface ViewController : UIViewController {
+@interface ViewController : UIViewController <NSXMLParserDelegate> {
     
     
     // outlets
+	
     __weak IBOutlet UITextView *textArea;
     __weak IBOutlet UIProgressView *selectionProgressView;
     __weak IBOutlet UIButton *useButton;
@@ -34,18 +35,29 @@
     __weak IBOutlet UIButton *clearButton;
     NSTimer *selectionTimer, *inputTimer, *repeatTimer;
     
+	
     // variables 
-    bool fs, cma, qm, excl, apos, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, one, space, two, three, four, five, six, seven, eight, nine, zero, shift;
+    
+	bool fs, cma, qm, excl, apos, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, one, space, two, three, four, five, six, seven, eight, nine, zero, secondWord, thirdWord, fourthWord, noWord, pred, shift;
     float selectionRate, inputRate;
     NSString *clearString;
     NSMutableString *add, *wordString;
-    NSMutableArray *predArray;
+    NSMutableArray *predArray, *predResultsArray;
+    NSXMLParser *rssParser;
+    NSMutableArray *articles;
+    NSMutableDictionary *item;
+    NSString *currentElement;
+    NSMutableString *ElementValue;
+    BOOL errorParsing;
+    int count;
+    NSDictionary *attribs;
     
     
 }
 
 
 // actions
+
 - (IBAction)useAct:(id)sender;
 - (IBAction)speedDownAct:(id)sender;
 - (IBAction)speedUpAct:(id)sender;
