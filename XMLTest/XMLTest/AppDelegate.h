@@ -17,6 +17,7 @@
     NSString *currentElement;
     NSMutableString *ElementValue;
     BOOL errorParsing;
+    BOOL errorInserting;
     int count;
     NSDictionary *attribs;
     sqlite3 *database;

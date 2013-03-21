@@ -41,7 +41,7 @@
             //bSuccess = NO; //not necessarily fatal
         }
         
-        const char *createSQL = "CREATE TABLE WORDS(ID INTEGER PRIMARY KEY AUTOINCREMENT, WORD TEXT FREQUENCY INTEGER)";
+        const char *createSQL = "CREATE TABLE WORDS(ID INTEGER PRIMARY KEY AUTOINCREMENT, WORD TEXT, FREQUENCY INTEGER);";
         result = sqlite3_exec(database, createSQL, NULL, NULL, &errMsg);
         if (SQLITE_OK!=result)
         {
@@ -52,8 +52,7 @@
     
     if (bSuccess)
     {
-        
-        articles = [[NSMutableArray alloc] init];
+        errorInserting = NO;
         errorParsing=NO;
         count = 0;
         
@@ -102,16 +101,53 @@
     [ElementValue appendString:string];
 }
 
+- (BOOL)addNewWord:(NSString*)wordstr withFreq:(int)freq
+{
+    BOOL bSuccess = YES;
+    char* ins = "INSERT INTO WORDS (WORD, FREQUENCY) VALUES(?, ?);";
+    
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(database,ins,-1,&stmt,nil)!=SQLITE_OK)
+    {
+        NSLog(@"failed to prepare");
+        bSuccess = NO;
+    }
+    if(bSuccess)
+    {
+        sqlite3_bind_text(stmt, 1, [wordstr UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 2, freq);
+        if (SQLITE_DONE!=sqlite3_step(stmt))
+        {
+            NSLog(@"failed to step");
+            bSuccess = NO;
+        }
+    }
+    
+    sqlite3_finalize(stmt);
+    
+    return(bSuccess);
+}
+
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName{
     if ([elementName isEqualToString:@"w"]) {
-        [articles addObject:[item copy]];
-        if (count<10)
+        
+        NSString* strFreq = [attribs objectForKey:@"f"];
+        int nFreq = [strFreq intValue];
+        
+        if (!errorInserting)
         {
-            NSString* strFreq = [attribs objectForKey:@"f"];
-            int nFreq = [strFreq intValue];
-            NSLog(@"ended word: %@ freq=%d",ElementValue,nFreq);
+            if (![self addNewWord:ElementValue withFreq:nFreq])
+            {
+                errorInserting = YES;
+            }
+        
+            count++;
+            
+            if (0==count%1000)
+            {
+                NSLog(@"%d passes",count);
+            }
         }
-        count++;
     } else {
         [item setObject:ElementValue forKey:elementName];
     }
