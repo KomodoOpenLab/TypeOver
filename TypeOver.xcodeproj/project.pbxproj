@@ -29,6 +29,7 @@
 		5A2BDF2316F26C6F008D38B1 /* predictionWords.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A2BDF2016F26C6F008D38B1 /* predictionWords.txt */; };
 		5AA61CFB16DA7EAA00C60323 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA61CFA16DA7EAA00C60323 /* CustomButton.m */; };
 		5AD6DFF816D93531002B81D1 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD6DFF716D93531002B81D1 /* Social.framework */; };
+		F0F831E916FB8D4B00535DC1 /* EnWords in Resources */ = {isa = PBXBuildFile; fileRef = F0F831E816FB8D4B00535DC1 /* EnWords */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		5AA61CF916DA7EAA00C60323 /* CustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
 		5AA61CFA16DA7EAA00C60323 /* CustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
 		5AD6DFF716D93531002B81D1 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		F0F831E816FB8D4B00535DC1 /* EnWords */ = {isa = PBXFileReference; lastKnownFileType = file; path = EnWords; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 		5A02A6B816D401E1001ECCF4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F0F831E816FB8D4B00535DC1 /* EnWords */,
 				5A2BDF1E16F26C6F008D38B1 /* highlightedButton.png */,
 				5A2BDF1F16F26C6F008D38B1 /* normalButton.png */,
 				5A2BDF2016F26C6F008D38B1 /* predictionWords.txt */,
@@ -269,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A02A6E316D401E2001ECCF4 /* InfoPlist.strings in Resources */,
+				F0F831E916FB8D4B00535DC1 /* EnWords in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
