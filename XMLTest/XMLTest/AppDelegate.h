@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <sqlite3.h>
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSXMLParserDelegate>
 {
@@ -18,6 +19,7 @@
     BOOL errorParsing;
     int count;
     NSDictionary *attribs;
+    sqlite3 *database;
 }
 
 @property (assign) IBOutlet NSWindow *window;

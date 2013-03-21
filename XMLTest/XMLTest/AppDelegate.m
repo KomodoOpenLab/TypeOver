@@ -12,6 +12,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    BOOL bSuccess = YES;
     NSString *URL = @"file:///Users/tomnantais/Desktop/en_wordlist.xml";
     NSString *agentString = @"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_6; en-us) AppleWebKit/525.27.1 (KHTML, like Gecko) Version/3.2.1 Safari/525.27.1";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
@@ -19,20 +20,33 @@
     [request setValue:agentString forHTTPHeaderField:@"User-Agent"];
     NSData* xmlFile = [ NSURLConnection sendSynchronousRequest:request returningResponse: nil error: nil ];
     
+    //open the database that will hold the word data
+    int result = sqlite3_open("/Users/tomnantais/Desktop/EnWords", &database);
+    if (SQLITE_OK!=result)
+    {
+        NSLog(@"couldn't open database result=%d",result);
+        bSuccess = NO;
+    }
     
-    articles = [[NSMutableArray alloc] init];
-    errorParsing=NO;
-    count = 0;
+    if (bSuccess)
+    {
+        
+        articles = [[NSMutableArray alloc] init];
+        errorParsing=NO;
+        count = 0;
+        
+        rssParser = [[NSXMLParser alloc] initWithData:xmlFile];
+        [rssParser setDelegate:self];
+        
+        // You may need to turn some of these on depending on the type of XML file you are parsing
+        [rssParser setShouldProcessNamespaces:NO];
+        [rssParser setShouldReportNamespacePrefixes:NO];
+        [rssParser setShouldResolveExternalEntities:NO];
+        
+        [rssParser parse];
+    }
     
-    rssParser = [[NSXMLParser alloc] initWithData:xmlFile];
-    [rssParser setDelegate:self];
-    
-    // You may need to turn some of these on depending on the type of XML file you are parsing
-    [rssParser setShouldProcessNamespaces:NO];
-    [rssParser setShouldReportNamespacePrefixes:NO];
-    [rssParser setShouldResolveExternalEntities:NO];
-    
-    [rssParser parse];
+    sqlite3_close(database);
 
 }
 
