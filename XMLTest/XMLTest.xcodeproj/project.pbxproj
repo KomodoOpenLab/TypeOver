@@ -13,6 +13,7 @@
 		F099ED6016F9E5EE00F0BC50 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F099ED5E16F9E5EE00F0BC50 /* Credits.rtf */; };
 		F099ED6316F9E5EE00F0BC50 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F099ED6216F9E5EE00F0BC50 /* AppDelegate.m */; };
 		F099ED6616F9E5EE00F0BC50 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F099ED6416F9E5EE00F0BC50 /* MainMenu.xib */; };
+		F0F831E716FB782C00535DC1 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F0F831E616FB782C00535DC1 /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		F099ED6116F9E5EE00F0BC50 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F099ED6216F9E5EE00F0BC50 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		F099ED6516F9E5EE00F0BC50 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		F0F831E616FB782C00535DC1 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0F831E716FB782C00535DC1 /* libsqlite3.dylib in Frameworks */,
 				F099ED5016F9E5EE00F0BC50 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -46,6 +49,7 @@
 		F099ED4316F9E5EE00F0BC50 = {
 			isa = PBXGroup;
 			children = (
+				F0F831E616FB782C00535DC1 /* libsqlite3.dylib */,
 				F099ED5516F9E5EE00F0BC50 /* XMLTest */,
 				F099ED4E16F9E5EE00F0BC50 /* Frameworks */,
 				F099ED4D16F9E5EE00F0BC50 /* Products */,
@@ -303,6 +307,7 @@
 				F099ED6B16F9E5EE00F0BC50 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
