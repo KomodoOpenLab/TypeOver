@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Social/Social.h>
+#import <sqlite3.h>
 
 @interface ViewController : UIViewController {
     
@@ -40,7 +41,7 @@
     NSString *clearString;
     NSMutableString *add, *wordString;
     NSMutableArray *predArray;
-    
+    sqlite3 *dbWordPrediction;
     
 }
 

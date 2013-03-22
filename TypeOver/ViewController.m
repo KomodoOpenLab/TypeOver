@@ -17,7 +17,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    NSString *databasename = [[NSBundle mainBundle] pathForResource:@"EnWords" ofType:nil];
+    int result = sqlite3_open([databasename UTF8String], &dbWordPrediction);
+    if (SQLITE_OK!=result)
+    {
+        NSLog(@"couldn't open database result=%d",result);
+    }
+    else
+    {
+        char* errMsg = NULL;
+        NSLog(@"database successfully opened");
+        const char *createSQL = "CREATE TABLE WORDS(ID INTEGER PRIMARY KEY AUTOINCREMENT, WORD TEXT, FREQUENCY INTEGER);";
+        result = sqlite3_exec(dbWordPrediction, createSQL, NULL, NULL, &errMsg);
+        if (SQLITE_OK!=result)
+        {
+            NSLog(@"Error creating WORDS table: %s",errMsg);
+        }
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -127,6 +144,35 @@
     }
 }
 
+- (NSMutableArray*) predictHelper:(NSString*) strContext
+{
+    NSMutableString *strQuery = [[NSMutableString alloc] init];
+    [strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+    [strQuery appendString:strContext];
+    [strQuery appendString:@"%' ORDER BY FREQUENCY DESC;"];
+    NSLog(@"Generating predictions with query: %@",strQuery);
+    sqlite3_stmt *statement;
+    int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+    NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:5];
+    if (SQLITE_OK==result)
+    {
+        int prednum = 0;
+        while (prednum<5 && SQLITE_ROW==sqlite3_step(statement))
+        {
+            char *rowData = (char*)sqlite3_column_text(statement, 1);
+            NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+            NSLog(@"prediction %d: %@",prednum+1,str);
+            [resultarr addObject:str];
+            prednum++;
+        }
+    }
+    else
+    {
+        NSLog(@"Query error number: %d",result);
+    }
+    return(resultarr);
+}
+
 - (void)predict {
     if ([wordString isEqualToString:@""]) {
         wordString = [NSMutableString stringWithString:add];
@@ -134,11 +180,12 @@
     else {
         [wordString appendString:add];
     }
-    NSString *st = @"SELF BEGINSWITH[cd] '";
+    NSMutableArray *results = [self predictHelper:wordString];
+    /*NSString *st = @"SELF BEGINSWITH[cd] '";
     st = [st stringByAppendingString:[NSString stringWithFormat:@"%@", wordString]];
     st = [st stringByAppendingString:@"'"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"%@", st]];
-    NSArray *results = [predArray filteredArrayUsingPredicate:predicate];
+    NSArray *results = [predArray filteredArrayUsingPredicate:predicate];*/
     if (results.count > 0) {
         [predictionButton setTitle:[NSString stringWithFormat:@"%@", [results objectAtIndex:0]] forState:UIControlStateNormal];
     }
