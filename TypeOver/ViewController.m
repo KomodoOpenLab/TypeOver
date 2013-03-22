@@ -27,12 +27,14 @@
     {
         char* errMsg = NULL;
         NSLog(@"database successfully opened");
+        /*
         const char *createSQL = "CREATE TABLE WORDS(ID INTEGER PRIMARY KEY AUTOINCREMENT, WORD TEXT, FREQUENCY INTEGER);";
         result = sqlite3_exec(dbWordPrediction, createSQL, NULL, NULL, &errMsg);
         if (SQLITE_OK!=result)
         {
             NSLog(@"Error creating WORDS table: %s",errMsg);
         }
+         */
         
     }
 }
@@ -174,6 +176,7 @@
     else {
         [wordString appendString:add];
     }
+    /*
 	[predArray removeAllObjects];
     NSString *words = [[NSBundle mainBundle] pathForResource:@"en_wordlist" ofType:@"xml"];
     NSString *URL = words;
@@ -202,6 +205,8 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"%@", st]];
     [predResultsArray removeAllObjects];
     predResultsArray = [[predArray filteredArrayUsingPredicate:predicate] mutableCopy];
+     */
+    predResultsArray = [self predictHelper:wordString];
     if (predResultsArray.count > 0) {
         [predictionButton setTitle:[NSString stringWithFormat:@"%@", [predResultsArray objectAtIndex:0]] forState:UIControlStateNormal];
     }
