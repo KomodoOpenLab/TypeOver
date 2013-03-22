@@ -325,6 +325,52 @@
     <resources>
         <image name="normalButton.png" width="700" height="400"/>
     </resources>
+    <classes>
+        <class className="CustomButton" superclassName="UIButton">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CustomButton.h"/>
+        </class>
+        <class className="ViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="abc2Act:"/>
+                <relationship kind="action" name="backspaceAct:"/>
+                <relationship kind="action" name="clearAct:"/>
+                <relationship kind="action" name="def3Act:"/>
+                <relationship kind="action" name="ghi4Act:"/>
+                <relationship kind="action" name="jkl5Act:"/>
+                <relationship kind="action" name="mno6Act:"/>
+                <relationship kind="action" name="pqrs7Act:"/>
+                <relationship kind="action" name="predictionAct:"/>
+                <relationship kind="action" name="punct1Act:"/>
+                <relationship kind="action" name="shiftAct:"/>
+                <relationship kind="action" name="space0Act:"/>
+                <relationship kind="action" name="speedDownAct:"/>
+                <relationship kind="action" name="speedUpAct:"/>
+                <relationship kind="action" name="tuv8Act:"/>
+                <relationship kind="action" name="useAct:"/>
+                <relationship kind="action" name="wxyz9Act:"/>
+                <relationship kind="outlet" name="abc2Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="backspaceButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="clearButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="def3Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="ghi4Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="jkl5Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="mno6Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="pqrs7Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="predictionButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="punct1Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="selectionProgressView" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="shiftButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="space0Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="speedDownButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="speedUpButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="textArea" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="tuv8Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="useButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="wxyz9Button" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
