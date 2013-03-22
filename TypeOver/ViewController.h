@@ -52,7 +52,6 @@
     BOOL errorParsing;
     int count;
     NSDictionary *attribs;
-    NSMutableArray *predArray;
     sqlite3 *dbWordPrediction;    
 }
 
