@@ -180,12 +180,11 @@
     else {
         [wordString appendString:add];
     }
-    NSMutableArray *results = [self predictHelper:wordString];
-    /*NSString *st = @"SELF BEGINSWITH[cd] '";
+    NSString *st = @"SELF BEGINSWITH[cd] '";
     st = [st stringByAppendingString:[NSString stringWithFormat:@"%@", wordString]];
     st = [st stringByAppendingString:@"'"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"%@", st]];
-    NSArray *results = [predArray filteredArrayUsingPredicate:predicate];*/
+    NSArray *results = [predArray filteredArrayUsingPredicate:predicate];
     if (results.count > 0) {
         [predictionButton setTitle:[NSString stringWithFormat:@"%@", [results objectAtIndex:0]] forState:UIControlStateNormal];
     }
