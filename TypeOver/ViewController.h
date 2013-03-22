@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Social/Social.h>
+#import <sqlite3.h>
 
 @interface ViewController : UIViewController <NSXMLParserDelegate> {
     
@@ -51,8 +52,7 @@
     BOOL errorParsing;
     int count;
     NSDictionary *attribs;
-    
-    
+    sqlite3 *dbWordPrediction;    
 }
 
 
