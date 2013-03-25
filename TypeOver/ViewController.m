@@ -884,6 +884,9 @@
 // keypad button actions
 
 - (IBAction)punct1Act:(id)sender {
+	if (autoPred&&wordString.length==1&&[selectionTimer isValid]) {
+		return;
+	}
 	if (letters) {
 		[self abc2];
 		[self def3];
@@ -972,6 +975,9 @@
 }
 
 - (IBAction)abc2Act:(id)sender {
+	if (autoPred&&wordString.length==1&&[selectionTimer isValid]) {
+		return;
+	}
 	if (letters) {
 		[self punct1];
 		[self def3];
@@ -1049,6 +1055,9 @@
 }
 
 - (IBAction)def3Act:(id)sender {
+	if (autoPred&&wordString.length==1&&[selectionTimer isValid]) {
+		return;
+	}
 	if (letters) {
 		[self punct1];
 		[self abc2];
@@ -1126,6 +1135,9 @@
 }
 
 - (IBAction)ghi4Act:(id)sender {
+	if (autoPred&&wordString.length==1&&[selectionTimer isValid]) {
+		return;
+	}
 	if (letters) {
 		[self punct1];
 		[self abc2];
@@ -1203,6 +1215,9 @@
 }
 
 - (IBAction)jkl5Act:(id)sender {
+	if (autoPred&&wordString.length==1&&[selectionTimer isValid]) {
+		return;
+	}
 	if (letters) {
 		[self punct1];
 		[self abc2];
@@ -1280,6 +1295,9 @@
 }
 
 - (IBAction)mno6Act:(id)sender {
+	if (autoPred&&wordString.length==1&&[selectionTimer isValid]) {
+		return;
+	}
 	if (letters) {
 		[self punct1];
 		[self abc2];
@@ -1357,6 +1375,9 @@
 }
 
 - (IBAction)pqrs7Act:(id)sender {
+	if (autoPred&&wordString.length==1&&[selectionTimer isValid]) {
+		return;
+	}
 	if (letters) {
 		[self punct1];
 		[self abc2];
@@ -1447,6 +1468,9 @@
 }
 
 - (IBAction)tuv8Act:(id)sender {
+	if (autoPred&&wordString.length==1&&[selectionTimer isValid]) {
+		return;
+	}
 	if (letters) {
 		[self punct1];
 		[self abc2];
@@ -1524,6 +1548,9 @@
 }
 
 - (IBAction)wxyz9Act:(id)sender {
+	if (autoPred&&wordString.length==1&&[selectionTimer isValid]) {
+		return;
+	}
 	if (letters) {
 		[self punct1];
 		[self abc2];
@@ -1623,6 +1650,9 @@
 }
 
 - (IBAction)space0Act:(id)sender {
+	if (autoPred&&wordString.length==1&&[selectionTimer isValid]) {
+		return;
+	}
     [self punct1];
     [self abc2];
     [self def3];
