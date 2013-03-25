@@ -17,26 +17,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSString *databasename = [[NSBundle mainBundle] pathForResource:@"EnWords" ofType:nil];
-    int result = sqlite3_open([databasename UTF8String], &dbWordPrediction);
-    if (SQLITE_OK!=result)
-    {
-        NSLog(@"couldn't open database result=%d",result);
-    }
-    else
-    {
-        char* errMsg = NULL;
-        NSLog(@"database successfully opened");
-        /*
-        const char *createSQL = "CREATE TABLE WORDS(ID INTEGER PRIMARY KEY AUTOINCREMENT, WORD TEXT, FREQUENCY INTEGER);";
-        result = sqlite3_exec(dbWordPrediction, createSQL, NULL, NULL, &errMsg);
-        if (SQLITE_OK!=result)
-        {
-            NSLog(@"Error creating WORDS table: %s",errMsg);
-        }
-         */
-        
-    }
+	NSString *databasename = [[NSBundle mainBundle] pathForResource:@"EnWords" ofType:nil];
+	int result = sqlite3_open([databasename UTF8String], &dbWordPrediction);
+	if (SQLITE_OK!=result)
+	{
+		NSLog(@"couldn't open database result=%d",result);
+	}
+	else
+	{
+		NSLog(@"database successfully opened");
+	}
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,9 +38,10 @@
     [super viewDidAppear:animated];
     [repeatTimer invalidate];
     repeatTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(repeat) userInfo:nil repeats:YES];
-    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, abc2Button); // VO curser moves to abc2
-    inputRate = 4.0;
+	autoPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"];
+    inputRate = [[NSUserDefaults standardUserDefaults] integerForKey:@"in_rate"];
     selectionRate = inputRate / 100;
+	letters = true;
     shift = true;
     [self reset];
 }
@@ -103,18 +94,6 @@
 	}
 }
 
-- (IBAction)speedDownAct:(id)sender {
-    inputRate = inputRate + 0.5;
-    selectionRate = inputRate / 100;
-}
-
-- (IBAction)speedUpAct:(id)sender {
-    if (inputRate > 0.5) {
-        inputRate = inputRate - 0.5;
-        selectionRate = inputRate / 100;
-    }
-}
-
 
 
 
@@ -138,6 +117,13 @@
     else {
         [shiftButton setTitle:@"shift off" forState:UIControlStateNormal];
     }
+	if (autoPred!=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"]) {
+		autoPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"];
+	}
+	if (inputRate!=[[NSUserDefaults standardUserDefaults] integerForKey:@"in_rate"]) {
+		inputRate=[[NSUserDefaults standardUserDefaults] integerForKey:@"in_rate"];
+		selectionRate = inputRate / 100;
+	}
 }
 
 - (NSMutableArray*) predictHelper:(NSString*) strContext
@@ -149,11 +135,11 @@
     NSLog(@"Generating predictions with query: %@",strQuery);
     sqlite3_stmt *statement;
     int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
-    NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:5];
+    NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:8];
     if (SQLITE_OK==result)
     {
         int prednum = 0;
-        while (prednum<5 && SQLITE_ROW==sqlite3_step(statement))
+        while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
         {
             char *rowData = (char*)sqlite3_column_text(statement, 1);
             NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
@@ -170,58 +156,36 @@
 }
 
 - (void)predict {
-    if ([wordString isEqualToString:@""]) {
-        wordString = [NSMutableString stringWithString:add];
-    }
-    else {
-        [wordString appendString:add];
-    }
-    /*
-	[predArray removeAllObjects];
-    NSString *words = [[NSBundle mainBundle] pathForResource:@"en_wordlist" ofType:@"xml"];
-    NSString *URL = words;
-    NSString *agentString = @"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_6; en-us) AppleWebKit/525.27.1 (KHTML, like Gecko) Version/3.2.1 Safari/525.27.1";
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
-                                    [NSURL URLWithString:URL]];
-    [request setValue:agentString forHTTPHeaderField:@"User-Agent"];
-    NSData* xmlFile = [ NSURLConnection sendSynchronousRequest:request returningResponse: nil error: nil ];
-    
-    
-    predArray = [[NSMutableArray alloc] init];
-    errorParsing=NO;
-    count = 0;
-    
-    rssParser = [[NSXMLParser alloc] initWithData:xmlFile];
-    
-    // You may need to turn some of these on depending on the type of XML file you are parsing
-    [rssParser setShouldProcessNamespaces:NO];
-    [rssParser setShouldReportNamespacePrefixes:NO];
-    [rssParser setShouldResolveExternalEntities:NO];
-	[rssParser setDelegate:self];
-    [rssParser parse];
-    NSString *st = @"SELF BEGINSWITH[cd] '";
-    st = [st stringByAppendingString:[NSString stringWithFormat:@"%@", wordString]];
-    st = [st stringByAppendingString:@"'"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"%@", st]];
-    [predResultsArray removeAllObjects];
-    predResultsArray = [[predArray filteredArrayUsingPredicate:predicate] mutableCopy];
-     */
-    predResultsArray = [self predictHelper:wordString];
-    if (predResultsArray.count > 0) {
-        [predictionButton setTitle:[NSString stringWithFormat:@"%@", [predResultsArray objectAtIndex:0]] forState:UIControlStateNormal];
-    }
-    else {
-        [predictionButton setTitle:@"" forState:UIControlStateNormal];
-    }
-    add = [NSMutableString stringWithString:@""];
+	if ([wordString isEqualToString:@""]) {
+		wordString = [NSMutableString stringWithString:add];
+	}
+	else {
+		[wordString appendString:add];
+	}
+	predResultsArray = [self predictHelper:wordString];
+	if (autoPred) {
+		if (!notMyWord) {
+			if (![selectionTimer isValid]) {
+				if (wordString.length >= 2 && predResultsArray.count!=0) {
+					words = true;
+					letters = false;
+					[self wordsLetters];
+					UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, punct1Button);
+				}
+			}
+		}
+	}
+	add = [NSMutableString stringWithString:@""];
 }
 
 - (void)reset {
-    [predictionButton setTitle:@"" forState:UIControlStateNormal];
     [predResultsArray removeAllObjects];
     wordString = [NSMutableString stringWithString:@""];
     add = [NSMutableString stringWithString:@""];
-    pred = false;
+	words = false;
+	letters = true;
+	notMyWord = false;
+	[self wordsLetters];
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser{
@@ -387,9 +351,6 @@
         [textArea setText:st];
         shift = false;
     }
-    if (![add isEqualToString:@""]) {
-        [self predict];
-    }
     a = false;
     b = false;
     c = false;
@@ -397,6 +358,9 @@
     [abc2Button setTitle:@"abc 2" forState:UIControlStateNormal];
     [selectionProgressView setProgress:0.0];
     [selectionTimer invalidate];
+    if (![add isEqualToString:@""]) {
+        [self predict];
+    }
 }
 
 - (void)def3 {
@@ -443,9 +407,6 @@
         [textArea setText:st];
         shift = false;
     }
-    if (![add isEqualToString:@""]) {
-        [self predict];
-    }
     d = false;
     e = false;
     f = false;
@@ -453,6 +414,9 @@
     [def3Button setTitle:@"def 3" forState:UIControlStateNormal];
     [selectionProgressView setProgress:0.0];
     [selectionTimer invalidate];
+    if (![add isEqualToString:@""]) {
+        [self predict];
+    }
 }
 
 - (void)ghi4 {
@@ -499,9 +463,6 @@
         [textArea setText:st];
         shift = false;
     }
-    if (![add isEqualToString:@""]) {
-        [self predict];
-    }
     g = false;
     h = false;
     i = false;
@@ -509,6 +470,9 @@
     [ghi4Button setTitle:@"ghi 4" forState:UIControlStateNormal];
     [selectionProgressView setProgress:0.0];
     [selectionTimer invalidate];
+    if (![add isEqualToString:@""]) {
+        [self predict];
+    }
 }
 
 - (void)jkl5 {
@@ -555,9 +519,6 @@
         [textArea setText:st];
         shift = false;
     }
-    if (![add isEqualToString:@""]) {
-        [self predict];
-    }
     j = false;
     k = false;
     l = false;
@@ -565,6 +526,9 @@
     [jkl5Button setTitle:@"jkl 5" forState:UIControlStateNormal];
     [selectionProgressView setProgress:0.0];
     [selectionTimer invalidate];
+    if (![add isEqualToString:@""]) {
+        [self predict];
+    }
 }
 
 - (void)mno6 {
@@ -611,9 +575,6 @@
         [textArea setText:st];
         shift = false;
     }
-    if (![add isEqualToString:@""]) {
-        [self predict];
-    }
     m = false;
     n = false;
     o = false;
@@ -621,6 +582,9 @@
     [mno6Button setTitle:@"mno 6" forState:UIControlStateNormal];
     [selectionProgressView setProgress:0.0];
     [selectionTimer invalidate];
+    if (![add isEqualToString:@""]) {
+        [self predict];
+    }
 }
 
 - (void)pqrs7 {
@@ -679,9 +643,6 @@
         [textArea setText:st];
         shift = false;
     }
-    if (![add isEqualToString:@""]) {
-        [self predict];
-    }
     p = false;
     q = false;
     r = false;
@@ -690,6 +651,9 @@
     [pqrs7Button setTitle:@"pqrs 7" forState:UIControlStateNormal];
     [selectionProgressView setProgress:0.0];
     [selectionTimer invalidate];
+    if (![add isEqualToString:@""]) {
+        [self predict];
+    }
 }
 
 - (void)tuv8 {
@@ -736,9 +700,6 @@
         [textArea setText:st];
         shift = false;
     }
-    if (![add isEqualToString:@""]) {
-        [self predict];
-    }
     t = false;
     u = false;
     v = false;
@@ -746,6 +707,9 @@
     [tuv8Button setTitle:@"tuv 8" forState:UIControlStateNormal];
     [selectionProgressView setProgress:0.0];
     [selectionTimer invalidate];
+    if (![add isEqualToString:@""]) {
+        [self predict];
+    }
 }
 
 - (void)wxyz9 {
@@ -804,9 +768,6 @@
         [textArea setText:st];
         shift = false;
     }
-    if (![add isEqualToString:@""]) {
-        [self predict];
-    }
     w = false;
     x = false;
     y = false;
@@ -815,6 +776,9 @@
     [wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
     [selectionProgressView setProgress:0.0];
     [selectionTimer invalidate];
+    if (![add isEqualToString:@""]) {
+        [self predict];
+    }
 }
 
 - (void)space0 {
@@ -841,35 +805,71 @@
     [selectionTimer invalidate];
 }
 
-- (void)prediction {
-    if (pred) {
-        if (![textArea.text isEqualToString:@""]) {
-            NSString *st = textArea.text;
-            NSString *wst = wordString;
-            NSMutableString *final;
-            st = [st substringToIndex:[st length] - [wst length]];
-            textArea.text = st;
-            final = [NSMutableString stringWithString:st];
-            if (![textArea.text isEqualToString:@""]) {
-                [final appendString:predictionButton.titleLabel.text];
-                [final appendString:@" "];
-                textArea.text = final;
-            }
-            else {
-                final = [NSMutableString stringWithString:predictionButton.titleLabel.text];
-                [final appendString:@" "];
-                textArea.text = final;
-            }
-            [self reset];
-        }
-    }
-    [predictionButton setBackgroundImage:[UIImage imageNamed:@"normalButton.png"] forState:UIControlStateNormal];
-    secondWord = false;
-    thirdWord = false;
-    fourthWord = false;
-    noWord = false;
-    [selectionProgressView setProgress:0.0];
-    [selectionTimer invalidate];
+- (void)wordsLetters {
+	if (words) {
+		[punct1Button setTitle:@"" forState:UIControlStateNormal];
+		if (predResultsArray.count > 0) {
+			[abc2Button setTitle:[predResultsArray objectAtIndex:0] forState:UIControlStateNormal];
+		}
+		else {
+			[abc2Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 1) {
+			[def3Button setTitle:[predResultsArray objectAtIndex:1] forState:UIControlStateNormal];
+		}
+		else {
+			[def3Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 2) {
+			[ghi4Button setTitle:[predResultsArray objectAtIndex:2] forState:UIControlStateNormal];
+		}
+		else {
+			[ghi4Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 3) {
+			[jkl5Button setTitle:[predResultsArray objectAtIndex:3] forState:UIControlStateNormal];
+		}
+		else {
+			[jkl5Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 4) {
+			[mno6Button setTitle:[predResultsArray objectAtIndex:4] forState:UIControlStateNormal];
+		}
+		else {
+			[mno6Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 5) {
+			[pqrs7Button setTitle:[predResultsArray objectAtIndex:5] forState:UIControlStateNormal];
+		}
+		else {
+			[pqrs7Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 6) {
+			[tuv8Button setTitle:[predResultsArray objectAtIndex:6] forState:UIControlStateNormal];
+		}
+		else {
+			[tuv8Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 7) {
+			[wxyz9Button setTitle:[predResultsArray objectAtIndex:7] forState:UIControlStateNormal];
+		}
+		else {
+			[wxyz9Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		[wordsLettersButton setTitle:@"letters" forState:UIControlStateNormal];
+	}
+	if (letters) {
+		[punct1Button setTitle:@".,?!' 1" forState:UIControlStateNormal];
+		[abc2Button setTitle:@"abc 2" forState:UIControlStateNormal];
+		[def3Button setTitle:@"def 3" forState:UIControlStateNormal];
+		[ghi4Button setTitle:@"ghi 4" forState:UIControlStateNormal];
+		[jkl5Button setTitle:@"jkl 5" forState:UIControlStateNormal];
+		[mno6Button setTitle:@"mno 6" forState:UIControlStateNormal];
+		[pqrs7Button setTitle:@"pqrs 7" forState:UIControlStateNormal];
+		[tuv8Button setTitle:@"tuv 8" forState:UIControlStateNormal];
+		[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
+		[wordsLettersButton setTitle:@"words" forState:UIControlStateNormal];
+	}
 }
 
 
@@ -884,534 +884,733 @@
 // keypad button actions
 
 - (IBAction)punct1Act:(id)sender {
-    [self abc2];
-    [self def3];
-    [self ghi4];
-    [self jkl5];
-    [self mno6];
-    [self pqrs7];
-    [self tuv8];
-    [self wxyz9];
-    [self space0];
-	[self prediction];
-    if (fs == false && cma == false && qm == false && excl == false && apos == false && one == false) {
-        fs = true;
-        cma = false;
-        qm = false;
-        excl = false;
-        apos = false;
-        one = false;
-        [punct1Button setTitle:@"." forState:UIControlStateNormal];
-    }
-    else if (fs) {
-        fs = false;
-        cma = true;
-        qm = false;
-        excl = false;
-        apos = false;
-        one = false;
-        [punct1Button setTitle:@"," forState:UIControlStateNormal];
-    }
-    else if (cma) {
-        fs = false;
-        cma = false;
-        qm = true;
-        excl = false;
-        apos = false;
-        one = false;
-        [punct1Button setTitle:@"?" forState:UIControlStateNormal];
-    }
-    else if (qm) {
-        fs = false;
-        cma = false;
-        qm = false;
-        excl = true;
-        apos = false;
-        one = false;
-        [punct1Button setTitle:@"!" forState:UIControlStateNormal];
-    }
-    else if (excl) {
-        fs = false;
-        cma = false;
-        qm = false;
-        excl = false;
-        apos = true;
-        one = false;
-        [punct1Button setTitle:@"'" forState:UIControlStateNormal];
-    }
-    else if (apos) {
-        fs = false;
-        cma = false;
-        qm = false;
-        excl = false;
-        apos = false;
-        one = true;
-        [punct1Button setTitle:@"1" forState:UIControlStateNormal];
-    }
-    else if (one) {
-        fs = true;
-        cma = false;
-        qm = false;
-        excl = false;
-        apos = false;
-        one = false;
-        [punct1Button setTitle:@"." forState:UIControlStateNormal];
-    }
-    [selectionProgressView setProgress:0.0];
-    [inputTimer invalidate];
-    [selectionTimer invalidate];
-    inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(punct1) userInfo:nil repeats:NO];
-    selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	if (letters) {
+		[self abc2];
+		[self def3];
+		[self ghi4];
+		[self jkl5];
+		[self mno6];
+		[self pqrs7];
+		[self tuv8];
+		[self wxyz9];
+		[self space0];
+		if (fs == false && cma == false && qm == false && excl == false && apos == false && one == false) {
+			fs = true;
+			cma = false;
+			qm = false;
+			excl = false;
+			apos = false;
+			one = false;
+			[punct1Button setTitle:@"." forState:UIControlStateNormal];
+		}
+		else if (fs) {
+			fs = false;
+			cma = true;
+			qm = false;
+			excl = false;
+			apos = false;
+			one = false;
+			[punct1Button setTitle:@"," forState:UIControlStateNormal];
+		}
+		else if (cma) {
+			fs = false;
+			cma = false;
+			qm = true;
+			excl = false;
+			apos = false;
+			one = false;
+			[punct1Button setTitle:@"?" forState:UIControlStateNormal];
+		}
+		else if (qm) {
+			fs = false;
+			cma = false;
+			qm = false;
+			excl = true;
+			apos = false;
+			one = false;
+			[punct1Button setTitle:@"!" forState:UIControlStateNormal];
+		}
+		else if (excl) {
+			fs = false;
+			cma = false;
+			qm = false;
+			excl = false;
+			apos = true;
+			one = false;
+			[punct1Button setTitle:@"'" forState:UIControlStateNormal];
+		}
+		else if (apos) {
+			fs = false;
+			cma = false;
+			qm = false;
+			excl = false;
+			apos = false;
+			one = true;
+			[punct1Button setTitle:@"1" forState:UIControlStateNormal];
+		}
+		else if (one) {
+			fs = false;
+			cma = false;
+			qm = false;
+			excl = false;
+			apos = false;
+			one = false;
+			[punct1Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		[selectionProgressView setProgress:0.0];
+		[inputTimer invalidate];
+		[selectionTimer invalidate];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(punct1) userInfo:nil repeats:NO];
+		selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	}
+	if (words) {
+		words = false;
+		letters = true;
+		notMyWord = true;
+		[self wordsLetters];
+	}
 }
 
 - (IBAction)abc2Act:(id)sender {
-    [self punct1];
-    [self def3];
-    [self ghi4];
-    [self jkl5];
-    [self mno6];
-    [self pqrs7];
-    [self tuv8];
-    [self wxyz9];
-    [self space0];
-	[self prediction];
-    if (a == false && b == false && c == false && two == false) {
-        a = true;
-        b = false;
-        c = false;
-        two = false;
-        [abc2Button setTitle:@"a" forState:UIControlStateNormal];
-    }
-    else if (a) {
-        a = false;
-        b = true;
-        c = false;
-        two = false;
-        [abc2Button setTitle:@"b" forState:UIControlStateNormal];
-    }
-    else if (b) {
-        a = false;
-        b = false;
-        c = true;
-        two = false;
-        [abc2Button setTitle:@"c" forState:UIControlStateNormal];
-    }
-    else if (c) {
-        a = false;
-        b = false;
-        c = false;
-        two = true;
-        [abc2Button setTitle:@"2" forState:UIControlStateNormal];
-    }
-    else if (two) {
-        a = true;
-        b = false;
-        c = false;
-        two = false;
-        [abc2Button setTitle:@"a" forState:UIControlStateNormal];
-    }
-    [selectionProgressView setProgress:0.0];
-    [inputTimer invalidate];
-    [selectionTimer invalidate];
-    inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(abc2) userInfo:nil repeats:NO];
-    selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	if (letters) {
+		[self punct1];
+		[self def3];
+		[self ghi4];
+		[self jkl5];
+		[self mno6];
+		[self pqrs7];
+		[self tuv8];
+		[self wxyz9];
+		[self space0];
+		if (a == false && b == false && c == false && two == false) {
+			a = true;
+			b = false;
+			c = false;
+			two = false;
+			[abc2Button setTitle:@"a" forState:UIControlStateNormal];
+		}
+		else if (a) {
+			a = false;
+			b = true;
+			c = false;
+			two = false;
+			[abc2Button setTitle:@"b" forState:UIControlStateNormal];
+		}
+		else if (b) {
+			a = false;
+			b = false;
+			c = true;
+			two = false;
+			[abc2Button setTitle:@"c" forState:UIControlStateNormal];
+		}
+		else if (c) {
+			a = false;
+			b = false;
+			c = false;
+			two = true;
+			[abc2Button setTitle:@"2" forState:UIControlStateNormal];
+		}
+		else if (two) {
+			a = false;
+			b = false;
+			c = false;
+			two = false;
+			[abc2Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		[selectionProgressView setProgress:0.0];
+		[inputTimer invalidate];
+		[selectionTimer invalidate];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(abc2) userInfo:nil repeats:NO];
+		selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	}
+	if (words) {
+		if (![abc2Button.titleLabel.text isEqualToString:@""]) {
+			if (![textArea.text isEqualToString:@""]) {
+				NSString *st = textArea.text;
+				NSString *wst = wordString;
+				NSMutableString *final;
+				st = [st substringToIndex:[st length] - [wst length]];
+				textArea.text = st;
+				final = [NSMutableString stringWithString:st];
+				if (![textArea.text isEqualToString:@""]) {
+					[final appendString:abc2Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				else {
+					final = [NSMutableString stringWithString:abc2Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				[self reset];
+			}
+		}
+	}
 }
 
 - (IBAction)def3Act:(id)sender {
-    [self punct1];
-    [self abc2];
-    [self ghi4];
-    [self jkl5];
-    [self mno6];
-    [self pqrs7];
-    [self tuv8];
-    [self wxyz9];
-    [self space0];
-	[self prediction];
-    if (d == false && e == false && f == false && three == false) {
-        d = true;
-        e = false;
-        f = false;
-        three = false;
-        [def3Button setTitle:@"d" forState:UIControlStateNormal];
-    }
-    else if (d) {
-        d = false;
-        e = true;
-        f = false;
-        three = false;
-        [def3Button setTitle:@"e" forState:UIControlStateNormal];
-    }
-    else if (e) {
-        d = false;
-        e = false;
-        f = true;
-        three = false;
-        [def3Button setTitle:@"f" forState:UIControlStateNormal];
-    }
-    else if (f) {
-        d = false;
-        e = false;
-        f = false;
-        three = true;
-        [def3Button setTitle:@"3" forState:UIControlStateNormal];
-    }
-    else if (three) {
-        d = true;
-        e = false;
-        f = false;
-        three = false;
-        [def3Button setTitle:@"d" forState:UIControlStateNormal];
-    }
-    [selectionProgressView setProgress:0.0];
-    [inputTimer invalidate];
-    [selectionTimer invalidate];
-    inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(def3) userInfo:nil repeats:NO];
-    selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	if (letters) {
+		[self punct1];
+		[self abc2];
+		[self ghi4];
+		[self jkl5];
+		[self mno6];
+		[self pqrs7];
+		[self tuv8];
+		[self wxyz9];
+		[self space0];
+		if (d == false && e == false && f == false && three == false) {
+			d = true;
+			e = false;
+			f = false;
+			three = false;
+			[def3Button setTitle:@"d" forState:UIControlStateNormal];
+		}
+		else if (d) {
+			d = false;
+			e = true;
+			f = false;
+			three = false;
+			[def3Button setTitle:@"e" forState:UIControlStateNormal];
+		}
+		else if (e) {
+			d = false;
+			e = false;
+			f = true;
+			three = false;
+			[def3Button setTitle:@"f" forState:UIControlStateNormal];
+		}
+		else if (f) {
+			d = false;
+			e = false;
+			f = false;
+			three = true;
+			[def3Button setTitle:@"3" forState:UIControlStateNormal];
+		}
+		else if (three) {
+			d = false;
+			e = false;
+			f = false;
+			three = false;
+			[def3Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		[selectionProgressView setProgress:0.0];
+		[inputTimer invalidate];
+		[selectionTimer invalidate];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(def3) userInfo:nil repeats:NO];
+		selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	}
+	if (words) {
+		if (![def3Button.titleLabel.text isEqualToString:@""]) {
+			if (![textArea.text isEqualToString:@""]) {
+				NSString *st = textArea.text;
+				NSString *wst = wordString;
+				NSMutableString *final;
+				st = [st substringToIndex:[st length] - [wst length]];
+				textArea.text = st;
+				final = [NSMutableString stringWithString:st];
+				if (![textArea.text isEqualToString:@""]) {
+					[final appendString:def3Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				else {
+					final = [NSMutableString stringWithString:def3Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				[self reset];
+			}
+		}
+	}
 }
 
 - (IBAction)ghi4Act:(id)sender {
-    [self punct1];
-    [self abc2];
-    [self def3];
-    [self jkl5];
-    [self mno6];
-    [self pqrs7];
-    [self tuv8];
-    [self wxyz9];
-    [self space0];
-	[self prediction];
-    if (g == false && h == false && i == false && four == false) {
-        g = true;
-        h = false;
-        i = false;
-        four = false;
-        [ghi4Button setTitle:@"g" forState:UIControlStateNormal];
-    }
-    else if (g) {
-        g = false;
-        h = true;
-        i = false;
-        four = false;
-        [ghi4Button setTitle:@"h" forState:UIControlStateNormal];
-    }
-    else if (h) {
-        g = false;
-        h = false;
-        i = true;
-        four = false;
-        [ghi4Button setTitle:@"i" forState:UIControlStateNormal];
-    }
-    else if (i) {
-        g = false;
-        h = false;
-        i = false;
-        four = true;
-        [ghi4Button setTitle:@"4" forState:UIControlStateNormal];
-    }
-    else if (four) {
-        g = true;
-        h = false;
-        i = false;
-        four = false;
-        [ghi4Button setTitle:@"g" forState:UIControlStateNormal];
-    }
-    [selectionProgressView setProgress:0.0];
-    [inputTimer invalidate];
-    [selectionTimer invalidate];
-    inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(ghi4) userInfo:nil repeats:NO];
-    selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	if (letters) {
+		[self punct1];
+		[self abc2];
+		[self def3];
+		[self jkl5];
+		[self mno6];
+		[self pqrs7];
+		[self tuv8];
+		[self wxyz9];
+		[self space0];
+		if (g == false && h == false && i == false && four == false) {
+			g = true;
+			h = false;
+			i = false;
+			four = false;
+			[ghi4Button setTitle:@"g" forState:UIControlStateNormal];
+		}
+		else if (g) {
+			g = false;
+			h = true;
+			i = false;
+			four = false;
+			[ghi4Button setTitle:@"h" forState:UIControlStateNormal];
+		}
+		else if (h) {
+			g = false;
+			h = false;
+			i = true;
+			four = false;
+			[ghi4Button setTitle:@"i" forState:UIControlStateNormal];
+		}
+		else if (i) {
+			g = false;
+			h = false;
+			i = false;
+			four = true;
+			[ghi4Button setTitle:@"4" forState:UIControlStateNormal];
+		}
+		else if (four) {
+			g = false;
+			h = false;
+			i = false;
+			four = false;
+			[ghi4Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		[selectionProgressView setProgress:0.0];
+		[inputTimer invalidate];
+		[selectionTimer invalidate];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(ghi4) userInfo:nil repeats:NO];
+		selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	}
+	if (words) {
+		if (![ghi4Button.titleLabel.text isEqualToString:@""]) {
+			if (![textArea.text isEqualToString:@""]) {
+				NSString *st = textArea.text;
+				NSString *wst = wordString;
+				NSMutableString *final;
+				st = [st substringToIndex:[st length] - [wst length]];
+				textArea.text = st;
+				final = [NSMutableString stringWithString:st];
+				if (![textArea.text isEqualToString:@""]) {
+					[final appendString:ghi4Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				else {
+					final = [NSMutableString stringWithString:ghi4Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				[self reset];
+			}
+		}
+	}
 }
 
 - (IBAction)jkl5Act:(id)sender {
-    [self punct1];
-    [self abc2];
-    [self def3];
-    [self ghi4];
-    [self mno6];
-    [self pqrs7];
-    [self tuv8];
-    [self wxyz9];
-    [self space0];
-	[self prediction];
-    if (j == false && k == false && l == false && five == false) {
-        j = true;
-        k = false;
-        l = false;
-        five = false;
-        [jkl5Button setTitle:@"j" forState:UIControlStateNormal];
-    }
-    else if (j) {
-        j = false;
-        k = true;
-        l = false;
-        five = false;
-        [jkl5Button setTitle:@"k" forState:UIControlStateNormal];
-    }
-    else if (k) {
-        j = false;
-        k = false;
-        l = true;
-        five = false;
-        [jkl5Button setTitle:@"l" forState:UIControlStateNormal];
-    }
-    else if (l) {
-        j = false;
-        k = false;
-        l = false;
-        five = true;
-        [jkl5Button setTitle:@"5" forState:UIControlStateNormal];
-    }
-    else if (five) {
-        j = true;
-        k = false;
-        l = false;
-        five = false;
-        [jkl5Button setTitle:@"j" forState:UIControlStateNormal];
-    }
-    [selectionProgressView setProgress:0.0];
-    [inputTimer invalidate];
-    [selectionTimer invalidate];
-    inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(jkl5) userInfo:nil repeats:NO];
-    selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	if (letters) {
+		[self punct1];
+		[self abc2];
+		[self def3];
+		[self ghi4];
+		[self mno6];
+		[self pqrs7];
+		[self tuv8];
+		[self wxyz9];
+		[self space0];
+		if (j == false && k == false && l == false && five == false) {
+			j = true;
+			k = false;
+			l = false;
+			five = false;
+			[jkl5Button setTitle:@"j" forState:UIControlStateNormal];
+		}
+		else if (j) {
+			j = false;
+			k = true;
+			l = false;
+			five = false;
+			[jkl5Button setTitle:@"k" forState:UIControlStateNormal];
+		}
+		else if (k) {
+			j = false;
+			k = false;
+			l = true;
+			five = false;
+			[jkl5Button setTitle:@"l" forState:UIControlStateNormal];
+		}
+		else if (l) {
+			j = false;
+			k = false;
+			l = false;
+			five = true;
+			[jkl5Button setTitle:@"5" forState:UIControlStateNormal];
+		}
+		else if (five) {
+			j = false;
+			k = false;
+			l = false;
+			five = false;
+			[jkl5Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		[selectionProgressView setProgress:0.0];
+		[inputTimer invalidate];
+		[selectionTimer invalidate];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(jkl5) userInfo:nil repeats:NO];
+		selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	}
+	if (words) {
+		if (![jkl5Button.titleLabel.text isEqualToString:@""]) {
+			if (![textArea.text isEqualToString:@""]) {
+				NSString *st = textArea.text;
+				NSString *wst = wordString;
+				NSMutableString *final;
+				st = [st substringToIndex:[st length] - [wst length]];
+				textArea.text = st;
+				final = [NSMutableString stringWithString:st];
+				if (![textArea.text isEqualToString:@""]) {
+					[final appendString:jkl5Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				else {
+					final = [NSMutableString stringWithString:jkl5Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				[self reset];
+			}
+		}
+	}
 }
 
 - (IBAction)mno6Act:(id)sender {
-    [self punct1];
-    [self abc2];
-    [self def3];
-    [self ghi4];
-    [self jkl5];
-    [self pqrs7];
-    [self tuv8];
-    [self wxyz9];
-    [self space0];
-	[self prediction];
-    if (m == false && n == false && o == false && six == false) {
-        m = true;
-        n = false;
-        o = false;
-        six = false;
-        [mno6Button setTitle:@"m" forState:UIControlStateNormal];
-    }
-    else if (m) {
-        m = false;
-        n = true;
-        o = false;
-        six = false;
-        [mno6Button setTitle:@"n" forState:UIControlStateNormal];
-    }
-    else if (n) {
-        m = false;
-        n = false;
-        o = true;
-        six = false;
-        [mno6Button setTitle:@"o" forState:UIControlStateNormal];
-    }
-    else if (o) {
-        m = false;
-        n = false;
-        o = false;
-        six = true;
-        [mno6Button setTitle:@"6" forState:UIControlStateNormal];
-    }
-    else if (six) {
-        m = true;
-        n = false;
-        o = false;
-        six = false;
-        [mno6Button setTitle:@"m" forState:UIControlStateNormal];
-    }
-    [selectionProgressView setProgress:0.0];
-    [inputTimer invalidate];
-    [selectionTimer invalidate];
-    inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(mno6) userInfo:nil repeats:NO];
-    selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	if (letters) {
+		[self punct1];
+		[self abc2];
+		[self def3];
+		[self ghi4];
+		[self jkl5];
+		[self pqrs7];
+		[self tuv8];
+		[self wxyz9];
+		[self space0];
+		if (m == false && n == false && o == false && six == false) {
+			m = true;
+			n = false;
+			o = false;
+			six = false;
+			[mno6Button setTitle:@"m" forState:UIControlStateNormal];
+		}
+		else if (m) {
+			m = false;
+			n = true;
+			o = false;
+			six = false;
+			[mno6Button setTitle:@"n" forState:UIControlStateNormal];
+		}
+		else if (n) {
+			m = false;
+			n = false;
+			o = true;
+			six = false;
+			[mno6Button setTitle:@"o" forState:UIControlStateNormal];
+		}
+		else if (o) {
+			m = false;
+			n = false;
+			o = false;
+			six = true;
+			[mno6Button setTitle:@"6" forState:UIControlStateNormal];
+		}
+		else if (six) {
+			m = false;
+			n = false;
+			o = false;
+			six = false;
+			[mno6Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		[selectionProgressView setProgress:0.0];
+		[inputTimer invalidate];
+		[selectionTimer invalidate];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(mno6) userInfo:nil repeats:NO];
+		selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	}
+	if (words) {
+		if (![mno6Button.titleLabel.text isEqualToString:@""]) {
+			if (![textArea.text isEqualToString:@""]) {
+				NSString *st = textArea.text;
+				NSString *wst = wordString;
+				NSMutableString *final;
+				st = [st substringToIndex:[st length] - [wst length]];
+				textArea.text = st;
+				final = [NSMutableString stringWithString:st];
+				if (![textArea.text isEqualToString:@""]) {
+					[final appendString:mno6Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				else {
+					final = [NSMutableString stringWithString:mno6Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				[self reset];
+			}
+		}
+	}
 }
 
 - (IBAction)pqrs7Act:(id)sender {
-    [self punct1];
-    [self abc2];
-    [self def3];
-    [self ghi4];
-    [self jkl5];
-    [self mno6];
-    [self tuv8];
-    [self wxyz9];
-    [self space0];
-	[self prediction];
-    if (p == false && q == false && r == false && s == false && seven == false) {
-        p = true;
-        q = false;
-        r = false;
-        s = false;
-        seven = false;
-        [pqrs7Button setTitle:@"p" forState:UIControlStateNormal];
-    }
-    else if (p) {
-        p = false;
-        q = true;
-        r = false;
-        s = false;
-        seven = false;
-        [pqrs7Button setTitle:@"q" forState:UIControlStateNormal];
-    }
-    else if (q) {
-        p = false;
-        q = false;
-        r = true;
-        s = false;
-        seven = false;
-        [pqrs7Button setTitle:@"r" forState:UIControlStateNormal];
-    }
-    else if (r) {
-        p = false;
-        q = false;
-        r = false;
-        s = true;
-        seven = false;
-        [pqrs7Button setTitle:@"s" forState:UIControlStateNormal];
-    }
-    else if (s) {
-        p = false;
-        q = false;
-        r = false;
-        s = false;
-        seven = true;
-        [pqrs7Button setTitle:@"7" forState:UIControlStateNormal];
-    }
-    else if (seven) {
-        p = true;
-        q = false;
-        r = false;
-        s = false;
-        seven = false;
-        [pqrs7Button setTitle:@"p" forState:UIControlStateNormal];
-    }
-    [selectionProgressView setProgress:0.0];
-    [inputTimer invalidate];
-    [selectionTimer invalidate];
-    inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(pqrs7) userInfo:nil repeats:NO];
-    selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	if (letters) {
+		[self punct1];
+		[self abc2];
+		[self def3];
+		[self ghi4];
+		[self jkl5];
+		[self mno6];
+		[self tuv8];
+		[self wxyz9];
+		[self space0];
+		if (p == false && q == false && r == false && s == false && seven == false) {
+			p = true;
+			q = false;
+			r = false;
+			s = false;
+			seven = false;
+			[pqrs7Button setTitle:@"p" forState:UIControlStateNormal];
+		}
+		else if (p) {
+			p = false;
+			q = true;
+			r = false;
+			s = false;
+			seven = false;
+			[pqrs7Button setTitle:@"q" forState:UIControlStateNormal];
+		}
+		else if (q) {
+			p = false;
+			q = false;
+			r = true;
+			s = false;
+			seven = false;
+			[pqrs7Button setTitle:@"r" forState:UIControlStateNormal];
+		}
+		else if (r) {
+			p = false;
+			q = false;
+			r = false;
+			s = true;
+			seven = false;
+			[pqrs7Button setTitle:@"s" forState:UIControlStateNormal];
+		}
+		else if (s) {
+			p = false;
+			q = false;
+			r = false;
+			s = false;
+			seven = true;
+			[pqrs7Button setTitle:@"7" forState:UIControlStateNormal];
+		}
+		else if (seven) {
+			p = false;
+			q = false;
+			r = false;
+			s = false;
+			seven = false;
+			[pqrs7Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		[selectionProgressView setProgress:0.0];
+		[inputTimer invalidate];
+		[selectionTimer invalidate];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(pqrs7) userInfo:nil repeats:NO];
+		selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	}
+	if (words) {
+		if (![pqrs7Button.titleLabel.text isEqualToString:@""]) {
+			if (![textArea.text isEqualToString:@""]) {
+				NSString *st = textArea.text;
+				NSString *wst = wordString;
+				NSMutableString *final;
+				st = [st substringToIndex:[st length] - [wst length]];
+				textArea.text = st;
+				final = [NSMutableString stringWithString:st];
+				if (![textArea.text isEqualToString:@""]) {
+					[final appendString:pqrs7Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				else {
+					final = [NSMutableString stringWithString:pqrs7Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				[self reset];
+			}
+		}
+	}
 }
 
 - (IBAction)tuv8Act:(id)sender {
-    [self punct1];
-    [self abc2];
-    [self def3];
-    [self ghi4];
-    [self jkl5];
-    [self mno6];
-    [self pqrs7];
-    [self wxyz9];
-    [self space0];
-	[self prediction];
-    if (t == false && u == false && v == false && eight == false) {
-        t = true;
-        u = false;
-        v = false;
-        eight = false;
-        [tuv8Button setTitle:@"t" forState:UIControlStateNormal];
-    }
-    else if (t) {
-        t = false;
-        u = true;
-        v = false;
-        eight = false;
-        [tuv8Button setTitle:@"u" forState:UIControlStateNormal];
-    }
-    else if (u) {
-        t = false;
-        u = false;
-        v = true;
-        eight = false;
-        [tuv8Button setTitle:@"v" forState:UIControlStateNormal];
-    }
-    else if (v) {
-        t = false;
-        u = false;
-        v = false;
-        eight = true;
-        [tuv8Button setTitle:@"8" forState:UIControlStateNormal];
-    }
-    else if (eight) {
-        t = true;
-        u = false;
-        v = false;
-        eight = false;
-        [tuv8Button setTitle:@"t" forState:UIControlStateNormal];
-    }
-    [selectionProgressView setProgress:0.0];
-    [inputTimer invalidate];
-    [selectionTimer invalidate];
-    inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(tuv8) userInfo:nil repeats:NO];
-    selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	if (letters) {
+		[self punct1];
+		[self abc2];
+		[self def3];
+		[self ghi4];
+		[self jkl5];
+		[self mno6];
+		[self pqrs7];
+		[self wxyz9];
+		[self space0];
+		if (t == false && u == false && v == false && eight == false) {
+			t = true;
+			u = false;
+			v = false;
+			eight = false;
+			[tuv8Button setTitle:@"t" forState:UIControlStateNormal];
+		}
+		else if (t) {
+			t = false;
+			u = true;
+			v = false;
+			eight = false;
+			[tuv8Button setTitle:@"u" forState:UIControlStateNormal];
+		}
+		else if (u) {
+			t = false;
+			u = false;
+			v = true;
+			eight = false;
+			[tuv8Button setTitle:@"v" forState:UIControlStateNormal];
+		}
+		else if (v) {
+			t = false;
+			u = false;
+			v = false;
+			eight = true;
+			[tuv8Button setTitle:@"8" forState:UIControlStateNormal];
+		}
+		else if (eight) {
+			t = false;
+			u = false;
+			v = false;
+			eight = false;
+			[tuv8Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		[selectionProgressView setProgress:0.0];
+		[inputTimer invalidate];
+		[selectionTimer invalidate];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(tuv8) userInfo:nil repeats:NO];
+		selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	}
+	if (words) {
+		if (![tuv8Button.titleLabel.text isEqualToString:@""]) {
+			if (![textArea.text isEqualToString:@""]) {
+				NSString *st = textArea.text;
+				NSString *wst = wordString;
+				NSMutableString *final;
+				st = [st substringToIndex:[st length] - [wst length]];
+				textArea.text = st;
+				final = [NSMutableString stringWithString:st];
+				if (![textArea.text isEqualToString:@""]) {
+					[final appendString:tuv8Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				else {
+					final = [NSMutableString stringWithString:tuv8Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				[self reset];
+			}
+		}
+	}
 }
 
 - (IBAction)wxyz9Act:(id)sender {
-    [self punct1];
-    [self abc2];
-    [self def3];
-    [self ghi4];
-    [self jkl5];
-    [self mno6];
-    [self pqrs7];
-    [self tuv8];
-    [self space0];
-	[self prediction];
-    if (w == false && x == false && y == false && z == false && nine == false) {
-        w = true;
-        x = false;
-        y = false;
-        z = false;
-        nine = false;
-        [wxyz9Button setTitle:@"w" forState:UIControlStateNormal];
-    }
-    else if (w) {
-        w = false;
-        x = true;
-        y = false;
-        z = false;
-        nine = false;
-        [wxyz9Button setTitle:@"x" forState:UIControlStateNormal];
-    }
-    else if (x) {
-        w = false;
-        x = false;
-        y = true;
-        z = false;
-        nine = false;
-        [wxyz9Button setTitle:@"y" forState:UIControlStateNormal];
-    }
-    else if (y) {
-        w = false;
-        x = false;
-        y = false;
-        z = true;
-        nine = false;
-        [wxyz9Button setTitle:@"z" forState:UIControlStateNormal];
-    }
-    else if (z) {
-        w = false;
-        x = false;
-        y = false;
-        z = false;
-        nine = true;
-        [wxyz9Button setTitle:@"9" forState:UIControlStateNormal];
-    }
-    else if (nine) {
-        w = true;
-        x = false;
-        y = false;
-        z = false;
-        nine = false;
-        [wxyz9Button setTitle:@"w" forState:UIControlStateNormal];
-    }
-    [selectionProgressView setProgress:0.0];
-    [inputTimer invalidate];
-    [selectionTimer invalidate];
-    inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(wxyz9) userInfo:nil repeats:NO];
-    selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	if (letters) {
+		[self punct1];
+		[self abc2];
+		[self def3];
+		[self ghi4];
+		[self jkl5];
+		[self mno6];
+		[self pqrs7];
+		[self tuv8];
+		[self space0];
+		if (w == false && x == false && y == false && z == false && nine == false) {
+			w = true;
+			x = false;
+			y = false;
+			z = false;
+			nine = false;
+			[wxyz9Button setTitle:@"w" forState:UIControlStateNormal];
+		}
+		else if (w) {
+			w = false;
+			x = true;
+			y = false;
+			z = false;
+			nine = false;
+			[wxyz9Button setTitle:@"x" forState:UIControlStateNormal];
+		}
+		else if (x) {
+			w = false;
+			x = false;
+			y = true;
+			z = false;
+			nine = false;
+			[wxyz9Button setTitle:@"y" forState:UIControlStateNormal];
+		}
+		else if (y) {
+			w = false;
+			x = false;
+			y = false;
+			z = true;
+			nine = false;
+			[wxyz9Button setTitle:@"z" forState:UIControlStateNormal];
+		}
+		else if (z) {
+			w = false;
+			x = false;
+			y = false;
+			z = false;
+			nine = true;
+			[wxyz9Button setTitle:@"9" forState:UIControlStateNormal];
+		}
+		else if (nine) {
+			w = false;
+			x = false;
+			y = false;
+			z = false;
+			nine = false;
+			[wxyz9Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		[selectionProgressView setProgress:0.0];
+		[inputTimer invalidate];
+		[selectionTimer invalidate];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(wxyz9) userInfo:nil repeats:NO];
+		selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
+	}
+	if (words) {
+		if (![wxyz9Button.titleLabel.text isEqualToString:@""]) {
+			if (![textArea.text isEqualToString:@""]) {
+				NSString *st = textArea.text;
+				NSString *wst = wordString;
+				NSMutableString *final;
+				st = [st substringToIndex:[st length] - [wst length]];
+				textArea.text = st;
+				final = [NSMutableString stringWithString:st];
+				if (![textArea.text isEqualToString:@""]) {
+					[final appendString:wxyz9Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				else {
+					final = [NSMutableString stringWithString:wxyz9Button.titleLabel.text];
+					[final appendString:@" "];
+					textArea.text = final;
+				}
+				[self reset];
+			}
+		}
+	}
 }
 
 - (IBAction)shiftAct:(id)sender {
@@ -1433,7 +1632,6 @@
     [self pqrs7];
     [self tuv8];
     [self wxyz9];
-	[self prediction];
     if (space == false && zero == false) {
         space = true;
         zero = false;
@@ -1445,9 +1643,9 @@
         [space0Button setTitle:@"0" forState:UIControlStateNormal];
     }
     else if (zero) {
-        space = true;
+        space = false;
         zero = false;
-        [space0Button setTitle:@"space" forState:UIControlStateNormal];
+        [space0Button setTitle:@"" forState:UIControlStateNormal];
     }
     [selectionProgressView setProgress:0.0];
     [inputTimer invalidate];
@@ -1456,7 +1654,7 @@
     selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
 }
 
-- (IBAction)predictionAct:(id)sender {
+- (IBAction)wordsLettersAct:(id)sender {
     [self punct1];
     [self abc2];
     [self def3];
@@ -1467,83 +1665,20 @@
     [self tuv8];
     [self wxyz9];
     [self space0];
-    if (predResultsArray.count > 0) {
-        if (secondWord == false && thirdWord == false && fourthWord == false && noWord == false) {
-            [predictionButton setTitle:[predResultsArray objectAtIndex:0] forState:UIControlStateNormal];
-            secondWord = true;
-            thirdWord = false;
-            fourthWord = false;
-            noWord = false;
-            pred = true;
-        }
-        else if (secondWord) {
-			if (predResultsArray.count >= 2) {
-				[predictionButton setTitle:[predResultsArray objectAtIndex:1] forState:UIControlStateNormal];
-				secondWord = false;
-				thirdWord = true;
-				fourthWord = false;
-				noWord = false;
-				pred = true;
+	if (predResultsArray.count!=0) {
+		if (words) {
+			words = false;
+			letters = true;
+			if (autoPred && wordString.length==2) {
+				autoPred=true;
 			}
-			else {
-				[predictionButton setTitle:@"" forState:UIControlStateNormal];
-				secondWord = false;
-				thirdWord = false;
-				fourthWord = false;
-				noWord = false;
-				pred = false;
-			}
-        }
-        else if (thirdWord) {
-			if (predResultsArray.count >= 3) {
-				[predictionButton setTitle:[predResultsArray objectAtIndex:2] forState:UIControlStateNormal];
-				secondWord = false;
-				thirdWord = false;
-				fourthWord = true;
-				noWord = false;
-				pred = true;
-			}
-			else {
-				[predictionButton setTitle:@"" forState:UIControlStateNormal];
-				secondWord = false;
-				thirdWord = false;
-				fourthWord = false;
-				noWord = false;
-				pred = false;
-			}
-        }
-        else if (fourthWord) {
-			if (predResultsArray.count >= 4) {
-				[predictionButton setTitle:[predResultsArray objectAtIndex:3] forState:UIControlStateNormal];
-				secondWord = false;
-				thirdWord = false;
-				fourthWord = false;
-				noWord = true;
-				pred = true;
-			}
-			else {
-				[predictionButton setTitle:@"" forState:UIControlStateNormal];
-				secondWord = false;
-				thirdWord = false;
-				fourthWord = false;
-				noWord = false;
-				pred = false;
-			}
-        }
-        else if (noWord) {
-            [predictionButton setTitle:@"" forState:UIControlStateNormal];
-            secondWord = false;
-            thirdWord = false;
-            fourthWord = false;
-            noWord = false;
-            pred = false;
-        }
-        [predictionButton setBackgroundImage:[UIImage imageNamed:@"predictionButtonHighlighted.png"] forState:UIControlStateNormal];
-        [inputTimer invalidate];
-        [selectionTimer invalidate];
-        inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(prediction) userInfo:nil repeats:NO];
-        selectionTimer = [NSTimer scheduledTimerWithTimeInterval:selectionRate target:self selector:@selector(prog) userInfo:nil repeats:YES];
-    }
+		}
+		else if (letters) {
+			words = true;
+			letters = false;
+		}
+		[self wordsLetters];
+	}
 }
 
 - (IBAction)backspaceAct:(id)sender {
@@ -1557,24 +1692,24 @@
     [self tuv8];
     [self wxyz9];
     [self space0];
-	[self prediction];
     NSString *st = textArea.text;
     NSString *wst = wordString;
     if ([st length] > 0) {
         st = [st substringToIndex:[st length] - 1];
         [textArea setText:st];
+		if ([wst length] > 0) {
+			wst = [wst substringToIndex:[wst length] - 1];
+			wordString = [NSMutableString stringWithString:wst];
+			add = [NSMutableString stringWithString:@""];
+			[self predict];
+		}
         if ([textArea.text isEqual: @""]) {
-            shift = true;
-            [predictionButton setTitle:@"" forState:UIControlStateNormal];
-            wordString = [NSMutableString stringWithString:@""];
-            add = [NSMutableString stringWithString:@""];
+			[self reset];
         }
-    }
-    if ([wst length] > 0) {
-        wst = [wst substringToIndex:[wst length] - 1];
-        wordString = [NSMutableString stringWithString:wst];
-        add = [NSMutableString stringWithString:@""];
-        [self predict];
+		words = false;
+		letters = true;
+		notMyWord = false;
+		[self wordsLetters];
     }
 }
 
@@ -1589,7 +1724,6 @@
     [self tuv8];
     [self wxyz9];
     [self space0];
-	[self prediction];
     if (![textArea.text isEqualToString:@""]) {
         clearString = textArea.text;
         [textArea setText:@""];

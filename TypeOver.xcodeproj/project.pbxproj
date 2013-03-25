@@ -28,7 +28,7 @@
 		5A2BDF2216F26C6F008D38B1 /* normalButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A2BDF1F16F26C6F008D38B1 /* normalButton.png */; };
 		5AA61CFB16DA7EAA00C60323 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA61CFA16DA7EAA00C60323 /* CustomButton.m */; };
 		5AD6DFF816D93531002B81D1 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD6DFF716D93531002B81D1 /* Social.framework */; };
-		6C1133F416F6333B0073734E /* predictionButtonHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C1133F316F6333B0073734E /* predictionButtonHighlighted.png */; };
+		6C16FB5D16FF73FF00C62E49 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C16FB5C16FF73FF00C62E49 /* SettingsViewController.m */; };
 		F0F831EB16FB8E6200535DC1 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F0F831EA16FB8E6200535DC1 /* libsqlite3.dylib */; };
 		F0F831ED16FB98DC00535DC1 /* EnWords in Resources */ = {isa = PBXBuildFile; fileRef = F0F831EC16FB98DC00535DC1 /* EnWords */; };
 /* End PBXBuildFile section */
@@ -72,7 +72,8 @@
 		5AA61CF916DA7EAA00C60323 /* CustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
 		5AA61CFA16DA7EAA00C60323 /* CustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
 		5AD6DFF716D93531002B81D1 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		6C1133F316F6333B0073734E /* predictionButtonHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = predictionButtonHighlighted.png; sourceTree = "<group>"; };
+		6C16FB5B16FF73FF00C62E49 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		6C16FB5C16FF73FF00C62E49 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		F0F831EA16FB8E6200535DC1 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		F0F831EC16FB98DC00535DC1 /* EnWords */ = {isa = PBXFileReference; lastKnownFileType = file; path = EnWords; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,7 +107,6 @@
 		5A02A6A516D401E1001ECCF4 = {
 			isa = PBXGroup;
 			children = (
-				F0F831EA16FB8E6200535DC1 /* libsqlite3.dylib */,
 				5A02A6B716D401E1001ECCF4 /* TypeOver */,
 				5A02A6DE16D401E2001ECCF4 /* TypeOverTests */,
 				5A02A6B016D401E1001ECCF4 /* Frameworks */,
@@ -126,6 +126,7 @@
 		5A02A6B016D401E1001ECCF4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F0F831EA16FB8E6200535DC1 /* libsqlite3.dylib */,
 				5AD6DFF716D93531002B81D1 /* Social.framework */,
 				5A02A6B116D401E1001ECCF4 /* UIKit.framework */,
 				5A02A6B316D401E1001ECCF4 /* Foundation.framework */,
@@ -144,6 +145,8 @@
 				5AA61CFA16DA7EAA00C60323 /* CustomButton.m */,
 				5A02A6C916D401E1001ECCF4 /* MainStoryboard_iPhone.storyboard */,
 				5A02A6CC16D401E1001ECCF4 /* MainStoryboard_iPad.storyboard */,
+				6C16FB5B16FF73FF00C62E49 /* SettingsViewController.h */,
+				6C16FB5C16FF73FF00C62E49 /* SettingsViewController.m */,
 				5A02A6CF16D401E1001ECCF4 /* ViewController.h */,
 				5A02A6D016D401E1001ECCF4 /* ViewController.m */,
 				5A02A6B816D401E1001ECCF4 /* Supporting Files */,
@@ -154,7 +157,6 @@
 		5A02A6B816D401E1001ECCF4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6C1133F316F6333B0073734E /* predictionButtonHighlighted.png */,
 				F0F831EC16FB98DC00535DC1 /* EnWords */,
 				5A2BDF1E16F26C6F008D38B1 /* highlightedButton.png */,
 				5A2BDF1F16F26C6F008D38B1 /* normalButton.png */,
@@ -267,7 +269,6 @@
 				5A02A6CE16D401E1001ECCF4 /* MainStoryboard_iPad.storyboard in Resources */,
 				5A2BDF2116F26C6F008D38B1 /* highlightedButton.png in Resources */,
 				5A2BDF2216F26C6F008D38B1 /* normalButton.png in Resources */,
-				6C1133F416F6333B0073734E /* predictionButtonHighlighted.png in Resources */,
 				F0F831ED16FB98DC00535DC1 /* EnWords in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,6 +308,7 @@
 				5A02A6C216D401E1001ECCF4 /* AppDelegate.m in Sources */,
 				5A02A6D116D401E1001ECCF4 /* ViewController.m in Sources */,
 				5AA61CFB16DA7EAA00C60323 /* CustomButton.m in Sources */,
+				6C16FB5D16FF73FF00C62E49 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
