@@ -884,16 +884,10 @@
 // keypad button actions
 
 - (IBAction)punct1Act:(id)sender {
+	if ([selectionTimer isValid]&&[punct1Button.titleLabel.text isEqualToString:@".,?!' 1"]) {
+		return;
+	}
 	if (letters) {
-		[self abc2];
-		[self def3];
-		[self ghi4];
-		[self jkl5];
-		[self mno6];
-		[self pqrs7];
-		[self tuv8];
-		[self wxyz9];
-		[self space0];
 		if (fs == false && cma == false && qm == false && excl == false && apos == false && one == false) {
 			fs = true;
 			cma = false;
@@ -972,16 +966,10 @@
 }
 
 - (IBAction)abc2Act:(id)sender {
+	if ([selectionTimer isValid]&&[abc2Button.titleLabel.text isEqualToString:@"abc 2"]) {
+		return;
+	}
 	if (letters) {
-		[self punct1];
-		[self def3];
-		[self ghi4];
-		[self jkl5];
-		[self mno6];
-		[self pqrs7];
-		[self tuv8];
-		[self wxyz9];
-		[self space0];
 		if (a == false && b == false && c == false && two == false) {
 			a = true;
 			b = false;
@@ -1049,16 +1037,10 @@
 }
 
 - (IBAction)def3Act:(id)sender {
+	if ([selectionTimer isValid]&&[def3Button.titleLabel.text isEqualToString:@"def 3"]) {
+		return;
+	}
 	if (letters) {
-		[self punct1];
-		[self abc2];
-		[self ghi4];
-		[self jkl5];
-		[self mno6];
-		[self pqrs7];
-		[self tuv8];
-		[self wxyz9];
-		[self space0];
 		if (d == false && e == false && f == false && three == false) {
 			d = true;
 			e = false;
@@ -1126,16 +1108,10 @@
 }
 
 - (IBAction)ghi4Act:(id)sender {
+	if ([selectionTimer isValid]&&[ghi4Button.titleLabel.text isEqualToString:@"ghi 4"]) {
+		return;
+	}
 	if (letters) {
-		[self punct1];
-		[self abc2];
-		[self def3];
-		[self jkl5];
-		[self mno6];
-		[self pqrs7];
-		[self tuv8];
-		[self wxyz9];
-		[self space0];
 		if (g == false && h == false && i == false && four == false) {
 			g = true;
 			h = false;
@@ -1203,16 +1179,10 @@
 }
 
 - (IBAction)jkl5Act:(id)sender {
+	if ([selectionTimer isValid]&&[jkl5Button.titleLabel.text isEqualToString:@"jkl 5"]) {
+		return;
+	}
 	if (letters) {
-		[self punct1];
-		[self abc2];
-		[self def3];
-		[self ghi4];
-		[self mno6];
-		[self pqrs7];
-		[self tuv8];
-		[self wxyz9];
-		[self space0];
 		if (j == false && k == false && l == false && five == false) {
 			j = true;
 			k = false;
@@ -1280,16 +1250,10 @@
 }
 
 - (IBAction)mno6Act:(id)sender {
+	if ([selectionTimer isValid]&&[mno6Button.titleLabel.text isEqualToString:@"mno 6"]) {
+		return;
+	}
 	if (letters) {
-		[self punct1];
-		[self abc2];
-		[self def3];
-		[self ghi4];
-		[self jkl5];
-		[self pqrs7];
-		[self tuv8];
-		[self wxyz9];
-		[self space0];
 		if (m == false && n == false && o == false && six == false) {
 			m = true;
 			n = false;
@@ -1357,16 +1321,10 @@
 }
 
 - (IBAction)pqrs7Act:(id)sender {
+	if ([selectionTimer isValid]&&[pqrs7Button.titleLabel.text isEqualToString:@"pqrs 7"]) {
+		return;
+	}
 	if (letters) {
-		[self punct1];
-		[self abc2];
-		[self def3];
-		[self ghi4];
-		[self jkl5];
-		[self mno6];
-		[self tuv8];
-		[self wxyz9];
-		[self space0];
 		if (p == false && q == false && r == false && s == false && seven == false) {
 			p = true;
 			q = false;
@@ -1447,16 +1405,10 @@
 }
 
 - (IBAction)tuv8Act:(id)sender {
+	if ([selectionTimer isValid]&&[tuv8Button.titleLabel.text isEqualToString:@"tuv 8"]) {
+		return;
+	}
 	if (letters) {
-		[self punct1];
-		[self abc2];
-		[self def3];
-		[self ghi4];
-		[self jkl5];
-		[self mno6];
-		[self pqrs7];
-		[self wxyz9];
-		[self space0];
 		if (t == false && u == false && v == false && eight == false) {
 			t = true;
 			u = false;
@@ -1524,16 +1476,10 @@
 }
 
 - (IBAction)wxyz9Act:(id)sender {
+	if ([selectionTimer isValid]&&[wxyz9Button.titleLabel.text isEqualToString:@"wxyz 9"]) {
+		return;
+	}
 	if (letters) {
-		[self punct1];
-		[self abc2];
-		[self def3];
-		[self ghi4];
-		[self jkl5];
-		[self mno6];
-		[self pqrs7];
-		[self tuv8];
-		[self space0];
 		if (w == false && x == false && y == false && z == false && nine == false) {
 			w = true;
 			x = false;
@@ -1623,15 +1569,9 @@
 }
 
 - (IBAction)space0Act:(id)sender {
-    [self punct1];
-    [self abc2];
-    [self def3];
-    [self ghi4];
-    [self jkl5];
-    [self mno6];
-    [self pqrs7];
-    [self tuv8];
-    [self wxyz9];
+	if ([selectionTimer isValid]&&[space0Button.titleLabel.text isEqualToString:@"space 0"]) {
+		return;
+	}
     if (space == false && zero == false) {
         space = true;
         zero = false;
@@ -1655,16 +1595,9 @@
 }
 
 - (IBAction)wordsLettersAct:(id)sender {
-    [self punct1];
-    [self abc2];
-    [self def3];
-    [self ghi4];
-    [self jkl5];
-    [self mno6];
-    [self pqrs7];
-    [self tuv8];
-    [self wxyz9];
-    [self space0];
+	if ([selectionTimer isValid]) {
+		return;
+	}
 	if (predResultsArray.count!=0) {
 		if (words) {
 			words = false;
@@ -1682,16 +1615,9 @@
 }
 
 - (IBAction)backspaceAct:(id)sender {
-    [self punct1];
-    [self abc2];
-    [self def3];
-    [self ghi4];
-    [self jkl5];
-    [self mno6];
-    [self pqrs7];
-    [self tuv8];
-    [self wxyz9];
-    [self space0];
+	if ([selectionTimer isValid]) {
+		return;
+	}
     NSString *st = textArea.text;
     NSString *wst = wordString;
     if ([st length] > 0) {
@@ -1714,16 +1640,9 @@
 }
 
 - (IBAction)clearAct:(id)sender {
-    [self punct1];
-    [self abc2];
-    [self def3];
-    [self ghi4];
-    [self jkl5];
-    [self mno6];
-    [self pqrs7];
-    [self tuv8];
-    [self wxyz9];
-    [self space0];
+	if ([selectionTimer isValid]) {
+		return;
+	}
     if (![textArea.text isEqualToString:@""]) {
         clearString = textArea.text;
         [textArea setText:@""];
