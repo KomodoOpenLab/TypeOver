@@ -164,14 +164,22 @@
 	}
 	predResultsArray = [self predictHelper:wordString];
 	if (autoPred) {
-		if (!notMyWord) {
-			if (![selectionTimer isValid]) {
-				if (wordString.length >= 2 && predResultsArray.count!=0) {
-					words = true;
-					letters = false;
-					[self wordsLetters];
-					UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, punct1Button);
-				}
+		if (![selectionTimer isValid]) {
+			NSString *st = [predResultsArray objectAtIndex:0];
+			if (wordString.length >= 4 && predResultsArray.count!=0) {
+				words = true;
+				letters = false;
+				[self wordsLetters];
+			}
+			else if (predResultsArray.count<=8) {
+				words = true;
+				letters = false;
+				[self wordsLetters];
+			}
+			else if (st.length==wordString.length-1) {
+				words = true;
+				letters = false;
+				[self wordsLetters];
 			}
 		}
 	}
@@ -184,7 +192,6 @@
     add = [NSMutableString stringWithString:@""];
 	words = false;
 	letters = true;
-	notMyWord = false;
 	[self wordsLetters];
 }
 
@@ -807,6 +814,7 @@
 
 - (void)wordsLetters {
 	if (words) {
+		UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, punct1Button);
 		[punct1Button setTitle:@"" forState:UIControlStateNormal];
 		if (predResultsArray.count > 0) {
 			[abc2Button setTitle:[predResultsArray objectAtIndex:0] forState:UIControlStateNormal];
@@ -960,7 +968,6 @@
 	if (words) {
 		words = false;
 		letters = true;
-		notMyWord = true;
 		[self wordsLetters];
 	}
 }
@@ -1602,7 +1609,7 @@
 		if (words) {
 			words = false;
 			letters = true;
-			if (autoPred && wordString.length==2) {
+			if (autoPred && wordString.length==4) {
 				autoPred=true;
 			}
 		}
@@ -1610,6 +1617,7 @@
 			words = true;
 			letters = false;
 		}
+		[self predict];
 		[self wordsLetters];
 	}
 }
@@ -1627,14 +1635,12 @@
 			wst = [wst substringToIndex:[wst length] - 1];
 			wordString = [NSMutableString stringWithString:wst];
 			add = [NSMutableString stringWithString:@""];
-			[self predict];
 		}
         if ([textArea.text isEqual: @""]) {
 			[self reset];
         }
 		words = false;
 		letters = true;
-		notMyWord = false;
 		[self wordsLetters];
     }
 }

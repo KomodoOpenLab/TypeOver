@@ -280,6 +280,7 @@
                         <outlet property="pqrs7Button" destination="fek-eL-H59" id="y7L-Fi-IRc"/>
                         <outlet property="punct1Button" destination="aT4-Mw-quf" id="SfA-Q9-Zz2"/>
                         <outlet property="selectionProgressView" destination="LG3-Mf-mFM" id="K0f-GH-qEm"/>
+                        <outlet property="settingsButton" destination="k3x-82-n0n" id="KoQ-M6-MOM"/>
                         <outlet property="shiftButton" destination="KcW-fr-vfM" id="0OV-F1-Rbb"/>
                         <outlet property="space0Button" destination="nlD-dU-NNe" id="Zhw-u1-qRg"/>
                         <outlet property="textArea" destination="UHn-Bb-TqK" id="nvt-aU-hKQ"/>
