@@ -131,7 +131,7 @@
     NSMutableString *strQuery = [[NSMutableString alloc] init];
     [strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
     [strQuery appendString:strContext];
-    [strQuery appendString:@"%' ORDER BY FREQUENCY DESC;"];
+    [strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
     NSLog(@"Generating predictions with query: %@",strQuery);
     sqlite3_stmt *statement;
     int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
