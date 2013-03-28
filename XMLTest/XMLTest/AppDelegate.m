@@ -22,7 +22,7 @@
     NSData* xmlFile = [ NSURLConnection sendSynchronousRequest:request returningResponse: nil error: nil ];
     
     //open the database that will hold the word data
-    result = sqlite3_open("/Users/tomnantais/Desktop/EnWords", &database);
+    result = sqlite3_open("/Users/tomnantais/Documents/EnWords", &database);
     if (SQLITE_OK!=result)
     {
         NSLog(@"couldn't open database result=%d",result);
@@ -48,6 +48,16 @@
             NSLog(@"Error creating WORDS table: %s",errMsg);
             bSuccess = NO;
         }
+        
+        createSQL = "CREATE INDEX WORDS_IDX ON WORDS (FREQUENCY DESC, WORD);";
+        
+        result = sqlite3_exec(database, createSQL, NULL, NULL, &errMsg);
+        if (SQLITE_OK!=result)
+        {
+            NSLog(@"Error creating index on words table: %s",errMsg);
+            bSuccess = NO;
+        }
+        
     }
     
     if (bSuccess)
