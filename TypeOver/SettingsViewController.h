@@ -16,9 +16,6 @@
     __weak IBOutlet UIButton *speedDownButton;
     __weak IBOutlet UIButton *speedUpButton;
 	__weak IBOutlet UISwitch *autoPredToggleSwitch;
-	__weak IBOutlet UILabel *autoPredAfterLabel;
-	__weak IBOutlet UIButton *autoPredAfterDownButton;
-    __weak IBOutlet UIButton *autoPredAfterUpButton;
 	__weak IBOutlet UIButton *settingsDoneButton;
 	
 	
@@ -26,7 +23,6 @@
 	
 	bool autoPred;
 	float selectionRate, inputRate;
-	int autoPredAfter;
 	
 	
 }
@@ -37,8 +33,6 @@
 - (IBAction)speedDownAct:(id)sender;
 - (IBAction)speedUpAct:(id)sender;
 - (IBAction)autoPredictToggle:(id)sender;
-- (IBAction)autoPredAfterDownAct:(id)sender;
-- (IBAction)autoPredAfterUpAct:(id)sender;
 - (IBAction)settingsDone:(id)sender;
 
 

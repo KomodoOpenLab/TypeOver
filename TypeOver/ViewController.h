@@ -47,7 +47,7 @@
     NSString *currentElement;
     NSMutableString *ElementValue;
     BOOL errorParsing;
-    int count, autoPredAfter;
+    int count;
     NSDictionary *attribs;
     sqlite3 *dbWordPrediction;
 	

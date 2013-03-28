@@ -15,7 +15,6 @@
     // Override point for customization after application launch.
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"auto_pred"];
 	[[NSUserDefaults standardUserDefaults] setFloat:4.0 forKey:@"in_rate"];
-	[[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"autopred_after"];
     return YES;
 }
 							
