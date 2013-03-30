@@ -1,1 +1,0 @@
-Simple test program for parsing a flat XML word list with embedded usage frequency information.

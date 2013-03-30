@@ -39,7 +39,7 @@
     [repeatTimer invalidate];
     repeatTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(repeat) userInfo:nil repeats:YES];
 	autoPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"];
-    inputRate = [[NSUserDefaults standardUserDefaults] integerForKey:@"in_rate"];
+    inputRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"];
     selectionRate = inputRate / 100;
 	letters = true;
     shift = true;
@@ -120,9 +120,12 @@
 	if (autoPred!=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"]) {
 		autoPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"];
 	}
-	if (inputRate!=[[NSUserDefaults standardUserDefaults] integerForKey:@"in_rate"]) {
-		inputRate=[[NSUserDefaults standardUserDefaults] integerForKey:@"in_rate"];
+	if (inputRate!=[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"]) {
+		inputRate=[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"];
 		selectionRate = inputRate / 100;
+	}
+	if (autoPredAfter!=[[NSUserDefaults standardUserDefaults] integerForKey:@"autopred_after"]) {
+		autoPredAfter=[[NSUserDefaults standardUserDefaults] integerForKey:@"autopred_after"];
 	}
 }
 
@@ -165,18 +168,7 @@
 	predResultsArray = [self predictHelper:wordString];
 	if (autoPred) {
 		if (![selectionTimer isValid]) {
-			NSString *st = [predResultsArray objectAtIndex:0];
-			if (wordString.length >= 4 && predResultsArray.count!=0) {
-				words = true;
-				letters = false;
-				[self wordsLetters];
-			}
-			else if (predResultsArray.count<=8) {
-				words = true;
-				letters = false;
-				[self wordsLetters];
-			}
-			else if (st.length==wordString.length-1) {
+			if (wordString.length >= autoPredAfter && predResultsArray.count!=0) {
 				words = true;
 				letters = false;
 				[self wordsLetters];
@@ -353,7 +345,6 @@
     }
     if (two) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
-        add = [NSMutableString stringWithString:@"2"];
         [st appendString:@"2"];
         [textArea setText:st];
         shift = false;
@@ -409,7 +400,6 @@
     }
     if (three) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
-        add = [NSMutableString stringWithString:@"3"];
         [st appendString:@"3"];
         [textArea setText:st];
         shift = false;
@@ -465,7 +455,6 @@
     }
     if (four) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
-        add = [NSMutableString stringWithString:@"4"];
         [st appendString:@"4"];
         [textArea setText:st];
         shift = false;
@@ -521,7 +510,6 @@
     }
     if (five) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
-        add = [NSMutableString stringWithString:@"5"];
         [st appendString:@"5"];
         [textArea setText:st];
         shift = false;
@@ -577,7 +565,6 @@
     }
     if (six) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
-        add = [NSMutableString stringWithString:@"6"];
         [st appendString:@"6"];
         [textArea setText:st];
         shift = false;
@@ -645,7 +632,6 @@
     }
     if (seven) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
-        add = [NSMutableString stringWithString:@"7"];
         [st appendString:@"7"];
         [textArea setText:st];
         shift = false;
@@ -702,7 +688,6 @@
     }
     if (eight) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
-        add = [NSMutableString stringWithString:@"8"];
         [st appendString:@"8"];
         [textArea setText:st];
         shift = false;
@@ -770,7 +755,6 @@
     }
     if (nine) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
-        add = [NSMutableString stringWithString:@"9"];
         [st appendString:@"9"];
         [textArea setText:st];
         shift = false;
@@ -800,7 +784,6 @@
     }
     if (zero) {
         NSMutableString *st = [NSMutableString stringWithString:textArea.text];
-        add = [NSMutableString stringWithString:@"0"];
         [st appendString:@"0"];
         [textArea setText:st];
         shift = false;
@@ -1609,7 +1592,7 @@
 		if (words) {
 			words = false;
 			letters = true;
-			if (autoPred && wordString.length==4) {
+			if (autoPred && wordString.length==autoPredAfter) {
 				autoPred=true;
 			}
 		}
