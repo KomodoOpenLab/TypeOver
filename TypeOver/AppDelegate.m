@@ -13,6 +13,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"auto_pred"];
+	[[NSUserDefaults standardUserDefaults] setFloat:4.0 forKey:@"in_rate"];
     return YES;
 }
 							
