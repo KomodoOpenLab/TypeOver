@@ -13,13 +13,13 @@
 	
 	// outlets
 	
-    __weak IBOutlet UIButton *speedDownButton;
-    __weak IBOutlet UIButton *speedUpButton;
+    __weak IBOutlet UIButton *dwellTimeDownButton;
+    __weak IBOutlet UIButton *dwellTimeUpButton;
 	__weak IBOutlet UISwitch *autoPredToggleSwitch;
 	__weak IBOutlet UILabel *autoPredAfterLabel;
 	__weak IBOutlet UIButton *autoPredAfterDownButton;
     __weak IBOutlet UIButton *autoPredAfterUpButton;
-	__weak IBOutlet UIButton *settingsDoneButton;
+	__weak IBOutlet UIButton *doneButton;
 	
 	
 	// variables
@@ -34,12 +34,12 @@
 
 // actions 
 
-- (IBAction)speedDownAct:(id)sender;
-- (IBAction)speedUpAct:(id)sender;
-- (IBAction)autoPredictToggle:(id)sender;
+- (IBAction)dwellTimeDownAct:(id)sender;
+- (IBAction)dwellTimeUpAct:(id)sender;
+- (IBAction)autoPredictToggleAct:(id)sender;
 - (IBAction)autoPredAfterDownAct:(id)sender;
 - (IBAction)autoPredAfterUpAct:(id)sender;
-- (IBAction)settingsDone:(id)sender;
+- (IBAction)doneAct:(id)sender;
 
 
 @end
