@@ -64,19 +64,19 @@
 
 // button actions 
 
-- (IBAction)speedDownAct:(id)sender {
+- (IBAction)dwellTimeDownAct:(id)sender {
     inputRate = inputRate + 0.5;
     selectionRate = inputRate / 100;
 }
 
-- (IBAction)speedUpAct:(id)sender {
+- (IBAction)dwellTimeUpAct:(id)sender {
     if (inputRate > 0.5) {
         inputRate = inputRate - 0.5;
         selectionRate = inputRate / 100;
     }
 }
 
-- (IBAction)autoPredictToggle:(id)sender {
+- (IBAction)autoPredictToggleAct:(id)sender {
 	if (autoPredToggleSwitch.on) {
 		autoPred=true;
 		[autoPredAfterLabel setHidden:NO];
@@ -109,19 +109,21 @@
 }
 
 - (IBAction)autoPredAfterUpAct:(id)sender {
-	autoPredAfter=autoPredAfter+1;
-	NSMutableString *st=[NSMutableString stringWithString:@"Auto predict after "];
-	[st appendFormat:@"%i", autoPredAfter];
-	if (autoPredAfter>1) {
-		[st appendString:@" letters"];
+	if (autoPredAfter<4) {
+		autoPredAfter=autoPredAfter+1;
+		NSMutableString *st=[NSMutableString stringWithString:@"Auto predict after "];
+		[st appendFormat:@"%i", autoPredAfter];
+		if (autoPredAfter>1) {
+			[st appendString:@" letters"];
+		}
+		else if (autoPredAfter==1) {
+			[st appendString:@" letter"];
+		}
+		[autoPredAfterLabel setText:st];
 	}
-	else if (autoPredAfter==1) {
-		[st appendString:@" letter"];
-	}
-	[autoPredAfterLabel setText:st];
 }
 
-- (IBAction)settingsDone:(id)sender {
+- (IBAction)doneAct:(id)sender {
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 @end
