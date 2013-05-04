@@ -16,7 +16,6 @@
     // outlets
 	
     __weak IBOutlet UITextView *textArea;
-    __weak IBOutlet UIProgressView *selectionProgressView;
     __weak IBOutlet UIButton *useButton;
 	__weak IBOutlet UIButton *settingsButton;
     __weak IBOutlet UIButton *punct1Button;
@@ -33,13 +32,13 @@
     __weak IBOutlet UIButton *space0Button;
     __weak IBOutlet UIButton *backspaceButton;
     __weak IBOutlet UIButton *clearButton;
-    NSTimer *selectionTimer, *inputTimer, *repeatTimer;
+    NSTimer *inputTimer, *repeatTimer;
     
 	
     // variables 
     
-	bool fs, cma, qm, excl, apos, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, one, space, two, three, four, five, six, seven, eight, nine, zero, words, letters, autoPred, shift;
-	float selectionRate, inputRate;
+	bool words, letters, autoPred, shift;
+	float inputRate;
     NSString *clearString;
     NSMutableString *add, *wordString;
     NSMutableArray *predArray, *predResultsArray;
