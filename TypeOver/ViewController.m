@@ -679,7 +679,7 @@
 			[tuv8Button setTitle:@"t" forState:UIControlStateNormal];
 			inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(tuv8) userInfo:nil repeats:YES];
 			[self disableKeys];
-			[punct1Button setEnabled:YES];
+			[tuv8Button setEnabled:YES];
 		}
 		else {
 			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
