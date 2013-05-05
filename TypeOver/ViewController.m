@@ -366,6 +366,9 @@
 		else {
 			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
 			add = [NSMutableString stringWithString:abc2Button.titleLabel.text];
+			if (shift) {
+				add = [NSMutableString stringWithString:add.uppercaseString];
+			}
 			if (shift&&![abc2Button.titleLabel.text isEqualToString:@"2"]) {
 				[st appendString:add.uppercaseString];
 				shift = false;
@@ -416,6 +419,9 @@
 		else {
 			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
 			add = [NSMutableString stringWithString:def3Button.titleLabel.text];
+			if (shift) {
+				add = [NSMutableString stringWithString:add.uppercaseString];
+			}
 			if (shift&&![def3Button.titleLabel.text isEqualToString:@"3"]) {
 				[st appendString:add.uppercaseString];
 				shift = false;
@@ -466,6 +472,9 @@
 		else {
 			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
 			add = [NSMutableString stringWithString:ghi4Button.titleLabel.text];
+			if (shift) {
+				add = [NSMutableString stringWithString:add.uppercaseString];
+			}
 			if (shift&&![ghi4Button.titleLabel.text isEqualToString:@"4"]) {
 				[st appendString:add.uppercaseString];
 				shift = false;
@@ -516,6 +525,9 @@
 		else {
 			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
 			add = [NSMutableString stringWithString:jkl5Button.titleLabel.text];
+			if (shift) {
+				add = [NSMutableString stringWithString:add.uppercaseString];
+			}
 			if (shift&&![jkl5Button.titleLabel.text isEqualToString:@"5"]) {
 				[st appendString:add.uppercaseString];
 				shift = false;
@@ -566,6 +578,9 @@
 		else {
 			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
 			add = [NSMutableString stringWithString:mno6Button.titleLabel.text];
+			if (shift) {
+				add = [NSMutableString stringWithString:add.uppercaseString];
+			}
 			if (shift&&![mno6Button.titleLabel.text isEqualToString:@"6"]) {
 				[st appendString:add.uppercaseString];
 				shift = false;
@@ -616,6 +631,9 @@
 		else {
 			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
 			add = [NSMutableString stringWithString:pqrs7Button.titleLabel.text];
+			if (shift) {
+				add = [NSMutableString stringWithString:add.uppercaseString];
+			}
 			if (shift&&![pqrs7Button.titleLabel.text isEqualToString:@"7"]) {
 				[st appendString:add.uppercaseString];
 				shift = false;
@@ -666,6 +684,9 @@
 		else {
 			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
 			add = [NSMutableString stringWithString:tuv8Button.titleLabel.text];
+			if (shift) {
+				add = [NSMutableString stringWithString:add.uppercaseString];
+			}
 			if (shift&&![tuv8Button.titleLabel.text isEqualToString:@"8"]) {
 				[st appendString:add.uppercaseString];
 				shift = false;
@@ -716,6 +737,9 @@
 		else {
 			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
 			add = [NSMutableString stringWithString:wxyz9Button.titleLabel.text];
+			if (shift) {
+				add = [NSMutableString stringWithString:add.uppercaseString];
+			}
 			if (shift&&![wxyz9Button.titleLabel.text isEqualToString:@"9"]) {
 				[st appendString:add.uppercaseString];
 				shift = false;
@@ -1025,49 +1049,89 @@
 		UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, punct1Button);
 		[punct1Button setTitle:@"" forState:UIControlStateNormal];
 		if (predResultsArray.count > 0) {
-			[abc2Button setTitle:[predResultsArray objectAtIndex:0] forState:UIControlStateNormal];
+			NSString *ws = wordString;
+			NSString *ps = [predResultsArray objectAtIndex:0];
+			int lngth = [ps length] - [ws length];
+			NSMutableString *final = [NSMutableString stringWithString:ws];
+			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
+			[abc2Button setTitle:final forState:UIControlStateNormal];
 		}
 		else {
 			[abc2Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 1) {
-			[def3Button setTitle:[predResultsArray objectAtIndex:1] forState:UIControlStateNormal];
+			NSString *ws = wordString;
+			NSString *ps = [predResultsArray objectAtIndex:1];
+			int lngth = [ps length] - [ws length];
+			NSMutableString *final = [NSMutableString stringWithString:ws];
+			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
+			[def3Button setTitle:final forState:UIControlStateNormal];
 		}
 		else {
 			[def3Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 2) {
-			[ghi4Button setTitle:[predResultsArray objectAtIndex:2] forState:UIControlStateNormal];
+			NSString *ws = wordString;
+			NSString *ps = [predResultsArray objectAtIndex:2];
+			int lngth = [ps length] - [ws length];
+			NSMutableString *final = [NSMutableString stringWithString:ws];
+			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
+			[ghi4Button setTitle:final forState:UIControlStateNormal];
 		}
 		else {
 			[ghi4Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 3) {
-			[jkl5Button setTitle:[predResultsArray objectAtIndex:3] forState:UIControlStateNormal];
+			NSString *ws = wordString;
+			NSString *ps = [predResultsArray objectAtIndex:3];
+			int lngth = [ps length] - [ws length];
+			NSMutableString *final = [NSMutableString stringWithString:ws];
+			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
+			[jkl5Button setTitle:final forState:UIControlStateNormal];
 		}
 		else {
 			[jkl5Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 4) {
-			[mno6Button setTitle:[predResultsArray objectAtIndex:4] forState:UIControlStateNormal];
+			NSString *ws = wordString;
+			NSString *ps = [predResultsArray objectAtIndex:4];
+			int lngth = [ps length] - [ws length];
+			NSMutableString *final = [NSMutableString stringWithString:ws];
+			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
+			[mno6Button setTitle:final forState:UIControlStateNormal];
 		}
 		else {
 			[mno6Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 5) {
-			[pqrs7Button setTitle:[predResultsArray objectAtIndex:5] forState:UIControlStateNormal];
+			NSString *ws = wordString;
+			NSString *ps = [predResultsArray objectAtIndex:5];
+			int lngth = [ps length] - [ws length];
+			NSMutableString *final = [NSMutableString stringWithString:ws];
+			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
+			[pqrs7Button setTitle:final forState:UIControlStateNormal];
 		}
 		else {
 			[pqrs7Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 6) {
-			[tuv8Button setTitle:[predResultsArray objectAtIndex:6] forState:UIControlStateNormal];
+			NSString *ws = wordString;
+			NSString *ps = [predResultsArray objectAtIndex:6];
+			int lngth = [ps length] - [ws length];
+			NSMutableString *final = [NSMutableString stringWithString:ws];
+			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
+			[tuv8Button setTitle:final forState:UIControlStateNormal];
 		}
 		else {
 			[tuv8Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 7) {
-			[wxyz9Button setTitle:[predResultsArray objectAtIndex:7] forState:UIControlStateNormal];
+			NSString *ws = wordString;
+			NSString *ps = [predResultsArray objectAtIndex:7];
+			int lngth = [ps length] - [ws length];
+			NSMutableString *final = [NSMutableString stringWithString:ws];
+			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
+			[wxyz9Button setTitle:final forState:UIControlStateNormal];
 		}
 		else {
 			[wxyz9Button setTitle:@"" forState:UIControlStateNormal];
