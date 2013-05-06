@@ -12,13 +12,6 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <progressView opaque="NO" contentMode="scaleToFill" id="nCB-0b-fNn">
-                                <rect key="frame" x="254" y="431" width="46" height="9"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <bool key="isElement" value="NO"/>
-                                </accessibility>
-                            </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RRy-C4-q2B" customClass="CustomButton">
                                 <rect key="frame" x="20" y="400" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -279,7 +272,6 @@
                         <outlet property="mno6Button" destination="woa-ut-QD2" id="qFg-ks-509"/>
                         <outlet property="pqrs7Button" destination="tpo-Uc-ODi" id="NbR-jG-D2d"/>
                         <outlet property="punct1Button" destination="kaw-P1-Jl1" id="QJC-xh-WOe"/>
-                        <outlet property="selectionProgressView" destination="nCB-0b-fNn" id="r9C-l9-gpr"/>
                         <outlet property="settingsButton" destination="CzQ-D0-t9c" id="XOk-Yp-9QJ"/>
                         <outlet property="shiftButton" destination="RRy-C4-q2B" id="Qmc-Tq-BgE"/>
                         <outlet property="space0Button" destination="qA3-WI-eD6" id="EtZ-P4-120"/>
