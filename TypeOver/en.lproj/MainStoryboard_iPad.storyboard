@@ -12,13 +12,6 @@
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <progressView opaque="NO" contentMode="scaleToFill" id="LG3-Mf-mFM">
-                                <rect key="frame" x="644" y="975" width="104" height="9"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <bool key="isElement" value="NO"/>
-                                </accessibility>
-                            </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="KcW-fr-vfM" customClass="CustomButton">
                                 <rect key="frame" x="20" y="904" width="200" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -279,7 +272,6 @@
                         <outlet property="mno6Button" destination="sf6-8h-UPN" id="WKH-Yc-f3h"/>
                         <outlet property="pqrs7Button" destination="fek-eL-H59" id="y7L-Fi-IRc"/>
                         <outlet property="punct1Button" destination="aT4-Mw-quf" id="SfA-Q9-Zz2"/>
-                        <outlet property="selectionProgressView" destination="LG3-Mf-mFM" id="K0f-GH-qEm"/>
                         <outlet property="settingsButton" destination="k3x-82-n0n" id="KoQ-M6-MOM"/>
                         <outlet property="shiftButton" destination="KcW-fr-vfM" id="0OV-F1-Rbb"/>
                         <outlet property="space0Button" destination="nlD-dU-NNe" id="Zhw-u1-qRg"/>
