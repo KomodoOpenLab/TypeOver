@@ -822,7 +822,6 @@
 			words = true;
 			letters = false;
 		}
-		[self predict];
 		[self wordsLetters];
 	}
 }
