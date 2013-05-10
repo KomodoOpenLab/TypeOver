@@ -13,9 +13,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"auto_pred"];
-	[[NSUserDefaults standardUserDefaults] setFloat:2.0 forKey:@"in_rate"];
-	[[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"autopred_after"];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"first_run"]) {
+		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"first_run"];
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"auto_pred"];
+		[[NSUserDefaults standardUserDefaults] setFloat:2.0 forKey:@"in_rate"];
+		[[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"autopred_after"];
+	}
     return YES;
 }
 							
@@ -44,6 +47,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end
