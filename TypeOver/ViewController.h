@@ -16,8 +16,8 @@
     // outlets
 	
     __weak IBOutlet UITextView *textArea;
-    __weak IBOutlet UIButton *useButton;
-	__weak IBOutlet UIButton *settingsButton;
+    __weak IBOutlet UIBarButtonItem *useButton;
+	__weak IBOutlet UIBarButtonItem *settingsButton;
     __weak IBOutlet UIButton *punct1Button;
     __weak IBOutlet UIButton *abc2Button;
     __weak IBOutlet UIButton *def3Button;

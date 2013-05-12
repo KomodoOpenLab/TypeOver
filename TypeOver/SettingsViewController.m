@@ -19,7 +19,6 @@
 {
     [super viewDidLoad];
     inputRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"];
-    selectionRate = inputRate / 100;
 	autoPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"];
 	autoPredAfter=[[NSUserDefaults standardUserDefaults] integerForKey:@"autopred_after"];
 	NSMutableString *st=[NSMutableString stringWithString:@"Auto predict after "];
@@ -66,13 +65,11 @@
 
 - (IBAction)dwellTimeDownAct:(id)sender {
     inputRate = inputRate + 0.5;
-    selectionRate = inputRate / 100;
 }
 
 - (IBAction)dwellTimeUpAct:(id)sender {
     if (inputRate > 0.5) {
         inputRate = inputRate - 0.5;
-        selectionRate = inputRate / 100;
     }
 }
 
@@ -123,7 +120,7 @@
 	}
 }
 
-- (IBAction)doneAct:(id)sender {
+- (IBAction)saveAct:(id)sender {
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 @end
