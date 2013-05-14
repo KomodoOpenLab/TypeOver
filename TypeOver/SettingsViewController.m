@@ -19,10 +19,9 @@
 {
     [super viewDidLoad];
     inputRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"];
-    selectionRate = inputRate / 100;
 	autoPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"];
 	autoPredAfter=[[NSUserDefaults standardUserDefaults] integerForKey:@"autopred_after"];
-	NSMutableString *st=[NSMutableString stringWithString:@"Auto predict after "];
+	NSMutableString *st=[NSMutableString stringWithString:@"Predict after "];
 	[st appendFormat:@"%i", autoPredAfter];
 	if (autoPredAfter>1) {
 		[st appendString:@" letters"];
@@ -39,6 +38,7 @@
 		[autoPredAfterLabel setHidden:YES];
 		[autoPredAfterDownButton setHidden:YES];
 		[autoPredAfterUpButton setHidden:YES];
+		[aboutAutoPredAfterButton setHidden:YES];
 	}
 	// Do any additional setup after loading the view.
 }
@@ -66,13 +66,11 @@
 
 - (IBAction)dwellTimeDownAct:(id)sender {
     inputRate = inputRate + 0.5;
-    selectionRate = inputRate / 100;
 }
 
 - (IBAction)dwellTimeUpAct:(id)sender {
     if (inputRate > 0.5) {
         inputRate = inputRate - 0.5;
-        selectionRate = inputRate / 100;
     }
 }
 
@@ -82,6 +80,7 @@
 		[autoPredAfterLabel setHidden:NO];
 		[autoPredAfterDownButton setHidden:NO];
 		[autoPredAfterUpButton setHidden:NO];
+		[aboutAutoPredAfterButton setHidden:NO];
 		NSLog(@"auto predict on");
 	}
 	else {
@@ -89,6 +88,7 @@
 		[autoPredAfterLabel setHidden:YES];
 		[autoPredAfterDownButton setHidden:YES];
 		[autoPredAfterUpButton setHidden:YES];
+		[aboutAutoPredAfterButton setHidden:YES];
 		NSLog(@"auto predict off");
 	}
 }
@@ -97,7 +97,7 @@
 	if (autoPredAfter>1) {
 		autoPredAfter=autoPredAfter-1;
 	}
-	NSMutableString *st=[NSMutableString stringWithString:@"Auto predict after "];
+	NSMutableString *st=[NSMutableString stringWithString:@"Predict after "];
 	[st appendFormat:@"%i", autoPredAfter];
 	if (autoPredAfter>1) {
 		[st appendString:@" letters"];
@@ -123,7 +123,34 @@
 	}
 }
 
-- (IBAction)doneAct:(id)sender {
+- (IBAction)saveAct:(id)sender {
 	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)aboutDwellTimeAct:(id)sender {
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info"
+													message:@"Dwell time is the rate at which the keypad keys cycle through their content."
+												   delegate:nil
+										  cancelButtonTitle:@"Dismiss"
+										  otherButtonTitles: nil];
+    [alert show];
+}
+
+- (IBAction)aboutAutoPredAct:(id)sender {
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info"
+													message:@"Auto predict means that word prediction will automatically appear after you input a number of letters."
+												   delegate:nil
+										  cancelButtonTitle:@"Dismiss"
+										  otherButtonTitles: nil];
+    [alert show];
+}
+
+- (IBAction)aboutPredAfterAct:(id)sender {
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info"
+													message:@"This number can range from 1 to 4."
+												   delegate:nil
+										  cancelButtonTitle:@"Dismiss"
+										  otherButtonTitles: nil];
+    [alert show];
 }
 @end
