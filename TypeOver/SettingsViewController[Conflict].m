@@ -38,7 +38,6 @@
 		[autoPredAfterLabel setHidden:YES];
 		[autoPredAfterDownButton setHidden:YES];
 		[autoPredAfterUpButton setHidden:YES];
-		[aboutAutoPredAfterButton setHidden:YES];
 	}
 	// Do any additional setup after loading the view.
 }
@@ -80,7 +79,6 @@
 		[autoPredAfterLabel setHidden:NO];
 		[autoPredAfterDownButton setHidden:NO];
 		[autoPredAfterUpButton setHidden:NO];
-		[aboutAutoPredAfterButton setHidden:NO];
 		NSLog(@"auto predict on");
 	}
 	else {
@@ -88,7 +86,6 @@
 		[autoPredAfterLabel setHidden:YES];
 		[autoPredAfterDownButton setHidden:YES];
 		[autoPredAfterUpButton setHidden:YES];
-		[aboutAutoPredAfterButton setHidden:YES];
 		NSLog(@"auto predict off");
 	}
 }
@@ -147,7 +144,7 @@
 
 - (IBAction)aboutPredAfterAct:(id)sender {
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info"
-													message:@"This number can range from 1 to 4."
+													message:@"Dwell time is the rate at which the keypad keys cycle through their content."
 												   delegate:nil
 										  cancelButtonTitle:@"Dismiss"
 										  otherButtonTitles: nil];
