@@ -36,12 +36,9 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [repeatTimer invalidate];
-    repeatTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(alwaysRun) userInfo:nil repeats:YES];
-	autoPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"];
-    inputRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"];
 	letters = true;
     shift = true;
+	[self checkShift];
     [self resetMisc];
 }
 
@@ -123,22 +120,13 @@
 
 // other methods
 
-- (void)alwaysRun {
+- (void)checkShift {
     if (shift) {
         [shiftButton setTitle:@"shift on" forState:UIControlStateNormal];
     }
     else {
         [shiftButton setTitle:@"shift off" forState:UIControlStateNormal];
     }
-	if (autoPred!=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"]) {
-		autoPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"];
-	}
-	if (inputRate!=[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"]) {
-		inputRate=[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"];
-	}
-	if (autoPredAfter!=[[NSUserDefaults standardUserDefaults] integerForKey:@"autopred_after"]) {
-		autoPredAfter=[[NSUserDefaults standardUserDefaults] integerForKey:@"autopred_after"];
-	}
 }
 
 - (NSMutableArray*) predictHelper:(NSString*) strContext
@@ -178,9 +166,9 @@
 		[wordString appendString:add];
 	}
 	predResultsArray = [self predictHelper:wordString];
-	if (autoPred) {
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"]) {
 		if (![inputTimer isValid]) {
-			if (wordString.length >= autoPredAfter && predResultsArray.count!=0) {
+			if (wordString.length >= [[NSUserDefaults standardUserDefaults] integerForKey:@"autopred_after"] && predResultsArray.count!=0) {
 				words = true;
 				letters = false;
 				[self wordsLetters];
@@ -279,6 +267,7 @@
 	[pqrs7Button setEnabled:YES];
 	[tuv8Button setEnabled:YES];
 	[wxyz9Button setEnabled:YES];
+	[shiftButton setEnabled:YES];
 	[space0Button setEnabled:YES];
 	[wordsLettersButton setEnabled:YES];
 	[inputTimer invalidate];
@@ -294,6 +283,7 @@
 	[pqrs7Button setEnabled:NO];
 	[tuv8Button setEnabled:NO];
 	[wxyz9Button setEnabled:NO];
+	[shiftButton setEnabled:NO];
 	[space0Button setEnabled:NO];
 	[wordsLettersButton setEnabled:NO];
 }
@@ -328,7 +318,7 @@
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[punct1Button setTitle:@"." forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(punct1) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(punct1) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[punct1Button setEnabled:YES];
 		}
@@ -353,13 +343,14 @@
 		letters = true;
 		[self wordsLetters];
 	}
+	[self checkShift];
 }
 
 - (IBAction)abc2Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[abc2Button setTitle:@"a" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(abc2) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(abc2) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[abc2Button setEnabled:YES];
 		}
@@ -406,13 +397,14 @@
 			}
 		}
 	}
+	[self checkShift];
 }
 
 - (IBAction)def3Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[def3Button setTitle:@"d" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(def3) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(def3) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[def3Button setEnabled:YES];
 		}
@@ -459,13 +451,14 @@
 			}
 		}
 	}
+	[self checkShift];
 }
 
 - (IBAction)ghi4Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[ghi4Button setTitle:@"g" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(ghi4) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(ghi4) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[ghi4Button setEnabled:YES];
 		}
@@ -512,13 +505,14 @@
 			}
 		}
 	}
+	[self checkShift];
 }
 
 - (IBAction)jkl5Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[jkl5Button setTitle:@"j" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(jkl5) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(jkl5) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[jkl5Button setEnabled:YES];
 		}
@@ -565,13 +559,14 @@
 			}
 		}
 	}
+	[self checkShift];
 }
 
 - (IBAction)mno6Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[mno6Button setTitle:@"m" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(mno6) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(mno6) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[mno6Button setEnabled:YES];
 		}
@@ -618,13 +613,14 @@
 			}
 		}
 	}
+	[self checkShift];
 }
 
 - (IBAction)pqrs7Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[pqrs7Button setTitle:@"p" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(pqrs7) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(pqrs7) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[pqrs7Button setEnabled:YES];
 		}
@@ -671,13 +667,14 @@
 			}
 		}
 	}
+	[self checkShift];
 }
 
 - (IBAction)tuv8Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[tuv8Button setTitle:@"t" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(tuv8) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(tuv8) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[tuv8Button setEnabled:YES];
 		}
@@ -724,13 +721,14 @@
 			}
 		}
 	}
+	[self checkShift];
 }
 
 - (IBAction)wxyz9Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[wxyz9Button setTitle:@"w" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(wxyz9) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(wxyz9) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[wxyz9Button setEnabled:YES];
 		}
@@ -777,6 +775,7 @@
 			}
 		}
 	}
+	[self checkShift];
 }
 
 - (IBAction)shiftAct:(id)sender {
@@ -786,12 +785,13 @@
     else {
         shift = true;
     }
+	[self checkShift];
 }
 
 - (IBAction)space0Act:(id)sender {
 	if (![inputTimer isValid]) {
 		[space0Button setTitle:@"space" forState:UIControlStateNormal];
-		inputTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(space0) userInfo:nil repeats:YES];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(space0) userInfo:nil repeats:YES];
 		[self disableKeys];
 		[space0Button setEnabled:YES];
 	}
@@ -807,6 +807,7 @@
 		[textArea setText:st];
 		[self resetKeys];
 	}
+	[self checkShift];
 }
 
 - (IBAction)wordsLettersAct:(id)sender {
@@ -814,9 +815,6 @@
 		if (words) {
 			words = false;
 			letters = true;
-			if (autoPred && wordString.length==autoPredAfter) {
-				autoPred=true;
-			}
 		}
 		else if (letters) {
 			words = true;
@@ -844,6 +842,7 @@
 		letters = true;
 		[self wordsLetters];
     }
+	[self checkShift];
 }
 
 - (IBAction)clearAct:(id)sender {
@@ -855,6 +854,7 @@
     else {
         textArea.text = clearString;
     }
+	[self checkShift];
     [self resetMisc];
 }
 
