@@ -836,6 +836,8 @@
 			add = [NSMutableString stringWithString:@""];
 		}
         if ([textArea.text isEqual: @""]) {
+			shift = true;
+			[self checkShift];
 			[self resetMisc];
         }
 		words = false;
