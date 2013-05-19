@@ -32,13 +32,12 @@
     __weak IBOutlet UIButton *space0Button;
     __weak IBOutlet UIButton *backspaceButton;
     __weak IBOutlet UIButton *clearButton;
-    NSTimer *inputTimer, *repeatTimer;
+    NSTimer *inputTimer;
     
 	
     // variables 
     
-	bool words, letters, autoPred, shift;
-	float inputRate;
+	bool words, letters, shift;
     NSString *clearString;
     NSMutableString *add, *wordString;
     NSMutableArray *predArray, *predResultsArray;
@@ -46,7 +45,7 @@
     NSString *currentElement;
     NSMutableString *ElementValue;
     BOOL errorParsing;
-    int count, autoPredAfter;
+    int count;
     NSDictionary *attribs;
     sqlite3 *dbWordPrediction;
 	
