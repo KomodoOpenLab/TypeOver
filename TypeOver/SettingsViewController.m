@@ -49,12 +49,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-	[[NSUserDefaults standardUserDefaults] setBool:autoPred forKey:@"auto_pred"];
-	[[NSUserDefaults standardUserDefaults] setFloat:inputRate forKey:@"in_rate"];
-	[[NSUserDefaults standardUserDefaults] setInteger:autoPredAfter forKey:@"autopred_after"];
-}
-
 
 
 
@@ -111,7 +105,7 @@
 - (IBAction)autoPredAfterUpAct:(id)sender {
 	if (autoPredAfter<4) {
 		autoPredAfter=autoPredAfter+1;
-		NSMutableString *st=[NSMutableString stringWithString:@"Auto predict after "];
+		NSMutableString *st=[NSMutableString stringWithString:@"Predict after "];
 		[st appendFormat:@"%i", autoPredAfter];
 		if (autoPredAfter>1) {
 			[st appendString:@" letters"];
@@ -124,6 +118,10 @@
 }
 
 - (IBAction)saveAct:(id)sender {
+	[[NSUserDefaults standardUserDefaults] setBool:autoPred forKey:@"auto_pred"];
+	[[NSUserDefaults standardUserDefaults] setFloat:inputRate forKey:@"in_rate"];
+	[[NSUserDefaults standardUserDefaults] setInteger:autoPredAfter forKey:@"autopred_after"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
