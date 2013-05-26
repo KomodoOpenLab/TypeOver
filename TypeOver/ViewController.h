@@ -37,7 +37,7 @@
 	
     // variables 
     
-	bool words, letters, shift;
+	bool words, letters, space, shift;
     NSString *clearString;
     NSMutableString *add, *wordString;
     NSMutableArray *predArray, *predResultsArray;
