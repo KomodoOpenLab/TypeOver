@@ -247,7 +247,7 @@
 }
 
 - (void)resetKeys {
-	[punct1Button setTitle:@".,?!' 1" forState:UIControlStateNormal];
+	[punct1Button setTitle:@".,?!'@# 1" forState:UIControlStateNormal];
 	[abc2Button setTitle:@"abc 2" forState:UIControlStateNormal];
 	[def3Button setTitle:@"def 3" forState:UIControlStateNormal];
 	[ghi4Button setTitle:@"ghi 4" forState:UIControlStateNormal];
@@ -903,6 +903,12 @@
 		[punct1Button setTitle:@"'" forState:UIControlStateNormal];
 	}
 	else if ([punct1Button.titleLabel.text isEqualToString:@"'"]) {
+		[punct1Button setTitle:@"@" forState:UIControlStateNormal];
+	}
+	else if ([punct1Button.titleLabel.text isEqualToString:@"@"]) {
+		[punct1Button setTitle:@"#" forState:UIControlStateNormal];
+	}
+	else if ([punct1Button.titleLabel.text isEqualToString:@"#"]) {
 		[punct1Button setTitle:@"1" forState:UIControlStateNormal];
 	}
 	else if ([punct1Button.titleLabel.text isEqualToString:@"1"]) {
@@ -1140,7 +1146,7 @@
 		[wordsLettersButton setTitle:@"letters" forState:UIControlStateNormal];
 	}
 	if (letters) {
-		[punct1Button setTitle:@".,?!' 1" forState:UIControlStateNormal];
+		[punct1Button setTitle:@".,?!'@# 1" forState:UIControlStateNormal];
 		[abc2Button setTitle:@"abc 2" forState:UIControlStateNormal];
 		[def3Button setTitle:@"def 3" forState:UIControlStateNormal];
 		[ghi4Button setTitle:@"ghi 4" forState:UIControlStateNormal];
