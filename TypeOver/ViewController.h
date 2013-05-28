@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <Social/Social.h>
 #import <sqlite3.h>
+#import <Slt/Slt.h>
+#import <OpenEars/FliteController.h>
 
 @interface ViewController : UIViewController <NSXMLParserDelegate> {
     
@@ -48,6 +50,8 @@
     int count;
     NSDictionary *attribs;
     sqlite3 *dbWordPrediction;
+	FliteController *fliteController;
+	Slt *slt;
 	
 	
 }
@@ -70,6 +74,12 @@
 - (IBAction)wordsLettersAct:(id)sender;
 - (IBAction)backspaceAct:(id)sender;
 - (IBAction)clearAct:(id)sender;
+
+
+// properties
+
+@property (strong, nonatomic) FliteController *fliteController;
+@property (strong, nonatomic) Slt *slt;
 
 
 @end

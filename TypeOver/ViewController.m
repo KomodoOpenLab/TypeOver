@@ -14,6 +14,9 @@
 
 @implementation ViewController
 
+@synthesize fliteController;
+@synthesize slt;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -286,6 +289,20 @@
 	[shiftButton setEnabled:NO];
 	[space0Button setEnabled:NO];
 	[wordsLettersButton setEnabled:NO];
+}
+
+- (FliteController *)fliteController {
+	if (fliteController == nil) {
+		fliteController = [[FliteController alloc] init];
+	}
+	return fliteController;
+}
+
+- (Slt *)slt {
+	if (slt == nil) {
+		slt = [[Slt alloc] init];
+	}
+	return slt;
 }
 
 
