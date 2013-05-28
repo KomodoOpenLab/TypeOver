@@ -31,14 +31,15 @@
     __weak IBOutlet UIButton *wxyz9Button;
     __weak IBOutlet UIButton *shiftButton;
     __weak IBOutlet UIButton *wordsLettersButton;
+	__weak IBOutlet UIButton *speakButton;
     __weak IBOutlet UIButton *space0Button;
     __weak IBOutlet UIButton *backspaceButton;
     __weak IBOutlet UIButton *clearButton;
-    NSTimer *inputTimer;
     
 	
     // variables 
     
+    NSTimer *inputTimer;
 	bool words, letters, space, shift;
     NSString *clearString;
     NSMutableString *add, *wordString;
@@ -69,6 +70,7 @@
 - (IBAction)pqrs7Act:(id)sender;
 - (IBAction)tuv8Act:(id)sender;
 - (IBAction)wxyz9Act:(id)sender;
+- (IBAction)speakAct:(id)sender;
 - (IBAction)shiftAct:(id)sender;
 - (IBAction)space0Act:(id)sender;
 - (IBAction)wordsLettersAct:(id)sender;
