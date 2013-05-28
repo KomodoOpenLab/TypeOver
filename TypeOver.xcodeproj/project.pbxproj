@@ -29,6 +29,23 @@
 		5AA61CFB16DA7EAA00C60323 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA61CFA16DA7EAA00C60323 /* CustomButton.m */; };
 		5AD6DFF816D93531002B81D1 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD6DFF716D93531002B81D1 /* Social.framework */; };
 		6C16FB5D16FF73FF00C62E49 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C16FB5C16FF73FF00C62E49 /* SettingsViewController.m */; };
+		6C7260C71754F2C000EC4671 /* cmu07a.dic in Resources */ = {isa = PBXBuildFile; fileRef = 6C7260B71754F2C000EC4671 /* cmu07a.dic */; };
+		6C7260C81754F2C000EC4671 /* feat.params in Resources */ = {isa = PBXBuildFile; fileRef = 6C7260B91754F2C000EC4671 /* feat.params */; };
+		6C7260C91754F2C000EC4671 /* mdef in Resources */ = {isa = PBXBuildFile; fileRef = 6C7260BA1754F2C000EC4671 /* mdef */; };
+		6C7260CA1754F2C000EC4671 /* means in Resources */ = {isa = PBXBuildFile; fileRef = 6C7260BB1754F2C000EC4671 /* means */; };
+		6C7260CB1754F2C000EC4671 /* noisedict in Resources */ = {isa = PBXBuildFile; fileRef = 6C7260BC1754F2C000EC4671 /* noisedict */; };
+		6C7260CC1754F2C000EC4671 /* sendump in Resources */ = {isa = PBXBuildFile; fileRef = 6C7260BD1754F2C000EC4671 /* sendump */; };
+		6C7260CD1754F2C000EC4671 /* transition_matrices in Resources */ = {isa = PBXBuildFile; fileRef = 6C7260BE1754F2C000EC4671 /* transition_matrices */; };
+		6C7260CE1754F2C000EC4671 /* variances in Resources */ = {isa = PBXBuildFile; fileRef = 6C7260BF1754F2C000EC4671 /* variances */; };
+		6C7260CF1754F2C000EC4671 /* OpenEars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C7260C01754F2C000EC4671 /* OpenEars.framework */; };
+		6C7260D01754F2C000EC4671 /* OpenEars1.dic in Resources */ = {isa = PBXBuildFile; fileRef = 6C7260C11754F2C000EC4671 /* OpenEars1.dic */; };
+		6C7260D11754F2C000EC4671 /* OpenEars1.gram in Resources */ = {isa = PBXBuildFile; fileRef = 6C7260C21754F2C000EC4671 /* OpenEars1.gram */; };
+		6C7260D21754F2C000EC4671 /* OpenEars1.languagemodel in Resources */ = {isa = PBXBuildFile; fileRef = 6C7260C31754F2C000EC4671 /* OpenEars1.languagemodel */; };
+		6C7260D31754F2C000EC4671 /* OpenEars2.gram in Resources */ = {isa = PBXBuildFile; fileRef = 6C7260C41754F2C000EC4671 /* OpenEars2.gram */; };
+		6C7260D41754F2C000EC4671 /* OpenEarsCorpus.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6C7260C51754F2C000EC4671 /* OpenEarsCorpus.txt */; };
+		6C7260D51754F2C000EC4671 /* Slt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C7260C61754F2C000EC4671 /* Slt.framework */; };
+		6C7260D71754F31800EC4671 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C7260D61754F31800EC4671 /* AudioToolbox.framework */; };
+		6C7260D91754F32A00EC4671 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C7260D81754F32A00EC4671 /* AVFoundation.framework */; };
 		F0F831EB16FB8E6200535DC1 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F0F831EA16FB8E6200535DC1 /* libsqlite3.dylib */; };
 		F0F831ED16FB98DC00535DC1 /* EnWords in Resources */ = {isa = PBXBuildFile; fileRef = F0F831EC16FB98DC00535DC1 /* EnWords */; };
 /* End PBXBuildFile section */
@@ -74,6 +91,23 @@
 		5AD6DFF716D93531002B81D1 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		6C16FB5B16FF73FF00C62E49 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6C16FB5C16FF73FF00C62E49 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		6C7260B71754F2C000EC4671 /* cmu07a.dic */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cmu07a.dic; sourceTree = "<group>"; };
+		6C7260B91754F2C000EC4671 /* feat.params */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = feat.params; sourceTree = "<group>"; };
+		6C7260BA1754F2C000EC4671 /* mdef */ = {isa = PBXFileReference; lastKnownFileType = file; path = mdef; sourceTree = "<group>"; };
+		6C7260BB1754F2C000EC4671 /* means */ = {isa = PBXFileReference; lastKnownFileType = file; path = means; sourceTree = "<group>"; };
+		6C7260BC1754F2C000EC4671 /* noisedict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = noisedict; sourceTree = "<group>"; };
+		6C7260BD1754F2C000EC4671 /* sendump */ = {isa = PBXFileReference; lastKnownFileType = file; path = sendump; sourceTree = "<group>"; };
+		6C7260BE1754F2C000EC4671 /* transition_matrices */ = {isa = PBXFileReference; lastKnownFileType = file; path = transition_matrices; sourceTree = "<group>"; };
+		6C7260BF1754F2C000EC4671 /* variances */ = {isa = PBXFileReference; lastKnownFileType = file; path = variances; sourceTree = "<group>"; };
+		6C7260C01754F2C000EC4671 /* OpenEars.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEars.framework; sourceTree = "<group>"; };
+		6C7260C11754F2C000EC4671 /* OpenEars1.dic */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OpenEars1.dic; sourceTree = "<group>"; };
+		6C7260C21754F2C000EC4671 /* OpenEars1.gram */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OpenEars1.gram; sourceTree = "<group>"; };
+		6C7260C31754F2C000EC4671 /* OpenEars1.languagemodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OpenEars1.languagemodel; sourceTree = "<group>"; };
+		6C7260C41754F2C000EC4671 /* OpenEars2.gram */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OpenEars2.gram; sourceTree = "<group>"; };
+		6C7260C51754F2C000EC4671 /* OpenEarsCorpus.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OpenEarsCorpus.txt; sourceTree = "<group>"; };
+		6C7260C61754F2C000EC4671 /* Slt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Slt.framework; sourceTree = "<group>"; };
+		6C7260D61754F31800EC4671 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		6C7260D81754F32A00EC4671 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F0F831EA16FB8E6200535DC1 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		F0F831EC16FB98DC00535DC1 /* EnWords */ = {isa = PBXFileReference; lastKnownFileType = file; path = EnWords; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,11 +117,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C7260D91754F32A00EC4671 /* AVFoundation.framework in Frameworks */,
+				6C7260D71754F31800EC4671 /* AudioToolbox.framework in Frameworks */,
 				F0F831EB16FB8E6200535DC1 /* libsqlite3.dylib in Frameworks */,
 				5AD6DFF816D93531002B81D1 /* Social.framework in Frameworks */,
 				5A02A6B216D401E1001ECCF4 /* UIKit.framework in Frameworks */,
 				5A02A6B416D401E1001ECCF4 /* Foundation.framework in Frameworks */,
 				5A02A6B616D401E1001ECCF4 /* CoreGraphics.framework in Frameworks */,
+				6C7260CF1754F2C000EC4671 /* OpenEars.framework in Frameworks */,
+				6C7260D51754F2C000EC4671 /* Slt.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +164,9 @@
 		5A02A6B016D401E1001ECCF4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6C7260D61754F31800EC4671 /* AudioToolbox.framework */,
+				6C7260D81754F32A00EC4671 /* AVFoundation.framework */,
+				6C7260B61754F2C000EC4671 /* Framework */,
 				F0F831EA16FB8E6200535DC1 /* libsqlite3.dylib */,
 				5AD6DFF716D93531002B81D1 /* Social.framework */,
 				5A02A6B116D401E1001ECCF4 /* UIKit.framework */,
@@ -188,6 +229,37 @@
 				5A02A6E116D401E2001ECCF4 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6C7260B61754F2C000EC4671 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				6C7260B71754F2C000EC4671 /* cmu07a.dic */,
+				6C7260B81754F2C000EC4671 /* hub4wsj_sc_8k */,
+				6C7260C01754F2C000EC4671 /* OpenEars.framework */,
+				6C7260C11754F2C000EC4671 /* OpenEars1.dic */,
+				6C7260C21754F2C000EC4671 /* OpenEars1.gram */,
+				6C7260C31754F2C000EC4671 /* OpenEars1.languagemodel */,
+				6C7260C41754F2C000EC4671 /* OpenEars2.gram */,
+				6C7260C51754F2C000EC4671 /* OpenEarsCorpus.txt */,
+				6C7260C61754F2C000EC4671 /* Slt.framework */,
+			);
+			name = Framework;
+			path = "../../../../Downloads/OpenEarsDistribution 2/Framework";
+			sourceTree = "<group>";
+		};
+		6C7260B81754F2C000EC4671 /* hub4wsj_sc_8k */ = {
+			isa = PBXGroup;
+			children = (
+				6C7260B91754F2C000EC4671 /* feat.params */,
+				6C7260BA1754F2C000EC4671 /* mdef */,
+				6C7260BB1754F2C000EC4671 /* means */,
+				6C7260BC1754F2C000EC4671 /* noisedict */,
+				6C7260BD1754F2C000EC4671 /* sendump */,
+				6C7260BE1754F2C000EC4671 /* transition_matrices */,
+				6C7260BF1754F2C000EC4671 /* variances */,
+			);
+			path = hub4wsj_sc_8k;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,6 +342,19 @@
 				5A2BDF2116F26C6F008D38B1 /* highlightedButton.png in Resources */,
 				5A2BDF2216F26C6F008D38B1 /* normalButton.png in Resources */,
 				F0F831ED16FB98DC00535DC1 /* EnWords in Resources */,
+				6C7260C71754F2C000EC4671 /* cmu07a.dic in Resources */,
+				6C7260C81754F2C000EC4671 /* feat.params in Resources */,
+				6C7260C91754F2C000EC4671 /* mdef in Resources */,
+				6C7260CA1754F2C000EC4671 /* means in Resources */,
+				6C7260CB1754F2C000EC4671 /* noisedict in Resources */,
+				6C7260CC1754F2C000EC4671 /* sendump in Resources */,
+				6C7260CD1754F2C000EC4671 /* transition_matrices in Resources */,
+				6C7260CE1754F2C000EC4671 /* variances in Resources */,
+				6C7260D01754F2C000EC4671 /* OpenEars1.dic in Resources */,
+				6C7260D11754F2C000EC4671 /* OpenEars1.gram in Resources */,
+				6C7260D21754F2C000EC4671 /* OpenEars1.languagemodel in Resources */,
+				6C7260D31754F2C000EC4671 /* OpenEars2.gram in Resources */,
+				6C7260D41754F2C000EC4671 /* OpenEarsCorpus.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +512,10 @@
 		5A02A6EA16D401E2001ECCF4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Downloads/OpenEarsDistribution 2/Framework\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TypeOver/TypeOver-Prefix.pch";
 				INFOPLIST_FILE = "TypeOver/TypeOver-Info.plist";
@@ -438,6 +527,10 @@
 		5A02A6EB16D401E2001ECCF4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Downloads/OpenEarsDistribution 2/Framework\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TypeOver/TypeOver-Prefix.pch";
 				INFOPLIST_FILE = "TypeOver/TypeOver-Info.plist";
