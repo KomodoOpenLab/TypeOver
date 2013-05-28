@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <Social/Social.h>
 #import <sqlite3.h>
+#import <Slt/Slt.h>
+#import <OpenEars/FliteController.h>
 
 @interface ViewController : UIViewController <NSXMLParserDelegate> {
     
@@ -29,14 +31,15 @@
     __weak IBOutlet UIButton *wxyz9Button;
     __weak IBOutlet UIButton *shiftButton;
     __weak IBOutlet UIButton *wordsLettersButton;
+	__weak IBOutlet UIButton *speakButton;
     __weak IBOutlet UIButton *space0Button;
     __weak IBOutlet UIButton *backspaceButton;
     __weak IBOutlet UIButton *clearButton;
-    NSTimer *inputTimer;
     
 	
     // variables 
     
+    NSTimer *inputTimer;
 	bool words, letters, space, shift;
     NSString *clearString;
     NSMutableString *add, *wordString;
@@ -48,6 +51,8 @@
     int count;
     NSDictionary *attribs;
     sqlite3 *dbWordPrediction;
+	FliteController *fliteController;
+	Slt *slt;
 	
 	
 }
@@ -65,11 +70,18 @@
 - (IBAction)pqrs7Act:(id)sender;
 - (IBAction)tuv8Act:(id)sender;
 - (IBAction)wxyz9Act:(id)sender;
+- (IBAction)speakAct:(id)sender;
 - (IBAction)shiftAct:(id)sender;
 - (IBAction)space0Act:(id)sender;
 - (IBAction)wordsLettersAct:(id)sender;
 - (IBAction)backspaceAct:(id)sender;
 - (IBAction)clearAct:(id)sender;
+
+
+// properties
+
+@property (strong, nonatomic) FliteController *fliteController;
+@property (strong, nonatomic) Slt *slt;
 
 
 @end

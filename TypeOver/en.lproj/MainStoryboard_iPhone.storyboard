@@ -42,6 +42,21 @@
                                     <action selector="clearAct:" destination="2" eventType="touchUpInside" id="vXV-IL-GJc"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ivG-YR-igD" customClass="CustomButton">
+                                <rect key="frame" x="254" y="352" width="46" height="40"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="spk" backgroundImage="normalButton.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="speakAct:" destination="2" eventType="touchUpInside" id="jaP-BB-7U6"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3nV-pU-6tV" customClass="CustomButton">
                                 <rect key="frame" x="176" y="256" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
@@ -263,6 +278,7 @@
                         <outlet property="settingsButton" destination="RmE-qS-9Bi" id="DkP-iT-4qz"/>
                         <outlet property="shiftButton" destination="RRy-C4-q2B" id="Qmc-Tq-BgE"/>
                         <outlet property="space0Button" destination="qA3-WI-eD6" id="EtZ-P4-120"/>
+                        <outlet property="speakButton" destination="ivG-YR-igD" id="1Z1-mP-gHp"/>
                         <outlet property="textArea" destination="LQa-8g-uAe" id="zov-iN-VrQ"/>
                         <outlet property="tuv8Button" destination="N4e-cc-FS2" id="6yP-vr-8fa"/>
                         <outlet property="useButton" destination="epj-g8-Agn" id="g8y-VI-H2Z"/>
