@@ -29,7 +29,7 @@
 	
 	bool autoPred;
 	float inputRate;
-	int autoPredAfter;
+	int autoPredAfter, selRate;
 	
 	
 }

@@ -15,12 +15,17 @@
 @implementation SettingsViewController
 
 
+static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 970, 810, 670, 560, 480, 390, 320, 270};
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    inputRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"];
+    inputRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"];
+	selRate = [[NSUserDefaults standardUserDefaults] integerForKey:@"scan_rate_int"];
+	NSLog(@"%i", selRate);
 	autoPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"];
-	autoPredAfter=[[NSUserDefaults standardUserDefaults] integerForKey:@"autopred_after"];
+	autoPredAfter=[[NSUserDefaults standardUserDefaults] integerForKey:@"auto_pred_after"];
 	NSMutableString *st=[NSMutableString stringWithString:@"Predict after "];
 	[st appendFormat:@"%i", autoPredAfter];
 	if (autoPredAfter>1) {
@@ -56,16 +61,77 @@
 
 
 
-// button actions 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// button actions
 
 - (IBAction)dwellTimeDownAct:(id)sender {
-    inputRate = inputRate + 0.5;
+	bool valueFound = NO;
+	int i = 0;
+	while (!valueFound && i<17) {
+		if (scanRates[i]==selRate) {
+			valueFound=YES;
+		}
+		else {
+			i++;
+		}
+	}
+	if (i<17) {
+		i++;
+		selRate=scanRates[i];
+		inputRate=(float)(selRate)/1000;
+		NSLog(@"%f", inputRate);
+	}
 }
 
 - (IBAction)dwellTimeUpAct:(id)sender {
-    if (inputRate > 0.5) {
-        inputRate = inputRate - 0.5;
-    }
+	bool valueFound = NO;
+	int i = 0;
+	while (!valueFound && i<17) {
+		if (scanRates[i]==selRate) {
+			valueFound=YES;
+		}
+		else {
+			i++;
+		}
+	}
+	if (i>1) {
+		i--;
+		selRate=scanRates[i];
+		inputRate=(float)(selRate)/1000;
+		NSLog(@"%f", inputRate);
+	}
 }
 
 - (IBAction)autoPredictToggleAct:(id)sender {
@@ -119,8 +185,9 @@
 
 - (IBAction)saveAct:(id)sender {
 	[[NSUserDefaults standardUserDefaults] setBool:autoPred forKey:@"auto_pred"];
-	[[NSUserDefaults standardUserDefaults] setFloat:inputRate forKey:@"in_rate"];
-	[[NSUserDefaults standardUserDefaults] setInteger:autoPredAfter forKey:@"autopred_after"];
+	[[NSUserDefaults standardUserDefaults] setFloat:inputRate forKey:@"scan_rate_float"];
+	[[NSUserDefaults standardUserDefaults] setInteger:selRate forKey:@"scan_rate_int"];
+	[[NSUserDefaults standardUserDefaults] setInteger:autoPredAfter forKey:@"auto_pred_after"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
