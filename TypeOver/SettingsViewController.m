@@ -77,6 +77,29 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 
 
 
+// methods
+
+- (void)scanIndicator {
+	if (scanRateInd<=3) {
+		if ([dwellTimeLabel.text isEqualToString:@"Dwell time"]||[dwellTimeLabel.text isEqualToString:@"rate of change"]) {
+			[dwellTimeLabel setText:@"This is the..."];
+		}
+		else {
+			[dwellTimeLabel setText:@"rate of change"];
+		}
+		scanRateInd++;
+	}
+	else {
+		[dwellTimeLabel setText:@"Dwell time"];
+		[scanRateIndicatorTimer invalidate];
+		scanRateInd=0;
+	}
+}
+
+
+
+
+
 
 
 
@@ -113,6 +136,9 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 		inputRate=(float)(selRate)/1000;
 		NSLog(@"%f", inputRate);
 	}
+	[scanRateIndicatorTimer invalidate];
+	scanRateInd=0;
+	scanRateIndicatorTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(scanIndicator) userInfo:nil repeats:YES];
 }
 
 - (IBAction)dwellTimeUpAct:(id)sender {
@@ -132,6 +158,9 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 		inputRate=(float)(selRate)/1000;
 		NSLog(@"%f", inputRate);
 	}
+	[scanRateIndicatorTimer invalidate];
+	scanRateInd=0;
+	scanRateIndicatorTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(scanIndicator) userInfo:nil repeats:YES];
 }
 
 - (IBAction)autoPredictToggleAct:(id)sender {

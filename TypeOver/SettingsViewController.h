@@ -15,6 +15,7 @@
 	
     __weak IBOutlet UIButton *dwellTimeDownButton;
     __weak IBOutlet UIButton *dwellTimeUpButton;
+	__weak IBOutlet UILabel *dwellTimeLabel;
 	__weak IBOutlet UISwitch *autoPredToggleSwitch;
 	__weak IBOutlet UILabel *autoPredAfterLabel;
 	__weak IBOutlet UIButton *autoPredAfterDownButton;
@@ -29,7 +30,8 @@
 	
 	bool autoPred;
 	float inputRate;
-	int autoPredAfter, selRate;
+	int autoPredAfter, selRate, scanRateInd;
+	NSTimer *scanRateIndicatorTimer;
 	
 	
 }
