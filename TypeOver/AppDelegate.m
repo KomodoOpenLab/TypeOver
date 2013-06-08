@@ -14,10 +14,13 @@
 {
     // Override point for customization after application launch.
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"first_run"]) {
+		int i = 2000;
+		float f = (int)(i)/1000;
 		[[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"first_run"];
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"auto_pred"];
-		[[NSUserDefaults standardUserDefaults] setFloat:2.0 forKey:@"in_rate"];
-		[[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"autopred_after"];
+		[[NSUserDefaults standardUserDefaults] setInteger:i forKey:@"scan_rate_int"];
+		[[NSUserDefaults standardUserDefaults] setFloat:f forKey:@"scan_rate_float"];
+		[[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"auto_pred_after"];
 	}
     return YES;
 }
