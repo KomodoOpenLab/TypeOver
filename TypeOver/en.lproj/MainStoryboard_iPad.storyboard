@@ -468,6 +468,7 @@
                         <outlet property="autoPredAfterUpButton" destination="zzN-b9-4Ci" id="lv4-jH-ses"/>
                         <outlet property="autoPredToggleSwitch" destination="eWI-Ok-OeU" id="2Mf-F6-Ub4"/>
                         <outlet property="dwellTimeDownButton" destination="AMG-8A-5gK" id="bCb-cz-381"/>
+                        <outlet property="dwellTimeLabel" destination="ZWm-6G-2d0" id="6YR-hp-sZ7"/>
                         <outlet property="dwellTimeUpButton" destination="fKU-0e-BZK" id="Dwp-7N-Ekt"/>
                         <outlet property="saveButton" destination="aFT-5n-Its" id="2ZG-A8-2go"/>
                     </connections>
@@ -480,74 +481,6 @@
     <resources>
         <image name="normalButton.png" width="700" height="400"/>
     </resources>
-    <classes>
-        <class className="CustomButton" superclassName="UIButton">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CustomButton.h"/>
-        </class>
-        <class className="SettingsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="aboutAutoPredAct:"/>
-                <relationship kind="action" name="aboutDwellTimeAct:"/>
-                <relationship kind="action" name="aboutPredAfterAct:"/>
-                <relationship kind="action" name="autoPredAfterDownAct:"/>
-                <relationship kind="action" name="autoPredAfterUpAct:"/>
-                <relationship kind="action" name="autoPredictToggleAct:"/>
-                <relationship kind="action" name="dwellTimeDownAct:"/>
-                <relationship kind="action" name="dwellTimeUpAct:"/>
-                <relationship kind="action" name="saveAct:"/>
-                <relationship kind="outlet" name="aboutAutoPredAfterButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="aboutAutoPredButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="aboutDwellTimeButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="autoPredAfterDownButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="autoPredAfterLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="autoPredAfterUpButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="autoPredToggleSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="dwellTimeDownButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="dwellTimeUpButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="saveButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="ViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="abc2Act:"/>
-                <relationship kind="action" name="backspaceAct:"/>
-                <relationship kind="action" name="clearAct:"/>
-                <relationship kind="action" name="def3Act:"/>
-                <relationship kind="action" name="ghi4Act:"/>
-                <relationship kind="action" name="jkl5Act:"/>
-                <relationship kind="action" name="mno6Act:"/>
-                <relationship kind="action" name="pqrs7Act:"/>
-                <relationship kind="action" name="punct1Act:"/>
-                <relationship kind="action" name="shiftAct:"/>
-                <relationship kind="action" name="space0Act:"/>
-                <relationship kind="action" name="speakAct:"/>
-                <relationship kind="action" name="tuv8Act:"/>
-                <relationship kind="action" name="useAct:"/>
-                <relationship kind="action" name="wordsLettersAct:"/>
-                <relationship kind="action" name="wxyz9Act:"/>
-                <relationship kind="outlet" name="abc2Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="backspaceButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="clearButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="def3Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="ghi4Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="jkl5Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="mno6Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="pqrs7Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="punct1Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="settingsButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="shiftButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="space0Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="speakButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="textArea" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="tuv8Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="useButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="wordsLettersButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="wxyz9Button" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

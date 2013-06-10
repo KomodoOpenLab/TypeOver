@@ -469,6 +469,7 @@
                         <outlet property="autoPredAfterUpButton" destination="c32-KA-0n5" id="PAD-6q-YcO"/>
                         <outlet property="autoPredToggleSwitch" destination="bqQ-R6-kdH" id="uKK-h9-UDb"/>
                         <outlet property="dwellTimeDownButton" destination="cfc-Mq-TPF" id="pie-qz-CqC"/>
+                        <outlet property="dwellTimeLabel" destination="ZJ6-yL-cNd" id="Hr9-53-DYr"/>
                         <outlet property="dwellTimeUpButton" destination="GRh-F1-KAK" id="0Fi-jm-Sxl"/>
                         <outlet property="saveButton" destination="pxf-TD-Jzu" id="n6h-uz-zoM"/>
                     </connections>

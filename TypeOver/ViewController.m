@@ -171,7 +171,7 @@
 	predResultsArray = [self predictHelper:wordString];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"]) {
 		if (![inputTimer isValid]) {
-			if (wordString.length >= [[NSUserDefaults standardUserDefaults] integerForKey:@"autopred_after"] && predResultsArray.count!=0) {
+			if (wordString.length >= [[NSUserDefaults standardUserDefaults] integerForKey:@"auto_pred_after"] && predResultsArray.count!=0) {
 				words = true;
 				letters = false;
 				[self wordsLetters];
@@ -335,7 +335,7 @@
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[punct1Button setTitle:@"." forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(punct1) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(punct1) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[punct1Button setEnabled:YES];
 		}
@@ -382,7 +382,7 @@
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[abc2Button setTitle:@"a" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(abc2) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(abc2) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[abc2Button setEnabled:YES];
 		}
@@ -437,7 +437,7 @@
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[def3Button setTitle:@"d" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(def3) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(def3) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[def3Button setEnabled:YES];
 		}
@@ -492,7 +492,7 @@
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[ghi4Button setTitle:@"g" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(ghi4) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(ghi4) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[ghi4Button setEnabled:YES];
 		}
@@ -547,7 +547,7 @@
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[jkl5Button setTitle:@"j" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(jkl5) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(jkl5) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[jkl5Button setEnabled:YES];
 		}
@@ -602,7 +602,7 @@
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[mno6Button setTitle:@"m" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(mno6) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(mno6) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[mno6Button setEnabled:YES];
 		}
@@ -657,7 +657,7 @@
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[pqrs7Button setTitle:@"p" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(pqrs7) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(pqrs7) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[pqrs7Button setEnabled:YES];
 		}
@@ -712,7 +712,7 @@
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[tuv8Button setTitle:@"t" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(tuv8) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(tuv8) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[tuv8Button setEnabled:YES];
 		}
@@ -767,7 +767,7 @@
 	if (letters) {
 		if (![inputTimer isValid]) {
 			[wxyz9Button setTitle:@"w" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(wxyz9) userInfo:nil repeats:YES];
+			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(wxyz9) userInfo:nil repeats:YES];
 			[self disableKeys];
 			[wxyz9Button setEnabled:YES];
 		}
@@ -835,7 +835,7 @@
 - (IBAction)space0Act:(id)sender {
 	if (![inputTimer isValid]) {
 		[space0Button setTitle:@"space" forState:UIControlStateNormal];
-		inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"in_rate"] target:self selector:@selector(space0) userInfo:nil repeats:YES];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(space0) userInfo:nil repeats:YES];
 		[self disableKeys];
 		[space0Button setEnabled:YES];
 	}
