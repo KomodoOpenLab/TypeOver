@@ -22,6 +22,7 @@
 		[[NSUserDefaults standardUserDefaults] setFloat:f forKey:@"scan_rate_float"];
 		[[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"auto_pred_after"];
 	}
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"shift"];
     return YES;
 }
 							
