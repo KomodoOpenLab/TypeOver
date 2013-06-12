@@ -48,7 +48,7 @@
     NSString *currentElement;
     NSMutableString *ElementValue;
     BOOL errorParsing;
-    int count;
+    int count, timesCycled;
     NSDictionary *attribs;
     sqlite3 *dbWordPrediction;
 	FliteController *fliteController;

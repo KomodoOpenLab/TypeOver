@@ -274,6 +274,7 @@
 	[space0Button setEnabled:YES];
 	[wordsLettersButton setEnabled:YES];
 	[inputTimer invalidate];
+	timesCycled=0;
 }
 
 - (void)disableKeys {
@@ -938,6 +939,10 @@
 // keypad methods
 
 - (void)punct1 {
+	if (timesCycled==2) {
+		[self resetKeys];
+		return;
+	}
 	if ([punct1Button.titleLabel.text isEqualToString:@"."]) {
 		[punct1Button setTitle:@"," forState:UIControlStateNormal];
 	}
@@ -961,10 +966,15 @@
 	}
 	else if ([punct1Button.titleLabel.text isEqualToString:@"1"]) {
 		[punct1Button setTitle:@"." forState:UIControlStateNormal];
+		timesCycled++;
 	}
 }
 
 - (void)abc2 {
+	if (timesCycled==2) {
+		[self resetKeys];
+		return;
+	}
 	if ([abc2Button.titleLabel.text isEqualToString:@"a"]) {
 		[abc2Button setTitle:@"b" forState:UIControlStateNormal];
 	}
@@ -976,10 +986,15 @@
 	}
 	else if ([abc2Button.titleLabel.text isEqualToString:@"2"]) {
 		[abc2Button setTitle:@"a" forState:UIControlStateNormal];
+		timesCycled++;
 	}
 }
 
 - (void)def3 {
+	if (timesCycled==2) {
+		[self resetKeys];
+		return;
+	}
 	if ([def3Button.titleLabel.text isEqualToString:@"d"]) {
 		[def3Button setTitle:@"e" forState:UIControlStateNormal];
 	}
@@ -991,10 +1006,15 @@
 	}
 	else if ([def3Button.titleLabel.text isEqualToString:@"3"]) {
 		[def3Button setTitle:@"d" forState:UIControlStateNormal];
+		timesCycled++;
 	}
 }
 
 - (void)ghi4 {
+	if (timesCycled==2) {
+		[self resetKeys];
+		return;
+	}
 	if ([ghi4Button.titleLabel.text isEqualToString:@"g"]) {
 		[ghi4Button setTitle:@"h" forState:UIControlStateNormal];
 	}
@@ -1006,10 +1026,15 @@
 	}
 	else if ([ghi4Button.titleLabel.text isEqualToString:@"4"]) {
 		[ghi4Button setTitle:@"g" forState:UIControlStateNormal];
+		timesCycled++;
 	}
 }
 
 - (void)jkl5 {
+	if (timesCycled==2) {
+		[self resetKeys];
+		return;
+	}
 	if ([jkl5Button.titleLabel.text isEqualToString:@"j"]) {
 		[jkl5Button setTitle:@"k" forState:UIControlStateNormal];
 	}
@@ -1021,10 +1046,15 @@
 	}
 	else if ([jkl5Button.titleLabel.text isEqualToString:@"5"]) {
 		[jkl5Button setTitle:@"j" forState:UIControlStateNormal];
+		timesCycled++;
 	}
 }
 
 - (void)mno6 {
+	if (timesCycled==2) {
+		[self resetKeys];
+		return;
+	}
 	if ([mno6Button.titleLabel.text isEqualToString:@"m"]) {
 		[mno6Button setTitle:@"n" forState:UIControlStateNormal];
 	}
@@ -1036,10 +1066,15 @@
 	}
 	else if ([mno6Button.titleLabel.text isEqualToString:@"6"]) {
 		[mno6Button setTitle:@"m" forState:UIControlStateNormal];
+		timesCycled++;
 	}
 }
 
 - (void)pqrs7 {
+	if (timesCycled==2) {
+		[self resetKeys];
+		return;
+	}
 	if ([pqrs7Button.titleLabel.text isEqualToString:@"p"]) {
 		[pqrs7Button setTitle:@"q" forState:UIControlStateNormal];
 	}
@@ -1054,10 +1089,15 @@
 	}
 	else if ([pqrs7Button.titleLabel.text isEqualToString:@"7"]) {
 		[pqrs7Button setTitle:@"p" forState:UIControlStateNormal];
+		timesCycled++;
 	}
 }
 
 - (void)tuv8 {
+	if (timesCycled==2) {
+		[self resetKeys];
+		return;
+	}
 	if ([tuv8Button.titleLabel.text isEqualToString:@"t"]) {
 		[tuv8Button setTitle:@"u" forState:UIControlStateNormal];
 	}
@@ -1069,10 +1109,15 @@
 	}
 	else if ([tuv8Button.titleLabel.text isEqualToString:@"8"]) {
 		[tuv8Button setTitle:@"t" forState:UIControlStateNormal];
+		timesCycled++;
 	}
 }
 
 - (void)wxyz9 {
+	if (timesCycled==2) {
+		[self resetKeys];
+		return;
+	}
 	if ([wxyz9Button.titleLabel.text isEqualToString:@"w"]) {
 		[wxyz9Button setTitle:@"x" forState:UIControlStateNormal];
 	}
@@ -1087,15 +1132,21 @@
 	}
 	else if ([wxyz9Button.titleLabel.text isEqualToString:@"9"]) {
 		[wxyz9Button setTitle:@"w" forState:UIControlStateNormal];
+		timesCycled++;
 	}
 }
 
 - (void)space0 {
+	if (timesCycled==2) {
+		[self resetKeys];
+		return;
+	}
 	if ([space0Button.titleLabel.text isEqualToString:@"space"]) {
 		[space0Button setTitle:@"0" forState:UIControlStateNormal];
 	}
 	else if ([space0Button.titleLabel.text isEqualToString:@"0"]) {
 		[space0Button setTitle:@"space" forState:UIControlStateNormal];
+		timesCycled++;
 	}
 }
 
