@@ -40,7 +40,9 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 	letters = true;
-    shift = true;
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shift"]) {
+		shift = true;
+	}
 	[self checkShift];
     [self resetMisc];
 }
@@ -56,16 +58,6 @@
 // other actions
 
 - (IBAction)useAct:(id)sender {
-    [self punct1];
-    [self abc2];
-    [self def3];
-    [self ghi4];
-    [self jkl5];
-    [self mno6];
-    [self pqrs7];
-    [self tuv8];
-    [self wxyz9];
-    [self space0];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Use what you wrote!" message:@"How do you want to use what you wrote?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Post to Facebook", @"Post to Twitter", @"Copy", nil];
     [alert show];
 }
@@ -126,9 +118,11 @@
 - (void)checkShift {
     if (shift) {
         [shiftButton setTitle:@"shift on" forState:UIControlStateNormal];
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"shift"];
     }
     else {
         [shiftButton setTitle:@"shift off" forState:UIControlStateNormal];
+		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"shift"];
     }
 }
 
