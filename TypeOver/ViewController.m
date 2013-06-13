@@ -873,9 +873,12 @@
 - (IBAction)backspaceAct:(id)sender {
 	if ([backspaceTimer isValid]) {
 		[backspaceTimer invalidate];
+		[self resetKeys];
 	}
 	else {
 		backspaceTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
+		[self disableKeys];
+		[backspaceButton setEnabled:YES];
 	}
 }
 
@@ -1263,7 +1266,6 @@
 		space=false;
 		[self wordsLetters];
     }
-	[self resetKeys];
 	[self checkShift];
 }
 @end
