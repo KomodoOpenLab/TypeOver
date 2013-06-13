@@ -40,7 +40,9 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 	letters = true;
-    shift = true;
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shift"]) {
+		shift = true;
+	}
 	[self checkShift];
     [self resetMisc];
 }
@@ -56,16 +58,6 @@
 // other actions
 
 - (IBAction)useAct:(id)sender {
-    [self punct1];
-    [self abc2];
-    [self def3];
-    [self ghi4];
-    [self jkl5];
-    [self mno6];
-    [self pqrs7];
-    [self tuv8];
-    [self wxyz9];
-    [self space0];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Use what you wrote!" message:@"How do you want to use what you wrote?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Post to Facebook", @"Post to Twitter", @"Copy", nil];
     [alert show];
 }
@@ -126,9 +118,11 @@
 - (void)checkShift {
     if (shift) {
         [shiftButton setTitle:@"shift on" forState:UIControlStateNormal];
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"shift"];
     }
     else {
         [shiftButton setTitle:@"shift off" forState:UIControlStateNormal];
+		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"shift"];
     }
 }
 
@@ -877,28 +871,16 @@
 }
 
 - (IBAction)backspaceAct:(id)sender {
-    NSString *st = textArea.text;
-    NSString *wst = wordString;
-    if ([st length] > 0) {
-        st = [st substringToIndex:[st length] - 1];
-        [textArea setText:st];
-		if ([wst length] > 0) {
-			wst = [wst substringToIndex:[wst length] - 1];
-			wordString = [NSMutableString stringWithString:wst];
-			add = [NSMutableString stringWithString:@""];
-		}
-        if ([textArea.text isEqual: @""]) {
-			shift = true;
-			[self checkShift];
-			[self resetMisc];
-        }
-		words = false;
-		letters = true;
-		space=false;
-		[self wordsLetters];
-    }
-	[self resetKeys];
-	[self checkShift];
+	if ([backspaceTimer isValid]) {
+		[backspaceTimer invalidate];
+		[self resetKeys];
+	}
+	else {
+		[self backspace]; // prevents a delay 
+		backspaceTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
+		[self disableKeys];
+		[backspaceButton setEnabled:YES];
+	}
 }
 
 - (IBAction)clearAct:(id)sender {
@@ -1262,5 +1244,29 @@
 		[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
 		[wordsLettersButton setTitle:@"words" forState:UIControlStateNormal];
 	}
+}
+
+- (void)backspace {
+    NSString *st = textArea.text;
+    NSString *wst = wordString;
+    if ([st length] > 0) {
+        st = [st substringToIndex:[st length] - 1];
+        [textArea setText:st];
+		if ([wst length] > 0) {
+			wst = [wst substringToIndex:[wst length] - 1];
+			wordString = [NSMutableString stringWithString:wst];
+			add = [NSMutableString stringWithString:@""];
+		}
+        if ([textArea.text isEqual: @""]) {
+			shift = true;
+			[self checkShift];
+			[self resetMisc];
+        }
+		words = false;
+		letters = true;
+		space=false;
+		[self wordsLetters];
+    }
+	[self checkShift];
 }
 @end
