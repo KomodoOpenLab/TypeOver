@@ -871,28 +871,12 @@
 }
 
 - (IBAction)backspaceAct:(id)sender {
-    NSString *st = textArea.text;
-    NSString *wst = wordString;
-    if ([st length] > 0) {
-        st = [st substringToIndex:[st length] - 1];
-        [textArea setText:st];
-		if ([wst length] > 0) {
-			wst = [wst substringToIndex:[wst length] - 1];
-			wordString = [NSMutableString stringWithString:wst];
-			add = [NSMutableString stringWithString:@""];
-		}
-        if ([textArea.text isEqual: @""]) {
-			shift = true;
-			[self checkShift];
-			[self resetMisc];
-        }
-		words = false;
-		letters = true;
-		space=false;
-		[self wordsLetters];
-    }
-	[self resetKeys];
-	[self checkShift];
+	if ([backspaceTimer isValid]) {
+		[backspaceTimer invalidate];
+	}
+	else {
+		backspaceTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
+	}
 }
 
 - (IBAction)clearAct:(id)sender {
@@ -1256,5 +1240,30 @@
 		[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
 		[wordsLettersButton setTitle:@"words" forState:UIControlStateNormal];
 	}
+}
+
+- (void)backspace {
+    NSString *st = textArea.text;
+    NSString *wst = wordString;
+    if ([st length] > 0) {
+        st = [st substringToIndex:[st length] - 1];
+        [textArea setText:st];
+		if ([wst length] > 0) {
+			wst = [wst substringToIndex:[wst length] - 1];
+			wordString = [NSMutableString stringWithString:wst];
+			add = [NSMutableString stringWithString:@""];
+		}
+        if ([textArea.text isEqual: @""]) {
+			shift = true;
+			[self checkShift];
+			[self resetMisc];
+        }
+		words = false;
+		letters = true;
+		space=false;
+		[self wordsLetters];
+    }
+	[self resetKeys];
+	[self checkShift];
 }
 @end
