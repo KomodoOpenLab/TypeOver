@@ -1257,18 +1257,18 @@
 			wordString = [NSMutableString stringWithString:wst];
 			add = [NSMutableString stringWithString:@""];
 		}
-        if ([textArea.text isEqual: @""]) {
-			[backspaceTimer invalidate];
-			shift = true;
-			[self checkShift];
-			[self resetKeys];
-			[self resetMisc];
-        }
 		words = false;
 		letters = true;
 		space=false;
 		[self wordsLetters];
     }
+	if ([textArea.text isEqual: @""]) {
+		[backspaceTimer invalidate];
+		shift = true;
+		[self checkShift];
+		[self resetKeys];
+		[self resetMisc];
+	}
 	[self checkShift];
 }
 @end
