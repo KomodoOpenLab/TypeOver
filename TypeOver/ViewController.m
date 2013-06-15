@@ -875,7 +875,7 @@
 		[backspaceTimer invalidate];
 		[self resetKeys];
 	}
-	else {
+	else if (![textArea.text isEqualToString:@""]) {
 		[self backspace]; // prevents a delay 
 		backspaceTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
 		[self disableKeys];
