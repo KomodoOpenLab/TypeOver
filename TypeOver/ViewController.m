@@ -1258,8 +1258,10 @@
 			add = [NSMutableString stringWithString:@""];
 		}
         if ([textArea.text isEqual: @""]) {
+			[backspaceTimer invalidate];
 			shift = true;
 			[self checkShift];
+			[self resetKeys];
 			[self resetMisc];
         }
 		words = false;
