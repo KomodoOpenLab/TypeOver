@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CustomButton : UIButton
+@interface CustomButton : UIButton {
+	
+	
+	// variables
+	
+	NSTimer *shieldTimer;
+	int shieldRate;
+	
+	
+}
 
 @end
