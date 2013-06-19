@@ -26,6 +26,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 	NSLog(@"%i", selRate);
 	autoPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"];
 	autoPredAfter=[[NSUserDefaults standardUserDefaults] integerForKey:@"auto_pred_after"];
+	manualDwellTime=[[NSUserDefaults standardUserDefaults] boolForKey:@"manual_scan_rate"];
 	NSMutableString *st=[NSMutableString stringWithString:@"Predict after "];
 	[st appendFormat:@"%i", autoPredAfter];
 	if (autoPredAfter>1) {
@@ -35,6 +36,16 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 		[st appendString:@" letter"];
 	}
 	[autoPredAfterLabel setText:st];
+	if (manualDwellTime) {
+		manualDwellTimeToggleSwitch.on=true;
+	}
+	else {
+		manualDwellTimeToggleSwitch.on=false;
+		[dwellTimeLabel setHidden:YES];
+		[dwellTimeDownButton setHidden:YES];
+		[dwellTimeUpButton setHidden:YES];
+		[aboutDwellTimeButton setHidden:YES];
+	}
 	if (autoPred) {
 		autoPredToggleSwitch.on=true;
 	}
@@ -118,6 +129,25 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 
 
 // button actions
+
+- (IBAction)manualDwellTimeToggleAct:(id)sender {
+	if (manualDwellTimeToggleSwitch.on) {
+		manualDwellTime=true;
+		[dwellTimeLabel setHidden:NO];
+		[dwellTimeDownButton setHidden:NO];
+		[dwellTimeUpButton setHidden:NO];
+		[aboutDwellTimeButton setHidden:NO];
+		NSLog(@"manual dwell time on");
+	}
+	else {
+		manualDwellTime=false;
+		[dwellTimeLabel setHidden:YES];
+		[dwellTimeDownButton setHidden:YES];
+		[dwellTimeUpButton setHidden:YES];
+		[aboutDwellTimeButton setHidden:YES];
+		NSLog(@"manual dwell time off");
+	}
+}
 
 - (IBAction)dwellTimeDownAct:(id)sender {
 	bool valueFound = NO;
@@ -213,6 +243,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 }
 
 - (IBAction)saveAct:(id)sender {
+	[[NSUserDefaults standardUserDefaults] setBool:manualDwellTime forKey:@"manual_scan_rate"];
 	[[NSUserDefaults standardUserDefaults] setBool:autoPred forKey:@"auto_pred"];
 	[[NSUserDefaults standardUserDefaults] setFloat:inputRate forKey:@"scan_rate_float"];
 	[[NSUserDefaults standardUserDefaults] setInteger:selRate forKey:@"scan_rate_int"];
@@ -247,4 +278,14 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 										  otherButtonTitles: nil];
     [alert show];
 }
+
+- (IBAction)aboutManualDwellTimeAct:(id)sender {
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info"
+													message:@"Dwell time is the rate at which the keypad keys cycle through their content. Dwell time can be automatically set by your Tecla Shield or other switch interface. To do this, simply switch manual dwell time off. Or, if you would rather set dwell time manually, switch it on."
+												   delegate:nil
+										  cancelButtonTitle:@"Dismiss"
+										  otherButtonTitles: nil];
+    [alert show];
+}
+
 @end
