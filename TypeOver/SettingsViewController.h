@@ -13,6 +13,8 @@
 	
 	// outlets
 	
+	__weak IBOutlet UILabel *manualDwellTimeLabel;
+	__weak IBOutlet UISwitch *manualDwellTimeToggleSwitch;
     __weak IBOutlet UIButton *dwellTimeDownButton;
     __weak IBOutlet UIButton *dwellTimeUpButton;
 	__weak IBOutlet UILabel *dwellTimeLabel;
@@ -24,11 +26,12 @@
 	__weak IBOutlet UIButton *aboutDwellTimeButton;
 	__weak IBOutlet UIButton *aboutAutoPredButton;
 	__weak IBOutlet UIButton *aboutAutoPredAfterButton;
+	__weak IBOutlet UIButton *aboutManualDwellTime;
 	
 	
 	// variables
 	
-	bool autoPred;
+	bool autoPred, manualDwellTime;
 	float inputRate;
 	int autoPredAfter, selRate, scanRateInd;
 	NSTimer *scanRateIndicatorTimer;
@@ -48,6 +51,8 @@
 - (IBAction)aboutDwellTimeAct:(id)sender;
 - (IBAction)aboutAutoPredAct:(id)sender;
 - (IBAction)aboutPredAfterAct:(id)sender;
+- (IBAction)manualDwellTimeToggleAct:(id)sender;
+- (IBAction)aboutManualDwellTimeAct:(id)sender;
 
 
 @end
