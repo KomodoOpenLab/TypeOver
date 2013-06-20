@@ -14,6 +14,7 @@
 	// variables
 	
 	NSDate *startTime;
+	bool didTouch;
 	
 	
 }

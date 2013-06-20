@@ -10,11 +10,12 @@
 
 @implementation CustomButton
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithFrame:frame];
+    self = [super initWithCoder:aDecoder];
     if (self) {
         // Initialization code
+		[self addTarget:self action:@selector(touchButton) forControlEvents:UIControlEventAllTouchEvents];
     }
     return self;
 }
@@ -26,12 +27,18 @@
 
 - (void)accessibilityElementDidLoseFocus {
     [self setBackgroundImage:[UIImage imageNamed:@"normalButton.png"] forState:UIControlStateNormal];
-	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"manual_scan_rate"]) {
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"manual_scan_rate"]&&!didTouch) {
 		NSTimeInterval timeSince = [startTime timeIntervalSinceNow];
 		float actualSpeed=timeSince*-1; // changes to a plus
 		NSLog(@"%f", actualSpeed);
 		[[NSUserDefaults standardUserDefaults] setFloat:actualSpeed forKey:@"scan_rate_float"];
 	}
+	didTouch=false;
+}
+
+- (void)touchButton {
+	didTouch=true;
+	startTime=nil;
 }
 
 @end
