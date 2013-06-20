@@ -13,8 +13,7 @@
 	
 	// variables
 	
-	NSTimer *shieldTimer;
-	int shieldRate;
+	NSDate *startTime;
 	
 	
 }

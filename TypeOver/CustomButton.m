@@ -10,10 +10,6 @@
 
 @implementation CustomButton
 
-
-static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 970, 810, 670, 560, 480, 390, 320, 270};
-
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -25,35 +21,17 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 
 - (void)accessibilityElementDidBecomeFocused {
     [self setBackgroundImage:[UIImage imageNamed:@"highlightedButton.png"] forState:UIControlStateNormal];
-	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"manual_scan_rate"]&&![shieldTimer isValid]) {
-		shieldRate=0;
-		shieldTimer=[NSTimer scheduledTimerWithTimeInterval:0.001 target:self selector:@selector(incrementRate) userInfo:nil repeats:YES];
-	}
+	startTime=[NSDate date];
 }
 
 - (void)accessibilityElementDidLoseFocus {
     [self setBackgroundImage:[UIImage imageNamed:@"normalButton.png"] forState:UIControlStateNormal];
-	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"manual_scan_rate"]&&[shieldTimer isValid]) {
-		[shieldTimer invalidate];
-		int difference, index;
-		index =0;
-		for( int i = 0; i < 17; i++ )
-		{
-			if (difference > abs( shieldRate - scanRates [ i ] ))
-			{
-				difference = abs( shieldRate - scanRates [ i ] );
-				index = i;
-			}
-			else {
-				shieldRate=scanRates[i];
-			}
-		}
-		[[NSUserDefaults standardUserDefaults] setFloat:(float)(shieldRate)/1000 forKey:@"scan_rate_float"];
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"manual_scan_rate"]) {
+		NSTimeInterval timeSince = [startTime timeIntervalSinceNow];
+		float actualSpeed=timeSince*-1; // changes to a plus
+		NSLog(@"%f", actualSpeed);
+		[[NSUserDefaults standardUserDefaults] setFloat:actualSpeed forKey:@"scan_rate_float"];
 	}
-}
-
-- (void)incrementRate {
-	shieldRate++;
 }
 
 @end
