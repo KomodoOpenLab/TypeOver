@@ -810,6 +810,12 @@
 }
 
 - (IBAction)speakAct:(id)sender {
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Coming soon!"
+													message:@"This feature is still under development."
+												   delegate:nil
+										  cancelButtonTitle:@"Dismiss"
+										  otherButtonTitles: nil];
+    [alert show];
 }
 
 - (IBAction)shiftAct:(id)sender {
