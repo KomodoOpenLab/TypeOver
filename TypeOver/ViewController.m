@@ -14,10 +14,6 @@
 
 @implementation ViewController
 
-@synthesize fliteController;
-@synthesize slt;
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 	NSString *databasename = [[NSBundle mainBundle] pathForResource:@"EnWords" ofType:nil];
@@ -292,19 +288,13 @@
 	[wordsLettersButton setEnabled:NO];
 }
 
-- (FliteController *)fliteController {
-	if (fliteController == nil) {
-		fliteController = [[FliteController alloc] init];
-	}
-	return fliteController;
-}
 
-- (Slt *)slt {
-	if (slt == nil) {
-		slt = [[Slt alloc] init];
-	}
-	return slt;
-}
+
+
+
+
+
+
 
 
 
@@ -820,7 +810,12 @@
 }
 
 - (IBAction)speakAct:(id)sender {
-	[self.fliteController say:textArea.text withVoice:self.slt];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Coming soon!"
+													message:@"This feature is still under development."
+												   delegate:nil
+										  cancelButtonTitle:@"Dismiss"
+										  otherButtonTitles: nil];
+    [alert show];
 }
 
 - (IBAction)shiftAct:(id)sender {
