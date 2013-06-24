@@ -54,12 +54,20 @@
 // other actions
 
 - (IBAction)useAct:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Use what you wrote!" message:@"How do you want to use what you wrote?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Post to Facebook", @"Post to Twitter", @"Copy", nil];
-    [alert show];
+    UIActionSheet *actions = [[UIActionSheet alloc] initWithTitle:@"Use what you wrote!" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Send as Message", @"Post to Facebook", @"Post to Twitter", @"Copy", nil];
+    [actions showInView:self.view];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == 1) {
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == 0) {
+		if ([MFMessageComposeViewController canSendText]) {
+			MFMessageComposeViewController *msg = [[MFMessageComposeViewController alloc] init];
+			msg.body = textArea.text;
+			msg.messageComposeDelegate=self;
+			[self presentViewController:msg animated:YES completion:nil];
+		}
+	}
+	else if (buttonIndex == 1) {
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
             SLComposeViewController *fb = [[SLComposeViewController alloc] init];
             fb = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
@@ -78,7 +86,29 @@
 	else if (buttonIndex == 3) {
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
         pasteboard.string = textArea.text;
+		NSLog(@"copied");
 	}
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)msg didFinishWithResult:(MessageComposeResult)result {
+	switch (result)
+	{
+		case MessageComposeResultCancelled:
+			NSLog(@"Result: canceled");
+			break;
+		case MessageComposeResultSent:
+			NSLog(@"Result: sent");
+			break;
+		case MessageComposeResultFailed:
+			NSLog(@"Result: failed");
+			break;
+		default:
+			NSLog(@"Result: not sent");
+			break;
+	}
+	
+	[self dismissViewControllerAnimated:YES completion:nil];
+	
 }
 
 
@@ -871,7 +901,7 @@
 		[self resetKeys];
 	}
 	else if (![textArea.text isEqualToString:@""]) {
-		[self backspace]; // prevents a delay 
+		[self backspace]; // prevents a delay
 		backspaceTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
 		[self disableKeys];
 		[backspaceButton setEnabled:YES];
