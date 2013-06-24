@@ -11,7 +11,7 @@
 #import <sqlite3.h>
 #import <MessageUI/MessageUI.h>
 
-@interface ViewController : UIViewController <NSXMLParserDelegate> {
+@interface ViewController : UIViewController <MFMessageComposeViewControllerDelegate> {
     
     
     // outlets
