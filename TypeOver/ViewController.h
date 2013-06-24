@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Social/Social.h>
 #import <sqlite3.h>
+#import <MessageUI/MessageUI.h>
 
 @interface ViewController : UIViewController <NSXMLParserDelegate> {
     
