@@ -59,7 +59,7 @@
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == 1) {
+	if (buttonIndex == 0) {
 		if ([MFMessageComposeViewController canSendText]) {
 			MFMessageComposeViewController *msg = [[MFMessageComposeViewController alloc] init];
 			msg.body = textArea.text;
@@ -67,7 +67,7 @@
 			[self presentViewController:msg animated:YES completion:nil];
 		}
 	}
-	else if (buttonIndex == 2) {
+	else if (buttonIndex == 1) {
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
             SLComposeViewController *fb = [[SLComposeViewController alloc] init];
             fb = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
@@ -75,7 +75,7 @@
             [self presentViewController:fb animated:YES completion:nil];
         }
 	}
-	else if (buttonIndex == 3) {
+	else if (buttonIndex == 2) {
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
             SLComposeViewController *tw = [[SLComposeViewController alloc] init];
             tw = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
@@ -83,9 +83,10 @@
             [self presentViewController:tw animated:YES completion:nil];
         }
 	}
-	else if (buttonIndex == 4) {
+	else if (buttonIndex == 3) {
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
         pasteboard.string = textArea.text;
+		NSLog(@"copied");
 	}
 }
 
