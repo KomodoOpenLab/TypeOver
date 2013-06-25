@@ -29,6 +29,7 @@
 		5AA61CFB16DA7EAA00C60323 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA61CFA16DA7EAA00C60323 /* CustomButton.m */; };
 		5AD6DFF816D93531002B81D1 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD6DFF716D93531002B81D1 /* Social.framework */; };
 		6C16FB5D16FF73FF00C62E49 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C16FB5C16FF73FF00C62E49 /* SettingsViewController.m */; };
+		6CCC87E217788F3F0083D694 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CCC87E117788F3F0083D694 /* MessageUI.framework */; };
 		F0F831EB16FB8E6200535DC1 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F0F831EA16FB8E6200535DC1 /* libsqlite3.dylib */; };
 		F0F831ED16FB98DC00535DC1 /* EnWords in Resources */ = {isa = PBXBuildFile; fileRef = F0F831EC16FB98DC00535DC1 /* EnWords */; };
 /* End PBXBuildFile section */
@@ -74,6 +75,7 @@
 		5AD6DFF716D93531002B81D1 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		6C16FB5B16FF73FF00C62E49 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6C16FB5C16FF73FF00C62E49 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		6CCC87E117788F3F0083D694 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F0F831EA16FB8E6200535DC1 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		F0F831EC16FB98DC00535DC1 /* EnWords */ = {isa = PBXFileReference; lastKnownFileType = file; path = EnWords; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CCC87E217788F3F0083D694 /* MessageUI.framework in Frameworks */,
 				F0F831EB16FB8E6200535DC1 /* libsqlite3.dylib in Frameworks */,
 				5AD6DFF816D93531002B81D1 /* Social.framework in Frameworks */,
 				5A02A6B216D401E1001ECCF4 /* UIKit.framework in Frameworks */,
@@ -126,6 +129,7 @@
 		5A02A6B016D401E1001ECCF4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6CCC87E117788F3F0083D694 /* MessageUI.framework */,
 				F0F831EA16FB8E6200535DC1 /* libsqlite3.dylib */,
 				5AD6DFF716D93531002B81D1 /* Social.framework */,
 				5A02A6B116D401E1001ECCF4 /* UIKit.framework */,
