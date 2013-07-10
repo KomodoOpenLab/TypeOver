@@ -49,9 +49,11 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 	}
 	if (textSpeak) {
 		textSpeakPredToggleSwitch.on=true;
+		NSLog(@"text speak prediction on");
 	}
 	else {
 		textSpeakPredToggleSwitch.on=false;
+		NSLog(@"text speak prediction off");
 	}
 	if (autoPred) {
 		autoPredToggleSwitch.on=true;
