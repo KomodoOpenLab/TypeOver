@@ -155,9 +155,25 @@
 - (NSMutableArray*) predictHelper:(NSString*) strContext
 {
     NSMutableString *strQuery = [[NSMutableString alloc] init];
-    [strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-    [strQuery appendString:strContext];
-    [strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
+		NSLog(@"text speak prediction");
+		[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+		NSMutableString *str = [[NSMutableString alloc] init];
+		int i = 0;
+		while (i<wordString.length) {
+			[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+			[str appendString:@"%"];
+			i++;
+		}
+		[strQuery appendString:str];
+		[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+	}
+	else {
+		NSLog(@"normal prediction");
+		[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+		[strQuery appendString:strContext];
+		[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+	}
     NSLog(@"Generating predictions with query: %@",strQuery);
     sqlite3_stmt *statement;
     int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
@@ -210,63 +226,6 @@
 	letters = true;
 	[self wordsLetters];
 	[self resetKeys];
-}
-
-- (void)parserDidStartDocument:(NSXMLParser *)parser{
-    NSLog(@"File found and parsing started");
-    
-}
-
-- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-    
-    NSString *errorString = [NSString stringWithFormat:@"Error code %ld", (long)[parseError code]];
-    NSLog(@"Error parsing XML: %@", errorString);
-    
-    
-    errorParsing=YES;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict{
-    currentElement = [elementName copy];
-    ElementValue = [[NSMutableString alloc] init];
-    attribs = [attributeDict copy];
-    
-    if ([elementName isEqualToString:@"w"]) {
-        item = [[NSMutableDictionary alloc] init];
-    }
-    
-}
-
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string{
-    [ElementValue appendString:string];
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName{
-    if ([elementName isEqualToString:@"w"]) {
-        [predArray addObject:[item copy]];
-        if (count<10)
-        {
-            NSString* strFreq = [attribs objectForKey:@"f"];
-            int nFreq = [strFreq intValue];
-            NSLog(@"ended word: %@ freq=%d",ElementValue,nFreq);
-        }
-        count++;
-    } else {
-        [item setObject:ElementValue forKey:elementName];
-    }
-    
-}
-
-- (void)parserDidEndDocument:(NSXMLParser *)parser {
-    
-    if (errorParsing == NO)
-    {
-        NSLog(@"XML processing done!");
-        NSLog(@"Total number of words: %d",count);
-    } else {
-        NSLog(@"Error occurred during XML processing");
-    }
-    
 }
 
 - (void)resetKeys {
@@ -1165,92 +1124,101 @@
 
 - (void)wordsLetters {
 	if (words) {
+		bool isUppercase = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[wordString characterAtIndex:0]];
+		int i = 0;
 		UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, punct1Button);
 		[punct1Button setTitle:@"" forState:UIControlStateNormal];
 		if (predResultsArray.count > 0) {
-			NSString *ws = wordString;
-			NSString *ps = [predResultsArray objectAtIndex:0];
-			int lngth = [ps length] - [ws length];
-			NSMutableString *final = [NSMutableString stringWithString:ws];
-			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
-			[abc2Button setTitle:final forState:UIControlStateNormal];
+			if (isUppercase) {
+				[abc2Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[abc2Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
 		}
 		else {
 			[abc2Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 1) {
-			NSString *ws = wordString;
-			NSString *ps = [predResultsArray objectAtIndex:1];
-			int lngth = [ps length] - [ws length];
-			NSMutableString *final = [NSMutableString stringWithString:ws];
-			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
-			[def3Button setTitle:final forState:UIControlStateNormal];
+			if (isUppercase) {
+				[def3Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[def3Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
 		}
 		else {
 			[def3Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 2) {
-			NSString *ws = wordString;
-			NSString *ps = [predResultsArray objectAtIndex:2];
-			int lngth = [ps length] - [ws length];
-			NSMutableString *final = [NSMutableString stringWithString:ws];
-			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
-			[ghi4Button setTitle:final forState:UIControlStateNormal];
+			if (isUppercase) {
+				[ghi4Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[ghi4Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
 		}
 		else {
 			[ghi4Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 3) {
-			NSString *ws = wordString;
-			NSString *ps = [predResultsArray objectAtIndex:3];
-			int lngth = [ps length] - [ws length];
-			NSMutableString *final = [NSMutableString stringWithString:ws];
-			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
-			[jkl5Button setTitle:final forState:UIControlStateNormal];
+			if (isUppercase) {
+				[jkl5Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[jkl5Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
 		}
 		else {
 			[jkl5Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 4) {
-			NSString *ws = wordString;
-			NSString *ps = [predResultsArray objectAtIndex:4];
-			int lngth = [ps length] - [ws length];
-			NSMutableString *final = [NSMutableString stringWithString:ws];
-			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
-			[mno6Button setTitle:final forState:UIControlStateNormal];
+			if (isUppercase) {
+				[mno6Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[mno6Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
 		}
 		else {
 			[mno6Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 5) {
-			NSString *ws = wordString;
-			NSString *ps = [predResultsArray objectAtIndex:5];
-			int lngth = [ps length] - [ws length];
-			NSMutableString *final = [NSMutableString stringWithString:ws];
-			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
-			[pqrs7Button setTitle:final forState:UIControlStateNormal];
+			if (isUppercase) {
+				[pqrs7Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[pqrs7Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
 		}
 		else {
 			[pqrs7Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 6) {
-			NSString *ws = wordString;
-			NSString *ps = [predResultsArray objectAtIndex:6];
-			int lngth = [ps length] - [ws length];
-			NSMutableString *final = [NSMutableString stringWithString:ws];
-			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
-			[tuv8Button setTitle:final forState:UIControlStateNormal];
+			if (isUppercase) {
+				[tuv8Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[tuv8Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
 		}
 		else {
 			[tuv8Button setTitle:@"" forState:UIControlStateNormal];
 		}
 		if (predResultsArray.count > 7) {
-			NSString *ws = wordString;
-			NSString *ps = [predResultsArray objectAtIndex:7];
-			int lngth = [ps length] - [ws length];
-			NSMutableString *final = [NSMutableString stringWithString:ws];
-			[final appendString:[ps substringFromIndex:[ps length] - lngth]];
-			[wxyz9Button setTitle:final forState:UIControlStateNormal];
+			if (isUppercase) {
+				[wxyz9Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[wxyz9Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
 		}
 		else {
 			[wxyz9Button setTitle:@"" forState:UIControlStateNormal];
