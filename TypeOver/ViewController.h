@@ -36,19 +36,14 @@
     __weak IBOutlet UIButton *clearButton;
     
 	
-    // variables 
+    // variables and pointers 
     
     NSTimer *inputTimer, *backspaceTimer;
 	bool words, letters, space, shift;
     NSString *clearString;
     NSMutableString *add, *wordString;
-    NSMutableArray *predArray, *predResultsArray;
-    NSMutableDictionary *item;
-    NSString *currentElement;
-    NSMutableString *ElementValue;
-    BOOL errorParsing;
-    int count, timesCycled;
-    NSDictionary *attribs;
+    NSMutableArray *predResultsArray;
+    int timesCycled;
     sqlite3 *dbWordPrediction;
 	
 	
