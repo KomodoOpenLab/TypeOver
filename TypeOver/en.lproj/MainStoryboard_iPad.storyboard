@@ -469,6 +469,9 @@
                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="khL-8e-4JQ">
                                 <rect key="frame" x="671" y="173" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="textSpeakPredToggleAct:" destination="yhM-O5-IFY" eventType="valueChanged" id="43H-Ox-etd"/>
+                                </connections>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="iDn-is-fcq">
                                 <rect key="frame" x="645" y="180" width="18" height="19"/>
@@ -481,6 +484,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="aboutTextSpeakPredAct:" destination="yhM-O5-IFY" eventType="touchUpInside" id="v9c-8w-bax"/>
+                                </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Manual dwell time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GQL-uJ-spm">
                                 <rect key="frame" x="20" y="64" width="617" height="27"/>
@@ -523,6 +529,7 @@
                         <outlet property="aboutAutoPredButton" destination="Udc-MZ-SmQ" id="761-vc-3DN"/>
                         <outlet property="aboutDwellTimeButton" destination="WbD-R0-PvS" id="3YC-k9-aHv"/>
                         <outlet property="aboutManualDwellTime" destination="mw4-uw-sxN" id="jDV-tS-Y9l"/>
+                        <outlet property="aboutTextSpeakPred" destination="iDn-is-fcq" id="Q8S-RN-3QN"/>
                         <outlet property="autoPredAfterDownButton" destination="GmA-6M-vuJ" id="fC9-YJ-Le3"/>
                         <outlet property="autoPredAfterLabel" destination="igG-lp-wWq" id="6M2-MK-oPN"/>
                         <outlet property="autoPredAfterUpButton" destination="zzN-b9-4Ci" id="lv4-jH-ses"/>
@@ -533,6 +540,7 @@
                         <outlet property="manualDwellTimeLabel" destination="GQL-uJ-spm" id="cQV-v8-lxR"/>
                         <outlet property="manualDwellTimeToggleSwitch" destination="XkH-Uc-jlz" id="Kl1-Nx-Vgf"/>
                         <outlet property="saveButton" destination="aFT-5n-Its" id="2ZG-A8-2go"/>
+                        <outlet property="textSpeakPredToggleSwitch" destination="khL-8e-4JQ" id="7qg-RR-8GD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ayD-Dd-LiS" userLabel="First Responder" sceneMemberID="firstResponder"/>
