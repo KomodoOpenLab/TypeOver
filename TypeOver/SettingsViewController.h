@@ -33,7 +33,7 @@
 	
 	// variables
 	
-	bool autoPred, manualDwellTime;
+	bool autoPred, manualDwellTime, textSpeak;
 	float inputRate;
 	int autoPredAfter, selRate, scanRateInd;
 	NSTimer *scanRateIndicatorTimer;
