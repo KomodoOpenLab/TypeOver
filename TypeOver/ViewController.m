@@ -155,9 +155,25 @@
 - (NSMutableArray*) predictHelper:(NSString*) strContext
 {
     NSMutableString *strQuery = [[NSMutableString alloc] init];
-    [strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-    [strQuery appendString:strContext];
-    [strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
+		NSLog(@"text speak prediction");
+		[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+		NSMutableString *str = [[NSMutableString alloc] init];
+		int i = 0;
+		while (i<wordString.length) {
+			[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+			[str appendString:@"%"];
+			i++;
+		}
+		[strQuery appendString:str];
+		[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+	}
+	else {
+		NSLog(@"normal prediction");
+		[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+		[strQuery appendString:strContext];
+		[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+	}
     NSLog(@"Generating predictions with query: %@",strQuery);
     sqlite3_stmt *statement;
     int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
