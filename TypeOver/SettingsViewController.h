@@ -27,6 +27,8 @@
 	__weak IBOutlet UIButton *aboutAutoPredButton;
 	__weak IBOutlet UIButton *aboutAutoPredAfterButton;
 	__weak IBOutlet UIButton *aboutManualDwellTime;
+	__weak IBOutlet UISwitch *textSpeakPredToggleSwitch;
+	__weak IBOutlet UIButton *aboutTextSpeakPred;
 	
 	
 	// variables
@@ -53,6 +55,8 @@
 - (IBAction)aboutPredAfterAct:(id)sender;
 - (IBAction)manualDwellTimeToggleAct:(id)sender;
 - (IBAction)aboutManualDwellTimeAct:(id)sender;
+- (IBAction)textSpeakPredToggleAct:(id)sender;
+- (IBAction)aboutTextSpeakPredAct:(id)sender;
 
 
 @end

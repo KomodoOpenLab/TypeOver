@@ -288,4 +288,10 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
     [alert show];
 }
 
+- (IBAction)textSpeakPredToggleAct:(id)sender {
+}
+
+- (IBAction)aboutTextSpeakPredAct:(id)sender {
+}
+
 @end
