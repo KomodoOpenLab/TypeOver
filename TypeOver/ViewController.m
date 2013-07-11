@@ -320,23 +320,16 @@
 			[punct1Button setEnabled:YES];
 		}
 		else {
+			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]||[punct1Button.titleLabel.text isEqualToString:@","]) {
 				if (space) {
-					NSString *st = textArea.text;
-					NSString *wst = wordString;
 					if ([st length] > 0) {
-						st = [st substringToIndex:[st length] - 1];
-						[textArea setText:st];
-						if ([wst length] > 0) {
-							wst = [wst substringToIndex:[wst length] - 1];
-							wordString = [NSMutableString stringWithString:wst];
-							add = [NSMutableString stringWithString:@""];
-						}
+						st = [NSMutableString stringWithString:[st substringToIndex:[st length] - 1]];
 					}
 				}
+				[st appendString:punct1Button.titleLabel.text];
+				[textArea setText:st];
 			}
-			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
-			[st appendString:punct1Button.titleLabel.text];
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
 				[st appendString:@" "];
 				shift = true;
