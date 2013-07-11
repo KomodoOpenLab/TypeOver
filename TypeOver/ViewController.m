@@ -328,7 +328,6 @@
 					}
 				}
 				[st appendString:punct1Button.titleLabel.text];
-				[textArea setText:st];
 			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
 				[st appendString:@" "];
@@ -338,6 +337,9 @@
 			else if ([punct1Button.titleLabel.text isEqualToString:@","]) {
 				[st appendString:@" "];
 				[self resetMisc];
+			}
+			else {
+				[st appendString:punct1Button.titleLabel.text];
 			}
 			[textArea setText:st];
 			[self resetKeys];
