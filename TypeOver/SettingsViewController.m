@@ -260,15 +260,18 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 	}
 }
 
-- (IBAction)saveAct:(id)sender {
-	[[NSUserDefaults standardUserDefaults] setBool:manualDwellTime forKey:@"manual_scan_rate"];
-	[[NSUserDefaults standardUserDefaults] setBool:textSpeak forKey:@"text_pred"];
-	[[NSUserDefaults standardUserDefaults] setBool:autoPred forKey:@"auto_pred"];
-	[[NSUserDefaults standardUserDefaults] setFloat:inputRate forKey:@"scan_rate_float"];
-	[[NSUserDefaults standardUserDefaults] setInteger:selRate forKey:@"scan_rate_int"];
-	[[NSUserDefaults standardUserDefaults] setInteger:autoPredAfter forKey:@"auto_pred_after"];
-	[[NSUserDefaults standardUserDefaults] synchronize];
-	[self dismissViewControllerAnimated:YES completion:nil];
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
+		[[NSUserDefaults standardUserDefaults] setBool:manualDwellTime forKey:@"manual_scan_rate"];
+		[[NSUserDefaults standardUserDefaults] setBool:textSpeak forKey:@"text_pred"];
+		[[NSUserDefaults standardUserDefaults] setBool:autoPred forKey:@"auto_pred"];
+		[[NSUserDefaults standardUserDefaults] setFloat:inputRate forKey:@"scan_rate_float"];
+		[[NSUserDefaults standardUserDefaults] setInteger:selRate forKey:@"scan_rate_int"];
+		[[NSUserDefaults standardUserDefaults] setInteger:autoPredAfter forKey:@"auto_pred_after"];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+		NSLog(@"settings saved");
+    }
 }
 
 - (IBAction)aboutDwellTimeAct:(id)sender {
