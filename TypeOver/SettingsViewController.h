@@ -22,7 +22,6 @@
 	__weak IBOutlet UILabel *autoPredAfterLabel;
 	__weak IBOutlet UIButton *autoPredAfterDownButton;
     __weak IBOutlet UIButton *autoPredAfterUpButton;
-	__weak IBOutlet UIBarButtonItem *saveButton;
 	__weak IBOutlet UIButton *aboutDwellTimeButton;
 	__weak IBOutlet UIButton *aboutAutoPredButton;
 	__weak IBOutlet UIButton *aboutAutoPredAfterButton;
@@ -49,7 +48,6 @@
 - (IBAction)autoPredictToggleAct:(id)sender;
 - (IBAction)autoPredAfterDownAct:(id)sender;
 - (IBAction)autoPredAfterUpAct:(id)sender;
-- (IBAction)saveAct:(id)sender;
 - (IBAction)aboutDwellTimeAct:(id)sender;
 - (IBAction)aboutAutoPredAct:(id)sender;
 - (IBAction)aboutPredAfterAct:(id)sender;
