@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="sU9-tq-OBq">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--View Controller - TypeOver-->
         <scene sceneID="4">
             <objects>
                 <viewController id="2" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="KcW-fr-vfM" customClass="CustomButton">
-                                <rect key="frame" x="21" y="909" width="200" height="75"/>
+                                <rect key="frame" x="21" y="865" width="200" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="shift" backgroundImage="normalButton.png">
@@ -28,7 +28,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Dni-us-WDz" customClass="CustomButton">
-                                <rect key="frame" x="644" y="743" width="104" height="75"/>
+                                <rect key="frame" x="644" y="699" width="104" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="clear" backgroundImage="normalButton.png">
@@ -43,7 +43,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="WbU-nk-KsM" customClass="CustomButton">
-                                <rect key="frame" x="644" y="826" width="104" height="75"/>
+                                <rect key="frame" x="644" y="782" width="104" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="speak" backgroundImage="normalButton.png">
@@ -58,7 +58,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lIz-h4-eOZ" customClass="CustomButton">
-                                <rect key="frame" x="435" y="660" width="200" height="75"/>
+                                <rect key="frame" x="435" y="616" width="200" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="def 3" backgroundImage="normalButton.png">
@@ -73,7 +73,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sf6-8h-UPN" customClass="CustomButton">
-                                <rect key="frame" x="435" y="743" width="200" height="75"/>
+                                <rect key="frame" x="435" y="699" width="200" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="mno 6" backgroundImage="normalButton.png">
@@ -88,7 +88,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ged-fm-ypy" customClass="CustomButton">
-                                <rect key="frame" x="435" y="826" width="200" height="75"/>
+                                <rect key="frame" x="435" y="782" width="200" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="wxyz 9" backgroundImage="normalButton.png">
@@ -103,7 +103,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="koU-Uq-H8s" customClass="CustomButton">
-                                <rect key="frame" x="436" y="909" width="200" height="75"/>
+                                <rect key="frame" x="436" y="865" width="200" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="words" backgroundImage="normalButton.png">
@@ -118,7 +118,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Jgn-SK-arC" customClass="CustomButton">
-                                <rect key="frame" x="644" y="660" width="104" height="75"/>
+                                <rect key="frame" x="644" y="616" width="104" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="backspace" backgroundImage="normalButton.png">
@@ -133,7 +133,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="aT4-Mw-quf" customClass="CustomButton">
-                                <rect key="frame" x="20" y="660" width="200" height="75"/>
+                                <rect key="frame" x="20" y="616" width="200" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title=".,?!'@# 1" backgroundImage="normalButton.png">
@@ -148,7 +148,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="QpZ-Ho-0rT" customClass="CustomButton">
-                                <rect key="frame" x="20" y="743" width="200" height="75"/>
+                                <rect key="frame" x="20" y="699" width="200" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="ghi 4" backgroundImage="normalButton.png">
@@ -163,7 +163,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fek-eL-H59" customClass="CustomButton">
-                                <rect key="frame" x="21" y="826" width="200" height="75"/>
+                                <rect key="frame" x="21" y="782" width="200" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="pqrs 7" backgroundImage="normalButton.png">
@@ -178,7 +178,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="nlD-dU-NNe" customClass="CustomButton">
-                                <rect key="frame" x="229" y="909" width="200" height="75"/>
+                                <rect key="frame" x="229" y="865" width="200" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="space 0" backgroundImage="normalButton.png">
@@ -193,7 +193,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7pZ-gl-kUX" customClass="CustomButton">
-                                <rect key="frame" x="228" y="660" width="200" height="75"/>
+                                <rect key="frame" x="228" y="616" width="200" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="abc 2" backgroundImage="normalButton.png">
@@ -208,7 +208,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Apd-sI-1Fz" customClass="CustomButton">
-                                <rect key="frame" x="228" y="743" width="200" height="75"/>
+                                <rect key="frame" x="228" y="699" width="200" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="jkl 5" backgroundImage="normalButton.png">
@@ -223,7 +223,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="D5w-Vo-Bew" customClass="CustomButton">
-                                <rect key="frame" x="228" y="826" width="200" height="75"/>
+                                <rect key="frame" x="228" y="782" width="200" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="tuv 8" backgroundImage="normalButton.png">
@@ -238,33 +238,27 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" id="UHn-Bb-TqK">
-                                <rect key="frame" x="20" y="64" width="728" height="588"/>
+                                <rect key="frame" x="20" y="20" width="728" height="588"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <navigationBar contentMode="scaleToFill" barStyle="blackOpaque" id="Idm-Ij-uea">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="TypeOver" id="7TW-bt-x1m">
-                                        <barButtonItem key="leftBarButtonItem" title="Use" id="ki4-Cu-ycL">
-                                            <connections>
-                                                <action selector="useAct:" destination="2" id="7Se-eT-D8P"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Settings" id="gRS-Wd-8CS">
-                                            <connections>
-                                                <segue destination="yhM-O5-IFY" kind="modal" id="MYl-DX-Icv"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" title="TypeOver" id="hGb-uT-nVU">
+                        <barButtonItem key="leftBarButtonItem" title="Use" id="PSm-PN-SKy">
+                            <connections>
+                                <action selector="useAct:" destination="2" id="BvV-D3-sac"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Settings" id="ZGW-qX-oNE">
+                            <connections>
+                                <segue destination="yhM-O5-IFY" kind="push" id="Nh0-M0-Co3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="abc2Button" destination="7pZ-gl-kUX" id="zkr-Ip-igs"/>
                         <outlet property="backspaceButton" destination="Jgn-SK-arC" id="tTr-G4-Aje"/>
@@ -275,30 +269,31 @@
                         <outlet property="mno6Button" destination="sf6-8h-UPN" id="WKH-Yc-f3h"/>
                         <outlet property="pqrs7Button" destination="fek-eL-H59" id="y7L-Fi-IRc"/>
                         <outlet property="punct1Button" destination="aT4-Mw-quf" id="SfA-Q9-Zz2"/>
-                        <outlet property="settingsButton" destination="gRS-Wd-8CS" id="cQc-QX-nfG"/>
+                        <outlet property="settingsButton" destination="ZGW-qX-oNE" id="uah-H5-JUd"/>
                         <outlet property="shiftButton" destination="KcW-fr-vfM" id="0OV-F1-Rbb"/>
                         <outlet property="space0Button" destination="nlD-dU-NNe" id="Zhw-u1-qRg"/>
                         <outlet property="speakButton" destination="WbU-nk-KsM" id="Eyk-L0-2hi"/>
                         <outlet property="textArea" destination="UHn-Bb-TqK" id="nvt-aU-hKQ"/>
                         <outlet property="tuv8Button" destination="D5w-Vo-Bew" id="2Mj-l9-tjn"/>
-                        <outlet property="useButton" destination="ki4-Cu-ycL" id="C3W-A8-4HZ"/>
+                        <outlet property="useButton" destination="PSm-PN-SKy" id="j27-pr-RPa"/>
                         <outlet property="wordsLettersButton" destination="koU-Uq-H8s" id="ecR-Zy-bYh"/>
                         <outlet property="wxyz9Button" destination="Ged-fm-ypy" id="0tT-m2-dX0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1015" y="-239"/>
         </scene>
-        <!--Settings View Controller-->
+        <!--Settings View Controller - Settings-->
         <scene sceneID="nF8-wv-mxr">
             <objects>
                 <viewController id="yhM-O5-IFY" customClass="SettingsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xpw-br-yzP">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fKU-0e-BZK" customClass="CustomButton">
-                                <rect key="frame" x="714" y="99" width="34" height="44"/>
+                                <rect key="frame" x="714" y="55" width="34" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label="Speed up"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -314,7 +309,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="AMG-8A-5gK" customClass="CustomButton">
-                                <rect key="frame" x="672" y="99" width="34" height="44"/>
+                                <rect key="frame" x="672" y="55" width="34" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label="Speed down"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -330,7 +325,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Dwell time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZWm-6G-2d0">
-                                <rect key="frame" x="20" y="99" width="617" height="44"/>
+                                <rect key="frame" x="20" y="55" width="617" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <bool key="isElement" value="NO"/>
@@ -340,7 +335,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Auto predict" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t9K-6k-YJv">
-                                <rect key="frame" x="20" y="208" width="617" height="27"/>
+                                <rect key="frame" x="20" y="164" width="617" height="27"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <bool key="isElement" value="NO"/>
@@ -350,14 +345,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="eWI-Ok-OeU">
-                                <rect key="frame" x="671" y="208" width="79" height="27"/>
+                                <rect key="frame" x="671" y="164" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="autoPredictToggleAct:" destination="yhM-O5-IFY" eventType="valueChanged" id="PXs-Jq-PY9"/>
                                 </connections>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="zzN-b9-4Ci" customClass="CustomButton">
-                                <rect key="frame" x="714" y="243" width="34" height="44"/>
+                                <rect key="frame" x="714" y="199" width="34" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label=""/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -373,7 +368,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="GmA-6M-vuJ" customClass="CustomButton">
-                                <rect key="frame" x="672" y="243" width="34" height="44"/>
+                                <rect key="frame" x="672" y="199" width="34" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label=""/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -389,7 +384,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Auto predict after" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="igG-lp-wWq">
-                                <rect key="frame" x="20" y="243" width="617" height="44"/>
+                                <rect key="frame" x="20" y="199" width="617" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <bool key="isElement" value="NO"/>
@@ -398,21 +393,8 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <navigationBar contentMode="scaleToFill" barStyle="blackOpaque" id="YwK-pN-nvs">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Settings" id="qyT-Aq-Hjb">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="aFT-5n-Its">
-                                            <connections>
-                                                <action selector="saveAct:" destination="yhM-O5-IFY" id="ANA-rb-gFF"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="WbD-R0-PvS">
-                                <rect key="frame" x="645" y="111" width="18" height="19"/>
+                                <rect key="frame" x="645" y="67" width="18" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -427,7 +409,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="tdg-Lp-MgO">
-                                <rect key="frame" x="645" y="255" width="18" height="19"/>
+                                <rect key="frame" x="645" y="211" width="18" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -442,7 +424,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Udc-MZ-SmQ">
-                                <rect key="frame" x="645" y="216" width="18" height="19"/>
+                                <rect key="frame" x="645" y="172" width="18" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -457,7 +439,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Text speak prediction" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="si7-o9-9Du">
-                                <rect key="frame" x="20" y="173" width="617" height="27"/>
+                                <rect key="frame" x="20" y="129" width="617" height="27"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <bool key="isElement" value="NO"/>
@@ -467,14 +449,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="khL-8e-4JQ">
-                                <rect key="frame" x="671" y="173" width="79" height="27"/>
+                                <rect key="frame" x="671" y="129" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="textSpeakPredToggleAct:" destination="yhM-O5-IFY" eventType="valueChanged" id="43H-Ox-etd"/>
                                 </connections>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="iDn-is-fcq">
-                                <rect key="frame" x="645" y="180" width="18" height="19"/>
+                                <rect key="frame" x="645" y="136" width="18" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -489,7 +471,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Manual dwell time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GQL-uJ-spm">
-                                <rect key="frame" x="20" y="64" width="617" height="27"/>
+                                <rect key="frame" x="20" y="20" width="617" height="27"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <bool key="isElement" value="NO"/>
@@ -499,7 +481,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="XkH-Uc-jlz">
-                                <rect key="frame" x="671" y="64" width="79" height="27"/>
+                                <rect key="frame" x="671" y="20" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="autoPredictToggleAct:" destination="yhM-O5-IFY" eventType="valueChanged" id="K11-p0-lwo"/>
@@ -507,7 +489,7 @@
                                 </connections>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="mw4-uw-sxN">
-                                <rect key="frame" x="645" y="68" width="18" height="19"/>
+                                <rect key="frame" x="645" y="24" width="18" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -524,6 +506,9 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Settings" id="4hF-A4-cEZ">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="TNQ-Rg-f2m"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="aboutAutoPredAfterButton" destination="tdg-Lp-MgO" id="52f-CT-FDW"/>
                         <outlet property="aboutAutoPredButton" destination="Udc-MZ-SmQ" id="761-vc-3DN"/>
@@ -539,13 +524,30 @@
                         <outlet property="dwellTimeUpButton" destination="fKU-0e-BZK" id="Dwp-7N-Ekt"/>
                         <outlet property="manualDwellTimeLabel" destination="GQL-uJ-spm" id="cQV-v8-lxR"/>
                         <outlet property="manualDwellTimeToggleSwitch" destination="XkH-Uc-jlz" id="Kl1-Nx-Vgf"/>
-                        <outlet property="saveButton" destination="aFT-5n-Its" id="2ZG-A8-2go"/>
                         <outlet property="textSpeakPredToggleSwitch" destination="khL-8e-4JQ" id="7qg-RR-8GD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ayD-Dd-LiS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="891" y="-254"/>
+            <point key="canvasLocation" x="1865" y="-254"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="kJk-X9-X8W">
+            <objects>
+                <navigationController id="sU9-tq-OBq" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="D9S-9a-Wfl">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="2" kind="relationship" relationship="rootViewController" id="1CW-80-HR3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f6i-Ec-xJP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-766" y="-515"/>
         </scene>
     </scenes>
     <resources>

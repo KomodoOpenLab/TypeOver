@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="Vbm-Ot-xlm">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--View Controller - TypeOver-->
         <scene sceneID="5">
             <objects>
                 <viewController id="2" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RRy-C4-q2B" customClass="CustomButton">
-                                <rect key="frame" x="20" y="400" width="70" height="40"/>
+                                <rect key="frame" x="20" y="356" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="shift" backgroundImage="normalButton.png">
@@ -28,7 +28,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NDT-z7-jnM" customClass="CustomButton">
-                                <rect key="frame" x="254" y="304" width="46" height="40"/>
+                                <rect key="frame" x="254" y="260" width="46" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="clr" backgroundImage="normalButton.png">
@@ -43,7 +43,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ivG-YR-igD" customClass="CustomButton">
-                                <rect key="frame" x="254" y="352" width="46" height="40"/>
+                                <rect key="frame" x="254" y="308" width="46" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="spk" backgroundImage="normalButton.png">
@@ -58,7 +58,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3nV-pU-6tV" customClass="CustomButton">
-                                <rect key="frame" x="176" y="256" width="70" height="40"/>
+                                <rect key="frame" x="176" y="212" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="def 3" backgroundImage="normalButton.png">
@@ -73,7 +73,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="woa-ut-QD2" customClass="CustomButton">
-                                <rect key="frame" x="176" y="304" width="70" height="40"/>
+                                <rect key="frame" x="176" y="260" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="mno 6" backgroundImage="normalButton.png">
@@ -88,7 +88,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uTv-a1-LeI" customClass="CustomButton">
-                                <rect key="frame" x="176" y="352" width="70" height="40"/>
+                                <rect key="frame" x="176" y="308" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="wxyz 9" backgroundImage="normalButton.png">
@@ -103,7 +103,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VDl-Jw-Kg8" customClass="CustomButton">
-                                <rect key="frame" x="254" y="256" width="46" height="40"/>
+                                <rect key="frame" x="254" y="212" width="46" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="bksp" backgroundImage="normalButton.png">
@@ -118,7 +118,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kaw-P1-Jl1" customClass="CustomButton">
-                                <rect key="frame" x="20" y="256" width="70" height="40"/>
+                                <rect key="frame" x="20" y="212" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title=".,?!'@# 1" backgroundImage="normalButton.png">
@@ -133,7 +133,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dwJ-gO-Ilu" customClass="CustomButton">
-                                <rect key="frame" x="20" y="304" width="70" height="40"/>
+                                <rect key="frame" x="20" y="260" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="ghi 4" backgroundImage="normalButton.png">
@@ -148,7 +148,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tpo-Uc-ODi" customClass="CustomButton">
-                                <rect key="frame" x="20" y="352" width="70" height="40"/>
+                                <rect key="frame" x="20" y="308" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="pqrs 7" backgroundImage="normalButton.png">
@@ -163,7 +163,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qA3-WI-eD6" customClass="CustomButton">
-                                <rect key="frame" x="98" y="400" width="70" height="40"/>
+                                <rect key="frame" x="98" y="356" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="space 0" backgroundImage="normalButton.png">
@@ -178,7 +178,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Bh2-uK-kQX" customClass="CustomButton">
-                                <rect key="frame" x="176" y="400" width="70" height="40"/>
+                                <rect key="frame" x="176" y="356" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="words" backgroundImage="normalButton.png">
@@ -193,7 +193,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wnj-wB-YMU" customClass="CustomButton">
-                                <rect key="frame" x="98" y="256" width="70" height="40"/>
+                                <rect key="frame" x="98" y="212" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="abc 2" backgroundImage="normalButton.png">
@@ -208,7 +208,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rFL-eU-b8W" customClass="CustomButton">
-                                <rect key="frame" x="98" y="304" width="70" height="40"/>
+                                <rect key="frame" x="98" y="260" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="jkl 5" backgroundImage="normalButton.png">
@@ -223,7 +223,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="N4e-cc-FS2" customClass="CustomButton">
-                                <rect key="frame" x="98" y="352" width="70" height="40"/>
+                                <rect key="frame" x="98" y="308" width="70" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="tuv 8" backgroundImage="normalButton.png">
@@ -238,33 +238,27 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="LQa-8g-uAe">
-                                <rect key="frame" x="20" y="64" width="280" height="184"/>
+                                <rect key="frame" x="20" y="20" width="280" height="184"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <navigationBar contentMode="scaleToFill" barStyle="blackOpaque" id="aI6-zR-AIL">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="TypeOver" id="xtX-io-cUp">
-                                        <barButtonItem key="leftBarButtonItem" title="Use" id="epj-g8-Agn">
-                                            <connections>
-                                                <action selector="useAct:" destination="2" id="sEp-2a-h1I"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Settings" id="RmE-qS-9Bi">
-                                            <connections>
-                                                <segue destination="1uy-sH-CXm" kind="modal" id="YKv-g7-g7J"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" title="TypeOver" id="LQ6-FM-ffp">
+                        <barButtonItem key="leftBarButtonItem" title="Use" id="qp0-QB-f2W">
+                            <connections>
+                                <action selector="useAct:" destination="2" id="13k-Kv-yLO"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Settings" id="hD1-dO-iew">
+                            <connections>
+                                <segue destination="1uy-sH-CXm" kind="push" id="rQO-C5-bKR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="abc2Button" destination="wnj-wB-YMU" id="BWs-0u-kAn"/>
                         <outlet property="backspaceButton" destination="VDl-Jw-Kg8" id="k8J-6g-nvR"/>
@@ -275,30 +269,31 @@
                         <outlet property="mno6Button" destination="woa-ut-QD2" id="qFg-ks-509"/>
                         <outlet property="pqrs7Button" destination="tpo-Uc-ODi" id="NbR-jG-D2d"/>
                         <outlet property="punct1Button" destination="kaw-P1-Jl1" id="QJC-xh-WOe"/>
-                        <outlet property="settingsButton" destination="RmE-qS-9Bi" id="DkP-iT-4qz"/>
+                        <outlet property="settingsButton" destination="hD1-dO-iew" id="1Gw-eD-0g6"/>
                         <outlet property="shiftButton" destination="RRy-C4-q2B" id="Qmc-Tq-BgE"/>
                         <outlet property="space0Button" destination="qA3-WI-eD6" id="EtZ-P4-120"/>
                         <outlet property="speakButton" destination="ivG-YR-igD" id="1Z1-mP-gHp"/>
                         <outlet property="textArea" destination="LQa-8g-uAe" id="zov-iN-VrQ"/>
                         <outlet property="tuv8Button" destination="N4e-cc-FS2" id="6yP-vr-8fa"/>
-                        <outlet property="useButton" destination="epj-g8-Agn" id="g8y-VI-H2Z"/>
+                        <outlet property="useButton" destination="qp0-QB-f2W" id="smh-oL-cjT"/>
                         <outlet property="wordsLettersButton" destination="Bh2-uK-kQX" id="xGV-Ma-ml8"/>
                         <outlet property="wxyz9Button" destination="uTv-a1-LeI" id="7tq-92-qGu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="799" y="108"/>
         </scene>
-        <!--Settings View Controller-->
+        <!--Settings View Controller - Settings-->
         <scene sceneID="HBs-ZH-Xpn">
             <objects>
                 <viewController id="1uy-sH-CXm" customClass="SettingsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2G2-i1-Q6e">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="GRh-F1-KAK" customClass="CustomButton">
-                                <rect key="frame" x="266" y="99" width="34" height="44"/>
+                                <rect key="frame" x="266" y="55" width="34" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label="Speed up"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -314,7 +309,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cfc-Mq-TPF" customClass="CustomButton">
-                                <rect key="frame" x="224" y="99" width="34" height="44"/>
+                                <rect key="frame" x="224" y="55" width="34" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label=""/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -330,7 +325,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="c32-KA-0n5" customClass="CustomButton">
-                                <rect key="frame" x="266" y="243" width="34" height="44"/>
+                                <rect key="frame" x="266" y="199" width="34" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label=""/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -346,7 +341,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xN7-A7-6Tf" customClass="CustomButton">
-                                <rect key="frame" x="224" y="243" width="34" height="44"/>
+                                <rect key="frame" x="224" y="199" width="34" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label=""/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -362,7 +357,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Dwell time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZJ6-yL-cNd">
-                                <rect key="frame" x="20" y="99" width="169" height="44"/>
+                                <rect key="frame" x="20" y="55" width="169" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <bool key="isElement" value="NO"/>
@@ -372,7 +367,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Auto predict" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sct-LV-3T0">
-                                <rect key="frame" x="20" y="208" width="169" height="27"/>
+                                <rect key="frame" x="20" y="164" width="169" height="27"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <bool key="isElement" value="NO"/>
@@ -382,7 +377,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Predict after" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oxQ-5d-ole">
-                                <rect key="frame" x="20" y="243" width="169" height="44"/>
+                                <rect key="frame" x="20" y="199" width="169" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <bool key="isElement" value="NO"/>
@@ -392,27 +387,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="bqQ-R6-kdH">
-                                <rect key="frame" x="223" y="208" width="79" height="27"/>
+                                <rect key="frame" x="223" y="164" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="autoPredictToggleAct:" destination="1uy-sH-CXm" eventType="valueChanged" id="jMQ-C0-2FU"/>
                                 </connections>
                             </switch>
-                            <navigationBar contentMode="scaleToFill" barStyle="blackOpaque" id="2GW-DX-Ytf">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Settings" id="uZD-Yu-Uxv">
-                                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="pxf-TD-Jzu">
-                                            <connections>
-                                                <action selector="saveAct:" destination="1uy-sH-CXm" id="ays-HV-5KC"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="JZl-re-r8y">
-                                <rect key="frame" x="197" y="111" width="18" height="19"/>
+                                <rect key="frame" x="197" y="67" width="18" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -427,7 +409,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="jbV-OJ-XSQ">
-                                <rect key="frame" x="197" y="255" width="18" height="19"/>
+                                <rect key="frame" x="197" y="211" width="18" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -442,7 +424,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="IZS-fB-uqm">
-                                <rect key="frame" x="197" y="216" width="18" height="19"/>
+                                <rect key="frame" x="197" y="172" width="18" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -457,7 +439,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Text speak prediction" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ove-My-7Da">
-                                <rect key="frame" x="20" y="173" width="169" height="27"/>
+                                <rect key="frame" x="20" y="129" width="169" height="27"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <bool key="isElement" value="NO"/>
@@ -467,14 +449,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="BRI-fb-s2f">
-                                <rect key="frame" x="223" y="173" width="79" height="27"/>
+                                <rect key="frame" x="223" y="129" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="textSpeakPredToggleAct:" destination="1uy-sH-CXm" eventType="valueChanged" id="DN1-Mg-znQ"/>
                                 </connections>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Ap3-dK-v0K">
-                                <rect key="frame" x="197" y="177" width="18" height="19"/>
+                                <rect key="frame" x="197" y="133" width="18" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -489,7 +471,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Manual dwell time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="A6T-iw-zps">
-                                <rect key="frame" x="20" y="64" width="169" height="27"/>
+                                <rect key="frame" x="20" y="20" width="169" height="27"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <bool key="isElement" value="NO"/>
@@ -499,14 +481,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="70m-TY-4q9">
-                                <rect key="frame" x="223" y="64" width="79" height="27"/>
+                                <rect key="frame" x="223" y="20" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="manualDwellTimeToggleAct:" destination="1uy-sH-CXm" eventType="valueChanged" id="gaQ-uB-9Wq"/>
                                 </connections>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="W0c-il-nj4">
-                                <rect key="frame" x="197" y="68" width="18" height="19"/>
+                                <rect key="frame" x="197" y="24" width="18" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -523,7 +505,9 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="kOR-H1-C4K"/>
+                    <navigationItem key="navigationItem" title="Settings" id="kOR-H1-C4K">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="MoP-mB-fvq"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="aboutAutoPredAfterButton" destination="jbV-OJ-XSQ" id="f75-kw-Qfi"/>
                         <outlet property="aboutAutoPredButton" destination="IZS-fB-uqm" id="X1e-IR-ojw"/>
@@ -539,96 +523,35 @@
                         <outlet property="dwellTimeUpButton" destination="GRh-F1-KAK" id="0Fi-jm-Sxl"/>
                         <outlet property="manualDwellTimeLabel" destination="A6T-iw-zps" id="Peh-f6-vEq"/>
                         <outlet property="manualDwellTimeToggleSwitch" destination="70m-TY-4q9" id="LE4-Z9-kgH"/>
-                        <outlet property="saveButton" destination="pxf-TD-Jzu" id="n6h-uz-zoM"/>
                         <outlet property="textSpeakPredToggleSwitch" destination="BRI-fb-s2f" id="nHk-dH-Bhe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Osd-lG-bXi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="802" y="31"/>
+            <point key="canvasLocation" x="1328" y="31"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="khi-ym-gIZ">
+            <objects>
+                <navigationController id="Vbm-Ot-xlm" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qV4-jH-aEX">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="2" kind="relationship" relationship="rootViewController" id="30y-ej-LME"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sxf-Wr-XVi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="265" y="672"/>
         </scene>
     </scenes>
     <resources>
         <image name="normalButton.png" width="700" height="400"/>
     </resources>
-    <classes>
-        <class className="CustomButton" superclassName="UIButton">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CustomButton.h"/>
-        </class>
-        <class className="SettingsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="aboutAutoPredAct:"/>
-                <relationship kind="action" name="aboutDwellTimeAct:"/>
-                <relationship kind="action" name="aboutManualDwellTimeAct:"/>
-                <relationship kind="action" name="aboutPredAfterAct:"/>
-                <relationship kind="action" name="aboutTextSpeakPredAct:"/>
-                <relationship kind="action" name="autoPredAfterDownAct:"/>
-                <relationship kind="action" name="autoPredAfterUpAct:"/>
-                <relationship kind="action" name="autoPredictToggleAct:"/>
-                <relationship kind="action" name="dwellTimeDownAct:"/>
-                <relationship kind="action" name="dwellTimeUpAct:"/>
-                <relationship kind="action" name="manualDwellTimeToggleAct:"/>
-                <relationship kind="action" name="saveAct:"/>
-                <relationship kind="action" name="textSpeakPredToggleAct:"/>
-                <relationship kind="outlet" name="aboutAutoPredAfterButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="aboutAutoPredButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="aboutDwellTimeButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="aboutManualDwellTime" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="aboutTextSpeakPred" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="autoPredAfterDownButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="autoPredAfterLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="autoPredAfterUpButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="autoPredToggleSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="dwellTimeDownButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="dwellTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="dwellTimeUpButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="manualDwellTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="manualDwellTimeToggleSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="saveButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="textSpeakPredToggleSwitch" candidateClass="UISwitch"/>
-            </relationships>
-        </class>
-        <class className="ViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="abc2Act:"/>
-                <relationship kind="action" name="backspaceAct:"/>
-                <relationship kind="action" name="clearAct:"/>
-                <relationship kind="action" name="def3Act:"/>
-                <relationship kind="action" name="ghi4Act:"/>
-                <relationship kind="action" name="jkl5Act:"/>
-                <relationship kind="action" name="mno6Act:"/>
-                <relationship kind="action" name="pqrs7Act:"/>
-                <relationship kind="action" name="punct1Act:"/>
-                <relationship kind="action" name="shiftAct:"/>
-                <relationship kind="action" name="space0Act:"/>
-                <relationship kind="action" name="speakAct:"/>
-                <relationship kind="action" name="tuv8Act:"/>
-                <relationship kind="action" name="useAct:"/>
-                <relationship kind="action" name="wordsLettersAct:"/>
-                <relationship kind="action" name="wxyz9Act:"/>
-                <relationship kind="outlet" name="abc2Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="backspaceButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="clearButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="def3Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="ghi4Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="jkl5Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="mno6Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="pqrs7Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="punct1Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="settingsButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="shiftButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="space0Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="speakButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="textArea" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="tuv8Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="useButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="wordsLettersButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="wxyz9Button" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
