@@ -14,7 +14,7 @@
 {
     BOOL bSuccess = YES;
     int result = 0;
-    NSString *URL = @"file:///Users/tomnantais/Desktop/en_wordlist.xml";
+    NSString *URL = @"file:///Users/owenmcgirr/Desktop/en_wordlist.xml"; // depends on machine
     NSString *agentString = @"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_6; en-us) AppleWebKit/525.27.1 (KHTML, like Gecko) Version/3.2.1 Safari/525.27.1";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                     [NSURL URLWithString:URL]];
@@ -24,7 +24,7 @@
     NSLog(@"I am here");
     
     //open the database that will hold the word data
-    result = sqlite3_open("/Users/tomnantais/Documents/EnWords", &database);
+    result = sqlite3_open("/Users/owenmcgirr/Desktop/EnWords", &database); // depends on machine
     if (SQLITE_OK!=result)
     {
         NSLog(@"couldn't open database result=%d",result);
@@ -51,7 +51,15 @@
             bSuccess = NO;
         }
         
-        createSQL = "CREATE INDEX WORDS_IDX ON WORDS (FREQUENCY DESC, WORD);";
+        createSQL = "CREATE TABLE BIGRAMDATA(ID INTEGER PRIMARY KEY AUTOINCREMENT, ID1 INTEGER, ID2 INTEGER, BIGRAMFREQ INTEGER);";
+        result = sqlite3_exec(database, createSQL, NULL, NULL, &errMsg);
+        if (SQLITE_OK!=result)
+        {
+            NSLog(@"Error creating BIGRAMDATA table: %s",errMsg);
+            bSuccess = NO;
+        }
+        
+		createSQL = "CREATE INDEX WORDS_IDX ON WORDS (FREQUENCY DESC, WORD);";
         
         result = sqlite3_exec(database, createSQL, NULL, NULL, &errMsg);
         if (SQLITE_OK!=result)
@@ -78,10 +86,73 @@
         
         [rssParser parse];
     }
-    
+	
+	if (bSuccess) {
+		NSString *path = @"/Users/owenmcgirr/Desktop/bginfo.txt"; // depends on machine 
+		[[NSFileManager defaultManager] isReadableFileAtPath:path];
+		NSError *error;
+		NSString *entries = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+		NSLog(@"%@", entries);
+		NSArray *bigramEntries = [entries componentsSeparatedByString:@"\n"];
+		if (error) {
+			NSLog(@"error finding bigram file");
+		}
+		
+		int i=0;
+		
+		while (i<bigramEntries.count) {
+			NSMutableString *strQuery = [[NSMutableString alloc] init];
+			NSArray *line = [[NSArray alloc] init];
+			int arr1[10], arr2[10]; // set to 10 just incase 
+			int id1, id2, freq;
+			
+			line = [[bigramEntries objectAtIndex:i] componentsSeparatedByString:@", "];
+			NSLog(@"passed mark 1");
+			
+			[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD = '"];
+			[strQuery appendString:[line objectAtIndex:0]];
+			[strQuery appendString:@"';"];
+			sqlite3_stmt *statement;
+			int result = sqlite3_prepare_v2(database, [strQuery UTF8String], -1, &statement, nil);
+			if (SQLITE_OK==result)
+			{
+				int counter =0;
+				while (SQLITE_ROW==sqlite3_step(statement))
+				{
+					arr1[counter]=sqlite3_column_int(statement, 0);
+					counter++;
+				}
+				NSLog(@"passed mark 2");
+			}
+			
+			[strQuery setString:@"SELECT * FROM WORDS WHERE WORD = '"];
+			[strQuery appendString:[line objectAtIndex:1]];
+			[strQuery appendString:@"';"];
+			result = sqlite3_prepare_v2(database, [strQuery UTF8String], -1, &statement, nil);
+			if (SQLITE_OK==result)
+			{
+				int counter =0;
+				while (SQLITE_ROW==sqlite3_step(statement))
+				{
+					arr2[counter]=sqlite3_column_int(statement, 0);
+					counter++;
+				}
+				NSLog(@"passed mark 3");
+			}
+			
+			id1=arr1[0];
+			id2=arr2[0];
+			freq=[[line objectAtIndex:2] intValue];
+			[self addId1:id1 addId2:id2 withFreq:freq];
+			
+			i++;
+			NSLog(@"passed mark 4");
+		}
+	}
+	
     sqlite3_close(database);
     NSLog(@"database closed");
-
+	
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser{
@@ -141,6 +212,34 @@
     return(bSuccess);
 }
 
+- (BOOL)addId1:(int)idOne addId2:(int)idTwo withFreq:(int)freq
+{
+    BOOL bSuccess = YES;
+    char* ins = "INSERT INTO BIGRAMDATA (ID1, ID2, BIGRAMFREQ) VALUES(?, ?, ?);";
+    
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(database,ins,-1,&stmt,nil)!=SQLITE_OK)
+    {
+        NSLog(@"failed to prepare");
+        bSuccess = NO;
+    }
+    if(bSuccess)
+    {
+		sqlite3_bind_int(stmt, 1, idOne);
+        sqlite3_bind_int(stmt, 2, idTwo);
+        sqlite3_bind_int(stmt, 3, freq);
+        if (SQLITE_DONE!=sqlite3_step(stmt))
+        {
+            NSLog(@"failed to step");
+            bSuccess = NO;
+        }
+    }
+    
+    sqlite3_finalize(stmt);
+    
+    return(bSuccess);
+}
+
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName{
     if ([elementName isEqualToString:@"w"]) {
         
@@ -153,7 +252,7 @@
             {
                 errorInserting = YES;
             }
-        
+			
             count++;
             
             if (0==count%1000)
