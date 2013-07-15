@@ -23,7 +23,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
     [super viewDidLoad];
     inputRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"];
 	selRate = [[NSUserDefaults standardUserDefaults] integerForKey:@"scan_rate_int"];
-	NSLog(@"%i", selRate);
+	fontSize = [[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"];
 	autoPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"];
 	textSpeak=[[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"];
 	autoPredAfter=[[NSUserDefaults standardUserDefaults] integerForKey:@"auto_pred_after"];
@@ -260,6 +260,16 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 	}
 }
 
+- (IBAction)fontSizeDownAct:(id)sender {
+	if (fontSize>14) {
+		fontSize=fontSize-2;
+	}
+}
+
+- (IBAction)fontSizeUpAct:(id)sender {
+	fontSize=fontSize+2;
+}
+
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
@@ -269,6 +279,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 		[[NSUserDefaults standardUserDefaults] setFloat:inputRate forKey:@"scan_rate_float"];
 		[[NSUserDefaults standardUserDefaults] setInteger:selRate forKey:@"scan_rate_int"];
 		[[NSUserDefaults standardUserDefaults] setInteger:autoPredAfter forKey:@"auto_pred_after"];
+		[[NSUserDefaults standardUserDefaults] setInteger:fontSize forKey:@"font_size"];
 		[[NSUserDefaults standardUserDefaults] synchronize];
 		NSLog(@"settings saved");
     }
@@ -313,6 +324,15 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 - (IBAction)aboutTextSpeakPredAct:(id)sender {
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info"
 													message:@"Text speak prediction provides the ability for you to just type key letters from the word you want. For example, typing 'pbl' would predict 'probably'. For optimum results, type the most distinctive letters in the word. You have to include the first letter. Also, the letters must be in the correct order."
+												   delegate:nil
+										  cancelButtonTitle:@"Dismiss"
+										  otherButtonTitles: nil];
+    [alert show];
+}
+
+- (IBAction)aboutFontSizeAct:(id)sender {
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info"
+													message:@"Font size refers to the size of the text you type."
 												   delegate:nil
 										  cancelButtonTitle:@"Dismiss"
 										  otherButtonTitles: nil];

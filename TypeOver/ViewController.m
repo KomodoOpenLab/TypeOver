@@ -39,6 +39,7 @@
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shift"]) {
 		shift = true;
 	}
+	[textArea setFont:[UIFont systemFontOfSize:[[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"]]];
 	[self checkShift];
     [self resetMisc];
 }
