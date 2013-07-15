@@ -21,6 +21,8 @@
 	__weak IBOutlet UISwitch *autoPredToggleSwitch;
 	__weak IBOutlet UILabel *autoPredAfterLabel;
 	__weak IBOutlet UIButton *autoPredAfterDownButton;
+    __weak IBOutlet UIButton *fontSizeUpButton;
+	__weak IBOutlet UIButton *fontSizeDownButton;
     __weak IBOutlet UIButton *autoPredAfterUpButton;
 	__weak IBOutlet UIButton *aboutDwellTimeButton;
 	__weak IBOutlet UIButton *aboutAutoPredButton;
@@ -28,6 +30,7 @@
 	__weak IBOutlet UIButton *aboutManualDwellTime;
 	__weak IBOutlet UISwitch *textSpeakPredToggleSwitch;
 	__weak IBOutlet UIButton *aboutTextSpeakPred;
+	__weak IBOutlet UIButton *aboutFontSize;
 	
 	
 	// variables
@@ -48,6 +51,8 @@
 - (IBAction)autoPredictToggleAct:(id)sender;
 - (IBAction)autoPredAfterDownAct:(id)sender;
 - (IBAction)autoPredAfterUpAct:(id)sender;
+- (IBAction)fontSizeDownAct:(id)sender;
+- (IBAction)fontSizeUpAct:(id)sender;
 - (IBAction)aboutDwellTimeAct:(id)sender;
 - (IBAction)aboutAutoPredAct:(id)sender;
 - (IBAction)aboutPredAfterAct:(id)sender;
@@ -55,6 +60,7 @@
 - (IBAction)aboutManualDwellTimeAct:(id)sender;
 - (IBAction)textSpeakPredToggleAct:(id)sender;
 - (IBAction)aboutTextSpeakPredAct:(id)sender;
+- (IBAction)aboutFontSizeAct:(id)sender;
 
 
 @end

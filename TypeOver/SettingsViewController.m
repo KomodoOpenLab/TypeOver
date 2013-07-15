@@ -260,6 +260,14 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 	}
 }
 
+- (IBAction)fontSizeDownAct:(id)sender {
+	
+}
+
+- (IBAction)fontSizeUpAct:(id)sender {
+	
+}
+
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
@@ -317,6 +325,9 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 										  cancelButtonTitle:@"Dismiss"
 										  otherButtonTitles: nil];
     [alert show];
+}
+
+- (IBAction)aboutFontSizeAct:(id)sender {
 }
 
 @end
