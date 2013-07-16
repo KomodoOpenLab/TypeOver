@@ -157,24 +157,51 @@
 - (NSMutableArray*) predictHelper:(NSString*) strContext
 {
     NSMutableString *strQuery = [[NSMutableString alloc] init];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
-		NSLog(@"text speak prediction");
-		[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-		NSMutableString *str = [[NSMutableString alloc] init];
-		int i = 0;
-		while (i<wordString.length) {
-			[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-			[str appendString:@"%"];
-			i++;
+	if (wordId == 0) {
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
+			NSLog(@"text speak prediction");
+			[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+			NSMutableString *str = [[NSMutableString alloc] init];
+			int i = 0;
+			while (i<wordString.length) {
+				[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+				[str appendString:@"%"];
+				i++;
+			}
+			[strQuery appendString:str];
+			[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
 		}
-		[strQuery appendString:str];
-		[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+		else {
+			NSLog(@"normal prediction");
+			[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+			[strQuery appendString:strContext];
+			[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+		}
 	}
 	else {
-		NSLog(@"normal prediction");
-		[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-		[strQuery appendString:strContext];
-		[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
+			NSLog(@"text speak prediction");
+			[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
+			[strQuery appendFormat:@"%i", wordId];
+			[strQuery appendString:@" AND WORDS.WORD = '"];
+			NSMutableString *str = [[NSMutableString alloc] init];
+			int i = 0;
+			while (i<wordString.length) {
+				[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+				[str appendString:@"%"];
+				i++;
+			}
+			[strQuery appendString:str];
+			[strQuery appendString:@"' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
+		}
+		else {
+			NSLog(@"normal prediction");
+			[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
+			[strQuery appendFormat:@"%i", wordId];
+			[strQuery appendString:@" AND WORDS.WORD = '"];
+			[strQuery appendString:strContext];
+			[strQuery appendString:@"%' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
+		}
 	}
     NSLog(@"Generating predictions with query: %@",strQuery);
     sqlite3_stmt *statement;
