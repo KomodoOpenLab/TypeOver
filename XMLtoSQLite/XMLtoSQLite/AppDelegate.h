@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <sqlite3.h>
+#include <stdio.h>
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSXMLParserDelegate>
 {
