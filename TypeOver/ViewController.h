@@ -43,7 +43,7 @@
     NSString *clearString;
     NSMutableString *add, *wordString;
     NSMutableArray *predResultsArray;
-    int timesCycled;
+    int timesCycled, wordId;
     sqlite3 *dbWordPrediction;
 	
 	

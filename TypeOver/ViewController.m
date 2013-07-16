@@ -40,6 +40,7 @@
 		shift = true;
 	}
 	[textArea setFont:[UIFont systemFontOfSize:[[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"]]];
+	wordId = 0;
 	[self checkShift];
     [self resetMisc];
 }
@@ -198,6 +199,30 @@
     return(resultarr);
 }
 
+- (void)getWordId:(NSString *)word {
+    NSMutableString *strQuery = [[NSMutableString alloc] init];
+	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD = '"];
+	[strQuery appendString:word];
+	[strQuery appendString:@"';"];
+    sqlite3_stmt *statement;
+    int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+	int arr[10]; // set to 10 just incase
+    if (SQLITE_OK==result)
+    {
+		int i = 0;
+        while (SQLITE_ROW==sqlite3_step(statement))
+        {
+			arr[i] = sqlite3_column_int(statement, 0);
+			i++;
+        }
+		wordId = arr[0];
+	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
+}
+
 - (void)predict {
 	if ([wordString isEqualToString:@""]) {
 		wordString = [NSMutableString stringWithString:add];
@@ -331,6 +356,7 @@
 				[st appendString:punct1Button.titleLabel.text];
 			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
+				wordId = 0;
 				[st appendString:@" "];
 				shift = true;
 				[self resetMisc];
@@ -401,6 +427,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:abc2Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -456,6 +483,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:def3Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -511,6 +539,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:ghi4Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -566,6 +595,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:jkl5Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -621,6 +651,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:mno6Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -676,6 +707,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:pqrs7Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -731,6 +763,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:tuv8Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -786,6 +819,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:wxyz9Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -831,6 +865,7 @@
 			[st appendString:@"0"];
 		}
 		[textArea setText:st];
+		wordId = 0;
 		[self resetKeys];
 	}
 	[self checkShift];
