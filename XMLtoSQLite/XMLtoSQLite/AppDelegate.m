@@ -88,71 +88,83 @@
     }
 	
 	if (bSuccess) {
-		NSString *path = @"/Users/owenmcgirr/Desktop/bginfo.txt"; // depends on machine 
-		[[NSFileManager defaultManager] isReadableFileAtPath:path];
-		NSError *error;
-		NSString *entries = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
-		NSLog(@"%@", entries);
-		NSArray *bigramEntries = [entries componentsSeparatedByString:@"\n"];
-		if (error) {
-			NSLog(@"error finding bigram file");
-		}
+		FILE *file = fopen("/Users/owenmcgirr/Desktop/bginfo.txt", "r"); // depends on machine
 		
-		int i=0;
-		
-		while (i<bigramEntries.count) {
-			NSMutableString *strQuery = [[NSMutableString alloc] init];
-			NSArray *line = [[NSArray alloc] init];
-			int arr1[10], arr2[10]; // set to 10 just incase 
-			int id1, id2, freq;
-			
-			line = [[bigramEntries objectAtIndex:i] componentsSeparatedByString:@", "];
-			NSLog(@"passed mark 1");
-			
-			[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD = '"];
-			[strQuery appendString:[line objectAtIndex:0]];
-			[strQuery appendString:@"';"];
-			sqlite3_stmt *statement;
-			int result = sqlite3_prepare_v2(database, [strQuery UTF8String], -1, &statement, nil);
-			if (SQLITE_OK==result)
-			{
-				int counter =0;
-				while (SQLITE_ROW==sqlite3_step(statement))
-				{
-					arr1[counter]=sqlite3_column_int(statement, 0);
-					counter++;
-				}
-				NSLog(@"passed mark 2");
-			}
-			
-			[strQuery setString:@"SELECT * FROM WORDS WHERE WORD = '"];
-			[strQuery appendString:[line objectAtIndex:1]];
-			[strQuery appendString:@"';"];
-			result = sqlite3_prepare_v2(database, [strQuery UTF8String], -1, &statement, nil);
-			if (SQLITE_OK==result)
-			{
-				int counter =0;
-				while (SQLITE_ROW==sqlite3_step(statement))
-				{
-					arr2[counter]=sqlite3_column_int(statement, 0);
-					counter++;
-				}
-				NSLog(@"passed mark 3");
-			}
-			
-			id1=arr1[0];
-			id2=arr2[0];
-			freq=[[line objectAtIndex:2] intValue];
-			[self addId1:id1 addId2:id2 withFreq:freq];
-			
-			i++;
-			NSLog(@"passed mark 4");
+		if (file==NULL) {
+			NSLog(@"file not found");
 		}
+		else {
+			while (!feof(file)) {
+				NSMutableString *strQuery = [[NSMutableString alloc] init];
+				NSArray *line = [[NSArray alloc] init];
+				int arr1[10], arr2[10]; // set to 10 just incase
+				int id1, id2, freq;
+				
+				line = [readLineAsNSString(file) componentsSeparatedByString:@", "];
+				
+				[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD = '"];
+				[strQuery appendString:[line objectAtIndex:0]];
+				[strQuery appendString:@"';"];
+				sqlite3_stmt *statement;
+				int result = sqlite3_prepare_v2(database, [strQuery UTF8String], -1, &statement, nil);
+				if (SQLITE_OK==result)
+				{
+					int counter =0;
+					while (SQLITE_ROW==sqlite3_step(statement))
+					{
+						arr1[counter]=sqlite3_column_int(statement, 0);
+						counter++;
+					}
+				}
+				
+				[strQuery setString:@"SELECT * FROM WORDS WHERE WORD = '"];
+				[strQuery appendString:[line objectAtIndex:1]];
+				[strQuery appendString:@"';"];
+				result = sqlite3_prepare_v2(database, [strQuery UTF8String], -1, &statement, nil);
+				if (SQLITE_OK==result)
+				{
+					int counter =0;
+					while (SQLITE_ROW==sqlite3_step(statement))
+					{
+						arr2[counter]=sqlite3_column_int(statement, 0);
+						counter++;
+					}
+				}
+				
+				id1=arr1[0];
+				id2=arr2[0];
+				freq=[[line objectAtIndex:2] intValue];
+				[self addId1:id1 addId2:id2 withFreq:freq];
+				
+			}
+		}
+		fclose(file);
 	}
 	
     sqlite3_close(database);
-    NSLog(@"database closed");
+    NSLog(@"database and bigram file closed");
 	
+}
+
+NSString *readLineAsNSString(FILE *file)
+{
+    char buffer[4096];
+	
+    // tune this capacity to your liking -- larger buffer sizes will be faster, but
+    // use more memory
+    NSMutableString *result = [NSMutableString stringWithCapacity:256];
+	
+    // Read up to 4095 non-newline characters, then read and discard the newline
+    int charsRead;
+    do
+    {
+        if(fscanf(file, "%4095[^\n]%n%*c", buffer, &charsRead) == 1)
+            [result appendFormat:@"%s", buffer];
+        else
+            break;
+    } while(charsRead == 4095);
+	
+    return result;
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser{
