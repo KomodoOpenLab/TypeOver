@@ -937,6 +937,7 @@
     else {
         textArea.text = clearString;
     }
+	wordId=0;
 	space=false;
 	[self checkShift];
     [self resetMisc];
