@@ -60,15 +60,22 @@
         }
         
 		createSQL = "CREATE INDEX WORDS_IDX ON WORDS (FREQUENCY DESC, WORD);";
-        
         result = sqlite3_exec(database, createSQL, NULL, NULL, &errMsg);
         if (SQLITE_OK!=result)
         {
-            NSLog(@"Error creating index on words table: %s",errMsg);
+            NSLog(@"Error creating index on WORDS table: %s",errMsg);
             bSuccess = NO;
         }
         
-    }
+		createSQL = "CREATE INDEX BIGRAMDATA_IDX ON BIGRAMDATA (ID1, BIGRAMFREQ DESC);";
+        result = sqlite3_exec(database, createSQL, NULL, NULL, &errMsg);
+        if (SQLITE_OK!=result)
+        {
+            NSLog(@"Error creating index on BIGRAMDATA table: %s",errMsg);
+            bSuccess = NO;
+        }
+    
+	}
     
     if (bSuccess)
     {
