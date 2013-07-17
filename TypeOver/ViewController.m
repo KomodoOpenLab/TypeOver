@@ -227,7 +227,6 @@
 }
 
 - (void)getWordId:(NSString *)word {
-	word = [word lowercaseString];
 	NSLog(@"getting id for word: %@", word);
     NSMutableString *strQuery = [[NSMutableString alloc] init];
 	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORDS.WORD = '"];
@@ -457,7 +456,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:abc2Button.titleLabel.text];
+				[self getWordId:[predResultsArray objectAtIndex:0]];
 				space=true;
 				[self resetMisc];
 			}
@@ -513,7 +512,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:def3Button.titleLabel.text];
+				[self getWordId:[predResultsArray objectAtIndex:1]];
 				space=true;
 				[self resetMisc];
 			}
@@ -569,7 +568,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:ghi4Button.titleLabel.text];
+				[self getWordId:[predResultsArray objectAtIndex:2]];
 				space=true;
 				[self resetMisc];
 			}
@@ -625,7 +624,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:jkl5Button.titleLabel.text];
+				[self getWordId:[predResultsArray objectAtIndex:3]];
 				space=true;
 				[self resetMisc];
 			}
@@ -681,7 +680,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:mno6Button.titleLabel.text];
+				[self getWordId:[predResultsArray objectAtIndex:4]];
 				space=true;
 				[self resetMisc];
 			}
@@ -737,7 +736,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:pqrs7Button.titleLabel.text];
+				[self getWordId:[predResultsArray objectAtIndex:5]];
 				space=true;
 				[self resetMisc];
 			}
@@ -793,7 +792,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:tuv8Button.titleLabel.text];
+				[self getWordId:[predResultsArray objectAtIndex:6]];
 				space=true;
 				[self resetMisc];
 			}
@@ -849,7 +848,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:wxyz9Button.titleLabel.text];
+				[self getWordId:[predResultsArray objectAtIndex:7]];
 				space=true;
 				[self resetMisc];
 			}
