@@ -40,6 +40,7 @@
 		shift = true;
 	}
 	[textArea setFont:[UIFont systemFontOfSize:[[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"]]];
+	wordId = 0;
 	[self checkShift];
     [self resetMisc];
 }
@@ -156,24 +157,51 @@
 - (NSMutableArray*) predictHelper:(NSString*) strContext
 {
     NSMutableString *strQuery = [[NSMutableString alloc] init];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
-		NSLog(@"text speak prediction");
-		[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-		NSMutableString *str = [[NSMutableString alloc] init];
-		int i = 0;
-		while (i<wordString.length) {
-			[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-			[str appendString:@"%"];
-			i++;
+	if (wordId == 0) {
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
+			NSLog(@"text speak prediction");
+			[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+			NSMutableString *str = [[NSMutableString alloc] init];
+			int i = 0;
+			while (i<wordString.length) {
+				[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+				[str appendString:@"%"];
+				i++;
+			}
+			[strQuery appendString:str];
+			[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
 		}
-		[strQuery appendString:str];
-		[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+		else {
+			NSLog(@"normal prediction");
+			[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+			[strQuery appendString:strContext];
+			[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+		}
 	}
 	else {
-		NSLog(@"normal prediction");
-		[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-		[strQuery appendString:strContext];
-		[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
+			NSLog(@"text speak prediction");
+			[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
+			[strQuery appendFormat:@"%i", wordId];
+			[strQuery appendString:@" AND WORDS.WORD LIKE '"];
+			NSMutableString *str = [[NSMutableString alloc] init];
+			int i = 0;
+			while (i<wordString.length) {
+				[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+				[str appendString:@"%"];
+				i++;
+			}
+			[strQuery appendString:str];
+			[strQuery appendString:@"' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
+		}
+		else {
+			NSLog(@"normal prediction");
+			[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
+			[strQuery appendFormat:@"%i", wordId];
+			[strQuery appendString:@" AND WORDS.WORD LIKE '"];
+			[strQuery appendString:strContext];
+			[strQuery appendString:@"%' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
+		}
 	}
     NSLog(@"Generating predictions with query: %@",strQuery);
     sqlite3_stmt *statement;
@@ -196,6 +224,33 @@
         NSLog(@"Query error number: %d",result);
     }
     return(resultarr);
+}
+
+- (void)getWordId:(NSString *)word {
+	word = [word lowercaseString];
+	NSLog(@"getting id for word: %@", word);
+    NSMutableString *strQuery = [[NSMutableString alloc] init];
+	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORDS.WORD = '"];
+	[strQuery appendString:word];
+	[strQuery appendString:@"';"];
+    sqlite3_stmt *statement;
+    int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+	int arr[10]; // set to 10 just incase
+    if (SQLITE_OK==result)
+    {
+		int i = 0;
+        while (SQLITE_ROW==sqlite3_step(statement))
+        {
+			arr[i] = sqlite3_column_int(statement, 0);
+			i++;
+        }
+		NSLog(@"amount of results: %i", i);
+		wordId = arr[0];
+	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
 }
 
 - (void)predict {
@@ -331,6 +386,7 @@
 				[st appendString:punct1Button.titleLabel.text];
 			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
+				wordId = 0;
 				[st appendString:@" "];
 				shift = true;
 				[self resetMisc];
@@ -401,6 +457,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:abc2Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -456,6 +513,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:def3Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -511,6 +569,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:ghi4Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -566,6 +625,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:jkl5Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -621,6 +681,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:mno6Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -676,6 +737,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:pqrs7Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -731,6 +793,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:tuv8Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -786,6 +849,7 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
+				[self getWordId:wxyz9Button.titleLabel.text];
 				space=true;
 				[self resetMisc];
 			}
@@ -831,6 +895,7 @@
 			[st appendString:@"0"];
 		}
 		[textArea setText:st];
+		wordId = 0;
 		[self resetKeys];
 	}
 	[self checkShift];
@@ -872,6 +937,7 @@
     else {
         textArea.text = clearString;
     }
+	wordId=0;
 	space=false;
 	[self checkShift];
     [self resetMisc];
