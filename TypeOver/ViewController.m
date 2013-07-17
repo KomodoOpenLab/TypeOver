@@ -183,7 +183,7 @@
 			NSLog(@"text speak prediction");
 			[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
 			[strQuery appendFormat:@"%i", wordId];
-			[strQuery appendString:@" AND WORDS.WORD = '"];
+			[strQuery appendString:@" AND WORDS.WORD LIKE '"];
 			NSMutableString *str = [[NSMutableString alloc] init];
 			int i = 0;
 			while (i<wordString.length) {
@@ -198,7 +198,7 @@
 			NSLog(@"normal prediction");
 			[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
 			[strQuery appendFormat:@"%i", wordId];
-			[strQuery appendString:@" AND WORDS.WORD = '"];
+			[strQuery appendString:@" AND WORDS.WORD LIKE '"];
 			[strQuery appendString:strContext];
 			[strQuery appendString:@"%' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
 		}
@@ -228,7 +228,7 @@
 
 - (void)getWordId:(NSString *)word {
     NSMutableString *strQuery = [[NSMutableString alloc] init];
-	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD = '"];
+	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORDS.WORD = '"];
 	[strQuery appendString:word];
 	[strQuery appendString:@"';"];
     sqlite3_stmt *statement;
