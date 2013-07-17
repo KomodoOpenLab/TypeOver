@@ -227,6 +227,7 @@
 }
 
 - (void)getWordId:(NSString *)word {
+	word = [word lowercaseString];
 	NSLog(@"getting id for word: %@", word);
     NSMutableString *strQuery = [[NSMutableString alloc] init];
 	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORDS.WORD = '"];
