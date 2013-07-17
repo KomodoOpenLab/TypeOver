@@ -227,6 +227,7 @@
 }
 
 - (void)getWordId:(NSString *)word {
+	NSLog(@"getting id for word: %@", word);
     NSMutableString *strQuery = [[NSMutableString alloc] init];
 	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORDS.WORD = '"];
 	[strQuery appendString:word];
@@ -242,6 +243,7 @@
 			arr[i] = sqlite3_column_int(statement, 0);
 			i++;
         }
+		NSLog(@"amount of results: %i", i);
 		wordId = arr[0];
 	}
 	else
