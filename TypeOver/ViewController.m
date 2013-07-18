@@ -156,6 +156,7 @@
 
 - (NSMutableArray*) predictHelper:(NSString*) strContext
 {
+	bool bigram;
     NSMutableString *strQuery = [[NSMutableString alloc] init];
 	if (wordId == 0) {
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
@@ -177,6 +178,7 @@
 			[strQuery appendString:strContext];
 			[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
 		}
+		bigram=false;
 	}
 	else {
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
@@ -202,6 +204,7 @@
 			[strQuery appendString:strContext];
 			[strQuery appendString:@"%' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
 		}
+		bigram=true;
 	}
     NSLog(@"Generating predictions with query: %@",strQuery);
     sqlite3_stmt *statement;
@@ -223,6 +226,47 @@
     {
         NSLog(@"Query error number: %d",result);
     }
+	if (resultarr.count<8&&bigram) {
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
+			[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+			NSMutableString *str = [[NSMutableString alloc] init];
+			int i = 0;
+			while (i<wordString.length) {
+				[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+				[str appendString:@"%"];
+				i++;
+			}
+			[strQuery appendString:str];
+			[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+		}
+		else {
+			[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+			[strQuery appendString:strContext];
+			[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+		}
+		result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		if (SQLITE_OK==result)
+		{
+			int prednum = resultarr.count;
+			int remaining = 8-resultarr.count;
+			int count = 0;
+			while (count<remaining && SQLITE_ROW==sqlite3_step(statement))
+			{
+				char *rowData = (char*)sqlite3_column_text(statement, 1);
+				NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+				if (![resultarr containsObject:str]) {
+					NSLog(@"prediction %d: %@",prednum+1,str);
+					[resultarr addObject:str];
+					prednum++;
+					count++;
+				}
+			}
+		}
+		else
+		{
+			NSLog(@"Query error number: %d",result);
+		}
+	}
     return(resultarr);
 }
 
