@@ -25,7 +25,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 	selRate = [[NSUserDefaults standardUserDefaults] integerForKey:@"scan_rate_int"];
 	fontSize = [[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"];
 	autoPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"];
-	textSpeak=[[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"];
+	shorthandPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"];
 	autoPredAfter=[[NSUserDefaults standardUserDefaults] integerForKey:@"auto_pred_after"];
 	manualDwellTime=[[NSUserDefaults standardUserDefaults] boolForKey:@"manual_scan_rate"];
 	NSMutableString *st=[NSMutableString stringWithString:@"Predict after "];
@@ -47,13 +47,13 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 		[dwellTimeUpButton setHidden:YES];
 		[aboutDwellTimeButton setHidden:YES];
 	}
-	if (textSpeak) {
-		textSpeakPredToggleSwitch.on=true;
-		NSLog(@"text speak prediction on");
+	if (shorthandPred) {
+		shorthandPredToggleSwitch.on=true;
+		NSLog(@"shorthand prediction on");
 	}
 	else {
-		textSpeakPredToggleSwitch.on=false;
-		NSLog(@"text speak prediction off");
+		shorthandPredToggleSwitch.on=false;
+		NSLog(@"shorthand prediction off");
 	}
 	if (autoPred) {
 		autoPredToggleSwitch.on=true;
@@ -251,12 +251,12 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 	}
 }
 
-- (IBAction)textSpeakPredToggleAct:(id)sender {
-	if ([textSpeakPredToggleSwitch isOn]) {
-		textSpeak=true;
+- (IBAction)shorthandPredToggleAct:(id)sender {
+	if ([shorthandPredToggleSwitch isOn]) {
+		shorthandPred=true;
 	}
 	else {
-		textSpeak=false;
+		shorthandPred=false;
 	}
 }
 
@@ -274,7 +274,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
     [super viewWillDisappear:animated];
     if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
 		[[NSUserDefaults standardUserDefaults] setBool:manualDwellTime forKey:@"manual_scan_rate"];
-		[[NSUserDefaults standardUserDefaults] setBool:textSpeak forKey:@"text_pred"];
+		[[NSUserDefaults standardUserDefaults] setBool:shorthandPred forKey:@"shorthand_pred"];
 		[[NSUserDefaults standardUserDefaults] setBool:autoPred forKey:@"auto_pred"];
 		[[NSUserDefaults standardUserDefaults] setFloat:inputRate forKey:@"scan_rate_float"];
 		[[NSUserDefaults standardUserDefaults] setInteger:selRate forKey:@"scan_rate_int"];
@@ -321,9 +321,9 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
     [alert show];
 }
 
-- (IBAction)aboutTextSpeakPredAct:(id)sender {
+- (IBAction)aboutShorthandPredAct:(id)sender {
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info"
-													message:@"Text speak prediction provides the ability for you to just type key letters from the word you want. For example, typing 'pbl' would predict 'probably'. For optimum results, type the most distinctive letters in the word. You have to include the first letter. Also, the letters must be in the correct order."
+													message:@"Shorthand prediction provides the ability for you to just type key letters from the word you want. For example, typing 'pbl' would predict 'probably'. For optimum results, type the most distinctive letters in the word. You have to include the first letter. Also, the letters must be in the correct order."
 												   delegate:nil
 										  cancelButtonTitle:@"Dismiss"
 										  otherButtonTitles: nil];

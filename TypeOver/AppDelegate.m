@@ -18,7 +18,7 @@
 		float f = (int)(i)/1000;
 		[[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"first_run"];
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"auto_pred"];
-		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"text_pred"];
+		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"shorthand_pred"];
 		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"manual_scan_rate"];
 		[[NSUserDefaults standardUserDefaults] setInteger:i forKey:@"scan_rate_int"];
 		[[NSUserDefaults standardUserDefaults] setFloat:f forKey:@"scan_rate_float"];
