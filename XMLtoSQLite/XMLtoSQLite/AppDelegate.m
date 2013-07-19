@@ -74,7 +74,7 @@
             NSLog(@"Error creating index on BIGRAMDATA table: %s",errMsg);
             bSuccess = NO;
         }
-    
+		
 	}
     
     if (bSuccess)
@@ -95,54 +95,80 @@
     }
 	
 	if (bSuccess) {
-		FILE *file = fopen("/Users/owenmcgirr/Desktop/bginfo.txt", "r"); // depends on machine
+		FILE *file = fopen("/Users/owenmcgirr/Desktop/bigrams.txt", "r"); // depends on machine
 		
 		if (file==NULL) {
 			NSLog(@"file not found");
 		}
 		else {
+			int bigram = 0;
 			while (!feof(file)) {
 				NSMutableString *strQuery = [[NSMutableString alloc] init];
 				NSArray *line = [[NSArray alloc] init];
-				int arr1[10], arr2[10]; // set to 10 just incase
+				int arr1[10], arr2[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // set to 10 just incase
 				int id1, id2, freq;
 				
-				line = [readLineAsNSString(file) componentsSeparatedByString:@", "];
+				line = [readLineAsNSString(file) componentsSeparatedByString:@","];
 				
-				[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD = '"];
-				[strQuery appendString:[line objectAtIndex:0]];
-				[strQuery appendString:@"';"];
-				sqlite3_stmt *statement;
-				int result = sqlite3_prepare_v2(database, [strQuery UTF8String], -1, &statement, nil);
-				if (SQLITE_OK==result)
-				{
-					int counter =0;
-					while (SQLITE_ROW==sqlite3_step(statement))
-					{
-						arr1[counter]=sqlite3_column_int(statement, 0);
-						counter++;
+				bool isGoodRecord = false;
+				
+				if (line.count==3) {
+					if ([[line objectAtIndex:0] length]!=0 && [[line objectAtIndex:1] length]!=0 && [[line objectAtIndex:2] length]!=0) {
+						isGoodRecord=true;
+					}
+					else {
+						isGoodRecord=false;
 					}
 				}
 				
-				[strQuery setString:@"SELECT * FROM WORDS WHERE WORD = '"];
-				[strQuery appendString:[line objectAtIndex:1]];
-				[strQuery appendString:@"';"];
-				result = sqlite3_prepare_v2(database, [strQuery UTF8String], -1, &statement, nil);
-				if (SQLITE_OK==result)
-				{
-					int counter =0;
-					while (SQLITE_ROW==sqlite3_step(statement))
-					{
-						arr2[counter]=sqlite3_column_int(statement, 0);
-						counter++;
-					}
+				if (isGoodRecord==true && line.count==3) {
+					NSCharacterSet *alphaNums = [NSCharacterSet decimalDigitCharacterSet];
+					NSCharacterSet *inStringSet = [NSCharacterSet characterSetWithCharactersInString:[line objectAtIndex:2]];
+					isGoodRecord = [alphaNums isSupersetOfSet:inStringSet];
 				}
 				
-				id1=arr1[0];
-				id2=arr2[0];
-				freq=[[line objectAtIndex:2] intValue];
-				[self addId1:id1 addId2:id2 withFreq:freq];
+				if (isGoodRecord) {
+					[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD = '"];
+					[strQuery appendString:[line objectAtIndex:0]];
+					[strQuery appendString:@"';"];
+					sqlite3_stmt *statement;
+					int result = sqlite3_prepare_v2(database, [strQuery UTF8String], -1, &statement, nil);
+					if (SQLITE_OK==result)
+					{
+						int counter =0;
+						while (SQLITE_ROW==sqlite3_step(statement))
+						{
+							arr1[counter]=sqlite3_column_int(statement, 0);
+							counter++;
+						}
+					}
+					
+					[strQuery setString:@"SELECT * FROM WORDS WHERE WORD = '"];
+					[strQuery appendString:[line objectAtIndex:1]];
+					[strQuery appendString:@"';"];
+					result = sqlite3_prepare_v2(database, [strQuery UTF8String], -1, &statement, nil);
+					if (SQLITE_OK==result)
+					{
+						int counter =0;
+						while (SQLITE_ROW==sqlite3_step(statement))
+						{
+							arr2[counter]=sqlite3_column_int(statement, 0);
+							counter++;
+						}
+					}
+					
+					id1=arr1[0];
+					id2=arr2[0];
+					freq=[[line objectAtIndex:2] intValue];
+					if (id1!=0&&id2!=0) {
+						[self addId1:id1 addId2:id2 withFreq:freq];
+					}
+				}
+				if (0==bigram%1000) {
+					NSLog(@"%i %@", bigram, @"bigrams passed");
+				}
 				
+				bigram++;
 			}
 		}
 		fclose(file);
