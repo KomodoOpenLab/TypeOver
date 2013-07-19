@@ -28,14 +28,14 @@
 	__weak IBOutlet UIButton *aboutAutoPredButton;
 	__weak IBOutlet UIButton *aboutAutoPredAfterButton;
 	__weak IBOutlet UIButton *aboutManualDwellTime;
-	__weak IBOutlet UISwitch *textSpeakPredToggleSwitch;
-	__weak IBOutlet UIButton *aboutTextSpeakPred;
+	__weak IBOutlet UISwitch *shorthandPredToggleSwitch;
+	__weak IBOutlet UIButton *aboutShorthandPred;
 	__weak IBOutlet UIButton *aboutFontSize;
 	
 	
 	// variables
 	
-	bool autoPred, manualDwellTime, textSpeak;
+	bool autoPred, manualDwellTime, shorthandPred;
 	float inputRate;
 	int autoPredAfter, selRate, scanRateInd, fontSize;
 	NSTimer *scanRateIndicatorTimer;
@@ -58,8 +58,8 @@
 - (IBAction)aboutPredAfterAct:(id)sender;
 - (IBAction)manualDwellTimeToggleAct:(id)sender;
 - (IBAction)aboutManualDwellTimeAct:(id)sender;
-- (IBAction)textSpeakPredToggleAct:(id)sender;
-- (IBAction)aboutTextSpeakPredAct:(id)sender;
+- (IBAction)shorthandPredToggleAct:(id)sender;
+- (IBAction)aboutShorthandPredAct:(id)sender;
 - (IBAction)aboutFontSizeAct:(id)sender;
 
 

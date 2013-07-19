@@ -159,8 +159,8 @@
 	bool bigram;
     NSMutableString *strQuery = [[NSMutableString alloc] init];
 	if (wordId == 0) {
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
-			NSLog(@"text speak prediction");
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
+			NSLog(@"shorthand prediction");
 			[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 			NSMutableString *str = [[NSMutableString alloc] init];
 			int i = 0;
@@ -181,8 +181,8 @@
 		bigram=false;
 	}
 	else {
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
-			NSLog(@"text speak prediction");
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
+			NSLog(@"shorthand prediction");
 			[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
 			[strQuery appendFormat:@"%i", wordId];
 			[strQuery appendString:@" AND WORDS.WORD LIKE '"];
@@ -227,7 +227,7 @@
         NSLog(@"Query error number: %d",result);
     }
 	if (resultarr.count<8&&bigram) {
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"text_pred"]) {
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
 			[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 			NSMutableString *str = [[NSMutableString alloc] init];
 			int i = 0;

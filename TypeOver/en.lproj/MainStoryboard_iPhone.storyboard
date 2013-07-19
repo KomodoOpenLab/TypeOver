@@ -495,7 +495,7 @@
                                     <action selector="aboutAutoPredAct:" destination="1uy-sH-CXm" eventType="touchUpInside" id="ZId-lm-O81"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Text speak prediction" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ove-My-7Da">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Shorthand prediction" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ove-My-7Da">
                                 <rect key="frame" x="20" y="129" width="169" height="27"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration">
@@ -509,7 +509,7 @@
                                 <rect key="frame" x="223" y="129" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <connections>
-                                    <action selector="textSpeakPredToggleAct:" destination="1uy-sH-CXm" eventType="valueChanged" id="DN1-Mg-znQ"/>
+                                    <action selector="shorthandPredToggleAct:" destination="1uy-sH-CXm" eventType="valueChanged" id="if9-fh-SJh"/>
                                 </connections>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Ap3-dK-v0K">
@@ -524,7 +524,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="aboutTextSpeakPredAct:" destination="1uy-sH-CXm" eventType="touchUpInside" id="X6Y-w2-6cQ"/>
+                                    <action selector="aboutShorthandPredAct:" destination="1uy-sH-CXm" eventType="touchUpInside" id="0MY-88-Hbh"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Manual dwell time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="A6T-iw-zps">
@@ -571,7 +571,7 @@
                         <outlet property="aboutDwellTimeButton" destination="JZl-re-r8y" id="LCK-U1-hWS"/>
                         <outlet property="aboutFontSize" destination="SLU-o6-KnX" id="VVg-TN-tci"/>
                         <outlet property="aboutManualDwellTime" destination="W0c-il-nj4" id="CES-lb-oCn"/>
-                        <outlet property="aboutTextSpeakPred" destination="Ap3-dK-v0K" id="ZyS-cp-y6w"/>
+                        <outlet property="aboutShorthandPred" destination="Ap3-dK-v0K" id="uWo-rP-9H3"/>
                         <outlet property="autoPredAfterDownButton" destination="xN7-A7-6Tf" id="WrU-Oo-AKI"/>
                         <outlet property="autoPredAfterLabel" destination="oxQ-5d-ole" id="oIz-Ft-SzI"/>
                         <outlet property="autoPredAfterUpButton" destination="c32-KA-0n5" id="PAD-6q-YcO"/>
@@ -583,7 +583,7 @@
                         <outlet property="fontSizeUpButton" destination="obI-tC-RAV" id="k2D-6W-EKa"/>
                         <outlet property="manualDwellTimeLabel" destination="A6T-iw-zps" id="Peh-f6-vEq"/>
                         <outlet property="manualDwellTimeToggleSwitch" destination="70m-TY-4q9" id="LE4-Z9-kgH"/>
-                        <outlet property="textSpeakPredToggleSwitch" destination="BRI-fb-s2f" id="nHk-dH-Bhe"/>
+                        <outlet property="shorthandPredToggleSwitch" destination="BRI-fb-s2f" id="Jii-eM-fac"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Osd-lG-bXi" userLabel="First Responder" sceneMemberID="firstResponder"/>
