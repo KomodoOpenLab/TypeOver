@@ -503,6 +503,7 @@
 				[self getWordId:[predResultsArray objectAtIndex:0]];
 				space=true;
 				[self resetMisc];
+				[self predict];
 			}
 		}
 	}
@@ -559,6 +560,7 @@
 				[self getWordId:[predResultsArray objectAtIndex:1]];
 				space=true;
 				[self resetMisc];
+				[self predict];
 			}
 		}
 	}
@@ -615,6 +617,7 @@
 				[self getWordId:[predResultsArray objectAtIndex:2]];
 				space=true;
 				[self resetMisc];
+				[self predict];
 			}
 		}
 	}
@@ -671,6 +674,7 @@
 				[self getWordId:[predResultsArray objectAtIndex:3]];
 				space=true;
 				[self resetMisc];
+				[self predict];
 			}
 		}
 	}
@@ -727,6 +731,7 @@
 				[self getWordId:[predResultsArray objectAtIndex:4]];
 				space=true;
 				[self resetMisc];
+				[self predict];
 			}
 		}
 	}
@@ -783,6 +788,7 @@
 				[self getWordId:[predResultsArray objectAtIndex:5]];
 				space=true;
 				[self resetMisc];
+				[self predict];
 			}
 		}
 	}
@@ -839,6 +845,7 @@
 				[self getWordId:[predResultsArray objectAtIndex:6]];
 				space=true;
 				[self resetMisc];
+				[self predict];
 			}
 		}
 	}
@@ -895,6 +902,7 @@
 				[self getWordId:[predResultsArray objectAtIndex:7]];
 				space=true;
 				[self resetMisc];
+				[self predict];
 			}
 		}
 	}
@@ -1229,7 +1237,10 @@
 
 - (void)wordsLetters {
 	if (words) {
-		bool isUppercase = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[wordString characterAtIndex:0]];
+		bool isUppercase = false;
+		if (![wordString isEqualToString:@""]) {
+			isUppercase = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[wordString characterAtIndex:0]];
+		}
 		int i = 0;
 		UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, punct1Button);
 		[punct1Button setTitle:@"" forState:UIControlStateNormal];
