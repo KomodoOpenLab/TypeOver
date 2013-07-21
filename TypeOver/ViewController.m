@@ -212,7 +212,7 @@
 			}
 			else {
 				NSLog(@"normal prediction");
-				[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
+				[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
 				[strQuery appendFormat:@"%i", wordId];
 				[strQuery appendString:@" AND WORDS.WORD LIKE '"];
 				[strQuery appendString:strContext];
@@ -492,8 +492,12 @@
 				}
 				[st appendString:punct1Button.titleLabel.text];
 			}
-			if ([punct1Button.titleLabel.text isEqualToString:@"'"]) {
+			if ([punct1Button.titleLabel.text isEqualToString:@"'"] && [[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
 				[wordString appendString:punct1Button.titleLabel.text];
+				[self predict];
+			}
+			else if ([punct1Button.titleLabel.text isEqualToString:@"'"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
+				[wordString appendString:@"''"];
 				[self predict];
 			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
