@@ -1052,13 +1052,15 @@
 - (IBAction)clearAct:(id)sender {
     if (![textArea.text isEqualToString:@""]) {
         clearString = textArea.text;
+		clearWordId = wordId;
+		wordId=0;
         [textArea setText:@""];
         shift = true;
     }
     else {
         textArea.text = clearString;
+		wordId = clearWordId;
     }
-	wordId=0;
 	space=false;
 	[self checkShift];
     [self resetMisc];
