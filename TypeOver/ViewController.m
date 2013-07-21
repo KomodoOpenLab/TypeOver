@@ -167,8 +167,14 @@
 				NSMutableString *str = [[NSMutableString alloc] init];
 				int i = 0;
 				while (i<wordString.length) {
-					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-					[str appendString:@"%"];
+					if (![[strContext substringFromIndex:i] isEqualToString:@"'"]) {
+						[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+						[str appendString:@"%"];
+					}
+					else {
+						[str appendString:@"''"];
+						[str appendString:@"%"];
+					}
 					i++;
 				}
 				[strQuery appendString:str];
@@ -191,8 +197,14 @@
 				NSMutableString *str = [[NSMutableString alloc] init];
 				int i = 0;
 				while (i<wordString.length) {
-					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-					[str appendString:@"%"];
+					if (![[strContext substringFromIndex:i] isEqualToString:@"'"]) {
+						[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+						[str appendString:@"%"];
+					}
+					else {
+						[str appendString:@"''"];
+						[str appendString:@"%"];
+					}
 					i++;
 				}
 				[strQuery appendString:str];
@@ -200,7 +212,7 @@
 			}
 			else {
 				NSLog(@"normal prediction");
-				[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
+				[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
 				[strQuery appendFormat:@"%i", wordId];
 				[strQuery appendString:@" AND WORDS.WORD LIKE '"];
 				[strQuery appendString:strContext];
@@ -479,6 +491,14 @@
 					}
 				}
 				[st appendString:punct1Button.titleLabel.text];
+			}
+			if ([punct1Button.titleLabel.text isEqualToString:@"'"] && [[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
+				add = [NSMutableString stringWithString:punct1Button.titleLabel.text];
+				[self predict];
+			}
+			else if ([punct1Button.titleLabel.text isEqualToString:@"'"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
+				add = [NSMutableString stringWithString:@"''"];
+				[self predict];
 			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
 				wordId = 0;
@@ -992,7 +1012,9 @@
 		if ([space0Button.titleLabel.text isEqualToString:@"space"]) {
 			[st appendString:@" "];
 			space=true;
+			[self getWordId:wordString];
 			[self resetMisc];
+			[self predict];
 		}
 		else {
 			[st appendString:@"0"];
@@ -1034,13 +1056,15 @@
 - (IBAction)clearAct:(id)sender {
     if (![textArea.text isEqualToString:@""]) {
         clearString = textArea.text;
+		clearWordId = wordId;
+		wordId=0;
         [textArea setText:@""];
         shift = true;
     }
     else {
         textArea.text = clearString;
+		wordId = clearWordId;
     }
-	wordId=0;
 	space=false;
 	[self checkShift];
     [self resetMisc];
