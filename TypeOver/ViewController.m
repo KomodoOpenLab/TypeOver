@@ -167,8 +167,14 @@
 				NSMutableString *str = [[NSMutableString alloc] init];
 				int i = 0;
 				while (i<wordString.length) {
-					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-					[str appendString:@"%"];
+					if (![[strContext substringFromIndex:i] isEqualToString:@"'"]) {
+						[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+						[str appendString:@"%"];
+					}
+					else {
+						[str appendString:@"''"];
+						[str appendString:@"%"];
+					}
 					i++;
 				}
 				[strQuery appendString:str];
@@ -191,8 +197,14 @@
 				NSMutableString *str = [[NSMutableString alloc] init];
 				int i = 0;
 				while (i<wordString.length) {
-					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-					[str appendString:@"%"];
+					if (![[strContext substringFromIndex:i] isEqualToString:@"'"]) {
+						[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+						[str appendString:@"%"];
+					}
+					else {
+						[str appendString:@"''"];
+						[str appendString:@"%"];
+					}
 					i++;
 				}
 				[strQuery appendString:str];
@@ -479,6 +491,10 @@
 					}
 				}
 				[st appendString:punct1Button.titleLabel.text];
+			}
+			if ([punct1Button.titleLabel.text isEqualToString:@"'"]) {
+				[wordString appendString:punct1Button.titleLabel.text];
+				[self predict];
 			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
 				wordId = 0;
