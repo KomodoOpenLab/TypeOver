@@ -156,93 +156,145 @@
 
 - (NSMutableArray*) predictHelper:(NSString*) strContext
 {
-	bool bigram;
     NSMutableString *strQuery = [[NSMutableString alloc] init];
-	if (wordId == 0) {
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-			NSLog(@"shorthand prediction");
-			[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-			NSMutableString *str = [[NSMutableString alloc] init];
-			int i = 0;
-			while (i<wordString.length) {
-				[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-				[str appendString:@"%"];
-				i++;
+    NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:8];
+	if (![wordString isEqualToString:@""]) {
+		bool bigram;
+		if (wordId == 0) {
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
+				NSLog(@"shorthand prediction");
+				[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+				NSMutableString *str = [[NSMutableString alloc] init];
+				int i = 0;
+				while (i<wordString.length) {
+					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+					[str appendString:@"%"];
+					i++;
+				}
+				[strQuery appendString:str];
+				[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
 			}
-			[strQuery appendString:str];
-			[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+			else {
+				NSLog(@"normal prediction");
+				[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+				[strQuery appendString:strContext];
+				[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+			}
+			bigram=false;
 		}
 		else {
-			NSLog(@"normal prediction");
-			[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-			[strQuery appendString:strContext];
-			[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
+				NSLog(@"shorthand prediction");
+				[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
+				[strQuery appendFormat:@"%i", wordId];
+				[strQuery appendString:@" AND WORDS.WORD LIKE '"];
+				NSMutableString *str = [[NSMutableString alloc] init];
+				int i = 0;
+				while (i<wordString.length) {
+					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+					[str appendString:@"%"];
+					i++;
+				}
+				[strQuery appendString:str];
+				[strQuery appendString:@"' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
+			}
+			else {
+				NSLog(@"normal prediction");
+				[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
+				[strQuery appendFormat:@"%i", wordId];
+				[strQuery appendString:@" AND WORDS.WORD LIKE '"];
+				[strQuery appendString:strContext];
+				[strQuery appendString:@"%' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
+			}
+			bigram=true;
 		}
-		bigram=false;
+		NSLog(@"Generating predictions with query: %@",strQuery);
+		sqlite3_stmt *statement;
+		int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		if (SQLITE_OK==result)
+		{
+			int prednum = 0;
+			while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
+			{
+				char *rowData = (char*)sqlite3_column_text(statement, 1);
+				NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+				NSLog(@"prediction %d: %@",prednum+1,str);
+				[resultarr addObject:str];
+				prednum++;
+			}
+		}
+		else
+		{
+			NSLog(@"Query error number: %d",result);
+		}
+		if (resultarr.count<8&&bigram) {
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
+				[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+				NSMutableString *str = [[NSMutableString alloc] init];
+				int i = 0;
+				while (i<wordString.length) {
+					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+					[str appendString:@"%"];
+					i++;
+				}
+				[strQuery appendString:str];
+				[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+			}
+			else {
+				[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+				[strQuery appendString:strContext];
+				[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+			}
+			result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+			if (SQLITE_OK==result)
+			{
+				int prednum = resultarr.count;
+				int remaining = 8-resultarr.count;
+				int count = 0;
+				while (count<remaining && SQLITE_ROW==sqlite3_step(statement))
+				{
+					char *rowData = (char*)sqlite3_column_text(statement, 1);
+					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+					if (![resultarr containsObject:str]) {
+						NSLog(@"prediction %d: %@",prednum+1,str);
+						[resultarr addObject:str];
+						prednum++;
+						count++;
+					}
+				}
+			}
+			else
+			{
+				NSLog(@"Query error number: %d",result);
+			}
+		}
 	}
 	else {
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-			NSLog(@"shorthand prediction");
-			[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
-			[strQuery appendFormat:@"%i", wordId];
-			[strQuery appendString:@" AND WORDS.WORD LIKE '"];
-			NSMutableString *str = [[NSMutableString alloc] init];
-			int i = 0;
-			while (i<wordString.length) {
-				[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-				[str appendString:@"%"];
-				i++;
+		[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
+		[strQuery appendFormat:@"%i", wordId];
+		[strQuery appendString:@" ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
+		NSLog(@"Generating predictions with query: %@",strQuery);
+		sqlite3_stmt *statement;
+		int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		if (SQLITE_OK==result)
+		{
+			int prednum = 0;
+			while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
+			{
+				char *rowData = (char*)sqlite3_column_text(statement, 1);
+				NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+				NSLog(@"prediction %d: %@",prednum+1,str);
+				[resultarr addObject:str];
+				prednum++;
 			}
-			[strQuery appendString:str];
-			[strQuery appendString:@"' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
 		}
-		else {
-			NSLog(@"normal prediction");
-			[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
-			[strQuery appendFormat:@"%i", wordId];
-			[strQuery appendString:@" AND WORDS.WORD LIKE '"];
-			[strQuery appendString:strContext];
-			[strQuery appendString:@"%' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
+		else
+		{
+			NSLog(@"Query error number: %d",result);
 		}
-		bigram=true;
-	}
-    NSLog(@"Generating predictions with query: %@",strQuery);
-    sqlite3_stmt *statement;
-    int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
-    NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:8];
-    if (SQLITE_OK==result)
-    {
-        int prednum = 0;
-        while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
-        {
-            char *rowData = (char*)sqlite3_column_text(statement, 1);
-            NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
-            NSLog(@"prediction %d: %@",prednum+1,str);
-            [resultarr addObject:str];
-            prednum++;
-        }
-    }
-    else
-    {
-        NSLog(@"Query error number: %d",result);
-    }
-	if (resultarr.count<8&&bigram) {
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-			[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-			NSMutableString *str = [[NSMutableString alloc] init];
-			int i = 0;
-			while (i<wordString.length) {
-				[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-				[str appendString:@"%"];
-				i++;
-			}
-			[strQuery appendString:str];
-			[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
-		}
-		else {
-			[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-			[strQuery appendString:strContext];
-			[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+		if (resultarr.count<8) {
+			[strQuery setString:@"SELECT * FROM WORDS"];
+			[strQuery appendString:@" ORDER BY FREQUENCY DESC LIMIT 10;"];
 		}
 		result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
 		if (SQLITE_OK==result)
