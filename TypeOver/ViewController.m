@@ -493,11 +493,11 @@
 				[st appendString:punct1Button.titleLabel.text];
 			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"'"] && [[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-				[wordString appendString:punct1Button.titleLabel.text];
+				add = [NSMutableString stringWithString:punct1Button.titleLabel.text];
 				[self predict];
 			}
 			else if ([punct1Button.titleLabel.text isEqualToString:@"'"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-				[wordString appendString:@"''"];
+				add = [NSMutableString stringWithString:@"''"];
 				[self predict];
 			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
