@@ -1008,7 +1008,9 @@
 		if ([space0Button.titleLabel.text isEqualToString:@"space"]) {
 			[st appendString:@" "];
 			space=true;
+			[self getWordId:wordString];
 			[self resetMisc];
+			[self predict];
 		}
 		else {
 			[st appendString:@"0"];
