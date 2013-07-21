@@ -1057,6 +1057,8 @@
     if (![textArea.text isEqualToString:@""]) {
         clearString = textArea.text;
 		clearWordId = wordId;
+		clearShift = [[NSUserDefaults standardUserDefaults] boolForKey:@"shift"];
+		clearSpace = space;
 		wordId=0;
         [textArea setText:@""];
         shift = true;
@@ -1064,8 +1066,9 @@
     else {
         textArea.text = clearString;
 		wordId = clearWordId;
+		[[NSUserDefaults standardUserDefaults] setBool:clearShift forKey:@"shift"];
+		space = clearSpace;
     }
-	space=false;
 	[self checkShift];
     [self resetMisc];
 }
