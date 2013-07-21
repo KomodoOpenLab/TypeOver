@@ -39,7 +39,7 @@
     // variables and pointers 
     
     NSTimer *inputTimer, *backspaceTimer;
-	bool words, letters, space, shift;
+	bool words, letters, space, shift, clearShift;
     NSString *clearString;
     NSMutableString *add, *wordString;
     NSMutableArray *predResultsArray;
