@@ -1052,6 +1052,7 @@
 - (IBAction)clearAct:(id)sender {
     if (![textArea.text isEqualToString:@""]) {
         clearString = textArea.text;
+		clearWordString = wordString;
 		clearWordId = wordId;
 		clearSpace = space;
 		clearWords = words;
@@ -1065,13 +1066,14 @@
     }
     else {
         textArea.text = clearString;
+		wordString = [NSMutableString stringWithString:clearWordString];
 		wordId = clearWordId;
 		space = clearSpace;
 		shift = clearShift;
 		words = clearWords;
 		letters = clearLetters;
 		predResultsArray = [NSMutableArray arrayWithArray:clearPredResultsArray];
-		[self predict];
+		[self wordsLetters];
     }
 	[self checkShift];
 }
