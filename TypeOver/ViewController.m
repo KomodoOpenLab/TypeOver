@@ -1072,6 +1072,7 @@
 		letters = clearLetters;
 		predResultsArray = [NSMutableArray arrayWithArray:clearPredResultsArray];
 		[self predict];
+		[self wordsLetters];
     }
 	[self checkShift];
 }
