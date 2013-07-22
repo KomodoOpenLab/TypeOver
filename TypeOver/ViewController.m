@@ -26,6 +26,7 @@
 	{
 		NSLog(@"database successfully opened");
 	}
+	shift = true;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,9 +37,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 	letters = true;
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shift"]) {
-		shift = true;
-	}
 	[textArea setFont:[UIFont systemFontOfSize:[[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"]]];
 	wordId = 0;
 	[self checkShift];

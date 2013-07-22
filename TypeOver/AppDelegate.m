@@ -25,7 +25,6 @@
 		[[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"auto_pred_after"];
 		[[NSUserDefaults standardUserDefaults] setInteger:24 forKey:@"font_size"];
 	}
-	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"shift"];
     return YES;
 }
 							
