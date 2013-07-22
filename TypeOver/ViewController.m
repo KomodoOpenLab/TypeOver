@@ -1054,17 +1054,26 @@
         clearString = textArea.text;
 		clearWordId = wordId;
 		clearSpace = space;
+		clearWords = words;
+		clearLetters = letters;
+		clearShift = shift;
+		clearPredResultsArray = [NSMutableArray arrayWithArray:predResultsArray];
 		wordId=0;
         [textArea setText:@""];
         shift = true;
+		[self resetMisc];
     }
     else {
         textArea.text = clearString;
 		wordId = clearWordId;
 		space = clearSpace;
+		shift = clearShift;
+		words = clearWords;
+		letters = clearLetters;
+		predResultsArray = [NSMutableArray arrayWithArray:clearPredResultsArray];
+		[self predict];
     }
 	[self checkShift];
-    [self resetMisc];
 }
 
 
