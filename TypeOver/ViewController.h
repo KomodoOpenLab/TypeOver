@@ -39,10 +39,10 @@
     // variables and pointers 
     
     NSTimer *inputTimer, *backspaceTimer;
-	bool words, letters, space, shift, clearShift, clearSpace;
+	bool words, letters, space, shift, clearShift, clearSpace, clearWords, clearLetters;
     NSString *clearString;
     NSMutableString *add, *wordString;
-    NSMutableArray *predResultsArray;
+    NSMutableArray *predResultsArray, *clearPredResultsArray;
     int timesCycled, wordId, clearWordId;
     sqlite3 *dbWordPrediction;
 	

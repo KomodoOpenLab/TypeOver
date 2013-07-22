@@ -26,6 +26,7 @@
 	{
 		NSLog(@"database successfully opened");
 	}
+	shift = true;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,9 +37,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 	letters = true;
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shift"]) {
-		shift = true;
-	}
 	[textArea setFont:[UIFont systemFontOfSize:[[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"]]];
 	wordId = 0;
 	[self checkShift];
@@ -146,11 +144,9 @@
 - (void)checkShift {
     if (shift) {
         [shiftButton setTitle:@"shift on" forState:UIControlStateNormal];
-		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"shift"];
     }
     else {
         [shiftButton setTitle:@"shift off" forState:UIControlStateNormal];
-		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"shift"];
     }
 }
 
@@ -1057,20 +1053,27 @@
     if (![textArea.text isEqualToString:@""]) {
         clearString = textArea.text;
 		clearWordId = wordId;
-		clearShift = [[NSUserDefaults standardUserDefaults] boolForKey:@"shift"];
 		clearSpace = space;
+		clearWords = words;
+		clearLetters = letters;
+		clearShift = shift;
+		clearPredResultsArray = [NSMutableArray arrayWithArray:predResultsArray];
 		wordId=0;
         [textArea setText:@""];
         shift = true;
+		[self resetMisc];
     }
     else {
         textArea.text = clearString;
 		wordId = clearWordId;
-		[[NSUserDefaults standardUserDefaults] setBool:clearShift forKey:@"shift"];
 		space = clearSpace;
+		shift = clearShift;
+		words = clearWords;
+		letters = clearLetters;
+		predResultsArray = [NSMutableArray arrayWithArray:clearPredResultsArray];
+		[self predict];
     }
 	[self checkShift];
-    [self resetMisc];
 }
 
 
