@@ -144,11 +144,9 @@
 - (void)checkShift {
     if (shift) {
         [shiftButton setTitle:@"shift on" forState:UIControlStateNormal];
-		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"shift"];
     }
     else {
         [shiftButton setTitle:@"shift off" forState:UIControlStateNormal];
-		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"shift"];
     }
 }
 
@@ -1055,7 +1053,6 @@
     if (![textArea.text isEqualToString:@""]) {
         clearString = textArea.text;
 		clearWordId = wordId;
-		clearShift = [[NSUserDefaults standardUserDefaults] boolForKey:@"shift"];
 		clearSpace = space;
 		wordId=0;
         [textArea setText:@""];
@@ -1064,7 +1061,6 @@
     else {
         textArea.text = clearString;
 		wordId = clearWordId;
-		[[NSUserDefaults standardUserDefaults] setBool:clearShift forKey:@"shift"];
 		space = clearSpace;
     }
 	[self checkShift];
