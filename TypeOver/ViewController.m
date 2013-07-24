@@ -356,20 +356,64 @@
 	}
 }
 
-- (BOOL)isWordDelimeter:(char)ch {
-	char acceptableChars[] = " ,.,!\t\r\n\"[]{}()";
+- (BOOL)isPunctuationEndSentence:(char)ch {
+	char acceptableChars[] = ".!";
 	int i = 0;
 	while (acceptableChars[i]!= '\0' && acceptableChars[i]!=ch) i++;
 	return(acceptableChars[i]==ch);
 }
 
+- (BOOL)isWordDelimeter:(char)ch {
+	char acceptableChars[] = " ,@#";
+	int i = 0;
+	while (acceptableChars[i]!= '\0' && acceptableChars[i]!=ch) i++;
+	return(acceptableChars[i]==ch);
+}
+
+- (void)updatePredState {
+	NSString *text = textArea.text;
+	if (![text isEqualToString:@""]) {
+		NSString *currWord, *prevWord;
+		const char *textInChars = [text UTF8String];
+		int i = text.length;
+		NSLog(@"pass 1");
+		while (i > 0) {
+			char current = textInChars[i];
+			if ([self isWordDelimeter:current]) {
+				currWord = [text substringFromIndex:i];
+				wordString = currWord;
+				break;
+			}
+			else if ([self isPunctuationEndSentence:current]) {
+				wordId=0;
+				break;
+			}
+			i--;
+		}
+		if (i == 0) {
+			wordString = text;
+		}
+		NSLog(@"pass 2");
+		if (text.length > currWord.length) {
+			text = [text substringToIndex:text.length - currWord.length-1];
+			i = text.length;
+			while (i > 0) {
+				char current = textInChars[i];
+				if ([self isWordDelimeter:current]) {
+					prevWord = [text substringFromIndex:i+1];
+					[self getWordId:prevWord];
+					break;
+				}
+				i--;
+			}
+			
+			NSLog(@"pass 3");
+		}
+	}
+	[self predict];
+}
+
 - (void)predict {
-	if ([wordString isEqualToString:@""]) {
-		wordString = [NSMutableString stringWithString:add];
-	}
-	else {
-		[wordString appendString:add];
-	}
 	predResultsArray = [self predictHelper:wordString];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"]) {
 		if (![inputTimer isValid]) {
@@ -380,14 +424,12 @@
 			}
 		}
 	}
-	add = [NSMutableString stringWithString:@""];
 }
 
 - (void)resetMisc {
 	[inputTimer invalidate];
     [predResultsArray removeAllObjects];
     wordString = [NSMutableString stringWithString:@""];
-    add = [NSMutableString stringWithString:@""];
 	words = false;
 	letters = true;
 	[self wordsLetters];
@@ -499,10 +541,6 @@
 				add = [NSMutableString stringWithString:punct1Button.titleLabel.text];
 				[self predict];
 			}
-			else if ([punct1Button.titleLabel.text isEqualToString:@"'"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-				add = [NSMutableString stringWithString:@"''"];
-				[self predict];
-			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
 				wordId = 0;
 				[st appendString:@" "];
@@ -552,7 +590,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -578,7 +616,7 @@
 				[self getWordId:[predResultsArray objectAtIndex:0]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}

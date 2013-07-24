@@ -40,8 +40,8 @@
     
     NSTimer *inputTimer, *backspaceTimer;
 	bool words, letters, space, shift, clearShift, clearSpace, clearWords, clearLetters;
-    NSString *clearString, *clearWordString;
-    NSMutableString *add, *wordString;
+    NSString *clearString, *clearWordString, *wordString;
+	NSMutableString *add;
     NSMutableArray *predResultsArray, *clearPredResultsArray;
     int timesCycled, wordId, clearWordId;
     sqlite3 *dbWordPrediction;
