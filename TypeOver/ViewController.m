@@ -356,13 +356,65 @@
 	}
 }
 
+- (BOOL)isPunctuationEndSentence:(char)ch {
+	char acceptableChars[] = ".!";
+	int i = 0;
+	while (acceptableChars[i]!= '\0' && acceptableChars[i]!=ch) i++;
+	return(acceptableChars[i]==ch);
+}
+
+- (BOOL)isWordDelimeter:(char)ch {
+	char acceptableChars[] = " ,@#";
+	int i = 0;
+	while (acceptableChars[i]!= '\0' && acceptableChars[i]!=ch) i++;
+	return(acceptableChars[i]==ch);
+}
+
+- (void)updatePredState {
+	NSString *text = textArea.text;
+	if (![text isEqualToString:@""]) {
+		NSString *currWord, *prevWord;
+		for (int i = [text length]; i > 0; --i) {
+			if ([self isWordDelimeter:[text characterAtIndex:i-1]]) {
+				if ([text length] > i) {
+					currWord = [text substringFromIndex:i];
+					wordString = currWord;
+					break;
+				}
+				else {
+					wordString=@"";
+					break;
+				}
+			}
+			else if ([self isPunctuationEndSentence:[text characterAtIndex:i-1]]) {
+				wordId=0;
+				break;
+			}
+			else if (i == 1) wordString = text;
+		}
+		if (text.length > wordString.length) {
+			text = [text substringToIndex:text.length - currWord.length-1];
+			for (int i = [text length]; i > 0; --i) {
+				if ([self isWordDelimeter:[text characterAtIndex:i-1]]) {
+					prevWord = [text substringFromIndex:i];
+					[self getWordId:[prevWord lowercaseString]];
+					break;
+				}
+				else if ([self isPunctuationEndSentence:[text characterAtIndex:i-1]]) {
+					wordId=0;
+					break;
+				}
+				else if (i == 1) {
+					prevWord = text;
+					[self getWordId:[prevWord lowercaseString]];
+				}
+			}
+		}
+	}
+	[self predict];
+}
+
 - (void)predict {
-	if ([wordString isEqualToString:@""]) {
-		wordString = [NSMutableString stringWithString:add];
-	}
-	else {
-		[wordString appendString:add];
-	}
 	predResultsArray = [self predictHelper:wordString];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"]) {
 		if (![inputTimer isValid]) {
@@ -373,14 +425,12 @@
 			}
 		}
 	}
-	add = [NSMutableString stringWithString:@""];
 }
 
 - (void)resetMisc {
 	[inputTimer invalidate];
     [predResultsArray removeAllObjects];
     wordString = [NSMutableString stringWithString:@""];
-    add = [NSMutableString stringWithString:@""];
 	words = false;
 	letters = true;
 	[self wordsLetters];
@@ -490,11 +540,7 @@
 			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"'"] && [[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
 				add = [NSMutableString stringWithString:punct1Button.titleLabel.text];
-				[self predict];
-			}
-			else if ([punct1Button.titleLabel.text isEqualToString:@"'"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-				add = [NSMutableString stringWithString:@"''"];
-				[self predict];
+				[self updatePredState];
 			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
 				wordId = 0;
@@ -545,7 +591,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -568,10 +614,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:0]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -602,7 +647,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -625,10 +670,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:1]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -659,7 +703,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -682,10 +726,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:2]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -716,7 +759,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -739,10 +782,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:3]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -773,7 +815,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -796,10 +838,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:4]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -830,7 +871,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -853,10 +894,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:5]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -887,7 +927,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -910,10 +950,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:6]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -944,7 +983,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -967,10 +1006,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:7]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -1008,9 +1046,8 @@
 		if ([space0Button.titleLabel.text isEqualToString:@"space"]) {
 			[st appendString:@" "];
 			space=true;
-			[self getWordId:wordString];
 			[self resetMisc];
-			[self predict];
+			[self updatePredState];
 		}
 		else {
 			[st appendString:@"0"];
@@ -1023,6 +1060,7 @@
 }
 
 - (IBAction)wordsLettersAct:(id)sender {
+	[self updatePredState];
 	if (predResultsArray.count!=0) {
 		if (words) {
 			words = false;
@@ -1047,6 +1085,7 @@
 		[self disableKeys];
 		[backspaceButton setEnabled:YES];
 	}
+	[self updatePredState];
 }
 
 - (IBAction)clearAct:(id)sender {
