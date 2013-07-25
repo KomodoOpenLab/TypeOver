@@ -540,7 +540,7 @@
 			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"'"] && [[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
 				add = [NSMutableString stringWithString:punct1Button.titleLabel.text];
-				[self predict];
+				[self updatePredState];
 			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
 				wordId = 0;
@@ -614,7 +614,6 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:0]];
 				space=true;
 				[self resetMisc];
 				[self updatePredState];
@@ -648,7 +647,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -671,10 +670,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:1]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -705,7 +703,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -728,10 +726,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:2]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -762,7 +759,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -785,10 +782,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:3]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -819,7 +815,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -842,10 +838,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:4]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -876,7 +871,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -899,10 +894,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:5]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -933,7 +927,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -956,10 +950,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:6]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -990,7 +983,7 @@
 			[textArea setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -1013,10 +1006,9 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				[self getWordId:[predResultsArray objectAtIndex:7]];
 				space=true;
 				[self resetMisc];
-				[self predict];
+				[self updatePredState];
 			}
 		}
 	}
@@ -1054,9 +1046,8 @@
 		if ([space0Button.titleLabel.text isEqualToString:@"space"]) {
 			[st appendString:@" "];
 			space=true;
-			[self getWordId:wordString];
 			[self resetMisc];
-			[self predict];
+			[self updatePredState];
 		}
 		else {
 			[st appendString:@"0"];
@@ -1093,6 +1084,7 @@
 		[self disableKeys];
 		[backspaceButton setEnabled:YES];
 	}
+	[self updatePredState];
 }
 
 - (IBAction)clearAct:(id)sender {
