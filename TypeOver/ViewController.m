@@ -374,40 +374,41 @@
 	NSString *text = textArea.text;
 	if (![text isEqualToString:@""]) {
 		NSString *currWord, *prevWord;
-		const char *textInChars = [text UTF8String];
-		int i = text.length;
-		NSLog(@"pass 1");
-		while (i > 0) {
-			char current = textInChars[i];
-			if ([self isWordDelimeter:current]) {
-				currWord = [text substringFromIndex:i];
-				wordString = currWord;
-				break;
+		for (int i = [text length]; i > 0; --i) {
+			if ([self isWordDelimeter:[text characterAtIndex:i-1]]) {
+				if ([text length] > i) {
+					currWord = [text substringFromIndex:i];
+					wordString = currWord;
+					break;
+				}
+				else {
+					wordString=@"";
+					break;
+				}
 			}
-			else if ([self isPunctuationEndSentence:current]) {
+			else if ([self isPunctuationEndSentence:[text characterAtIndex:i-1]]) {
 				wordId=0;
 				break;
 			}
-			i--;
+			else if (i == 1) wordString = text;
 		}
-		if (i == 0) {
-			wordString = text;
-		}
-		NSLog(@"pass 2");
-		if (text.length > currWord.length) {
+		if (text.length > wordString.length) {
 			text = [text substringToIndex:text.length - currWord.length-1];
-			i = text.length;
-			while (i > 0) {
-				char current = textInChars[i];
-				if ([self isWordDelimeter:current]) {
-					prevWord = [text substringFromIndex:i+1];
-					[self getWordId:prevWord];
+			for (int i = [text length]; i > 0; --i) {
+				if ([self isWordDelimeter:[text characterAtIndex:i-1]]) {
+					prevWord = [text substringFromIndex:i];
+					[self getWordId:[prevWord lowercaseString]];
 					break;
 				}
-				i--;
+				else if ([self isPunctuationEndSentence:[text characterAtIndex:i-1]]) {
+					wordId=0;
+					break;
+				}
+				else if (i == 1) {
+					prevWord = text;
+					[self getWordId:[prevWord lowercaseString]];
+				}
 			}
-			
-			NSLog(@"pass 3");
 		}
 	}
 	[self predict];
