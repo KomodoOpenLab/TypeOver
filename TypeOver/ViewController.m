@@ -1060,6 +1060,7 @@
 }
 
 - (IBAction)wordsLettersAct:(id)sender {
+	[self updatePredState];
 	if (predResultsArray.count!=0) {
 		if (words) {
 			words = false;
