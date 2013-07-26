@@ -357,7 +357,7 @@
 }
 
 - (BOOL)isWordDelimeter:(char)ch {
-	char acceptableChars[] = " ,@#";
+	char acceptableChars[] = " ,.!@#!\t\r\n\"[]{}()<>;/=";
 	int i = 0;
 	while (acceptableChars[i]!= '\0' && acceptableChars[i]!=ch) i++;
 	return(acceptableChars[i]==ch);
