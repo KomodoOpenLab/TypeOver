@@ -364,6 +364,85 @@
 }
 
 - (void)updatePredState {
+    NSString *text = textArea.text;
+    NSString *currWord = @"", *prevWord = @"", *wordDelimiter = @"";
+    int len = text.length;
+    int i;
+    int tokenstart,tokenlen;
+    
+    if (len>0)
+    {
+        //start on the last character of the line
+        i = len - 1;
+        
+        //get the current partially typed word
+        
+        //tokenstart is at the rightmost character of the word
+        tokenstart = i;
+        
+        //move to the left until a word delimiter or the beginning of the string
+        while (i>=0 && ![self isWordDelimiter:[text characterAtIndex:i]])
+            i--;
+        
+        //get the length
+        tokenlen = tokenstart - i;
+        
+        if (tokenlen!=0)
+        {
+            //get the substring (calculate the start of the word by subtracting the length from the end of the word)
+            currWord = [text substringWithRange:NSMakeRange(tokenstart-tokenlen+1, tokenlen)];
+        }
+        
+        //now search for the word delimiter
+        tokenstart = i;
+        
+        //move to the left until a *non* word delimiter or the beginning of the string
+        while (i>=0 && [self isWordDelimiter:[text characterAtIndex:i]])
+            i--;
+        
+        //get the length
+        tokenlen = tokenstart - i;
+        
+        if (tokenlen!=0)
+        {
+            //get the substring (calculate the start of the word by subtracting the length from the end of the word)
+            wordDelimiter = [text substringWithRange:NSMakeRange(tokenstart-tokenlen+1, tokenlen)];
+        }
+        
+        //finally, get the previous word
+        tokenstart = i;
+        
+        //move to the left until a word delimiter or the beginning of the string
+        while (i>=0 && ![self isWordDelimiter:[text characterAtIndex:i]])
+            i--;
+        
+        //get the length
+        tokenlen = tokenstart - i;
+        
+        if (tokenlen!=0)
+        {
+            //get the substring (calculate the start of the word by subtracting the length from the end of the word)
+            prevWord = [text substringWithRange:NSMakeRange(tokenstart-tokenlen+1, tokenlen)];
+        }
+    }
+    
+    NSLog(@"prevWord=\"%@\" wordDelimiter=\"%@\" currWord=\"%@\"",prevWord,wordDelimiter,currWord);
+    
+    if (0!=prevWord.length && 0!=wordDelimiter.length && [wordDelimiter isEqualToString:@" "])
+    {
+        [self getWordId:[prevWord lowercaseString]]; //this function should return an id instead of setting a member variable
+    }
+    else
+    {
+        wordId = 0; //how do we know that 0 isn't a valid id?
+    }
+    
+    wordString = [currWord copy];
+    [self predict];
+}
+
+/*
+- (void)updatePredState {
 	NSString *text = textArea.text;
 	if (![text isEqualToString:@""]) {
 		NSString *currWord, *prevWord, *wordDelimiter;
@@ -420,6 +499,7 @@
 	}
 	[self predict];
 }
+ */
 
 - (void)predict {
 	predResultsArray = [self predictHelper:wordString];
