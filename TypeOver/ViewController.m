@@ -356,13 +356,6 @@
 	}
 }
 
-- (BOOL)isPunctuationEndSentence:(char)ch {
-	char acceptableChars[] = ".!";
-	int i = 0;
-	while (acceptableChars[i]!= '\0' && acceptableChars[i]!=ch) i++;
-	return(acceptableChars[i]==ch);
-}
-
 - (BOOL)isWordDelimeter:(char)ch {
 	char acceptableChars[] = " ,@#";
 	int i = 0;
@@ -386,10 +379,6 @@
 					break;
 				}
 			}
-			else if ([self isPunctuationEndSentence:[text characterAtIndex:i-1]]) {
-				wordId=0;
-				break;
-			}
 			else if (i == 1) wordString = text;
 		}
 		if (text.length > wordString.length) {
@@ -398,10 +387,6 @@
 				if ([self isWordDelimeter:[text characterAtIndex:i-1]]) {
 					prevWord = [text substringFromIndex:i];
 					[self getWordId:[prevWord lowercaseString]];
-					break;
-				}
-				else if ([self isPunctuationEndSentence:[text characterAtIndex:i-1]]) {
-					wordId=0;
 					break;
 				}
 				else if (i == 1) {
