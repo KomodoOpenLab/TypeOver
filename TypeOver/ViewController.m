@@ -278,7 +278,7 @@
 		}
 	}
 	else {
-		[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 =  "];
+		[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
 		[strQuery appendFormat:@"%i", wordId];
 		[strQuery appendString:@" ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
 		NSLog(@"Generating predictions with query: %@",strQuery);
@@ -366,12 +366,24 @@
 - (void)updatePredState {
 	NSString *text = textArea.text;
 	if (![text isEqualToString:@""]) {
-		NSString *currWord, *prevWord;
+		NSString *currWord, *prevWord, *wordDelimeter;
 		for (int i = [text length]; i > 0; --i) {
 			if ([self isWordDelimeter:[text characterAtIndex:i-1]]) {
-				if ([text length] > i) {
+				if ([text length] >= i) {
 					currWord = [text substringFromIndex:i];
 					wordString = currWord;
+					text = [text substringToIndex:text.length - currWord.length];
+					if ([self isWordDelimeter:[text characterAtIndex:i-2]]) { // if not just a space
+						for (int count = [[text substringToIndex:i-2] length]; count > 0; --count) {
+							if (![self isWordDelimeter:[text characterAtIndex:count-1]]) {
+								wordDelimeter = [text substringFromIndex:count];
+								break;
+							}
+						}
+					}
+					else {
+						wordDelimeter = [text substringFromIndex:i-1];
+					}
 					break;
 				}
 				else {
@@ -381,17 +393,27 @@
 			}
 			else if (i == 1) wordString = text;
 		}
-		if (text.length > wordString.length) {
-			text = [text substringToIndex:text.length - currWord.length-1];
+		if (![wordDelimeter isEqualToString:@""]) {
+			text = [text substringToIndex:text.length - wordDelimeter.length];
 			for (int i = [text length]; i > 0; --i) {
 				if ([self isWordDelimeter:[text characterAtIndex:i-1]]) {
 					prevWord = [text substringFromIndex:i];
-					[self getWordId:[prevWord lowercaseString]];
+					if ([wordDelimeter isEqualToString:@" "]||[wordDelimeter isEqualToString:@", "]) {
+						[self getWordId:[prevWord lowercaseString]];
+					}
+					else {
+						wordId=0;
+					}
 					break;
 				}
 				else if (i == 1) {
 					prevWord = text;
-					[self getWordId:[prevWord lowercaseString]];
+					if ([wordDelimeter isEqualToString:@" "]||[wordDelimeter isEqualToString:@", "]) {
+						[self getWordId:[prevWord lowercaseString]];
+					}
+					else {
+						wordId=0;
+					}
 				}
 			}
 		}
