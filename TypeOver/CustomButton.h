@@ -11,7 +11,7 @@
 @interface CustomButton : UIButton {
 	
 	
-	// variables
+#pragma mark - variables 
 	
 	NSDate *startTime;
 	bool didTouch;
