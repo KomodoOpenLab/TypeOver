@@ -14,7 +14,7 @@
 @interface ViewController : UIViewController <MFMessageComposeViewControllerDelegate, UIActionSheetDelegate> {
     
     
-    // outlets
+#pragma mark - outlets 
 	
     __weak IBOutlet UITextView *textArea;
     __weak IBOutlet UIBarButtonItem *useButton;
@@ -36,7 +36,7 @@
     __weak IBOutlet UIButton *clearButton;
     
 	
-    // variables and pointers 
+#pragma mark - variables and pointers
     
     NSTimer *inputTimer, *backspaceTimer;
 	bool words, letters, space, shift, clearShift, clearSpace, clearWords, clearLetters;
@@ -50,7 +50,7 @@
 }
 
 
-// actions
+#pragma mark - ui actions 
 
 - (IBAction)useAct:(id)sender;
 - (IBAction)punct1Act:(id)sender;
