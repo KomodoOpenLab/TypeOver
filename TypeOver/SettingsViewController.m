@@ -15,12 +15,17 @@
 @implementation SettingsViewController
 
 
+// rates to match Tecla Shield
 static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 970, 810, 670, 560, 480, 390, 320, 270};
 
+
+#pragma mark - view controller methods
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	// set variables from saved settings
     inputRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"];
 	selRate = [[NSUserDefaults standardUserDefaults] integerForKey:@"scan_rate_int"];
 	fontSize = [[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"];
@@ -28,6 +33,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 	shorthandPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"];
 	autoPredAfter=[[NSUserDefaults standardUserDefaults] integerForKey:@"auto_pred_after"];
 	manualDwellTime=[[NSUserDefaults standardUserDefaults] boolForKey:@"manual_scan_rate"];
+	
 	NSMutableString *st=[NSMutableString stringWithString:@"Predict after "];
 	[st appendFormat:@"%i", autoPredAfter];
 	if (autoPredAfter>1) {
@@ -37,6 +43,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 		[st appendString:@" letter"];
 	}
 	[autoPredAfterLabel setText:st];
+	
 	if (manualDwellTime) {
 		manualDwellTimeToggleSwitch.on=true;
 	}
@@ -47,6 +54,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 		[dwellTimeUpButton setHidden:YES];
 		[aboutDwellTimeButton setHidden:YES];
 	}
+	
 	if (shorthandPred) {
 		shorthandPredToggleSwitch.on=true;
 		NSLog(@"shorthand prediction on");
@@ -55,6 +63,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 		shorthandPredToggleSwitch.on=false;
 		NSLog(@"shorthand prediction off");
 	}
+	
 	if (autoPred) {
 		autoPredToggleSwitch.on=true;
 	}
@@ -65,7 +74,6 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 		[autoPredAfterUpButton setHidden:YES];
 		[aboutAutoPredAfterButton setHidden:YES];
 	}
-	// Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
@@ -75,32 +83,10 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 }
 
 
+#pragma mark - methods
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// methods
-
-- (void)scanIndicator {
-	if (scanRateInd<=3) {
+- (void)scanIndicator { // method to indicate dwell time rate
+	if (scanRateInd<=3) { // only cycle three times 
 		if ([dwellTimeLabel.text isEqualToString:@"Dwell time"]||[dwellTimeLabel.text isEqualToString:@"rate of change"]) {
 			[dwellTimeLabel setText:@"This is the..."];
 		}
@@ -117,27 +103,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// button actions
+#pragma mark - actions for ui controls
 
 - (IBAction)manualDwellTimeToggleAct:(id)sender {
 	if (manualDwellTimeToggleSwitch.on) {
@@ -161,7 +127,8 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 - (IBAction)dwellTimeDownAct:(id)sender {
 	bool valueFound = NO;
 	int i = 0;
-	while (!valueFound && i<17) {
+	
+	while (!valueFound && i<17) { // loop through rates until the closest is found 
 		if (scanRates[i]==selRate) {
 			valueFound=YES;
 		}
@@ -175,6 +142,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 		inputRate=(float)(selRate)/1000;
 		NSLog(@"%f", inputRate);
 	}
+	
 	[scanRateIndicatorTimer invalidate];
 	scanRateInd=0;
 	scanRateIndicatorTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(scanIndicator) userInfo:nil repeats:YES];
@@ -183,7 +151,8 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 - (IBAction)dwellTimeUpAct:(id)sender {
 	bool valueFound = NO;
 	int i = 0;
-	while (!valueFound && i<17) {
+	
+	while (!valueFound && i<17) { // loop through rates until the closest is found
 		if (scanRates[i]==selRate) {
 			valueFound=YES;
 		}
@@ -197,6 +166,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 		inputRate=(float)(selRate)/1000;
 		NSLog(@"%f", inputRate);
 	}
+	
 	[scanRateIndicatorTimer invalidate];
 	scanRateInd=0;
 	scanRateIndicatorTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(scanIndicator) userInfo:nil repeats:YES];
@@ -225,6 +195,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 	if (autoPredAfter>1) {
 		autoPredAfter=autoPredAfter-1;
 	}
+	
 	NSMutableString *st=[NSMutableString stringWithString:@"Predict after "];
 	[st appendFormat:@"%i", autoPredAfter];
 	if (autoPredAfter>1) {
@@ -239,6 +210,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 - (IBAction)autoPredAfterUpAct:(id)sender {
 	if (autoPredAfter<4) {
 		autoPredAfter=autoPredAfter+1;
+	
 		NSMutableString *st=[NSMutableString stringWithString:@"Predict after "];
 		[st appendFormat:@"%i", autoPredAfter];
 		if (autoPredAfter>1) {
@@ -272,7 +244,8 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
+    
+	if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) { // back button pressed on navigation controller
 		[[NSUserDefaults standardUserDefaults] setBool:manualDwellTime forKey:@"manual_scan_rate"];
 		[[NSUserDefaults standardUserDefaults] setBool:shorthandPred forKey:@"shorthand_pred"];
 		[[NSUserDefaults standardUserDefaults] setBool:autoPred forKey:@"auto_pred"];
