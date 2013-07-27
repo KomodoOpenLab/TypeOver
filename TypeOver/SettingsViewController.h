@@ -11,7 +11,7 @@
 @interface SettingsViewController : UIViewController {
 	
 	
-	// outlets
+#pragma mark - outlets 
 	
 	__weak IBOutlet UILabel *manualDwellTimeLabel;
 	__weak IBOutlet UISwitch *manualDwellTimeToggleSwitch;
@@ -33,7 +33,7 @@
 	__weak IBOutlet UIButton *aboutFontSize;
 	
 	
-	// variables
+#pragma mark - variables 
 	
 	bool autoPred, manualDwellTime, shorthandPred;
 	float inputRate;
@@ -44,7 +44,7 @@
 }
 
 
-// actions 
+#pragma mark - ui actions
 
 - (IBAction)dwellTimeDownAct:(id)sender;
 - (IBAction)dwellTimeUpAct:(id)sender;
