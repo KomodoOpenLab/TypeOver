@@ -14,6 +14,9 @@
 
 @implementation ViewController
 
+
+#pragma mark - view controller methods
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	NSString *databasename = [[NSBundle mainBundle] pathForResource:@"EnWords" ofType:nil];
@@ -44,14 +47,7 @@
 }
 
 
-
-
-
-
-
-
-
-// other actions
+#pragma mark - use button methods 
 
 - (IBAction)useAct:(id)sender {
     UIActionSheet *actions = [[UIActionSheet alloc] initWithTitle:@"Use what you wrote!" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Send as Message", @"Post to Facebook", @"Post to Twitter", @"Copy", nil];
@@ -59,7 +55,7 @@
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == 0) {
+	if (buttonIndex == 0) { // send as message
 		if ([MFMessageComposeViewController canSendText]) {
 			MFMessageComposeViewController *msg = [[MFMessageComposeViewController alloc] init];
 			msg.body = textArea.text;
@@ -67,7 +63,7 @@
 			[self presentViewController:msg animated:YES completion:nil];
 		}
 	}
-	else if (buttonIndex == 1) {
+	else if (buttonIndex == 1) { // post to facebook
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
             SLComposeViewController *fb = [[SLComposeViewController alloc] init];
             fb = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
@@ -75,7 +71,7 @@
             [self presentViewController:fb animated:YES completion:nil];
         }
 	}
-	else if (buttonIndex == 2) {
+	else if (buttonIndex == 2) { // post to twitter
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
             SLComposeViewController *tw = [[SLComposeViewController alloc] init];
             tw = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
@@ -83,7 +79,7 @@
             [self presentViewController:tw animated:YES completion:nil];
         }
 	}
-	else if (buttonIndex == 3) {
+	else if (buttonIndex == 3) { // copy
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
         pasteboard.string = textArea.text;
 		NSLog(@"copied");
@@ -94,7 +90,7 @@
 	switch (result)
 	{
 		case MessageComposeResultCancelled:
-			NSLog(@"Result: canceled");
+			NSLog(@"Result: cancelled");
 			break;
 		case MessageComposeResultSent:
 			NSLog(@"Result: sent");
@@ -112,48 +108,13 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// other methods
-
-- (void)checkShift {
-    if (shift) {
-        [shiftButton setTitle:@"shift on" forState:UIControlStateNormal];
-    }
-    else {
-        [shiftButton setTitle:@"shift off" forState:UIControlStateNormal];
-    }
-}
+#pragma mark - word prediction
 
 - (NSMutableArray*) predictHelper:(NSString*) strContext
 {
     NSMutableString *strQuery = [[NSMutableString alloc] init];
     NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:8];
+	
 	if (![wordString isEqualToString:@""]) {
 		bool bigram;
 		if (wordId == 0) {
@@ -217,8 +178,10 @@
 			bigram=true;
 		}
 		NSLog(@"Generating predictions with query: %@",strQuery);
+		
 		sqlite3_stmt *statement;
 		int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		
 		if (SQLITE_OK==result)
 		{
 			int prednum = 0;
@@ -235,7 +198,8 @@
 		{
 			NSLog(@"Query error number: %d",result);
 		}
-		if (resultarr.count<8&&bigram) {
+		
+		if (resultarr.count<8&&bigram) { // bigram results didn't fill array
 			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
 				[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 				NSMutableString *str = [[NSMutableString alloc] init];
@@ -253,7 +217,9 @@
 				[strQuery appendString:strContext];
 				[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
 			}
+			
 			result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+			
 			if (SQLITE_OK==result)
 			{
 				int prednum = resultarr.count;
@@ -282,8 +248,10 @@
 		[strQuery appendFormat:@"%i", wordId];
 		[strQuery appendString:@" ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
 		NSLog(@"Generating predictions with query: %@",strQuery);
+		
 		sqlite3_stmt *statement;
 		int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		
 		if (SQLITE_OK==result)
 		{
 			int prednum = 0;
@@ -300,11 +268,14 @@
 		{
 			NSLog(@"Query error number: %d",result);
 		}
-		if (resultarr.count<8) {
+		
+		if (resultarr.count<8) { // bigram results didn't fill array
 			[strQuery setString:@"SELECT * FROM WORDS"];
 			[strQuery appendString:@" ORDER BY FREQUENCY DESC LIMIT 10;"];
 		}
+		
 		result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		
 		if (SQLITE_OK==result)
 		{
 			int prednum = resultarr.count;
@@ -314,7 +285,7 @@
 			{
 				char *rowData = (char*)sqlite3_column_text(statement, 1);
 				NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
-				if (![resultarr containsObject:str]) {
+				if (![resultarr containsObject:str]) { // if word wasn't in bigram
 					NSLog(@"prediction %d: %@",prednum+1,str);
 					[resultarr addObject:str];
 					prednum++;
@@ -327,18 +298,22 @@
 			NSLog(@"Query error number: %d",result);
 		}
 	}
+	
     return(resultarr);
 }
 
 - (void)getWordId:(NSString *)word {
 	NSLog(@"getting id for word: %@", word);
-    NSMutableString *strQuery = [[NSMutableString alloc] init];
+    
+	NSMutableString *strQuery = [[NSMutableString alloc] init];
 	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORDS.WORD = '"];
 	[strQuery appendString:word];
 	[strQuery appendString:@"';"];
-    sqlite3_stmt *statement;
+    
+	sqlite3_stmt *statement;
     int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
 	int arr[10]; // set to 10 just incase
+	
     if (SQLITE_OK==result)
     {
 		int i = 0;
@@ -348,7 +323,7 @@
 			i++;
         }
 		NSLog(@"amount of results: %i", i);
-		wordId = arr[0];
+		wordId = arr[0]; // if this is 0 bigram is irrelevant
 	}
 	else
 	{
@@ -434,7 +409,7 @@
     }
     else
     {
-        wordId = 0; //how do we know that 0 isn't a valid id?
+        wordId = 0; //0 isn't a valid id
     }
     
     wordString = [currWord copy];
@@ -443,17 +418,144 @@
 
 - (void)predict {
 	predResultsArray = [self predictHelper:wordString];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"]) {
-		if (![inputTimer isValid]) {
-			if (wordString.length >= [[NSUserDefaults standardUserDefaults] integerForKey:@"auto_pred_after"] && predResultsArray.count!=0) {
-				words = true;
-				letters = false;
-				[self wordsLetters];
-			}
-		}
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"] && ![inputTimer isValid] && wordString.length >= [[NSUserDefaults standardUserDefaults] integerForKey:@"auto_pred_after"] && predResultsArray.count!=0) {
+		words = true;
+		letters = false;
+		[self wordsLetters];
 	}
 }
 
+- (void)wordsLetters {
+	if (words) {
+		bool isUppercase = false;
+		if (![wordString isEqualToString:@""]) {
+			isUppercase = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[wordString characterAtIndex:0]];
+		}
+		int i = 0;
+		UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, punct1Button);
+		[punct1Button setTitle:@"" forState:UIControlStateNormal];
+		if (predResultsArray.count > 0) {
+			if (isUppercase) {
+				[abc2Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[abc2Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
+		}
+		else {
+			[abc2Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 1) {
+			if (isUppercase) {
+				[def3Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[def3Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
+		}
+		else {
+			[def3Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 2) {
+			if (isUppercase) {
+				[ghi4Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[ghi4Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
+		}
+		else {
+			[ghi4Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 3) {
+			if (isUppercase) {
+				[jkl5Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[jkl5Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
+		}
+		else {
+			[jkl5Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 4) {
+			if (isUppercase) {
+				[mno6Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[mno6Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
+		}
+		else {
+			[mno6Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 5) {
+			if (isUppercase) {
+				[pqrs7Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[pqrs7Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
+		}
+		else {
+			[pqrs7Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 6) {
+			if (isUppercase) {
+				[tuv8Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[tuv8Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
+		}
+		else {
+			[tuv8Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > 7) {
+			if (isUppercase) {
+				[wxyz9Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[wxyz9Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+		}
+		else {
+			[wxyz9Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		[wordsLettersButton setTitle:@"letters" forState:UIControlStateNormal];
+	}
+	if (letters) {
+		[punct1Button setTitle:@".,?!'@# 1" forState:UIControlStateNormal];
+		[abc2Button setTitle:@"abc 2" forState:UIControlStateNormal];
+		[def3Button setTitle:@"def 3" forState:UIControlStateNormal];
+		[ghi4Button setTitle:@"ghi 4" forState:UIControlStateNormal];
+		[jkl5Button setTitle:@"jkl 5" forState:UIControlStateNormal];
+		[mno6Button setTitle:@"mno 6" forState:UIControlStateNormal];
+		[pqrs7Button setTitle:@"pqrs 7" forState:UIControlStateNormal];
+		[tuv8Button setTitle:@"tuv 8" forState:UIControlStateNormal];
+		[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
+		[wordsLettersButton setTitle:@"words" forState:UIControlStateNormal];
+	}
+}
+
+
+#pragma mark - keypad misc 
+
+- (void)checkShift {
+    if (shift) {
+        [shiftButton setTitle:@"shift on" forState:UIControlStateNormal];
+    }
+    else {
+        [shiftButton setTitle:@"shift off" forState:UIControlStateNormal];
+    }
+}
 - (void)resetMisc {
 	[inputTimer invalidate];
     [predResultsArray removeAllObjects];
@@ -514,38 +616,7 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// keypad button actions
+#pragma mark - keypad button actions
 
 - (IBAction)punct1Act:(id)sender {
 	if (letters) {
@@ -1145,33 +1216,7 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// keypad methods
+#pragma mark - keypad key methods
 
 - (void)punct1 {
 	if (timesCycled==2) {
@@ -1382,126 +1427,6 @@
 	else if ([space0Button.titleLabel.text isEqualToString:@"0"]) {
 		[space0Button setTitle:@"space" forState:UIControlStateNormal];
 		timesCycled++;
-	}
-}
-
-- (void)wordsLetters {
-	if (words) {
-		bool isUppercase = false;
-		if (![wordString isEqualToString:@""]) {
-			isUppercase = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[wordString characterAtIndex:0]];
-		}
-		int i = 0;
-		UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, punct1Button);
-		[punct1Button setTitle:@"" forState:UIControlStateNormal];
-		if (predResultsArray.count > 0) {
-			if (isUppercase) {
-				[abc2Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
-			}
-			else {
-				[abc2Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
-			}
-			i++;
-		}
-		else {
-			[abc2Button setTitle:@"" forState:UIControlStateNormal];
-		}
-		if (predResultsArray.count > 1) {
-			if (isUppercase) {
-				[def3Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
-			}
-			else {
-				[def3Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
-			}
-			i++;
-		}
-		else {
-			[def3Button setTitle:@"" forState:UIControlStateNormal];
-		}
-		if (predResultsArray.count > 2) {
-			if (isUppercase) {
-				[ghi4Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
-			}
-			else {
-				[ghi4Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
-			}
-			i++;
-		}
-		else {
-			[ghi4Button setTitle:@"" forState:UIControlStateNormal];
-		}
-		if (predResultsArray.count > 3) {
-			if (isUppercase) {
-				[jkl5Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
-			}
-			else {
-				[jkl5Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
-			}
-			i++;
-		}
-		else {
-			[jkl5Button setTitle:@"" forState:UIControlStateNormal];
-		}
-		if (predResultsArray.count > 4) {
-			if (isUppercase) {
-				[mno6Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
-			}
-			else {
-				[mno6Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
-			}
-			i++;
-		}
-		else {
-			[mno6Button setTitle:@"" forState:UIControlStateNormal];
-		}
-		if (predResultsArray.count > 5) {
-			if (isUppercase) {
-				[pqrs7Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
-			}
-			else {
-				[pqrs7Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
-			}
-			i++;
-		}
-		else {
-			[pqrs7Button setTitle:@"" forState:UIControlStateNormal];
-		}
-		if (predResultsArray.count > 6) {
-			if (isUppercase) {
-				[tuv8Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
-			}
-			else {
-				[tuv8Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
-			}
-			i++;
-		}
-		else {
-			[tuv8Button setTitle:@"" forState:UIControlStateNormal];
-		}
-		if (predResultsArray.count > 7) {
-			if (isUppercase) {
-				[wxyz9Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
-			}
-			else {
-				[wxyz9Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
-			}
-		}
-		else {
-			[wxyz9Button setTitle:@"" forState:UIControlStateNormal];
-		}
-		[wordsLettersButton setTitle:@"letters" forState:UIControlStateNormal];
-	}
-	if (letters) {
-		[punct1Button setTitle:@".,?!'@# 1" forState:UIControlStateNormal];
-		[abc2Button setTitle:@"abc 2" forState:UIControlStateNormal];
-		[def3Button setTitle:@"def 3" forState:UIControlStateNormal];
-		[ghi4Button setTitle:@"ghi 4" forState:UIControlStateNormal];
-		[jkl5Button setTitle:@"jkl 5" forState:UIControlStateNormal];
-		[mno6Button setTitle:@"mno 6" forState:UIControlStateNormal];
-		[pqrs7Button setTitle:@"pqrs 7" forState:UIControlStateNormal];
-		[tuv8Button setTitle:@"tuv 8" forState:UIControlStateNormal];
-		[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
-		[wordsLettersButton setTitle:@"words" forState:UIControlStateNormal];
 	}
 }
 
