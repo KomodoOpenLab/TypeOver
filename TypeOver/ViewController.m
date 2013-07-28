@@ -1175,6 +1175,7 @@
 	if ([backspaceTimer isValid]) {
 		[backspaceTimer invalidate];
 		[self resetKeys];
+		[self updatePredState];
 	}
 	else if (![textArea.text isEqualToString:@""]) {
 		[self backspace]; // prevents a delay
@@ -1182,7 +1183,6 @@
 		[self disableKeys];
 		[backspaceButton setEnabled:YES];
 	}
-	[self updatePredState];
 }
 
 - (IBAction)clearAct:(id)sender {
