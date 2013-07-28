@@ -39,11 +39,11 @@
 #pragma mark - variables and pointers
     
     NSTimer *inputTimer, *backspaceTimer;
-	bool words, letters, space, shift, clearShift, clearSpace, clearWords, clearLetters;
-    NSString *clearString, *clearWordString, *wordString;
+	bool words, letters, space, shift, clearShift;
+    NSString *clearString, *wordString;
 	NSMutableString *add;
-    NSMutableArray *predResultsArray, *clearPredResultsArray;
-    int timesCycled, wordId, clearWordId;
+    NSMutableArray *predResultsArray;
+    int timesCycled, wordId;
     sqlite3 *dbWordPrediction;
 	
 	
