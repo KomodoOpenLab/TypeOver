@@ -39,7 +39,7 @@
 #pragma mark - variables and pointers
     
     NSTimer *inputTimer, *backspaceTimer;
-	bool words, letters, space, shift, clearShift;
+	bool words, letters, shift, clearShift;
     NSString *clearString, *wordString;
 	NSMutableString *add;
     NSMutableArray *predResultsArray;
