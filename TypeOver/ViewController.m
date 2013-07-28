@@ -1145,14 +1145,13 @@
 			[st appendString:@" "];
 			space=true;
 			[self resetMisc];
-			[self updatePredState];
 		}
 		else {
 			[st appendString:@"0"];
 		}
 		[textArea setText:st];
-		wordId = 0;
 		[self resetKeys];
+		[self updatePredState];
 	}
 	[self checkShift];
 }
@@ -1176,6 +1175,7 @@
 	if ([backspaceTimer isValid]) {
 		[backspaceTimer invalidate];
 		[self resetKeys];
+		[self updatePredState];
 	}
 	else if (![textArea.text isEqualToString:@""]) {
 		[self backspace]; // prevents a delay
@@ -1183,35 +1183,22 @@
 		[self disableKeys];
 		[backspaceButton setEnabled:YES];
 	}
-	[self updatePredState];
 }
 
 - (IBAction)clearAct:(id)sender {
     if (![textArea.text isEqualToString:@""]) {
-        clearString = textArea.text;
-		clearWordString = wordString;
-		clearWordId = wordId;
-		clearSpace = space;
-		clearWords = words;
-		clearLetters = letters;
-		clearShift = shift;
-		clearPredResultsArray = [NSMutableArray arrayWithArray:predResultsArray];
+        clearString = textArea.text; // save text 
+		clearShift = shift; // save shift state
 		wordId=0;
         [textArea setText:@""];
         shift = true;
 		[self resetMisc];
     }
     else {
-        textArea.text = clearString;
-		wordString = [NSMutableString stringWithString:clearWordString];
-		wordId = clearWordId;
-		space = clearSpace;
-		shift = clearShift;
-		words = clearWords;
-		letters = clearLetters;
-		predResultsArray = [NSMutableArray arrayWithArray:clearPredResultsArray];
-		[self wordsLetters];
+        textArea.text = clearString; // restore text
+		shift = clearShift; // restore shift state
     }
+	[self updatePredState];
 	[self checkShift];
 }
 
