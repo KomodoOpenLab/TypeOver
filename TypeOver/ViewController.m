@@ -1145,14 +1145,13 @@
 			[st appendString:@" "];
 			space=true;
 			[self resetMisc];
-			[self updatePredState];
 		}
 		else {
 			[st appendString:@"0"];
 		}
 		[textArea setText:st];
-		wordId = 0;
 		[self resetKeys];
+		[self updatePredState];
 	}
 	[self checkShift];
 }
