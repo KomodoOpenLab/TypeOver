@@ -710,7 +710,6 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				space=true;
 				[self resetMisc];
 				[self updatePredState];
 			}
@@ -766,7 +765,6 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				space=true;
 				[self resetMisc];
 				[self updatePredState];
 			}
@@ -822,7 +820,6 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				space=true;
 				[self resetMisc];
 				[self updatePredState];
 			}
@@ -878,7 +875,6 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				space=true;
 				[self resetMisc];
 				[self updatePredState];
 			}
@@ -934,7 +930,6 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				space=true;
 				[self resetMisc];
 				[self updatePredState];
 			}
@@ -990,7 +985,6 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				space=true;
 				[self resetMisc];
 				[self updatePredState];
 			}
@@ -1046,7 +1040,6 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				space=true;
 				[self resetMisc];
 				[self updatePredState];
 			}
@@ -1102,7 +1095,6 @@
 					[final appendString:@" "];
 					textArea.text = final;
 				}
-				space=true;
 				[self resetMisc];
 				[self updatePredState];
 			}
@@ -1141,7 +1133,6 @@
 		NSMutableString *st = [NSMutableString stringWithString:textArea.text];
 		if ([space0Button.titleLabel.text isEqualToString:@"space"]) {
 			[st appendString:@" "];
-			space=true;
 			[self resetMisc];
 		}
 		else {
@@ -1428,7 +1419,6 @@
 		}
 		words = false;
 		letters = true;
-		space=false;
 		[self wordsLetters];
     }
 	if ([textArea.text isEqual: @""]) {
