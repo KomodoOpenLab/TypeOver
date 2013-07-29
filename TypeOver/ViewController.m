@@ -122,7 +122,10 @@
     NSMutableString *strQuery = [[NSMutableString alloc] init];
     NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:8];
 	
-	if (![wordString isEqualToString:@""]) {
+	// check if word contains an apostrophe and make it sql friendly
+	strContext = [strContext stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+	
+	if (![strContext isEqualToString:@""]) {
 		bool bigram;
 		if (wordId == 0) {
 			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
@@ -130,17 +133,15 @@
 				[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 				NSMutableString *str = [[NSMutableString alloc] init];
 				int i = 0;
-				while (i<wordString.length) {
-					if (![[strContext substringFromIndex:i] isEqualToString:@"'"]) {
-						[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-						[str appendString:@"%"];
-					}
-					else {
-						[str appendString:@"''"];
-						[str appendString:@"%"];
-					}
+				while (i<strContext.length) {
+					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+					[str appendString:@"%"];
 					i++;
 				}
+				
+				// make sure '' stay together
+				str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'%'" withString:@"''"]];
+				
 				[strQuery appendString:str];
 				[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
 			}
@@ -160,17 +161,15 @@
 				[strQuery appendString:@" AND WORDS.WORD LIKE '"];
 				NSMutableString *str = [[NSMutableString alloc] init];
 				int i = 0;
-				while (i<wordString.length) {
-					if (![[strContext substringFromIndex:i] isEqualToString:@"'"]) {
-						[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-						[str appendString:@"%"];
-					}
-					else {
-						[str appendString:@"''"];
-						[str appendString:@"%"];
-					}
+				while (i<strContext.length) {
+					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+					[str appendString:@"%"];
 					i++;
 				}
+				
+				// make sure '' stay together
+				str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'%'" withString:@"''"]];
+				
 				[strQuery appendString:str];
 				[strQuery appendString:@"' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
 			}
@@ -311,6 +310,9 @@
 
 - (void)getWordId:(NSString *)word {
 	NSLog(@"getting id for word: %@", word);
+	
+	// check if word contains an apostrophe and make it sql friendly
+	word = [word stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
     
 	NSMutableString *strQuery = [[NSMutableString alloc] init];
 	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORDS.WORD = '"];
@@ -641,10 +643,6 @@
 				}
 				[st appendString:punct1Button.titleLabel.text];
 			}
-			if ([punct1Button.titleLabel.text isEqualToString:@"'"] && [[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-				add = [NSMutableString stringWithString:punct1Button.titleLabel.text];
-				[self updatePredState];
-			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
 				wordId = 0;
 				[st appendString:@" "];
@@ -659,6 +657,7 @@
 				[st appendString:punct1Button.titleLabel.text];
 			}
 			[textArea setText:st];
+			[self updatePredState];
 			[self resetKeys];
 		}
 	}
