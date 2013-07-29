@@ -638,8 +638,10 @@
 		else {
 			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]||[punct1Button.titleLabel.text isEqualToString:@","]) {
-				if ([self isWordDelimiter:[textArea.text characterAtIndex:[textArea.text length] - 1]] && [st length] > 0) {
-					st = [NSMutableString stringWithString:[st substringToIndex:[st length] - 1]];
+				if (st.length>0) {
+					if ([self isWordDelimiter:[textArea.text characterAtIndex:[textArea.text length] - 1]]) {
+						st = [NSMutableString stringWithString:[st substringToIndex:[st length] - 1]];
+					}
 				}
 				[st appendString:punct1Button.titleLabel.text];
 			}
