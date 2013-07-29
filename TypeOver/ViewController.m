@@ -39,6 +39,13 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+	
+	// dummy view to hide system keyboard
+	UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
+	textArea.inputView = dummyView;
+	
+	[textArea becomeFirstResponder]; // activate textarea
+	
 	letters = true;
 	[textArea setFont:[UIFont systemFontOfSize:[[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"]]];
 	wordId = 0;
