@@ -641,10 +641,6 @@
 				}
 				[st appendString:punct1Button.titleLabel.text];
 			}
-			if ([punct1Button.titleLabel.text isEqualToString:@"'"] && [[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-				add = [NSMutableString stringWithString:punct1Button.titleLabel.text];
-				[self updatePredState];
-			}
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
 				wordId = 0;
 				[st appendString:@" "];
@@ -659,6 +655,7 @@
 				[st appendString:punct1Button.titleLabel.text];
 			}
 			[textArea setText:st];
+			[self updatePredState];
 			[self resetKeys];
 		}
 	}
