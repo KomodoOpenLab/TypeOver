@@ -427,7 +427,7 @@
 
 - (void)predict {
 	predResultsArray = [self predictHelper:wordString];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"] && ![inputTimer isValid] && wordString.length >= [[NSUserDefaults standardUserDefaults] integerForKey:@"auto_pred_after"] && predResultsArray.count!=0) {
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"] && ![inputTimer isValid] && wordString.length >= [[NSUserDefaults standardUserDefaults] integerForKey:@"auto_pred_after"] && predResultsArray.count!=0 && !words) {
 		words = true;
 		letters = false;
 		[self wordsLetters];
@@ -1162,6 +1162,7 @@
 		else if (letters) {
 			words = true;
 			letters = false;
+			[self updatePredState];
 		}
 		[self wordsLetters];
 	}
