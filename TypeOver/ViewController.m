@@ -659,8 +659,8 @@
 				[st appendString:punct1Button.titleLabel.text];
 			}
 			[textArea setText:st];
-			[self updatePredState];
 			[self resetKeys];
+			[self updatePredState];
 		}
 	}
 	else if (words) {
