@@ -11,12 +11,21 @@
 @implementation CustomButton
 
 
-#pragma mark - button methods 
+#pragma mark - button methods
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
+		// set button appearance 
+		[self styleButton:[UIColor blackColor]];
+		[self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+		
+		// set font autosize
+		self.titleLabel.numberOfLines = 1;
+		self.titleLabel.adjustsFontSizeToFitWidth = YES;
+		self.titleLabel.lineBreakMode = NSLineBreakByClipping;
+		
         // add event to button press
 		[self addTarget:self action:@selector(touchButton) forControlEvents:UIControlEventAllTouchEvents];
     }
@@ -24,13 +33,13 @@
 }
 
 - (void)accessibilityElementDidBecomeFocused {
-    [self setBackgroundImage:[UIImage imageNamed:@"highlightedButton.png"] forState:UIControlStateNormal];
+	[self styleButton:[UIColor colorWithRed:0.31 green:0.1 blue:0.75 alpha:1.0]]; // light blue 
 	
 	startTime=[NSDate date]; // gets actual time
 }
 
 - (void)accessibilityElementDidLoseFocus {
-    [self setBackgroundImage:[UIImage imageNamed:@"normalButton.png"] forState:UIControlStateNormal];
+	[self styleButton:[UIColor blackColor]];
 	
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"manual_scan_rate"]&&!didTouch) { // if manual dwell time is off and the button wasn't pressed
 		NSTimeInterval timeSince = [startTime timeIntervalSinceNow];
@@ -47,6 +56,23 @@
 - (void)touchButton {
 	didTouch=true;
 	startTime=nil;
+}
+
+
+#pragma mark - drawing
+
+- (void)styleButton:(UIColor *)color {
+	// draw background image
+	UIGraphicsBeginImageContext([self bounds].size);
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextSetFillColorWithColor(context, [color CGColor]);
+	CGContextFillRect(context, CGRectMake(0.0, 0.0, [self bounds].size.width, [self bounds].size.height));
+	
+	// set button background
+	[self setBackgroundImage:UIGraphicsGetImageFromCurrentImageContext() forState:UIControlStateNormal];
+	
+	// end graphics session
+	UIGraphicsEndImageContext();
 }
 
 @end
