@@ -311,17 +311,21 @@
 - (void)getWordId:(NSString *)word {
 	NSLog(@"getting id for word: %@", word);
 	
+	// original word
+	NSString *orgWord = word;
+	
 	// check if word contains an apostrophe and make it sql friendly
 	word = [word stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
     
 	NSMutableString *strQuery = [[NSMutableString alloc] init];
-	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORDS.WORD = '"];
+	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORDS.WORD LIKE '"];
 	[strQuery appendString:word];
 	[strQuery appendString:@"';"];
     
 	sqlite3_stmt *statement;
     int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
-	int arr[10]; // set to 10 just incase
+	int arr[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // set to 10 just incase
+	NSMutableArray *wordsarr = [[NSMutableArray alloc] init];
 	
     if (SQLITE_OK==result)
     {
@@ -329,14 +333,25 @@
         while (SQLITE_ROW==sqlite3_step(statement))
         {
 			arr[i] = sqlite3_column_int(statement, 0);
+			char *rowData = (char*)sqlite3_column_text(statement, 1);
+			NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+			[wordsarr addObject:str];
 			i++;
         }
 		NSLog(@"amount of results: %i", i);
-		wordId = arr[0]; // if this is 0 bigram is irrelevant
 	}
 	else
 	{
 		NSLog(@"Query error number: %d",result);
+	}
+	
+	if (arr[1]!=0) { // more than 1 result
+		wordId = arr[[wordsarr indexOfObject:orgWord]]; // case sensitive
+		NSLog(@"identical case");
+	}
+	else {
+		wordId = arr[0]; // non case sensitive
+		NSLog(@"lowercase");
 	}
 }
 
@@ -414,7 +429,7 @@
     
     if (0!=prevWord.length && 0!=wordDelimiter.length && [wordDelimiter isEqualToString:@" "])
     {
-        [self getWordId:[prevWord lowercaseString]]; //this function should return an id instead of setting a member variable
+        [self getWordId:prevWord]; //this function should return an id instead of setting a member variable
     }
     else
     {
