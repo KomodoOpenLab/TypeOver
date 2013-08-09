@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	// load stock word prediction database 
+	// load stock word prediction database
 	NSString *databasename = [[NSBundle mainBundle] pathForResource:@"EnWords" ofType:nil];
 	int result = sqlite3_open([databasename UTF8String], &dbStockWordPrediction);
 	if (SQLITE_OK!=result)
@@ -181,7 +181,7 @@
 					i++;
 				}
 				
-				// check if word contains an apostrophe and make it sql friendly 
+				// check if word contains an apostrophe and make it sql friendly
 				str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
 				
 				[strQuery appendString:str];
@@ -236,7 +236,13 @@
 		NSLog(@"Generating predictions with query: %@",strQuery);
 		
 		sqlite3_stmt *statement;
-		int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		
+		// get users added words 
+		NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+		[userWordsQuery appendString:strContext];
+		[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+		
+		int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &statement, nil);
 		
 		if (SQLITE_OK==result)
 		{
@@ -255,12 +261,33 @@
 			NSLog(@"Query error number: %d",result);
 		}
 		
+		result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		
+		if (resultarr.count<8) {
+			if (SQLITE_OK==result)
+			{
+				int prednum = 0;
+				while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
+				{
+					char *rowData = (char*)sqlite3_column_text(statement, 1);
+					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+					NSLog(@"prediction %d: %@",prednum+1,str);
+					[resultarr addObject:str];
+					prednum++;
+				}
+			}
+			else
+			{
+				NSLog(@"Query error number: %d",result);
+			}
+		}
+		
 		if (resultarr.count<8&&bigram) { // bigram results didn't fill array
 			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
 				[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 				NSMutableString *str = [[NSMutableString alloc] init];
 				
-				// check if word contains an apostrophe and make it single again 
+				// check if word contains an apostrophe and make it single again
 				strContext = [NSMutableString stringWithString:[strContext stringByReplacingOccurrencesOfString:@"''" withString:@"'"]];
 				
 				int i = 0;
