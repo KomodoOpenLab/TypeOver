@@ -243,10 +243,25 @@
 		
 		sqlite3_stmt *statement;
 		
-		// get user's added words 
+		// get user's added words
 		NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-		[userWordsQuery appendString:strContext];
-		[userWordsQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
+			NSLog(@"shorthand prediction");
+			[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+			NSMutableString *str = [[NSMutableString alloc] init];
+			int i = 0;
+			while (i<strContext.length) {
+				[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+				[str appendString:@"%"];
+				i++;
+			}
+			[userWordsQuery appendString:str];
+		}
+		else {
+			[userWordsQuery appendString:strContext];
+			[userWordsQuery appendString:@"%"];
+		}
+		[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
 		
 		int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &statement, nil);
 		
@@ -432,7 +447,7 @@
 			[wordsarr addObject:str];
 			i++;
         }
-		NSLog(@"amount of results: %i", i);
+		NSLog(@"amount of stock results: %i", i);
 	}
 	else
 	{
@@ -452,7 +467,7 @@
 			[userwordsarr addObject:str];
 			i++;
         }
-		NSLog(@"amount of results: %i", i);
+		NSLog(@"amount of user results: %i", i);
 	}
 	else
 	{
