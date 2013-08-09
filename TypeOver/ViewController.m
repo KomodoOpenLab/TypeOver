@@ -19,16 +19,61 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	// load stock word prediction database 
 	NSString *databasename = [[NSBundle mainBundle] pathForResource:@"EnWords" ofType:nil];
-	int result = sqlite3_open([databasename UTF8String], &dbWordPrediction);
+	int result = sqlite3_open([databasename UTF8String], &dbStockWordPrediction);
 	if (SQLITE_OK!=result)
 	{
-		NSLog(@"couldn't open database result=%d",result);
+		NSLog(@"couldn't open stock database result=%d",result);
 	}
 	else
 	{
-		NSLog(@"database successfully opened");
+		NSLog(@"stock database successfully opened");
 	}
+	
+	// load or create user word prediction database
+	NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	NSString *dbFile = [documentsPath stringByAppendingPathComponent:@"UserWords"];
+	BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:dbFile];
+	if (fileExists) {
+		result = sqlite3_open([dbFile UTF8String], &dbUserWordPrediction);
+		if (SQLITE_OK!=result)
+		{
+			NSLog(@"couldn't open user database result=%d",result);
+		}
+		else
+		{
+			NSLog(@"user database successfully opened");
+		}
+	}
+	else {
+		BOOL bSuccess = YES;
+		result = sqlite3_open([dbFile UTF8String], &dbUserWordPrediction);
+		if (SQLITE_OK!=result)
+		{
+			NSLog(@"couldn't create user database result=%d",result);
+			bSuccess = NO;
+		}
+		if (bSuccess) {
+			char *errMsg = NULL;
+			const char *createSQL = "CREATE TABLE WORDS(ID INTEGER PRIMARY KEY AUTOINCREMENT, WORD TEXT, FREQUENCY INTEGER);";
+			result = sqlite3_exec(dbUserWordPrediction, createSQL, NULL, NULL, &errMsg);
+			if (SQLITE_OK!=result)
+			{
+				NSLog(@"Error creating WORDS table: %s",errMsg);
+				bSuccess = NO;
+			}
+			createSQL = "CREATE INDEX WORDS_IDX ON WORDS (FREQUENCY DESC, WORD);";
+			result = sqlite3_exec(dbUserWordPrediction, createSQL, NULL, NULL, &errMsg);
+			if (SQLITE_OK!=result)
+			{
+				NSLog(@"Error creating index on WORDS table: %s",errMsg);
+				bSuccess = NO;
+			}
+		}
+	}
+	
 	shift = true;
 }
 
@@ -191,7 +236,7 @@
 		NSLog(@"Generating predictions with query: %@",strQuery);
 		
 		sqlite3_stmt *statement;
-		int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
 		
 		if (SQLITE_OK==result)
 		{
@@ -240,7 +285,7 @@
 				[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
 			}
 			
-			result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
 			
 			if (SQLITE_OK==result)
 			{
@@ -272,7 +317,7 @@
 		NSLog(@"Generating predictions with query: %@",strQuery);
 		
 		sqlite3_stmt *statement;
-		int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
 		
 		if (SQLITE_OK==result)
 		{
@@ -296,7 +341,7 @@
 			[strQuery appendString:@" ORDER BY FREQUENCY DESC LIMIT 10;"];
 		}
 		
-		result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
 		
 		if (SQLITE_OK==result)
 		{
@@ -339,7 +384,7 @@
 	[strQuery appendString:@"';"];
     
 	sqlite3_stmt *statement;
-    int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+    int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
 	int arr[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // set to 10 just incase
 	NSMutableArray *wordsarr = [[NSMutableArray alloc] init];
 	

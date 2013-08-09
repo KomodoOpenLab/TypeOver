@@ -44,7 +44,7 @@
 	NSMutableString *add;
     NSMutableArray *predResultsArray;
     int timesCycled, wordId;
-    sqlite3 *dbWordPrediction;
+    sqlite3 *dbStockWordPrediction, *dbUserWordPrediction;
 	
 	
 }
