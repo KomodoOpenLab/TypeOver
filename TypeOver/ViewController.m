@@ -122,9 +122,6 @@
     NSMutableString *strQuery = [[NSMutableString alloc] init];
     NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:8];
 	
-	// check if word contains an apostrophe and make it sql friendly
-	strContext = [strContext stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
-	
 	if (![strContext isEqualToString:@""]) {
 		bool bigram;
 		if (wordId == 0) {
@@ -139,14 +136,18 @@
 					i++;
 				}
 				
-				// make sure '' stay together
-				str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'%'" withString:@"''"]];
+				// check if word contains an apostrophe and make it sql friendly 
+				str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
 				
 				[strQuery appendString:str];
 				[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
 			}
 			else {
 				NSLog(@"normal prediction");
+				
+				// check if word contains an apostrophe and make it sql friendly
+				strContext = [NSMutableString stringWithString:[strContext stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
+				
 				[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 				[strQuery appendString:strContext];
 				[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
@@ -167,14 +168,18 @@
 					i++;
 				}
 				
-				// make sure '' stay together
-				str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'%'" withString:@"''"]];
+				// check if word contains an apostrophe and make it sql friendly
+				str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
 				
 				[strQuery appendString:str];
 				[strQuery appendString:@"' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
 			}
 			else {
 				NSLog(@"normal prediction");
+				
+				// check if word contains an apostrophe and make it sql friendly
+				strContext = [NSMutableString stringWithString:[strContext stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
+				
 				[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
 				[strQuery appendFormat:@"%i", wordId];
 				[strQuery appendString:@" AND WORDS.WORD LIKE '"];
@@ -209,17 +214,28 @@
 			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
 				[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 				NSMutableString *str = [[NSMutableString alloc] init];
+				
+				// check if word contains an apostrophe and make it single again 
+				strContext = [NSMutableString stringWithString:[strContext stringByReplacingOccurrencesOfString:@"''" withString:@"'"]];
+				
 				int i = 0;
 				while (i<wordString.length) {
 					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
 					[str appendString:@"%"];
 					i++;
 				}
+				
+				// check if word contains an apostrophe and make it sql friendly
+				str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
+				
 				[strQuery appendString:str];
 				[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
 			}
 			else {
 				[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+				
+				// apostrophes should already be sql friendly at this point
+				
 				[strQuery appendString:strContext];
 				[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
 			}
