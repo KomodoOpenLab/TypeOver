@@ -85,6 +85,12 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 	
+	// hide add word to dictionary button
+	[addWordToDictButton setHidden:YES];
+	CGRect frame = textArea.frame;
+	frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
+	textArea.frame = frame;
+	
 	// dummy view to hide system keyboard
 	UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
 	textArea.inputView = dummyView;
@@ -237,7 +243,7 @@
 		
 		sqlite3_stmt *statement;
 		
-		// get users added words 
+		// get user's added words 
 		NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 		[userWordsQuery appendString:strContext];
 		[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
@@ -668,6 +674,7 @@
         [shiftButton setTitle:@"shift off" forState:UIControlStateNormal];
     }
 }
+
 - (void)resetMisc {
 	[inputTimer invalidate];
     [predResultsArray removeAllObjects];
@@ -729,6 +736,9 @@
 
 
 #pragma mark - keypad button actions
+
+- (IBAction)addWordToDictAct:(id)sender {
+}
 
 - (IBAction)punct1Act:(id)sender {
 	if (letters) {
@@ -1541,4 +1551,5 @@
 	}
 	[self checkShift];
 }
+
 @end

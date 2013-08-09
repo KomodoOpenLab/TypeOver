@@ -17,6 +17,7 @@
 #pragma mark - outlets 
 	
     __weak IBOutlet UITextView *textArea;
+	__weak IBOutlet UIButton *addWordToDictButton;
     __weak IBOutlet UIBarButtonItem *useButton;
 	__weak IBOutlet UIBarButtonItem *settingsButton;
     __weak IBOutlet UIButton *punct1Button;
@@ -53,6 +54,7 @@
 #pragma mark - ui actions 
 
 - (IBAction)useAct:(id)sender;
+- (IBAction)addWordToDictAct:(id)sender;
 - (IBAction)punct1Act:(id)sender;
 - (IBAction)abc2Act:(id)sender;
 - (IBAction)def3Act:(id)sender;
