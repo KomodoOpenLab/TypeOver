@@ -41,7 +41,7 @@
     
     NSTimer *inputTimer, *backspaceTimer;
 	bool words, letters, shift, clearShift;
-    NSString *clearString, *wordString;
+    NSString *clearString, *wordString, *previousWord;
 	NSMutableString *add;
     NSMutableArray *predResultsArray;
     int timesCycled, wordId;

@@ -246,7 +246,7 @@
 		// get user's added words 
 		NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 		[userWordsQuery appendString:strContext];
-		[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+		[userWordsQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
 		
 		int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &statement, nil);
 		
@@ -439,6 +439,26 @@
 		NSLog(@"Query error number: %d",result);
 	}
 	
+	result = sqlite3_prepare_v2(dbUserWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+	NSMutableArray *userwordsarr = [[NSMutableArray alloc] init];
+	
+    if (SQLITE_OK==result)
+    {
+		int i = 0;
+        while (SQLITE_ROW==sqlite3_step(statement))
+        {
+			char *rowData = (char*)sqlite3_column_text(statement, 1);
+			NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+			[userwordsarr addObject:str];
+			i++;
+        }
+		NSLog(@"amount of results: %i", i);
+	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
+	
 	if (arr[1]!=0) { // more than 1 result
 		wordId = arr[[wordsarr indexOfObject:orgWord]]; // case sensitive
 		NSLog(@"identical case");
@@ -446,6 +466,14 @@
 	else {
 		wordId = arr[0]; // non case sensitive
 		NSLog(@"lowercase");
+	}
+	
+	if (wordId==0 && [addWordToDictButton isHidden] && userwordsarr.count==0) {
+		// show add word to dictionary button
+		[addWordToDictButton setHidden:NO];
+		CGRect frame = textArea.frame;
+		frame.size.height = frame.size.height-addWordToDictButton.frame.size.height-8;
+		textArea.frame = frame;
 	}
 }
 
@@ -518,6 +546,8 @@
             prevWord = [text substringWithRange:NSMakeRange(tokenstart-tokenlen+1, tokenlen)];
         }
     }
+	
+	previousWord = prevWord;
     
     NSLog(@"prevWord=\"%@\" wordDelimiter=\"%@\" currWord=\"%@\"",prevWord,wordDelimiter,currWord);
     
@@ -541,6 +571,33 @@
 		letters = false;
 		[self wordsLetters];
 	}
+}
+
+- (void)addWordToDict:(NSString *)wordstr withFreq:(int)freq
+{
+    BOOL bSuccess = YES;
+    char* ins = "INSERT INTO WORDS (WORD, FREQUENCY) VALUES(?, ?);";
+    
+    sqlite3_stmt *stmt;
+	
+    if (sqlite3_prepare_v2(dbUserWordPrediction,ins,-1,&stmt,nil)!=SQLITE_OK)
+    {
+        NSLog(@"failed to prepare");
+        bSuccess = NO;
+    }
+	
+    if(bSuccess)
+    {
+        sqlite3_bind_text(stmt, 1, [wordstr UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 2, freq);
+        if (SQLITE_DONE!=sqlite3_step(stmt))
+        {
+            NSLog(@"failed to step");
+            bSuccess = NO;
+        }
+    }
+    
+    sqlite3_finalize(stmt);
 }
 
 - (void)wordsLetters {
@@ -678,7 +735,15 @@
 - (void)resetMisc {
 	[inputTimer invalidate];
     [predResultsArray removeAllObjects];
+	if (![addWordToDictButton isHidden]) {
+		// hide add word to dictionary button
+		[addWordToDictButton setHidden:YES];
+		CGRect frame = textArea.frame;
+		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
+		textArea.frame = frame;
+	}
     wordString = [NSMutableString stringWithString:@""];
+    previousWord = [NSMutableString stringWithString:@""];
 	words = false;
 	letters = true;
 	[self wordsLetters];
@@ -738,6 +803,12 @@
 #pragma mark - keypad button actions
 
 - (IBAction)addWordToDictAct:(id)sender {
+	[self addWordToDict:previousWord withFreq:1];
+	// hide add word to dictionary button
+	[addWordToDictButton setHidden:YES];
+	CGRect frame = textArea.frame;
+	frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
+	textArea.frame = frame;
 }
 
 - (IBAction)punct1Act:(id)sender {
