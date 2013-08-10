@@ -99,8 +99,9 @@
 	
 	[textView becomeFirstResponder]; // activate textview
 	
-	letters = true;
 	[textView setFont:[UIFont systemFontOfSize:[[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"]]];
+	
+	letters = true;
 	wordId = 0;
 	[self checkShift];
     [self resetMisc];
@@ -482,7 +483,7 @@
 	}
 	else {
 		wordId = arr[0]; // non case sensitive
-		NSLog(@"lowercase");
+		NSLog(@"not identical case");
 	}
 	
 	if (wordId==0 && [addWordToDictButton isHidden] && userwordsarr.count==0) {
@@ -630,6 +631,7 @@
 	if (words) {
 		bool isUppercase = false;
 		if (![currentWord isEqualToString:@""]) {
+			// if word begins with uppercase character 
 			isUppercase = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[currentWord characterAtIndex:0]];
 		}
 		int i = 0;
@@ -733,16 +735,7 @@
 		[wordsLettersButton setTitle:@"letters" forState:UIControlStateNormal];
 	}
 	if (letters) {
-		[punct1Button setTitle:@".,?!'@# 1" forState:UIControlStateNormal];
-		[abc2Button setTitle:@"abc 2" forState:UIControlStateNormal];
-		[def3Button setTitle:@"def 3" forState:UIControlStateNormal];
-		[ghi4Button setTitle:@"ghi 4" forState:UIControlStateNormal];
-		[jkl5Button setTitle:@"jkl 5" forState:UIControlStateNormal];
-		[mno6Button setTitle:@"mno 6" forState:UIControlStateNormal];
-		[pqrs7Button setTitle:@"pqrs 7" forState:UIControlStateNormal];
-		[tuv8Button setTitle:@"tuv 8" forState:UIControlStateNormal];
-		[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
-		[wordsLettersButton setTitle:@"words" forState:UIControlStateNormal];
+		[self resetKeys];
 	}
 }
 
@@ -761,6 +754,7 @@
 - (void)resetMisc {
 	[inputTimer invalidate];
     [predResultsArray removeAllObjects];
+	
 	if (![addWordToDictButton isHidden]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
@@ -768,10 +762,12 @@
 		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
 		textView.frame = frame;
 	}
-    currentWord = [NSMutableString stringWithString:@""];
+    
+	currentWord = [NSMutableString stringWithString:@""];
     previousWord = [NSMutableString stringWithString:@""];
 	words = false;
 	letters = true;
+	
 	[self wordsLetters];
 	[self resetKeys];
 }
