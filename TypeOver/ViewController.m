@@ -85,11 +85,13 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 	
-	// hide add word to dictionary button
-	[addWordToDictButton setHidden:YES];
-	CGRect frame = textArea.frame;
-	frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-	textArea.frame = frame;
+	if (![addWordToDictButton isHidden]) {
+		// hide add word to dictionary button
+		[addWordToDictButton setHidden:YES];
+		CGRect frame = textArea.frame;
+		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
+		textArea.frame = frame;
+	}
 	
 	// dummy view to hide system keyboard
 	UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
@@ -493,7 +495,7 @@
 }
 
 - (BOOL)isWordDelimiter:(char)ch {
-	char acceptableChars[] = " ,.!@#!\t\r\n\"[]{}()<>;/=";
+	char acceptableChars[] = " ,.?@#!\t\r\n\"[]{}()<>;/=";
 	int i = 0;
 	while (acceptableChars[i]!= '\0' && acceptableChars[i]!=ch) i++;
 	return(acceptableChars[i]==ch);
@@ -576,7 +578,16 @@
     }
     
     wordString = [currWord copy];
-    [self predict];
+	
+	if (![addWordToDictButton isHidden] && ![wordString isEqualToString:@""]) {
+		// hide add word to dictionary button
+		[addWordToDictButton setHidden:YES];
+		CGRect frame = textArea.frame;
+		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
+		textArea.frame = frame;
+	}
+    
+	[self predict];
 }
 
 - (void)predict {
