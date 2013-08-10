@@ -16,7 +16,7 @@
     
 #pragma mark - outlets 
 	
-    __weak IBOutlet UITextView *textArea;
+    __weak IBOutlet UITextView *textView;
 	__weak IBOutlet UIButton *addWordToDictButton;
     __weak IBOutlet UIBarButtonItem *useButton;
 	__weak IBOutlet UIBarButtonItem *settingsButton;
@@ -41,7 +41,7 @@
     
     NSTimer *inputTimer, *backspaceTimer;
 	bool words, letters, shift, clearShift;
-    NSString *clearString, *wordString, *previousWord;
+    NSString *clearString, *currentWord, *previousWord;
 	NSMutableString *add;
     NSMutableArray *predResultsArray;
     int timesCycled, wordId;
