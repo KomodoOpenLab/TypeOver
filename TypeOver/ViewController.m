@@ -314,7 +314,7 @@
 				strContext = [NSMutableString stringWithString:[strContext stringByReplacingOccurrencesOfString:@"''" withString:@"'"]];
 				
 				int i = 0;
-				while (i<wordString.length) {
+				while (i<currentWord.length) {
 					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
 					[str appendString:@"%"];
 					i++;
@@ -577,9 +577,9 @@
         wordId = 0; //0 isn't a valid id
     }
     
-    wordString = [currWord copy];
+    currentWord = [currWord copy];
 	
-	if (![addWordToDictButton isHidden] && ![wordString isEqualToString:@""]) {
+	if (![addWordToDictButton isHidden] && ![currentWord isEqualToString:@""]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
 		CGRect frame = textView.frame;
@@ -591,8 +591,8 @@
 }
 
 - (void)predict {
-	predResultsArray = [self predictHelper:wordString];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"] && ![inputTimer isValid] && wordString.length >= [[NSUserDefaults standardUserDefaults] integerForKey:@"auto_pred_after"] && predResultsArray.count!=0 && !words) {
+	predResultsArray = [self predictHelper:currentWord];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"] && ![inputTimer isValid] && currentWord.length >= [[NSUserDefaults standardUserDefaults] integerForKey:@"auto_pred_after"] && predResultsArray.count!=0 && !words) {
 		words = true;
 		letters = false;
 		[self wordsLetters];
@@ -629,8 +629,8 @@
 - (void)wordsLetters {
 	if (words) {
 		bool isUppercase = false;
-		if (![wordString isEqualToString:@""]) {
-			isUppercase = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[wordString characterAtIndex:0]];
+		if (![currentWord isEqualToString:@""]) {
+			isUppercase = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[currentWord characterAtIndex:0]];
 		}
 		int i = 0;
 		UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, punct1Button);
@@ -768,7 +768,7 @@
 		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
 		textView.frame = frame;
 	}
-    wordString = [NSMutableString stringWithString:@""];
+    currentWord = [NSMutableString stringWithString:@""];
     previousWord = [NSMutableString stringWithString:@""];
 	words = false;
 	letters = true;
@@ -913,7 +913,7 @@
 		if (![abc2Button.titleLabel.text isEqualToString:@""]) {
 			if (![textView.text isEqualToString:@""]) {
 				NSString *st = textView.text;
-				NSString *wst = wordString;
+				NSString *wst = currentWord;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
 				textView.text = st;
@@ -968,7 +968,7 @@
 		if (![def3Button.titleLabel.text isEqualToString:@""]) {
 			if (![textView.text isEqualToString:@""]) {
 				NSString *st = textView.text;
-				NSString *wst = wordString;
+				NSString *wst = currentWord;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
 				textView.text = st;
@@ -1023,7 +1023,7 @@
 		if (![ghi4Button.titleLabel.text isEqualToString:@""]) {
 			if (![textView.text isEqualToString:@""]) {
 				NSString *st = textView.text;
-				NSString *wst = wordString;
+				NSString *wst = currentWord;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
 				textView.text = st;
@@ -1078,7 +1078,7 @@
 		if (![jkl5Button.titleLabel.text isEqualToString:@""]) {
 			if (![textView.text isEqualToString:@""]) {
 				NSString *st = textView.text;
-				NSString *wst = wordString;
+				NSString *wst = currentWord;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
 				textView.text = st;
@@ -1133,7 +1133,7 @@
 		if (![mno6Button.titleLabel.text isEqualToString:@""]) {
 			if (![textView.text isEqualToString:@""]) {
 				NSString *st = textView.text;
-				NSString *wst = wordString;
+				NSString *wst = currentWord;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
 				textView.text = st;
@@ -1188,7 +1188,7 @@
 		if (![pqrs7Button.titleLabel.text isEqualToString:@""]) {
 			if (![textView.text isEqualToString:@""]) {
 				NSString *st = textView.text;
-				NSString *wst = wordString;
+				NSString *wst = currentWord;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
 				textView.text = st;
@@ -1243,7 +1243,7 @@
 		if (![tuv8Button.titleLabel.text isEqualToString:@""]) {
 			if (![textView.text isEqualToString:@""]) {
 				NSString *st = textView.text;
-				NSString *wst = wordString;
+				NSString *wst = currentWord;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
 				textView.text = st;
@@ -1298,7 +1298,7 @@
 		if (![wxyz9Button.titleLabel.text isEqualToString:@""]) {
 			if (![textView.text isEqualToString:@""]) {
 				NSString *st = textView.text;
-				NSString *wst = wordString;
+				NSString *wst = currentWord;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
 				textView.text = st;
@@ -1626,13 +1626,13 @@
 
 - (void)backspace {
     NSString *st = textView.text;
-    NSString *wst = wordString;
+    NSString *wst = currentWord;
     if ([st length] > 0) {
         st = [st substringToIndex:[st length] - 1];
         [textView setText:st];
 		if ([wst length] > 0) {
 			wst = [wst substringToIndex:[wst length] - 1];
-			wordString = [NSMutableString stringWithString:wst];
+			currentWord = [NSMutableString stringWithString:wst];
 			add = [NSMutableString stringWithString:@""];
 		}
 		words = false;
