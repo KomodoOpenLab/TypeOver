@@ -19,16 +19,61 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	// load stock word prediction database
 	NSString *databasename = [[NSBundle mainBundle] pathForResource:@"EnWords" ofType:nil];
-	int result = sqlite3_open([databasename UTF8String], &dbWordPrediction);
+	int result = sqlite3_open([databasename UTF8String], &dbStockWordPrediction);
 	if (SQLITE_OK!=result)
 	{
-		NSLog(@"couldn't open database result=%d",result);
+		NSLog(@"couldn't open stock database result=%d",result);
 	}
 	else
 	{
-		NSLog(@"database successfully opened");
+		NSLog(@"stock database successfully opened");
 	}
+	
+	// load or create user word prediction database
+	NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	NSString *dbFile = [documentsPath stringByAppendingPathComponent:@"UserWords"];
+	BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:dbFile];
+	if (fileExists) {
+		result = sqlite3_open([dbFile UTF8String], &dbUserWordPrediction);
+		if (SQLITE_OK!=result)
+		{
+			NSLog(@"couldn't open user database result=%d",result);
+		}
+		else
+		{
+			NSLog(@"user database successfully opened");
+		}
+	}
+	else {
+		BOOL bSuccess = YES;
+		result = sqlite3_open([dbFile UTF8String], &dbUserWordPrediction);
+		if (SQLITE_OK!=result)
+		{
+			NSLog(@"couldn't create user database result=%d",result);
+			bSuccess = NO;
+		}
+		if (bSuccess) {
+			char *errMsg = NULL;
+			const char *createSQL = "CREATE TABLE WORDS(ID INTEGER PRIMARY KEY AUTOINCREMENT, WORD TEXT, FREQUENCY INTEGER);";
+			result = sqlite3_exec(dbUserWordPrediction, createSQL, NULL, NULL, &errMsg);
+			if (SQLITE_OK!=result)
+			{
+				NSLog(@"Error creating WORDS table: %s",errMsg);
+				bSuccess = NO;
+			}
+			createSQL = "CREATE INDEX WORDS_IDX ON WORDS (FREQUENCY DESC, WORD);";
+			result = sqlite3_exec(dbUserWordPrediction, createSQL, NULL, NULL, &errMsg);
+			if (SQLITE_OK!=result)
+			{
+				NSLog(@"Error creating index on WORDS table: %s",errMsg);
+				bSuccess = NO;
+			}
+		}
+	}
+	
 	shift = true;
 }
 
@@ -39,6 +84,14 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+	
+	if (![addWordToDictButton isHidden]) {
+		// hide add word to dictionary button
+		[addWordToDictButton setHidden:YES];
+		CGRect frame = textArea.frame;
+		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
+		textArea.frame = frame;
+	}
 	
 	// dummy view to hide system keyboard
 	UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
@@ -136,7 +189,7 @@
 					i++;
 				}
 				
-				// check if word contains an apostrophe and make it sql friendly 
+				// check if word contains an apostrophe and make it sql friendly
 				str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
 				
 				[strQuery appendString:str];
@@ -191,7 +244,28 @@
 		NSLog(@"Generating predictions with query: %@",strQuery);
 		
 		sqlite3_stmt *statement;
-		int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		
+		// get user's added words
+		NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
+			NSLog(@"shorthand prediction");
+			[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+			NSMutableString *str = [[NSMutableString alloc] init];
+			int i = 0;
+			while (i<strContext.length) {
+				[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
+				[str appendString:@"%"];
+				i++;
+			}
+			[userWordsQuery appendString:str];
+		}
+		else {
+			[userWordsQuery appendString:strContext];
+			[userWordsQuery appendString:@"%"];
+		}
+		[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+		
+		int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &statement, nil);
 		
 		if (SQLITE_OK==result)
 		{
@@ -210,12 +284,33 @@
 			NSLog(@"Query error number: %d",result);
 		}
 		
+		result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		
+		if (resultarr.count<8) {
+			if (SQLITE_OK==result)
+			{
+				int prednum = 0;
+				while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
+				{
+					char *rowData = (char*)sqlite3_column_text(statement, 1);
+					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+					NSLog(@"prediction %d: %@",prednum+1,str);
+					[resultarr addObject:str];
+					prednum++;
+				}
+			}
+			else
+			{
+				NSLog(@"Query error number: %d",result);
+			}
+		}
+		
 		if (resultarr.count<8&&bigram) { // bigram results didn't fill array
 			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
 				[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 				NSMutableString *str = [[NSMutableString alloc] init];
 				
-				// check if word contains an apostrophe and make it single again 
+				// check if word contains an apostrophe and make it single again
 				strContext = [NSMutableString stringWithString:[strContext stringByReplacingOccurrencesOfString:@"''" withString:@"'"]];
 				
 				int i = 0;
@@ -240,7 +335,7 @@
 				[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
 			}
 			
-			result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
 			
 			if (SQLITE_OK==result)
 			{
@@ -272,7 +367,7 @@
 		NSLog(@"Generating predictions with query: %@",strQuery);
 		
 		sqlite3_stmt *statement;
-		int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
 		
 		if (SQLITE_OK==result)
 		{
@@ -296,7 +391,7 @@
 			[strQuery appendString:@" ORDER BY FREQUENCY DESC LIMIT 10;"];
 		}
 		
-		result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
 		
 		if (SQLITE_OK==result)
 		{
@@ -339,7 +434,7 @@
 	[strQuery appendString:@"';"];
     
 	sqlite3_stmt *statement;
-    int result = sqlite3_prepare_v2(dbWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+    int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
 	int arr[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // set to 10 just incase
 	NSMutableArray *wordsarr = [[NSMutableArray alloc] init];
 	
@@ -354,7 +449,27 @@
 			[wordsarr addObject:str];
 			i++;
         }
-		NSLog(@"amount of results: %i", i);
+		NSLog(@"amount of stock results: %i", i);
+	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
+	
+	result = sqlite3_prepare_v2(dbUserWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+	NSMutableArray *userwordsarr = [[NSMutableArray alloc] init];
+	
+    if (SQLITE_OK==result)
+    {
+		int i = 0;
+        while (SQLITE_ROW==sqlite3_step(statement))
+        {
+			char *rowData = (char*)sqlite3_column_text(statement, 1);
+			NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+			[userwordsarr addObject:str];
+			i++;
+        }
+		NSLog(@"amount of user results: %i", i);
 	}
 	else
 	{
@@ -369,10 +484,18 @@
 		wordId = arr[0]; // non case sensitive
 		NSLog(@"lowercase");
 	}
+	
+	if (wordId==0 && [addWordToDictButton isHidden] && userwordsarr.count==0) {
+		// show add word to dictionary button
+		[addWordToDictButton setHidden:NO];
+		CGRect frame = textArea.frame;
+		frame.size.height = frame.size.height-addWordToDictButton.frame.size.height-8;
+		textArea.frame = frame;
+	}
 }
 
 - (BOOL)isWordDelimiter:(char)ch {
-	char acceptableChars[] = " ,.!@#!\t\r\n\"[]{}()<>;/=";
+	char acceptableChars[] = " ,.?@#!\t\r\n\"[]{}()<>;/=";
 	int i = 0;
 	while (acceptableChars[i]!= '\0' && acceptableChars[i]!=ch) i++;
 	return(acceptableChars[i]==ch);
@@ -440,6 +563,8 @@
             prevWord = [text substringWithRange:NSMakeRange(tokenstart-tokenlen+1, tokenlen)];
         }
     }
+	
+	previousWord = prevWord;
     
     NSLog(@"prevWord=\"%@\" wordDelimiter=\"%@\" currWord=\"%@\"",prevWord,wordDelimiter,currWord);
     
@@ -453,7 +578,16 @@
     }
     
     wordString = [currWord copy];
-    [self predict];
+	
+	if (![addWordToDictButton isHidden] && ![wordString isEqualToString:@""]) {
+		// hide add word to dictionary button
+		[addWordToDictButton setHidden:YES];
+		CGRect frame = textArea.frame;
+		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
+		textArea.frame = frame;
+	}
+    
+	[self predict];
 }
 
 - (void)predict {
@@ -463,6 +597,33 @@
 		letters = false;
 		[self wordsLetters];
 	}
+}
+
+- (void)addWordToDict:(NSString *)wordstr withFreq:(int)freq
+{
+    BOOL bSuccess = YES;
+    char* ins = "INSERT INTO WORDS (WORD, FREQUENCY) VALUES(?, ?);";
+    
+    sqlite3_stmt *stmt;
+	
+    if (sqlite3_prepare_v2(dbUserWordPrediction,ins,-1,&stmt,nil)!=SQLITE_OK)
+    {
+        NSLog(@"failed to prepare");
+        bSuccess = NO;
+    }
+	
+    if(bSuccess)
+    {
+        sqlite3_bind_text(stmt, 1, [wordstr UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 2, freq);
+        if (SQLITE_DONE!=sqlite3_step(stmt))
+        {
+            NSLog(@"failed to step");
+            bSuccess = NO;
+        }
+    }
+    
+    sqlite3_finalize(stmt);
 }
 
 - (void)wordsLetters {
@@ -596,10 +757,19 @@
         [shiftButton setTitle:@"shift off" forState:UIControlStateNormal];
     }
 }
+
 - (void)resetMisc {
 	[inputTimer invalidate];
     [predResultsArray removeAllObjects];
+	if (![addWordToDictButton isHidden]) {
+		// hide add word to dictionary button
+		[addWordToDictButton setHidden:YES];
+		CGRect frame = textArea.frame;
+		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
+		textArea.frame = frame;
+	}
     wordString = [NSMutableString stringWithString:@""];
+    previousWord = [NSMutableString stringWithString:@""];
 	words = false;
 	letters = true;
 	[self wordsLetters];
@@ -657,6 +827,15 @@
 
 
 #pragma mark - keypad button actions
+
+- (IBAction)addWordToDictAct:(id)sender {
+	[self addWordToDict:previousWord withFreq:1];
+	// hide add word to dictionary button
+	[addWordToDictButton setHidden:YES];
+	CGRect frame = textArea.frame;
+	frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
+	textArea.frame = frame;
+}
 
 - (IBAction)punct1Act:(id)sender {
 	if (letters) {
@@ -1469,4 +1648,5 @@
 	}
 	[self checkShift];
 }
+
 @end
