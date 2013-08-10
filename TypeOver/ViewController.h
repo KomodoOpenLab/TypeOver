@@ -16,7 +16,7 @@
     
 #pragma mark - outlets 
 	
-    __weak IBOutlet UITextView *textArea;
+    __weak IBOutlet UITextView *textView;
 	__weak IBOutlet UIButton *addWordToDictButton;
     __weak IBOutlet UIBarButtonItem *useButton;
 	__weak IBOutlet UIBarButtonItem *settingsButton;

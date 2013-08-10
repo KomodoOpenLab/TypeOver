@@ -88,19 +88,19 @@
 	if (![addWordToDictButton isHidden]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
-		CGRect frame = textArea.frame;
+		CGRect frame = textView.frame;
 		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-		textArea.frame = frame;
+		textView.frame = frame;
 	}
 	
 	// dummy view to hide system keyboard
 	UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
-	textArea.inputView = dummyView;
+	textView.inputView = dummyView;
 	
-	[textArea becomeFirstResponder]; // activate textarea
+	[textView becomeFirstResponder]; // activate textview
 	
 	letters = true;
-	[textArea setFont:[UIFont systemFontOfSize:[[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"]]];
+	[textView setFont:[UIFont systemFontOfSize:[[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"]]];
 	wordId = 0;
 	[self checkShift];
     [self resetMisc];
@@ -118,7 +118,7 @@
 	if (buttonIndex == 0) { // send as message
 		if ([MFMessageComposeViewController canSendText]) {
 			MFMessageComposeViewController *msg = [[MFMessageComposeViewController alloc] init];
-			msg.body = textArea.text;
+			msg.body = textView.text;
 			msg.messageComposeDelegate=self;
 			[self presentViewController:msg animated:YES completion:nil];
 		}
@@ -127,7 +127,7 @@
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
             SLComposeViewController *fb = [[SLComposeViewController alloc] init];
             fb = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-            [fb setInitialText:textArea.text];
+            [fb setInitialText:textView.text];
             [self presentViewController:fb animated:YES completion:nil];
         }
 	}
@@ -135,13 +135,13 @@
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
             SLComposeViewController *tw = [[SLComposeViewController alloc] init];
             tw = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-            [tw setInitialText:textArea.text];
+            [tw setInitialText:textView.text];
             [self presentViewController:tw animated:YES completion:nil];
         }
 	}
 	else if (buttonIndex == 3) { // copy
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-        pasteboard.string = textArea.text;
+        pasteboard.string = textView.text;
 		NSLog(@"copied");
 	}
 }
@@ -488,9 +488,9 @@
 	if (wordId==0 && [addWordToDictButton isHidden] && userwordsarr.count==0) {
 		// show add word to dictionary button
 		[addWordToDictButton setHidden:NO];
-		CGRect frame = textArea.frame;
+		CGRect frame = textView.frame;
 		frame.size.height = frame.size.height-addWordToDictButton.frame.size.height-8;
-		textArea.frame = frame;
+		textView.frame = frame;
 	}
 }
 
@@ -502,7 +502,7 @@
 }
 
 - (void)updatePredState {
-    NSString *text = textArea.text;
+    NSString *text = textView.text;
     NSString *currWord = @"", *prevWord = @"", *wordDelimiter = @"";
     int len = text.length;
     int i;
@@ -582,9 +582,9 @@
 	if (![addWordToDictButton isHidden] && ![wordString isEqualToString:@""]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
-		CGRect frame = textArea.frame;
+		CGRect frame = textView.frame;
 		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-		textArea.frame = frame;
+		textView.frame = frame;
 	}
     
 	[self predict];
@@ -764,9 +764,9 @@
 	if (![addWordToDictButton isHidden]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
-		CGRect frame = textArea.frame;
+		CGRect frame = textView.frame;
 		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-		textArea.frame = frame;
+		textView.frame = frame;
 	}
     wordString = [NSMutableString stringWithString:@""];
     previousWord = [NSMutableString stringWithString:@""];
@@ -832,9 +832,9 @@
 	[self addWordToDict:previousWord withFreq:1];
 	// hide add word to dictionary button
 	[addWordToDictButton setHidden:YES];
-	CGRect frame = textArea.frame;
+	CGRect frame = textView.frame;
 	frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-	textArea.frame = frame;
+	textView.frame = frame;
 }
 
 - (IBAction)punct1Act:(id)sender {
@@ -846,10 +846,10 @@
 			[punct1Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
+			NSMutableString *st = [NSMutableString stringWithString:textView.text];
 			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]||[punct1Button.titleLabel.text isEqualToString:@","]) {
 				if (st.length>0) {
-					if ([self isWordDelimiter:[textArea.text characterAtIndex:[textArea.text length] - 1]]) {
+					if ([self isWordDelimiter:[textView.text characterAtIndex:[textView.text length] - 1]]) {
 						st = [NSMutableString stringWithString:[st substringToIndex:[st length] - 1]];
 					}
 				}
@@ -868,7 +868,7 @@
 			else {
 				[st appendString:punct1Button.titleLabel.text];
 			}
-			[textArea setText:st];
+			[textView setText:st];
 			[self resetKeys];
 			[self updatePredState];
 		}
@@ -890,7 +890,7 @@
 			[abc2Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
+			NSMutableString *st = [NSMutableString stringWithString:textView.text];
 			add = [NSMutableString stringWithString:abc2Button.titleLabel.text];
 			if (shift) {
 				add = [NSMutableString stringWithString:add.uppercaseString];
@@ -902,7 +902,7 @@
 			else {
 				[st appendString:add];
 			}
-			[textArea setText:st];
+			[textView setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
 				[self updatePredState];
@@ -911,22 +911,22 @@
 	}
 	else if (words) {
 		if (![abc2Button.titleLabel.text isEqualToString:@""]) {
-			if (![textArea.text isEqualToString:@""]) {
-				NSString *st = textArea.text;
+			if (![textView.text isEqualToString:@""]) {
+				NSString *st = textView.text;
 				NSString *wst = wordString;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
-				textArea.text = st;
+				textView.text = st;
 				final = [NSMutableString stringWithString:st];
-				if (![textArea.text isEqualToString:@""]) {
+				if (![textView.text isEqualToString:@""]) {
 					[final appendString:abc2Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				else {
 					final = [NSMutableString stringWithString:abc2Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				[self resetMisc];
 				[self updatePredState];
@@ -945,7 +945,7 @@
 			[def3Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
+			NSMutableString *st = [NSMutableString stringWithString:textView.text];
 			add = [NSMutableString stringWithString:def3Button.titleLabel.text];
 			if (shift) {
 				add = [NSMutableString stringWithString:add.uppercaseString];
@@ -957,7 +957,7 @@
 			else {
 				[st appendString:add];
 			}
-			[textArea setText:st];
+			[textView setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
 				[self updatePredState];
@@ -966,22 +966,22 @@
 	}
 	else if (words) {
 		if (![def3Button.titleLabel.text isEqualToString:@""]) {
-			if (![textArea.text isEqualToString:@""]) {
-				NSString *st = textArea.text;
+			if (![textView.text isEqualToString:@""]) {
+				NSString *st = textView.text;
 				NSString *wst = wordString;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
-				textArea.text = st;
+				textView.text = st;
 				final = [NSMutableString stringWithString:st];
-				if (![textArea.text isEqualToString:@""]) {
+				if (![textView.text isEqualToString:@""]) {
 					[final appendString:def3Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				else {
 					final = [NSMutableString stringWithString:def3Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				[self resetMisc];
 				[self updatePredState];
@@ -1000,7 +1000,7 @@
 			[ghi4Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
+			NSMutableString *st = [NSMutableString stringWithString:textView.text];
 			add = [NSMutableString stringWithString:ghi4Button.titleLabel.text];
 			if (shift) {
 				add = [NSMutableString stringWithString:add.uppercaseString];
@@ -1012,7 +1012,7 @@
 			else {
 				[st appendString:add];
 			}
-			[textArea setText:st];
+			[textView setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
 				[self updatePredState];
@@ -1021,22 +1021,22 @@
 	}
 	else if (words) {
 		if (![ghi4Button.titleLabel.text isEqualToString:@""]) {
-			if (![textArea.text isEqualToString:@""]) {
-				NSString *st = textArea.text;
+			if (![textView.text isEqualToString:@""]) {
+				NSString *st = textView.text;
 				NSString *wst = wordString;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
-				textArea.text = st;
+				textView.text = st;
 				final = [NSMutableString stringWithString:st];
-				if (![textArea.text isEqualToString:@""]) {
+				if (![textView.text isEqualToString:@""]) {
 					[final appendString:ghi4Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				else {
 					final = [NSMutableString stringWithString:ghi4Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				[self resetMisc];
 				[self updatePredState];
@@ -1055,7 +1055,7 @@
 			[jkl5Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
+			NSMutableString *st = [NSMutableString stringWithString:textView.text];
 			add = [NSMutableString stringWithString:jkl5Button.titleLabel.text];
 			if (shift) {
 				add = [NSMutableString stringWithString:add.uppercaseString];
@@ -1067,7 +1067,7 @@
 			else {
 				[st appendString:add];
 			}
-			[textArea setText:st];
+			[textView setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
 				[self updatePredState];
@@ -1076,22 +1076,22 @@
 	}
 	else if (words) {
 		if (![jkl5Button.titleLabel.text isEqualToString:@""]) {
-			if (![textArea.text isEqualToString:@""]) {
-				NSString *st = textArea.text;
+			if (![textView.text isEqualToString:@""]) {
+				NSString *st = textView.text;
 				NSString *wst = wordString;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
-				textArea.text = st;
+				textView.text = st;
 				final = [NSMutableString stringWithString:st];
-				if (![textArea.text isEqualToString:@""]) {
+				if (![textView.text isEqualToString:@""]) {
 					[final appendString:jkl5Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				else {
 					final = [NSMutableString stringWithString:jkl5Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				[self resetMisc];
 				[self updatePredState];
@@ -1110,7 +1110,7 @@
 			[mno6Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
+			NSMutableString *st = [NSMutableString stringWithString:textView.text];
 			add = [NSMutableString stringWithString:mno6Button.titleLabel.text];
 			if (shift) {
 				add = [NSMutableString stringWithString:add.uppercaseString];
@@ -1122,7 +1122,7 @@
 			else {
 				[st appendString:add];
 			}
-			[textArea setText:st];
+			[textView setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
 				[self updatePredState];
@@ -1131,22 +1131,22 @@
 	}
 	else if (words) {
 		if (![mno6Button.titleLabel.text isEqualToString:@""]) {
-			if (![textArea.text isEqualToString:@""]) {
-				NSString *st = textArea.text;
+			if (![textView.text isEqualToString:@""]) {
+				NSString *st = textView.text;
 				NSString *wst = wordString;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
-				textArea.text = st;
+				textView.text = st;
 				final = [NSMutableString stringWithString:st];
-				if (![textArea.text isEqualToString:@""]) {
+				if (![textView.text isEqualToString:@""]) {
 					[final appendString:mno6Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				else {
 					final = [NSMutableString stringWithString:mno6Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				[self resetMisc];
 				[self updatePredState];
@@ -1165,7 +1165,7 @@
 			[pqrs7Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
+			NSMutableString *st = [NSMutableString stringWithString:textView.text];
 			add = [NSMutableString stringWithString:pqrs7Button.titleLabel.text];
 			if (shift) {
 				add = [NSMutableString stringWithString:add.uppercaseString];
@@ -1177,7 +1177,7 @@
 			else {
 				[st appendString:add];
 			}
-			[textArea setText:st];
+			[textView setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
 				[self updatePredState];
@@ -1186,22 +1186,22 @@
 	}
 	else if (words) {
 		if (![pqrs7Button.titleLabel.text isEqualToString:@""]) {
-			if (![textArea.text isEqualToString:@""]) {
-				NSString *st = textArea.text;
+			if (![textView.text isEqualToString:@""]) {
+				NSString *st = textView.text;
 				NSString *wst = wordString;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
-				textArea.text = st;
+				textView.text = st;
 				final = [NSMutableString stringWithString:st];
-				if (![textArea.text isEqualToString:@""]) {
+				if (![textView.text isEqualToString:@""]) {
 					[final appendString:pqrs7Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				else {
 					final = [NSMutableString stringWithString:pqrs7Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				[self resetMisc];
 				[self updatePredState];
@@ -1220,7 +1220,7 @@
 			[tuv8Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
+			NSMutableString *st = [NSMutableString stringWithString:textView.text];
 			add = [NSMutableString stringWithString:tuv8Button.titleLabel.text];
 			if (shift) {
 				add = [NSMutableString stringWithString:add.uppercaseString];
@@ -1232,7 +1232,7 @@
 			else {
 				[st appendString:add];
 			}
-			[textArea setText:st];
+			[textView setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
 				[self updatePredState];
@@ -1241,22 +1241,22 @@
 	}
 	else if (words) {
 		if (![tuv8Button.titleLabel.text isEqualToString:@""]) {
-			if (![textArea.text isEqualToString:@""]) {
-				NSString *st = textArea.text;
+			if (![textView.text isEqualToString:@""]) {
+				NSString *st = textView.text;
 				NSString *wst = wordString;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
-				textArea.text = st;
+				textView.text = st;
 				final = [NSMutableString stringWithString:st];
-				if (![textArea.text isEqualToString:@""]) {
+				if (![textView.text isEqualToString:@""]) {
 					[final appendString:tuv8Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				else {
 					final = [NSMutableString stringWithString:tuv8Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				[self resetMisc];
 				[self updatePredState];
@@ -1275,7 +1275,7 @@
 			[wxyz9Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textArea.text];
+			NSMutableString *st = [NSMutableString stringWithString:textView.text];
 			add = [NSMutableString stringWithString:wxyz9Button.titleLabel.text];
 			if (shift) {
 				add = [NSMutableString stringWithString:add.uppercaseString];
@@ -1287,7 +1287,7 @@
 			else {
 				[st appendString:add];
 			}
-			[textArea setText:st];
+			[textView setText:st];
 			[self resetKeys];
 			if (![add isEqualToString:@""]) {
 				[self updatePredState];
@@ -1296,22 +1296,22 @@
 	}
 	else if (words) {
 		if (![wxyz9Button.titleLabel.text isEqualToString:@""]) {
-			if (![textArea.text isEqualToString:@""]) {
-				NSString *st = textArea.text;
+			if (![textView.text isEqualToString:@""]) {
+				NSString *st = textView.text;
 				NSString *wst = wordString;
 				NSMutableString *final;
 				st = [st substringToIndex:[st length] - [wst length]];
-				textArea.text = st;
+				textView.text = st;
 				final = [NSMutableString stringWithString:st];
-				if (![textArea.text isEqualToString:@""]) {
+				if (![textView.text isEqualToString:@""]) {
 					[final appendString:wxyz9Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				else {
 					final = [NSMutableString stringWithString:wxyz9Button.titleLabel.text];
 					[final appendString:@" "];
-					textArea.text = final;
+					textView.text = final;
 				}
 				[self resetMisc];
 				[self updatePredState];
@@ -1348,7 +1348,7 @@
 		[space0Button setEnabled:YES];
 	}
 	else {
-		NSMutableString *st = [NSMutableString stringWithString:textArea.text];
+		NSMutableString *st = [NSMutableString stringWithString:textView.text];
 		if ([space0Button.titleLabel.text isEqualToString:@"space"]) {
 			[st appendString:@" "];
 			[self resetMisc];
@@ -1356,7 +1356,7 @@
 		else {
 			[st appendString:@"0"];
 		}
-		[textArea setText:st];
+		[textView setText:st];
 		[self resetKeys];
 		[self updatePredState];
 	}
@@ -1384,7 +1384,7 @@
 		[self resetKeys];
 		[self updatePredState];
 	}
-	else if (![textArea.text isEqualToString:@""]) {
+	else if (![textView.text isEqualToString:@""]) {
 		[self backspace]; // prevents a delay
 		backspaceTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
 		[self disableKeys];
@@ -1393,16 +1393,16 @@
 }
 
 - (IBAction)clearAct:(id)sender {
-    if (![textArea.text isEqualToString:@""]) {
-        clearString = textArea.text; // save text
+    if (![textView.text isEqualToString:@""]) {
+        clearString = textView.text; // save text
 		clearShift = shift; // save shift state
 		wordId=0;
-        [textArea setText:@""];
+        [textView setText:@""];
         shift = true;
 		[self resetMisc];
     }
     else {
-        textArea.text = clearString; // restore text
+        textView.text = clearString; // restore text
 		shift = clearShift; // restore shift state
     }
 	[self updatePredState];
@@ -1625,11 +1625,11 @@
 }
 
 - (void)backspace {
-    NSString *st = textArea.text;
+    NSString *st = textView.text;
     NSString *wst = wordString;
     if ([st length] > 0) {
         st = [st substringToIndex:[st length] - 1];
-        [textArea setText:st];
+        [textView setText:st];
 		if ([wst length] > 0) {
 			wst = [wst substringToIndex:[wst length] - 1];
 			wordString = [NSMutableString stringWithString:wst];
@@ -1639,7 +1639,7 @@
 		letters = true;
 		[self wordsLetters];
     }
-	if ([textArea.text isEqual: @""]) {
+	if ([textView.text isEqual: @""]) {
 		[backspaceTimer invalidate];
 		shift = true;
 		[self checkShift];
