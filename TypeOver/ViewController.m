@@ -486,7 +486,13 @@
 		NSLog(@"not identical case");
 	}
 	
-	if (wordId==0 && [addWordToDictButton isHidden] && userwordsarr.count==0) {
+	// check if word is a number
+	BOOL isNumber;
+	NSCharacterSet *alphaNums = [NSCharacterSet decimalDigitCharacterSet];
+	NSCharacterSet *inStringSet = [NSCharacterSet characterSetWithCharactersInString:orgWord];
+	isNumber = [alphaNums isSupersetOfSet:inStringSet];
+	
+	if (wordId==0 && [addWordToDictButton isHidden] && userwordsarr.count==0 && !isNumber) {
 		// show add word to dictionary button
 		[addWordToDictButton setHidden:NO];
 		CGRect frame = textView.frame;
