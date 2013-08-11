@@ -865,10 +865,12 @@
 			}
 			else if ([punct1Button.titleLabel.text isEqualToString:@","]) {
 				[st appendString:@" "];
+				shift = false;
 				[self resetMisc];
 			}
 			else {
 				[st appendString:punct1Button.titleLabel.text];
+				shift = false;
 			}
 			[textView setText:st];
 			[self resetKeys];
@@ -903,6 +905,7 @@
 			}
 			else {
 				[st appendString:add];
+				shift = false;
 			}
 			[textView setText:st];
 			[self resetKeys];
@@ -958,6 +961,7 @@
 			}
 			else {
 				[st appendString:add];
+				shift = false;
 			}
 			[textView setText:st];
 			[self resetKeys];
@@ -1013,6 +1017,7 @@
 			}
 			else {
 				[st appendString:add];
+				shift = false;
 			}
 			[textView setText:st];
 			[self resetKeys];
@@ -1068,6 +1073,7 @@
 			}
 			else {
 				[st appendString:add];
+				shift = false;
 			}
 			[textView setText:st];
 			[self resetKeys];
@@ -1123,6 +1129,7 @@
 			}
 			else {
 				[st appendString:add];
+				shift = false;
 			}
 			[textView setText:st];
 			[self resetKeys];
@@ -1178,6 +1185,7 @@
 			}
 			else {
 				[st appendString:add];
+				shift = false;
 			}
 			[textView setText:st];
 			[self resetKeys];
@@ -1233,6 +1241,7 @@
 			}
 			else {
 				[st appendString:add];
+				shift = false;
 			}
 			[textView setText:st];
 			[self resetKeys];
@@ -1288,6 +1297,7 @@
 			}
 			else {
 				[st appendString:add];
+				shift = false;
 			}
 			[textView setText:st];
 			[self resetKeys];
@@ -1353,10 +1363,12 @@
 		NSMutableString *st = [NSMutableString stringWithString:textView.text];
 		if ([space0Button.titleLabel.text isEqualToString:@"space"]) {
 			[st appendString:@" "];
+			shift = false;
 			[self resetMisc];
 		}
 		else {
 			[st appendString:@"0"];
+			shift = false;
 		}
 		[textView setText:st];
 		[self resetKeys];
