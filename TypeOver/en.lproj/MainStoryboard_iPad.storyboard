@@ -289,7 +289,7 @@
                         <outlet property="shiftButton" destination="KcW-fr-vfM" id="0OV-F1-Rbb"/>
                         <outlet property="space0Button" destination="nlD-dU-NNe" id="Zhw-u1-qRg"/>
                         <outlet property="speakButton" destination="WbU-nk-KsM" id="Eyk-L0-2hi"/>
-                        <outlet property="textArea" destination="UHn-Bb-TqK" id="nvt-aU-hKQ"/>
+                        <outlet property="textView" destination="UHn-Bb-TqK" id="XTV-lW-73c"/>
                         <outlet property="tuv8Button" destination="D5w-Vo-Bew" id="2Mj-l9-tjn"/>
                         <outlet property="useButton" destination="PSm-PN-SKy" id="j27-pr-RPa"/>
                         <outlet property="wordsLettersButton" destination="koU-Uq-H8s" id="ecR-Zy-bYh"/>
