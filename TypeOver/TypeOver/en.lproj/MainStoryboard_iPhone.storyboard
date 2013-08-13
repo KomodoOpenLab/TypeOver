@@ -129,7 +129,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="punct1Act:" destination="2" eventType="touchUpInside" id="6ur-Td-s2T"/>
+                                    <action selector="punct1LettersAct:" destination="2" eventType="touchUpInside" id="M0c-lH-99n"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dwJ-gO-Ilu" customClass="CustomButton">
@@ -284,7 +284,7 @@
                         <outlet property="jkl5Button" destination="rFL-eU-b8W" id="4mC-bn-0Jr"/>
                         <outlet property="mno6Button" destination="woa-ut-QD2" id="qFg-ks-509"/>
                         <outlet property="pqrs7Button" destination="tpo-Uc-ODi" id="NbR-jG-D2d"/>
-                        <outlet property="punct1Button" destination="kaw-P1-Jl1" id="QJC-xh-WOe"/>
+                        <outlet property="punct1LettersButton" destination="kaw-P1-Jl1" id="Phl-u8-Fam"/>
                         <outlet property="settingsButton" destination="hD1-dO-iew" id="1Gw-eD-0g6"/>
                         <outlet property="shiftButton" destination="RRy-C4-q2B" id="Qmc-Tq-BgE"/>
                         <outlet property="space0Button" destination="qA3-WI-eD6" id="EtZ-P4-120"/>
@@ -292,7 +292,7 @@
                         <outlet property="textView" destination="LQa-8g-uAe" id="v33-9x-wyp"/>
                         <outlet property="tuv8Button" destination="N4e-cc-FS2" id="6yP-vr-8fa"/>
                         <outlet property="useButton" destination="qp0-QB-f2W" id="smh-oL-cjT"/>
-                        <outlet property="wordsLettersButton" destination="Bh2-uK-kQX" id="xGV-Ma-ml8"/>
+                        <outlet property="wordsButton" destination="Bh2-uK-kQX" id="ger-fS-F5p"/>
                         <outlet property="wxyz9Button" destination="uTv-a1-LeI" id="7tq-92-qGu"/>
                     </connections>
                 </viewController>

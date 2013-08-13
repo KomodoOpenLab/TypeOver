@@ -647,8 +647,9 @@
 			isUppercase = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[currentWord characterAtIndex:0]];
 		}
 		int i = 0;
-		UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, punct1Button);
-		[punct1Button setTitle:@"" forState:UIControlStateNormal];
+		UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, punct1LettersButton);
+		[punct1LettersButton setTitle:@"letters" forState:UIControlStateNormal];
+		[wordsButton setHidden:YES];
 		if (predResultsArray.count > 0) {
 			if (isUppercase) {
 				[abc2Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
@@ -744,10 +745,10 @@
 		else {
 			[wxyz9Button setTitle:@"" forState:UIControlStateNormal];
 		}
-		[wordsLettersButton setTitle:@"letters" forState:UIControlStateNormal];
 	}
 	if (letters) {
 		[self resetKeys];
+		[wordsButton setHidden:NO];
 	}
 }
 
@@ -785,7 +786,7 @@
 }
 
 - (void)resetKeys {
-	[punct1Button setTitle:@".,?!'@# 1" forState:UIControlStateNormal];
+	[punct1LettersButton setTitle:@".,?!'@# 1" forState:UIControlStateNormal];
 	[abc2Button setTitle:@"abc 2" forState:UIControlStateNormal];
 	[def3Button setTitle:@"def 3" forState:UIControlStateNormal];
 	[ghi4Button setTitle:@"ghi 4" forState:UIControlStateNormal];
@@ -795,8 +796,8 @@
 	[tuv8Button setTitle:@"tuv 8" forState:UIControlStateNormal];
 	[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
 	[space0Button setTitle:@"space 0" forState:UIControlStateNormal];
-	[wordsLettersButton setTitle:@"words" forState:UIControlStateNormal];
-	[punct1Button setEnabled:YES];
+	[wordsButton setTitle:@"words" forState:UIControlStateNormal];
+	[punct1LettersButton setEnabled:YES];
 	[abc2Button setEnabled:YES];
 	[def3Button setEnabled:YES];
 	[backspaceButton setEnabled:YES];
@@ -810,13 +811,13 @@
 	[speakButton setEnabled:YES];
 	[shiftButton setEnabled:YES];
 	[space0Button setEnabled:YES];
-	[wordsLettersButton setEnabled:YES];
+	[wordsButton setEnabled:YES];
 	[inputTimer invalidate];
 	timesCycled=0;
 }
 
 - (void)disableKeys {
-	[punct1Button setEnabled:NO];
+	[punct1LettersButton setEnabled:NO];
 	[abc2Button setEnabled:NO];
 	[def3Button setEnabled:NO];
 	[backspaceButton setEnabled:NO];
@@ -830,7 +831,7 @@
 	[speakButton setEnabled:NO];
 	[shiftButton setEnabled:NO];
 	[space0Button setEnabled:NO];
-	[wordsLettersButton setEnabled:NO];
+	[wordsButton setEnabled:NO];
 }
 
 
@@ -845,37 +846,37 @@
 	textView.frame = frame;
 }
 
-- (IBAction)punct1Act:(id)sender {
+- (IBAction)punct1LettersAct:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[punct1Button setTitle:@"." forState:UIControlStateNormal];
+			[punct1LettersButton setTitle:@"." forState:UIControlStateNormal];
 			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(punct1) userInfo:nil repeats:YES];
 			[self disableKeys];
-			[punct1Button setEnabled:YES];
+			[punct1LettersButton setEnabled:YES];
 		}
 		else {
 			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]||[punct1Button.titleLabel.text isEqualToString:@","]) {
+			if ([punct1LettersButton.titleLabel.text isEqualToString:@"."]||[punct1LettersButton.titleLabel.text isEqualToString:@"?"]||[punct1LettersButton.titleLabel.text isEqualToString:@"!"]||[punct1LettersButton.titleLabel.text isEqualToString:@","]) {
 				if (st.length>0) {
 					if ([self isWordDelimiter:[textView.text characterAtIndex:[textView.text length] - 1]]) {
 						st = [NSMutableString stringWithString:[st substringToIndex:[st length] - 1]];
 					}
 				}
-				[st appendString:punct1Button.titleLabel.text];
+				[st appendString:punct1LettersButton.titleLabel.text];
 			}
-			if ([punct1Button.titleLabel.text isEqualToString:@"."]||[punct1Button.titleLabel.text isEqualToString:@"?"]||[punct1Button.titleLabel.text isEqualToString:@"!"]) {
+			if ([punct1LettersButton.titleLabel.text isEqualToString:@"."]||[punct1LettersButton.titleLabel.text isEqualToString:@"?"]||[punct1LettersButton.titleLabel.text isEqualToString:@"!"]) {
 				wordId = 0;
 				[st appendString:@" "];
 				shift = true;
 				[self resetMisc];
 			}
-			else if ([punct1Button.titleLabel.text isEqualToString:@","]) {
+			else if ([punct1LettersButton.titleLabel.text isEqualToString:@","]) {
 				[st appendString:@" "];
 				shift = false;
 				[self resetMisc];
 			}
 			else {
-				[st appendString:punct1Button.titleLabel.text];
+				[st appendString:punct1LettersButton.titleLabel.text];
 				shift = false;
 			}
 			[textView setText:st];
@@ -1437,29 +1438,29 @@
 		[self resetKeys];
 		return;
 	}
-	if ([punct1Button.titleLabel.text isEqualToString:@"."]) {
-		[punct1Button setTitle:@"," forState:UIControlStateNormal];
+	if ([punct1LettersButton.titleLabel.text isEqualToString:@"."]) {
+		[punct1LettersButton setTitle:@"," forState:UIControlStateNormal];
 	}
-	else if ([punct1Button.titleLabel.text isEqualToString:@","]) {
-		[punct1Button setTitle:@"?" forState:UIControlStateNormal];
+	else if ([punct1LettersButton.titleLabel.text isEqualToString:@","]) {
+		[punct1LettersButton setTitle:@"?" forState:UIControlStateNormal];
 	}
-	else if ([punct1Button.titleLabel.text isEqualToString:@"?"]) {
-		[punct1Button setTitle:@"!" forState:UIControlStateNormal];
+	else if ([punct1LettersButton.titleLabel.text isEqualToString:@"?"]) {
+		[punct1LettersButton setTitle:@"!" forState:UIControlStateNormal];
 	}
-	else if ([punct1Button.titleLabel.text isEqualToString:@"!"]) {
-		[punct1Button setTitle:@"'" forState:UIControlStateNormal];
+	else if ([punct1LettersButton.titleLabel.text isEqualToString:@"!"]) {
+		[punct1LettersButton setTitle:@"'" forState:UIControlStateNormal];
 	}
-	else if ([punct1Button.titleLabel.text isEqualToString:@"'"]) {
-		[punct1Button setTitle:@"@" forState:UIControlStateNormal];
+	else if ([punct1LettersButton.titleLabel.text isEqualToString:@"'"]) {
+		[punct1LettersButton setTitle:@"@" forState:UIControlStateNormal];
 	}
-	else if ([punct1Button.titleLabel.text isEqualToString:@"@"]) {
-		[punct1Button setTitle:@"#" forState:UIControlStateNormal];
+	else if ([punct1LettersButton.titleLabel.text isEqualToString:@"@"]) {
+		[punct1LettersButton setTitle:@"#" forState:UIControlStateNormal];
 	}
-	else if ([punct1Button.titleLabel.text isEqualToString:@"#"]) {
-		[punct1Button setTitle:@"1" forState:UIControlStateNormal];
+	else if ([punct1LettersButton.titleLabel.text isEqualToString:@"#"]) {
+		[punct1LettersButton setTitle:@"1" forState:UIControlStateNormal];
 	}
-	else if ([punct1Button.titleLabel.text isEqualToString:@"1"]) {
-		[punct1Button setTitle:@"." forState:UIControlStateNormal];
+	else if ([punct1LettersButton.titleLabel.text isEqualToString:@"1"]) {
+		[punct1LettersButton setTitle:@"." forState:UIControlStateNormal];
 		timesCycled++;
 	}
 }
