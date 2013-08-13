@@ -85,6 +85,9 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 	
+	// hide speak button from testers
+	[speakButton setHidden:YES];
+	
 	if (![addWordToDictButton isHidden]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
@@ -1341,12 +1344,7 @@
 }
 
 - (IBAction)speakAct:(id)sender {
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Coming soon!"
-													message:@"This feature is still under development."
-												   delegate:nil
-										  cancelButtonTitle:@"Dismiss"
-										  otherButtonTitles: nil];
-    [alert show];
+	// future release 
 }
 
 - (IBAction)shiftAct:(id)sender {
