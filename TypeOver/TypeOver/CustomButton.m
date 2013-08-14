@@ -33,7 +33,7 @@
 }
 
 - (void)accessibilityElementDidBecomeFocused {
-	[self styleButton:[UIColor colorWithRed:0.31 green:0.1 blue:0.75 alpha:1.0]]; // light blue 
+	[self styleButton:[UIColor colorWithRed:0.31 green:0.1 blue:0.85 alpha:1.0]]; // light blue 
 	
 	startTime=[NSDate date]; // gets actual time
 }

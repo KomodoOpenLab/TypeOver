@@ -25,7 +25,7 @@
 
 - (void)accessibilityElementDidBecomeFocused {
 	// set switch appearance
-	[self styleOn:[UIColor colorWithRed:0.31 green:0.1 blue:0.75 alpha:1.0] styleOff:[UIColor colorWithRed:0.31 green:0.1 blue:0.5 alpha:1.0]];
+	[self styleOn:[UIColor colorWithRed:0.31 green:0.1 blue:0.85 alpha:1.0] styleOff:[UIColor colorWithRed:0.31 green:0.1 blue:0.5 alpha:1.0]];
 }
 
 - (void)accessibilityElementDidLoseFocus {
