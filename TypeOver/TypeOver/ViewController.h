@@ -20,7 +20,7 @@
 	__weak IBOutlet UIButton *addWordToDictButton;
     __weak IBOutlet UIBarButtonItem *useButton;
 	__weak IBOutlet UIBarButtonItem *settingsButton;
-    __weak IBOutlet UIButton *punct1Button;
+    __weak IBOutlet UIButton *punct1LettersButton;
     __weak IBOutlet UIButton *abc2Button;
     __weak IBOutlet UIButton *def3Button;
     __weak IBOutlet UIButton *ghi4Button;
@@ -30,7 +30,7 @@
     __weak IBOutlet UIButton *tuv8Button;
     __weak IBOutlet UIButton *wxyz9Button;
     __weak IBOutlet UIButton *shiftButton;
-    __weak IBOutlet UIButton *wordsLettersButton;
+    __weak IBOutlet UIButton *wordsButton;
 	__weak IBOutlet UIButton *speakButton;
     __weak IBOutlet UIButton *space0Button;
     __weak IBOutlet UIButton *backspaceButton;
@@ -55,7 +55,7 @@
 
 - (IBAction)useAct:(id)sender;
 - (IBAction)addWordToDictAct:(id)sender;
-- (IBAction)punct1Act:(id)sender;
+- (IBAction)punct1LettersAct:(id)sender;
 - (IBAction)abc2Act:(id)sender;
 - (IBAction)def3Act:(id)sender;
 - (IBAction)ghi4Act:(id)sender;
