@@ -260,7 +260,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <color key="backgroundColor" red="0.21485582141106846" green="0.46408863844658815" blue="0.73913043478260865" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="TypeOver" id="LQ6-FM-ffp">
                         <barButtonItem key="leftBarButtonItem" title="Use" id="qp0-QB-f2W">
@@ -576,7 +576,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <color key="backgroundColor" red="0.21485582140000001" green="0.46408863839999998" blue="0.73913043479999996" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="kOR-H1-C4K">
                         <barButtonItem key="backBarButtonItem" title="Back" id="MoP-mB-fvq"/>
@@ -682,7 +682,7 @@
                 <relationship kind="action" name="jkl5Act:"/>
                 <relationship kind="action" name="mno6Act:"/>
                 <relationship kind="action" name="pqrs7Act:"/>
-                <relationship kind="action" name="punct1Act:"/>
+                <relationship kind="action" name="punct1LettersAct:"/>
                 <relationship kind="action" name="shiftAct:"/>
                 <relationship kind="action" name="space0Act:"/>
                 <relationship kind="action" name="speakAct:"/>
@@ -699,7 +699,7 @@
                 <relationship kind="outlet" name="jkl5Button" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="mno6Button" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="pqrs7Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="punct1Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="punct1LettersButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="settingsButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="shiftButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="space0Button" candidateClass="UIButton"/>
@@ -707,7 +707,7 @@
                 <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="tuv8Button" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="useButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="wordsLettersButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="wordsButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="wxyz9Button" candidateClass="UIButton"/>
             </relationships>
         </class>

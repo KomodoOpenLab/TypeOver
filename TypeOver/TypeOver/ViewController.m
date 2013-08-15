@@ -85,6 +85,9 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 	
+	// make navigation controller black
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+	
 	// hide speak button from testers
 	[speakButton setHidden:YES];
 	
