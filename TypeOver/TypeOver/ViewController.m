@@ -493,24 +493,24 @@
 	}
 	
 	// check if word is a number
-//	BOOL isNumber;
-//	NSCharacterSet *alphaNums = [NSCharacterSet decimalDigitCharacterSet];
-//	NSCharacterSet *inStringSet = [NSCharacterSet characterSetWithCharactersInString:orgWord];
-//	isNumber = [alphaNums isSupersetOfSet:inStringSet];
-//	
-//	if (wordId==0 && [addWordToDictButton isHidden] && userwordsarr.count==0 && !isNumber) {
-//		// show add word to dictionary button
-//		[addWordToDictButton setHidden:NO];
-//		CGRect frame = textView.frame;
-//		frame.size.height = frame.size.height-addWordToDictButton.frame.size.height-8;
-//		textView.frame = frame;
-//		
-//		// let user know exactly what will be added
-//		NSMutableString *buttonText = [NSMutableString stringWithString:@"add \""];
-//		[buttonText appendString:orgWord];
-//		[buttonText appendString:@"\" to dictionary"];
-//		[addWordToDictButton setTitle:buttonText forState:UIControlStateNormal];
-//	}
+	BOOL isNumber;
+	NSCharacterSet *alphaNums = [NSCharacterSet decimalDigitCharacterSet];
+	NSCharacterSet *inStringSet = [NSCharacterSet characterSetWithCharactersInString:orgWord];
+	isNumber = [alphaNums isSupersetOfSet:inStringSet];
+	
+	if (wordId==0 && [addWordToDictButton isHidden] && userwordsarr.count==0 && !isNumber) {
+		// show add word to dictionary button
+		[addWordToDictButton setHidden:NO];
+		CGRect frame = textView.frame;
+		frame.size.height = frame.size.height-addWordToDictButton.frame.size.height-8;
+		textView.frame = frame;
+		
+		// let user know exactly what will be added
+		NSMutableString *buttonText = [NSMutableString stringWithString:@"add \""];
+		[buttonText appendString:orgWord];
+		[buttonText appendString:@"\" to dictionary"];
+		[addWordToDictButton setTitle:buttonText forState:UIControlStateNormal];
+	}
 }
 
 - (BOOL)isWordDelimiter:(char)ch {
