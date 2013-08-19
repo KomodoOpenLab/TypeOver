@@ -270,7 +270,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Settings" id="ZGW-qX-oNE">
                             <connections>
-                                <segue destination="yhM-O5-IFY" kind="push" id="Nh0-M0-Co3"/>
+                                <segue destination="mBA-iS-mQ2" kind="push" id="Geo-ir-kbT"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -300,313 +300,6 @@
             </objects>
             <point key="canvasLocation" x="1015" y="-239"/>
         </scene>
-        <!--Settings View Controller - Settings-->
-        <scene sceneID="nF8-wv-mxr">
-            <objects>
-                <viewController id="yhM-O5-IFY" customClass="SettingsViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="xpw-br-yzP">
-                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fKU-0e-BZK" customClass="CustomButton">
-                                <rect key="frame" x="714" y="55" width="34" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration" label="Speed up"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="+">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="dwellTimeUpAct:" destination="yhM-O5-IFY" eventType="touchUpInside" id="bbH-JK-HUi"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="AMG-8A-5gK" customClass="CustomButton">
-                                <rect key="frame" x="672" y="55" width="34" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration" label="Speed down"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="-">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="dwellTimeDownAct:" destination="yhM-O5-IFY" eventType="touchUpInside" id="Q7z-Cy-F0T"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Dwell time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZWm-6G-2d0">
-                                <rect key="frame" x="20" y="55" width="617" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <bool key="isElement" value="NO"/>
-                                </accessibility>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Auto predict" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t9K-6k-YJv">
-                                <rect key="frame" x="20" y="164" width="617" height="27"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <bool key="isElement" value="NO"/>
-                                </accessibility>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="eWI-Ok-OeU" customClass="CustomToggleSwitch">
-                                <rect key="frame" x="671" y="164" width="79" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="autoPredictToggleAct:" destination="yhM-O5-IFY" eventType="valueChanged" id="PXs-Jq-PY9"/>
-                                </connections>
-                            </switch>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zzN-b9-4Ci" customClass="CustomButton">
-                                <rect key="frame" x="714" y="199" width="34" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration" label=""/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="+">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="autoPredAfterUpAct:" destination="yhM-O5-IFY" eventType="touchUpInside" id="f7b-18-Nit"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GmA-6M-vuJ" customClass="CustomButton">
-                                <rect key="frame" x="672" y="199" width="34" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration" label=""/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="-">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="autoPredAfterDownAct:" destination="yhM-O5-IFY" eventType="touchUpInside" id="YxR-9l-Qit"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Auto predict after" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="igG-lp-wWq">
-                                <rect key="frame" x="20" y="199" width="617" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <bool key="isElement" value="NO"/>
-                                </accessibility>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="WbD-R0-PvS">
-                                <rect key="frame" x="645" y="67" width="18" height="19"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="aboutDwellTimeAct:" destination="yhM-O5-IFY" eventType="touchUpInside" id="aHv-bv-Od7"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="tdg-Lp-MgO">
-                                <rect key="frame" x="645" y="211" width="18" height="19"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="aboutPredAfterAct:" destination="yhM-O5-IFY" eventType="touchUpInside" id="QXz-r9-Q4U"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GT4-5Q-Bg4" customClass="CustomButton">
-                                <rect key="frame" x="714" y="273" width="34" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration" label=""/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="+">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="fontSizeUpAct:" destination="yhM-O5-IFY" eventType="touchUpInside" id="9pv-gc-w14"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ae0-4o-p8z" customClass="CustomButton">
-                                <rect key="frame" x="672" y="273" width="34" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration" label=""/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="-">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="fontSizeDownAct:" destination="yhM-O5-IFY" eventType="touchUpInside" id="HYl-g3-BNS"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Font size" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cLq-Sd-kaZ">
-                                <rect key="frame" x="20" y="273" width="617" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <bool key="isElement" value="NO"/>
-                                </accessibility>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="wFG-Gz-c5E">
-                                <rect key="frame" x="645" y="284" width="18" height="19"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="aboutFontSizeAct:" destination="yhM-O5-IFY" eventType="touchUpInside" id="bQU-9k-fbC"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Udc-MZ-SmQ">
-                                <rect key="frame" x="645" y="172" width="18" height="19"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="aboutAutoPredAct:" destination="yhM-O5-IFY" eventType="touchUpInside" id="qja-Xk-1V7"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Shorthand prediction" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="si7-o9-9Du">
-                                <rect key="frame" x="20" y="129" width="617" height="27"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <bool key="isElement" value="NO"/>
-                                </accessibility>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="khL-8e-4JQ" customClass="CustomToggleSwitch">
-                                <rect key="frame" x="671" y="129" width="79" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="shorthandPredToggleAct:" destination="yhM-O5-IFY" eventType="valueChanged" id="0Pr-EC-nwS"/>
-                                </connections>
-                            </switch>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="iDn-is-fcq">
-                                <rect key="frame" x="645" y="136" width="18" height="19"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="aboutShorthandPredAct:" destination="yhM-O5-IFY" eventType="touchUpInside" id="w28-fg-azg"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Manual dwell time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GQL-uJ-spm">
-                                <rect key="frame" x="20" y="20" width="617" height="27"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <bool key="isElement" value="NO"/>
-                                </accessibility>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="XkH-Uc-jlz" customClass="CustomToggleSwitch">
-                                <rect key="frame" x="671" y="20" width="79" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="autoPredictToggleAct:" destination="yhM-O5-IFY" eventType="valueChanged" id="K11-p0-lwo"/>
-                                    <action selector="manualDwellTimeToggleAct:" destination="yhM-O5-IFY" eventType="valueChanged" id="9DC-Dc-UL3"/>
-                                </connections>
-                            </switch>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="mw4-uw-sxN">
-                                <rect key="frame" x="645" y="24" width="18" height="19"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="aboutManualDwellTimeAct:" destination="yhM-O5-IFY" eventType="touchUpInside" id="Nol-bG-1iG"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" red="0.21485582140000001" green="0.46408863839999998" blue="0.73913043479999996" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Settings" id="4hF-A4-cEZ">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="TNQ-Rg-f2m"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="aboutAutoPredAfterButton" destination="tdg-Lp-MgO" id="52f-CT-FDW"/>
-                        <outlet property="aboutAutoPredButton" destination="Udc-MZ-SmQ" id="761-vc-3DN"/>
-                        <outlet property="aboutDwellTimeButton" destination="WbD-R0-PvS" id="3YC-k9-aHv"/>
-                        <outlet property="aboutFontSize" destination="wFG-Gz-c5E" id="1kx-Mp-6xi"/>
-                        <outlet property="aboutManualDwellTime" destination="mw4-uw-sxN" id="jDV-tS-Y9l"/>
-                        <outlet property="aboutShorthandPred" destination="iDn-is-fcq" id="sIc-2O-HAm"/>
-                        <outlet property="autoPredAfterDownButton" destination="GmA-6M-vuJ" id="fC9-YJ-Le3"/>
-                        <outlet property="autoPredAfterLabel" destination="igG-lp-wWq" id="6M2-MK-oPN"/>
-                        <outlet property="autoPredAfterUpButton" destination="zzN-b9-4Ci" id="lv4-jH-ses"/>
-                        <outlet property="autoPredToggleSwitch" destination="eWI-Ok-OeU" id="2Mf-F6-Ub4"/>
-                        <outlet property="dwellTimeDownButton" destination="AMG-8A-5gK" id="bCb-cz-381"/>
-                        <outlet property="dwellTimeLabel" destination="ZWm-6G-2d0" id="6YR-hp-sZ7"/>
-                        <outlet property="dwellTimeUpButton" destination="fKU-0e-BZK" id="Dwp-7N-Ekt"/>
-                        <outlet property="fontSizeDownButton" destination="ae0-4o-p8z" id="cUQ-E6-gdA"/>
-                        <outlet property="fontSizeUpButton" destination="GT4-5Q-Bg4" id="ogy-29-wce"/>
-                        <outlet property="manualDwellTimeLabel" destination="GQL-uJ-spm" id="cQV-v8-lxR"/>
-                        <outlet property="manualDwellTimeToggleSwitch" destination="XkH-Uc-jlz" id="Kl1-Nx-Vgf"/>
-                        <outlet property="shorthandPredToggleSwitch" destination="khL-8e-4JQ" id="wUq-CX-Y0I"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ayD-Dd-LiS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1865" y="-254"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="kJk-X9-X8W">
             <objects>
@@ -625,94 +318,350 @@
             </objects>
             <point key="canvasLocation" x="-766" y="-515"/>
         </scene>
+        <!--Settings View Controller - Settings-->
+        <scene sceneID="oWm-pg-jQm">
+            <objects>
+                <viewController id="mBA-iS-mQ2" customClass="SettingsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="elc-tk-pG4">
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qfo-B2-nVK" customClass="CustomButton">
+                                <rect key="frame" x="714" y="55" width="34" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="Speed up"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="+">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="dwellTimeUpAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="06n-ZB-rSZ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="i4f-Y7-Mn6" customClass="CustomButton">
+                                <rect key="frame" x="672" y="55" width="34" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label=""/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="-">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="dwellTimeDownAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="c5Y-jP-0oH"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Hqd-En-ZBW" customClass="CustomButton">
+                                <rect key="frame" x="714" y="234" width="34" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label=""/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="+">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="autoPredAfterUpAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="6Hg-2t-bBd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="y9k-9G-vWE" customClass="CustomButton">
+                                <rect key="frame" x="672" y="234" width="34" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label=""/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="-">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="autoPredAfterDownAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="Vhg-i8-Qyg"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Dwell time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8sD-76-6L5">
+                                <rect key="frame" x="20" y="55" width="421" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Auto predict" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Mp7-mR-aku">
+                                <rect key="frame" x="20" y="199" width="421" height="27"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Predict after" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="O6M-GS-rXI">
+                                <rect key="frame" x="20" y="234" width="421" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="Iah-65-d84" customClass="CustomToggleSwitch">
+                                <rect key="frame" x="671" y="199" width="79" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="autoPredictToggleAct:" destination="mBA-iS-mQ2" eventType="valueChanged" id="H5U-hI-NhL"/>
+                                </connections>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="kgv-s8-r9E">
+                                <rect key="frame" x="645" y="67" width="18" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="aboutDwellTimeAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="v9X-iJ-Nb4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="5hs-yY-3As">
+                                <rect key="frame" x="645" y="246" width="18" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="aboutPredAfterAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="hKI-1y-TBQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="teA-kc-Epu" customClass="CustomButton">
+                                <rect key="frame" x="714" y="308" width="34" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label=""/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="+">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="fontSizeUpAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="UNJ-2l-s3Q"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="o8t-HA-v22" customClass="CustomButton">
+                                <rect key="frame" x="672" y="308" width="34" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label=""/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="-">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="fontSizeDownAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="CHQ-fR-NcO"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Font size" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="387-7F-04g">
+                                <rect key="frame" x="20" y="308" width="421" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="0E1-UD-J3a">
+                                <rect key="frame" x="645" y="319" width="18" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="aboutFontSizeAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="g3u-ut-rHZ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="NYG-9L-N9U">
+                                <rect key="frame" x="645" y="207" width="18" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="aboutAutoPredAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="lnN-Hg-gqO"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Shorthand prediction" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s8b-ND-FQS">
+                                <rect key="frame" x="20" y="164" width="421" height="27"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="v9w-wL-GG2" customClass="CustomToggleSwitch">
+                                <rect key="frame" x="671" y="164" width="79" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="shorthandPredToggleAct:" destination="mBA-iS-mQ2" eventType="valueChanged" id="zd7-sq-GEU"/>
+                                </connections>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Vbe-sE-31l">
+                                <rect key="frame" x="645" y="168" width="18" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="aboutShorthandPredAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="4to-8p-klt"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Word prediction" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xyb-BQ-o2N">
+                                <rect key="frame" x="20" y="129" width="421" height="27"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="EV1-QJ-rdI" customClass="CustomToggleSwitch">
+                                <rect key="frame" x="671" y="129" width="79" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="wordPredToggleAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="cIt-7o-2PU"/>
+                                </connections>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="yUI-rr-Yac">
+                                <rect key="frame" x="645" y="132" width="18" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="aboutWordPredAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="wuK-vQ-72L"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Manual dwell time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OfK-vA-BQZ">
+                                <rect key="frame" x="20" y="20" width="421" height="27"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="2N0-ph-kwj" customClass="CustomToggleSwitch">
+                                <rect key="frame" x="671" y="20" width="79" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="manualDwellTimeToggleAct:" destination="mBA-iS-mQ2" eventType="valueChanged" id="hMQ-PK-yPD"/>
+                                </connections>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="TH7-hx-hWK">
+                                <rect key="frame" x="645" y="24" width="18" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="aboutManualDwellTimeAct:" destination="mBA-iS-mQ2" eventType="touchUpInside" id="8Xl-1u-JZc"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.21485582140000001" green="0.46408863839999998" blue="0.73913043479999996" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Settings" id="dFi-sJ-C2U">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="9U2-JV-Vnl"/>
+                    </navigationItem>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                    <connections>
+                        <outlet property="aboutAutoPredAfterButton" destination="5hs-yY-3As" id="yca-LD-Tvn"/>
+                        <outlet property="aboutAutoPredButton" destination="NYG-9L-N9U" id="j9T-Yf-W5I"/>
+                        <outlet property="aboutDwellTimeButton" destination="kgv-s8-r9E" id="npq-or-vuL"/>
+                        <outlet property="aboutFontSize" destination="0E1-UD-J3a" id="uHu-1Q-AKp"/>
+                        <outlet property="aboutManualDwellTime" destination="TH7-hx-hWK" id="wrm-7y-W71"/>
+                        <outlet property="aboutShorthandPred" destination="Vbe-sE-31l" id="q34-BH-8td"/>
+                        <outlet property="aboutWordPred" destination="yUI-rr-Yac" id="jw5-W5-ttu"/>
+                        <outlet property="autoPredAfterDownButton" destination="y9k-9G-vWE" id="DgI-8q-bdZ"/>
+                        <outlet property="autoPredAfterLabel" destination="O6M-GS-rXI" id="YQE-TW-uwz"/>
+                        <outlet property="autoPredAfterUpButton" destination="Hqd-En-ZBW" id="0Ua-NU-JEX"/>
+                        <outlet property="autoPredLabel" destination="Mp7-mR-aku" id="AhC-hB-uot"/>
+                        <outlet property="autoPredToggleSwitch" destination="Iah-65-d84" id="JLZ-Z6-bYp"/>
+                        <outlet property="dwellTimeDownButton" destination="i4f-Y7-Mn6" id="EKQ-d9-3Pn"/>
+                        <outlet property="dwellTimeLabel" destination="8sD-76-6L5" id="lT5-a7-mZl"/>
+                        <outlet property="dwellTimeUpButton" destination="Qfo-B2-nVK" id="3xV-QI-tKu"/>
+                        <outlet property="fontSizeDownButton" destination="o8t-HA-v22" id="Apc-A1-7Vv"/>
+                        <outlet property="fontSizeUpButton" destination="teA-kc-Epu" id="1c5-xT-gxj"/>
+                        <outlet property="manualDwellTimeLabel" destination="OfK-vA-BQZ" id="GvB-dI-rGk"/>
+                        <outlet property="manualDwellTimeToggleSwitch" destination="2N0-ph-kwj" id="bMA-6L-DWe"/>
+                        <outlet property="shorthandPredLabel" destination="s8b-ND-FQS" id="O1T-wk-iBi"/>
+                        <outlet property="shorthandPredToggleSwitch" destination="v9w-wL-GG2" id="BIy-vi-xNw"/>
+                        <outlet property="wordPredToggleSwitch" destination="EV1-QJ-rdI" id="LPv-f4-Gma"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VhM-ad-IMg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1328" y="31"/>
+        </scene>
     </scenes>
-    <classes>
-        <class className="CustomButton" superclassName="UIButton">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CustomButton.h"/>
-        </class>
-        <class className="CustomToggleSwitch" superclassName="UISwitch">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CustomToggleSwitch.h"/>
-        </class>
-        <class className="SettingsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="aboutAutoPredAct:"/>
-                <relationship kind="action" name="aboutDwellTimeAct:"/>
-                <relationship kind="action" name="aboutFontSizeAct:"/>
-                <relationship kind="action" name="aboutManualDwellTimeAct:"/>
-                <relationship kind="action" name="aboutPredAfterAct:"/>
-                <relationship kind="action" name="aboutShorthandPredAct:"/>
-                <relationship kind="action" name="autoPredAfterDownAct:"/>
-                <relationship kind="action" name="autoPredAfterUpAct:"/>
-                <relationship kind="action" name="autoPredictToggleAct:"/>
-                <relationship kind="action" name="dwellTimeDownAct:"/>
-                <relationship kind="action" name="dwellTimeUpAct:"/>
-                <relationship kind="action" name="fontSizeDownAct:"/>
-                <relationship kind="action" name="fontSizeUpAct:"/>
-                <relationship kind="action" name="manualDwellTimeToggleAct:"/>
-                <relationship kind="action" name="shorthandPredToggleAct:"/>
-                <relationship kind="outlet" name="aboutAutoPredAfterButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="aboutAutoPredButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="aboutDwellTimeButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="aboutFontSize" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="aboutManualDwellTime" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="aboutShorthandPred" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="autoPredAfterDownButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="autoPredAfterLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="autoPredAfterUpButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="autoPredToggleSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="dwellTimeDownButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="dwellTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="dwellTimeUpButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="fontSizeDownButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="fontSizeUpButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="manualDwellTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="manualDwellTimeToggleSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="shorthandPredToggleSwitch" candidateClass="UISwitch"/>
-            </relationships>
-        </class>
-        <class className="ViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="abc2Act:"/>
-                <relationship kind="action" name="addWordToDictAct:"/>
-                <relationship kind="action" name="backspaceAct:"/>
-                <relationship kind="action" name="clearAct:"/>
-                <relationship kind="action" name="def3Act:"/>
-                <relationship kind="action" name="ghi4Act:"/>
-                <relationship kind="action" name="jkl5Act:"/>
-                <relationship kind="action" name="mno6Act:"/>
-                <relationship kind="action" name="pqrs7Act:"/>
-                <relationship kind="action" name="punct1LettersAct:"/>
-                <relationship kind="action" name="shiftAct:"/>
-                <relationship kind="action" name="space0Act:"/>
-                <relationship kind="action" name="speakAct:"/>
-                <relationship kind="action" name="tuv8Act:"/>
-                <relationship kind="action" name="useAct:"/>
-                <relationship kind="action" name="wordsLettersAct:"/>
-                <relationship kind="action" name="wxyz9Act:"/>
-                <relationship kind="outlet" name="abc2Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="addWordToDictButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="backspaceButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="clearButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="def3Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="ghi4Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="jkl5Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="mno6Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="pqrs7Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="punct1LettersButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="settingsButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="shiftButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="space0Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="speakButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="tuv8Button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="useButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="wordsButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="wxyz9Button" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
