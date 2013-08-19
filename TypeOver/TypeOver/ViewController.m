@@ -177,6 +177,78 @@
 
 #pragma mark - word prediction
 
+- (NSString*)produceQueryWithContextOnly:(NSString*)context {
+	NSMutableString *strQuery = [[NSMutableString alloc] init];
+	
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
+		NSLog(@"shorthand prediction");
+		[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+		NSMutableString *str = [[NSMutableString alloc] init];
+		int i = 0;
+		while (i<context.length) {
+			[str appendString:[context substringWithRange:NSMakeRange(i, 1)]];
+			[str appendString:@"%"];
+			i++;
+		}
+		
+		// check if word contains an apostrophe and make it sql friendly
+		str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
+		
+		[strQuery appendString:str];
+		[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+	}
+	else {
+		NSLog(@"normal prediction");
+		
+		// check if word contains an apostrophe and make it sql friendly
+		context = [NSMutableString stringWithString:[context stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
+		
+		[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+		[strQuery appendString:context];
+		[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+	}
+	
+	return strQuery;
+}
+
+- (NSString*)produceBigramQueryWithContext:(NSString*)context {
+	NSMutableString *strQuery = [[NSMutableString alloc] init];
+	
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
+		NSLog(@"shorthand prediction");
+		[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
+		[strQuery appendFormat:@"%i", wordId];
+		[strQuery appendString:@" AND WORDS.WORD LIKE '"];
+		NSMutableString *str = [[NSMutableString alloc] init];
+		int i = 0;
+		while (i<context.length) {
+			[str appendString:[context substringWithRange:NSMakeRange(i, 1)]];
+			[str appendString:@"%"];
+			i++;
+		}
+		
+		// check if word contains an apostrophe and make it sql friendly
+		str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
+		
+		[strQuery appendString:str];
+		[strQuery appendString:@"' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
+	}
+	else {
+		NSLog(@"normal prediction");
+		
+		// check if word contains an apostrophe and make it sql friendly
+		context = [NSMutableString stringWithString:[context stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
+		
+		[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
+		[strQuery appendFormat:@"%i", wordId];
+		[strQuery appendString:@" AND WORDS.WORD LIKE '"];
+		[strQuery appendString:context];
+		[strQuery appendString:@"%' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
+	}
+	
+	return strQuery;
+}
+
 - (NSMutableArray*) predictHelper:(NSString*) strContext
 {
     NSMutableString *strQuery = [[NSMutableString alloc] init];
@@ -185,67 +257,11 @@
 	if (![strContext isEqualToString:@""]) {
 		bool bigram;
 		if (wordId == 0) {
-			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-				NSLog(@"shorthand prediction");
-				[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-				NSMutableString *str = [[NSMutableString alloc] init];
-				int i = 0;
-				while (i<strContext.length) {
-					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-					[str appendString:@"%"];
-					i++;
-				}
-				
-				// check if word contains an apostrophe and make it sql friendly
-				str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
-				
-				[strQuery appendString:str];
-				[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
-			}
-			else {
-				NSLog(@"normal prediction");
-				
-				// check if word contains an apostrophe and make it sql friendly
-				strContext = [NSMutableString stringWithString:[strContext stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
-				
-				[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-				[strQuery appendString:strContext];
-				[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
-			}
+			strQuery = [NSMutableString stringWithString:[self produceQueryWithContextOnly:strContext]];
 			bigram=false;
 		}
 		else {
-			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-				NSLog(@"shorthand prediction");
-				[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
-				[strQuery appendFormat:@"%i", wordId];
-				[strQuery appendString:@" AND WORDS.WORD LIKE '"];
-				NSMutableString *str = [[NSMutableString alloc] init];
-				int i = 0;
-				while (i<strContext.length) {
-					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-					[str appendString:@"%"];
-					i++;
-				}
-				
-				// check if word contains an apostrophe and make it sql friendly
-				str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
-				
-				[strQuery appendString:str];
-				[strQuery appendString:@"' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
-			}
-			else {
-				NSLog(@"normal prediction");
-				
-				// check if word contains an apostrophe and make it sql friendly
-				strContext = [NSMutableString stringWithString:[strContext stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
-				
-				[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
-				[strQuery appendFormat:@"%i", wordId];
-				[strQuery appendString:@" AND WORDS.WORD LIKE '"];
-				[strQuery appendString:strContext];
-				[strQuery appendString:@"%' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
-			}
+			strQuery = [NSMutableString stringWithString:[self produceBigramQueryWithContext:strContext]];
 			bigram=true;
 		}
 		NSLog(@"Generating predictions with query: %@",strQuery);
@@ -313,34 +329,7 @@
 		}
 		
 		if (resultarr.count<8&&bigram) { // bigram results didn't fill array
-			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-				[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-				NSMutableString *str = [[NSMutableString alloc] init];
-				
-				// check if word contains an apostrophe and make it single again
-				strContext = [NSMutableString stringWithString:[strContext stringByReplacingOccurrencesOfString:@"''" withString:@"'"]];
-				
-				int i = 0;
-				while (i<currentWord.length) {
-					[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-					[str appendString:@"%"];
-					i++;
-				}
-				
-				// check if word contains an apostrophe and make it sql friendly
-				str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
-				
-				[strQuery appendString:str];
-				[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
-			}
-			else {
-				[strQuery setString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-				
-				// apostrophes should already be sql friendly at this point
-				
-				[strQuery appendString:strContext];
-				[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
-			}
+			strQuery = [NSMutableString stringWithString:[self produceQueryWithContextOnly:strContext]];
 			
 			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
 			
@@ -396,31 +385,32 @@
 		if (resultarr.count<8) { // bigram results didn't fill array
 			[strQuery setString:@"SELECT * FROM WORDS"];
 			[strQuery appendString:@" ORDER BY FREQUENCY DESC LIMIT 10;"];
-		}
-		
-		result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
-		
-		if (SQLITE_OK==result)
-		{
-			int prednum = resultarr.count;
-			int remaining = 8-resultarr.count;
-			int count = 0;
-			while (count<remaining && SQLITE_ROW==sqlite3_step(statement))
+			
+			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+			
+			if (SQLITE_OK==result)
 			{
-				char *rowData = (char*)sqlite3_column_text(statement, 1);
-				NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
-				if (![resultarr containsObject:str]) { // if word wasn't in bigram
-					NSLog(@"prediction %d: %@",prednum+1,str);
-					[resultarr addObject:str];
-					prednum++;
-					count++;
+				int prednum = resultarr.count;
+				int remaining = 8-resultarr.count;
+				int count = 0;
+				while (count<remaining && SQLITE_ROW==sqlite3_step(statement))
+				{
+					char *rowData = (char*)sqlite3_column_text(statement, 1);
+					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+					if (![resultarr containsObject:str]) { // if word wasn't in bigram
+						NSLog(@"prediction %d: %@",prednum+1,str);
+						[resultarr addObject:str];
+						prednum++;
+						count++;
+					}
 				}
 			}
+			else
+			{
+				NSLog(@"Query error number: %d",result);
+			}
 		}
-		else
-		{
-			NSLog(@"Query error number: %d",result);
-		}
+		
 	}
 	
     return(resultarr);
@@ -651,7 +641,7 @@
 	if (words) {
 		bool isUppercase = false;
 		if (![currentWord isEqualToString:@""]) {
-			// if word begins with uppercase character 
+			// if word begins with uppercase character
 			isUppercase = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[currentWord characterAtIndex:0]];
 		}
 		int i = 0;
@@ -1349,7 +1339,7 @@
 }
 
 - (IBAction)speakAct:(id)sender {
-	// future release 
+	// future release
 }
 
 - (IBAction)shiftAct:(id)sender {
