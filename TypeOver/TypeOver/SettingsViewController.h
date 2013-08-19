@@ -33,11 +33,13 @@
 	__weak IBOutlet UIButton *aboutShorthandPred;
 	__weak IBOutlet UIButton *aboutFontSize;
 	__weak IBOutlet UIButton *aboutWordPred;
+	__weak IBOutlet UILabel *autoPredLabel;
+	__weak IBOutlet UILabel *shorthandPredLabel;
 	
 	
 #pragma mark - variables 
 	
-	bool autoPred, manualDwellTime, shorthandPred;
+	bool autoPred, manualDwellTime, shorthandPred, wordPred;
 	float inputRate;
 	int autoPredAfter, selRate, scanRateInd, fontSize;
 	NSTimer *scanRateIndicatorTimer;

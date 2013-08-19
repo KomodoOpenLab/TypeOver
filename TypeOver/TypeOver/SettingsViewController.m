@@ -30,6 +30,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 	selRate = [[NSUserDefaults standardUserDefaults] integerForKey:@"scan_rate_int"];
 	fontSize = [[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"];
 	autoPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"auto_pred"];
+	wordPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"word_pred"];
 	shorthandPred=[[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"];
 	autoPredAfter=[[NSUserDefaults standardUserDefaults] integerForKey:@"auto_pred_after"];
 	manualDwellTime=[[NSUserDefaults standardUserDefaults] boolForKey:@"manual_scan_rate"];
@@ -49,10 +50,27 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 	}
 	else {
 		manualDwellTimeToggleSwitch.on=false;
-		[dwellTimeLabel setHidden:YES];
-		[dwellTimeDownButton setHidden:YES];
-		[dwellTimeUpButton setHidden:YES];
-		[aboutDwellTimeButton setHidden:YES];
+		[dwellTimeLabel setEnabled:NO];
+		[dwellTimeDownButton setEnabled:NO];
+		[dwellTimeUpButton setEnabled:NO];
+		[aboutDwellTimeButton setEnabled:NO];
+	}
+	
+	if (wordPred) {
+		wordPredToggleSwitch.on=true;
+	}
+	else {
+		wordPredToggleSwitch.on=false;
+		[shorthandPredLabel setEnabled:NO];
+		[autoPredLabel setEnabled:NO];
+		[autoPredAfterLabel setEnabled:NO];
+		[aboutShorthandPred setEnabled:NO];
+		[aboutAutoPredButton setEnabled:NO];
+		[aboutAutoPredAfterButton setEnabled:NO];
+		[shorthandPredToggleSwitch setEnabled:NO];
+		[autoPredToggleSwitch setEnabled:NO];
+		[autoPredAfterUpButton setEnabled:NO];
+		[autoPredAfterDownButton setEnabled:NO];
 	}
 	
 	if (shorthandPred) {
@@ -69,10 +87,9 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 	}
 	else {
 		autoPredToggleSwitch.on=false;
-		[autoPredAfterLabel setHidden:YES];
-		[autoPredAfterDownButton setHidden:YES];
-		[autoPredAfterUpButton setHidden:YES];
-		[aboutAutoPredAfterButton setHidden:YES];
+		[autoPredAfterDownButton setEnabled:NO];
+		[autoPredAfterUpButton setEnabled:NO];
+		[aboutAutoPredAfterButton setEnabled:NO];
 	}
 }
 
@@ -108,18 +125,18 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 - (IBAction)manualDwellTimeToggleAct:(id)sender {
 	if (manualDwellTimeToggleSwitch.on) {
 		manualDwellTime=true;
-		[dwellTimeLabel setHidden:NO];
-		[dwellTimeDownButton setHidden:NO];
-		[dwellTimeUpButton setHidden:NO];
-		[aboutDwellTimeButton setHidden:NO];
+		[dwellTimeLabel setEnabled:YES];
+		[dwellTimeDownButton setEnabled:YES];
+		[dwellTimeUpButton setEnabled:YES];
+		[aboutDwellTimeButton setEnabled:YES];
 		NSLog(@"manual dwell time on");
 	}
 	else {
 		manualDwellTime=false;
-		[dwellTimeLabel setHidden:YES];
-		[dwellTimeDownButton setHidden:YES];
-		[dwellTimeUpButton setHidden:YES];
-		[aboutDwellTimeButton setHidden:YES];
+		[dwellTimeLabel setEnabled:NO];
+		[dwellTimeDownButton setEnabled:NO];
+		[dwellTimeUpButton setEnabled:NO];
+		[aboutDwellTimeButton setEnabled:NO];
 		NSLog(@"manual dwell time off");
 	}
 }
@@ -173,23 +190,51 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 }
 
 - (IBAction)wordPredToggleAct:(id)sender {
+	if (wordPredToggleSwitch.on) {
+		wordPred=true;
+		[shorthandPredLabel setEnabled:YES];
+		[autoPredLabel setEnabled:YES];
+		[autoPredAfterLabel setEnabled:YES];
+		[aboutShorthandPred setEnabled:YES];
+		[aboutAutoPredButton setEnabled:YES];
+		[aboutAutoPredAfterButton setEnabled:YES];
+		[shorthandPredToggleSwitch setEnabled:YES];
+		[autoPredToggleSwitch setEnabled:YES];
+		[autoPredAfterUpButton setEnabled:YES];
+		[autoPredAfterDownButton setEnabled:YES];
+		NSLog(@"word prediction on");
+	}
+	else {
+		wordPred=false;
+		[shorthandPredLabel setEnabled:NO];
+		[autoPredLabel setEnabled:NO];
+		[autoPredAfterLabel setEnabled:NO];
+		[aboutShorthandPred setEnabled:NO];
+		[aboutAutoPredButton setEnabled:NO];
+		[aboutAutoPredAfterButton setEnabled:NO];
+		[shorthandPredToggleSwitch setEnabled:NO];
+		[autoPredToggleSwitch setEnabled:NO];
+		[autoPredAfterUpButton setEnabled:NO];
+		[autoPredAfterDownButton setEnabled:NO];
+		NSLog(@"word prediction off");
+	}
 }
 
 - (IBAction)autoPredictToggleAct:(id)sender {
 	if (autoPredToggleSwitch.on) {
 		autoPred=true;
-		[autoPredAfterLabel setHidden:NO];
-		[autoPredAfterDownButton setHidden:NO];
-		[autoPredAfterUpButton setHidden:NO];
-		[aboutAutoPredAfterButton setHidden:NO];
+		[autoPredAfterLabel setEnabled:YES];
+		[autoPredAfterDownButton setEnabled:YES];
+		[autoPredAfterUpButton setEnabled:YES];
+		[aboutAutoPredAfterButton setEnabled:YES];
 		NSLog(@"auto predict on");
 	}
 	else {
 		autoPred=false;
-		[autoPredAfterLabel setHidden:YES];
-		[autoPredAfterDownButton setHidden:YES];
-		[autoPredAfterUpButton setHidden:YES];
-		[aboutAutoPredAfterButton setHidden:YES];
+		[autoPredAfterLabel setEnabled:NO];
+		[autoPredAfterDownButton setEnabled:NO];
+		[autoPredAfterUpButton setEnabled:NO];
+		[aboutAutoPredAfterButton setEnabled:NO];
 		NSLog(@"auto predict off");
 	}
 }
@@ -252,6 +297,7 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 		[[NSUserDefaults standardUserDefaults] setBool:manualDwellTime forKey:@"manual_scan_rate"];
 		[[NSUserDefaults standardUserDefaults] setBool:shorthandPred forKey:@"shorthand_pred"];
 		[[NSUserDefaults standardUserDefaults] setBool:autoPred forKey:@"auto_pred"];
+		[[NSUserDefaults standardUserDefaults] setBool:wordPred forKey:@"word_pred"];
 		[[NSUserDefaults standardUserDefaults] setFloat:inputRate forKey:@"scan_rate_float"];
 		[[NSUserDefaults standardUserDefaults] setInteger:selRate forKey:@"scan_rate_int"];
 		[[NSUserDefaults standardUserDefaults] setInteger:autoPredAfter forKey:@"auto_pred_after"];
@@ -316,6 +362,12 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 }
 
 - (IBAction)aboutWordPredAct:(id)sender {
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info"
+													message:@"Word prediction can be completely turned on or off."
+												   delegate:nil
+										  cancelButtonTitle:@"Dismiss"
+										  otherButtonTitles: nil];
+    [alert show];
 }
 
 @end

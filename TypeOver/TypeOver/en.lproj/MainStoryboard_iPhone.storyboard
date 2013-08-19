@@ -624,6 +624,7 @@
                         <outlet property="autoPredAfterDownButton" destination="xN7-A7-6Tf" id="WrU-Oo-AKI"/>
                         <outlet property="autoPredAfterLabel" destination="oxQ-5d-ole" id="oIz-Ft-SzI"/>
                         <outlet property="autoPredAfterUpButton" destination="c32-KA-0n5" id="PAD-6q-YcO"/>
+                        <outlet property="autoPredLabel" destination="sct-LV-3T0" id="fur-ev-gJk"/>
                         <outlet property="autoPredToggleSwitch" destination="bqQ-R6-kdH" id="uKK-h9-UDb"/>
                         <outlet property="dwellTimeDownButton" destination="cfc-Mq-TPF" id="pie-qz-CqC"/>
                         <outlet property="dwellTimeLabel" destination="ZJ6-yL-cNd" id="Hr9-53-DYr"/>
@@ -632,6 +633,7 @@
                         <outlet property="fontSizeUpButton" destination="obI-tC-RAV" id="k2D-6W-EKa"/>
                         <outlet property="manualDwellTimeLabel" destination="A6T-iw-zps" id="Peh-f6-vEq"/>
                         <outlet property="manualDwellTimeToggleSwitch" destination="70m-TY-4q9" id="LE4-Z9-kgH"/>
+                        <outlet property="shorthandPredLabel" destination="Ove-My-7Da" id="oaA-c4-xYJ"/>
                         <outlet property="shorthandPredToggleSwitch" destination="BRI-fb-s2f" id="Jii-eM-fac"/>
                         <outlet property="wordPredToggleSwitch" destination="We5-Ra-8u0" id="amY-vS-QTa"/>
                     </connections>
