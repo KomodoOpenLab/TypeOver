@@ -19,6 +19,7 @@
 		
 		[[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"first_run"];
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"auto_pred"];
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"word_pred"];
 		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"shorthand_pred"];
 		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"manual_scan_rate"];
 		[[NSUserDefaults standardUserDefaults] setInteger:i forKey:@"scan_rate_int"];
