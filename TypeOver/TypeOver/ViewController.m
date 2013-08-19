@@ -498,7 +498,7 @@
 	NSCharacterSet *inStringSet = [NSCharacterSet characterSetWithCharactersInString:orgWord];
 	isNumber = [alphaNums isSupersetOfSet:inStringSet];
 	
-	if (wordId==0 && [addWordToDictButton isHidden] && userwordsarr.count==0 && !isNumber) {
+	if (wordId==0 && [addWordToDictButton isHidden] && userwordsarr.count==0 && !isNumber && [[NSUserDefaults standardUserDefaults] boolForKey:@"word_pred"]) {
 		// show add word to dictionary button
 		[addWordToDictButton setHidden:NO];
 		CGRect frame = textView.frame;
@@ -605,8 +605,10 @@
 		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
 		textView.frame = frame;
 	}
-    
-	[self predict];
+	
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"word_pred"]) { // if word prediction is on
+		[self predict];
+	}
 }
 
 - (void)predict {
