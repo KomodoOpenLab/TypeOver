@@ -172,6 +172,9 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 	scanRateIndicatorTimer = [NSTimer scheduledTimerWithTimeInterval:inputRate target:self selector:@selector(scanIndicator) userInfo:nil repeats:YES];
 }
 
+- (IBAction)wordPredToggleAct:(id)sender {
+}
+
 - (IBAction)autoPredictToggleAct:(id)sender {
 	if (autoPredToggleSwitch.on) {
 		autoPred=true;
@@ -310,6 +313,9 @@ static int scanRates[] = {5000, 4170, 3470, 2890, 2410, 2000, 1670, 1400, 1160, 
 										  cancelButtonTitle:@"Dismiss"
 										  otherButtonTitles: nil];
     [alert show];
+}
+
+- (IBAction)aboutWordPredAct:(id)sender {
 }
 
 @end
