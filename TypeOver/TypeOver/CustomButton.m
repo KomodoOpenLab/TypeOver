@@ -33,7 +33,7 @@
 }
 
 - (void)accessibilityElementDidBecomeFocused {
-	[self styleButton:[UIColor colorWithRed:0.31 green:0.1 blue:0.85 alpha:1.0]]; // light blue 
+	[self styleButton:[UIColor blueColor]];
 	
 	startTime=[NSDate date]; // gets actual time
 }
@@ -67,6 +67,14 @@
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextSetFillColorWithColor(context, [color CGColor]);
 	CGContextFillRect(context, CGRectMake(0.0, 0.0, [self bounds].size.width, [self bounds].size.height));
+	
+	// draw radial gradient
+	CGColorSpaceRef colourspace = CGColorSpaceCreateDeviceRGB();
+	CGFloat bComponents[] = {0.2, 0.2, 0.2, 0.8, 0.3, 0.3, 0.3, 0.2};
+	CGFloat bGlocations[] = {0.0, 1.0};
+	CGGradientRef gradient = CGGradientCreateWithColorComponents(colourspace, bComponents, bGlocations, 2);
+	CGPoint centerPoint = CGPointMake([self bounds].size.width/2, [self bounds].size.height/2);
+	CGContextDrawRadialGradient(context, gradient, centerPoint, 0.0, centerPoint, CGRectGetWidth([self bounds]), kCGGradientDrawsBeforeStartLocation);
 	
 	// set button background
 	[self setBackgroundImage:UIGraphicsGetImageFromCurrentImageContext() forState:UIControlStateNormal];
