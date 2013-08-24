@@ -82,22 +82,20 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 	
-	// make navigation controller black
+	self.view.backgroundColor = [UIColor blackColor];
+	
+	// make navigation controller black 
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-	
-	// hide speak button from testers
-	[speakButton setHidden:YES];
 	
 	if (![addWordToDictButton isHidden]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
-		CGRect frame = textView.frame;
-		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-		textView.frame = frame;
 	}
+	
+	[self updateLayout];
 	
 	// dummy view to hide system keyboard
 	UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
@@ -111,6 +109,179 @@
 	wordId = 0;
 	[self checkShift];
     [self resetMisc];
+}
+
+
+#pragma mark - layout 
+
+- (void)updateLayout {
+	float viewWidth = self.view.bounds.size.width;
+	float keyWidth = viewWidth / 3;
+	CGRect keyFrame;
+	
+	
+	// get keys right size
+	
+	keyFrame = addWordToDictButton.frame;
+	keyFrame.size.width = viewWidth;
+	addWordToDictButton.frame = keyFrame;
+	
+	keyFrame = useButton.frame;
+	keyFrame.size.width = keyWidth;
+	useButton.frame = keyFrame;
+	keyFrame = settingsButton.frame;
+	keyFrame.size.width = keyWidth;
+	settingsButton.frame = keyFrame;
+	keyFrame = wordsButton.frame;
+	keyFrame.size.width = keyWidth;
+	wordsButton.frame = keyFrame;
+	
+	keyFrame = punct1LettersButton.frame;
+	keyFrame.size.width = keyWidth;
+	punct1LettersButton.frame = keyFrame;
+	keyFrame = abc2Button.frame;
+	keyFrame.size.width = keyWidth;
+	abc2Button.frame = keyFrame;
+	keyFrame = def3Button.frame;
+	keyFrame.size.width = keyWidth;
+	def3Button.frame = keyFrame;
+	
+	keyFrame = ghi4Button.frame;
+	keyFrame.size.width = keyWidth;
+	ghi4Button.frame = keyFrame;
+	keyFrame = jkl5Button.frame;
+	keyFrame.size.width = keyWidth;
+	jkl5Button.frame = keyFrame;
+	keyFrame = mno6Button.frame;
+	keyFrame.size.width = keyWidth;
+	mno6Button.frame = keyFrame;
+	
+	keyFrame = pqrs7Button.frame;
+	keyFrame.size.width = keyWidth;
+	pqrs7Button.frame = keyFrame;
+	keyFrame = tuv8Button.frame;
+	keyFrame.size.width = keyWidth;
+	tuv8Button.frame = keyFrame;
+	keyFrame = wxyz9Button.frame;
+	keyFrame.size.width = keyWidth;
+	wxyz9Button.frame = keyFrame;
+	
+	keyFrame = space0Button.frame;
+	keyFrame.size.width = keyWidth;
+	space0Button.frame = keyFrame;
+	
+	keyFrame = shiftButton.frame;
+	keyFrame.size.width = keyWidth/2;
+	shiftButton.frame = keyFrame;
+	
+	keyFrame = speakButton.frame;
+	keyFrame.size.width = keyWidth/2;
+	speakButton.frame = keyFrame;
+	
+	keyFrame = backspaceButton.frame;
+	keyFrame.size.width = keyWidth/2;
+	backspaceButton.frame = keyFrame;
+	
+	keyFrame = clearButton.frame;
+	keyFrame.size.width = keyWidth/2;
+	clearButton.frame = keyFrame;
+	
+	
+	// position keys
+	
+	keyFrame = addWordToDictButton.frame;
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*6);
+	addWordToDictButton.frame = keyFrame;
+	
+	keyFrame = useButton.frame;
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*5);
+	useButton.frame = keyFrame;
+	keyFrame = punct1LettersButton.frame;
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*4);
+	punct1LettersButton.frame = keyFrame;
+	keyFrame = ghi4Button.frame;
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*3);
+	ghi4Button.frame = keyFrame;
+	keyFrame = pqrs7Button.frame;
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*2);
+	pqrs7Button.frame = keyFrame;
+	keyFrame = shiftButton.frame;
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height);
+	shiftButton.frame = keyFrame;
+	keyFrame = speakButton.frame;
+	keyFrame.origin.x = shiftButton.frame.size.width;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height);
+	speakButton.frame = keyFrame;
+	
+	keyFrame = settingsButton.frame;
+	keyFrame.origin.x = keyWidth;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*5);
+	settingsButton.frame = keyFrame;
+	keyFrame = abc2Button.frame;
+	keyFrame.origin.x = keyWidth;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*4);
+	abc2Button.frame = keyFrame;
+	keyFrame = jkl5Button.frame;
+	keyFrame.origin.x = keyWidth;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*3);
+	jkl5Button.frame = keyFrame;
+	keyFrame = tuv8Button.frame;
+	keyFrame.origin.x = keyWidth;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*2);
+	tuv8Button.frame = keyFrame;
+	keyFrame = space0Button.frame;
+	keyFrame.origin.x = keyWidth;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height);
+	space0Button.frame = keyFrame;
+	
+	keyFrame = wordsButton.frame;
+	keyFrame.origin.x = keyWidth*2;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*5);
+	wordsButton.frame = keyFrame;
+	keyFrame = def3Button.frame;
+	keyFrame.origin.x = keyWidth*2;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*4);
+	def3Button.frame = keyFrame;
+	keyFrame = mno6Button.frame;
+	keyFrame.origin.x = keyWidth*2;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*3);
+	mno6Button.frame = keyFrame;
+	keyFrame = wxyz9Button.frame;
+	keyFrame.origin.x = keyWidth*2;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*2);
+	wxyz9Button.frame = keyFrame;
+	keyFrame = backspaceButton.frame;
+	keyFrame.origin.x = keyWidth*2;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height);
+	backspaceButton.frame = keyFrame;
+	keyFrame = clearButton.frame;
+	keyFrame.origin.x = keyWidth*2+(keyWidth/2);
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height);
+	clearButton.frame = keyFrame;
+	
+	
+	// position textview
+	
+	CGRect textViewFrame;
+	textViewFrame.size.width = viewWidth;
+	if (!addWordToDictButton.hidden) {
+		textViewFrame.size.height = self.view.bounds.size.height-(keyFrame.size.height*6);
+	}
+	else {
+		textViewFrame.size.height = self.view.bounds.size.height-(keyFrame.size.height*5);
+	}
+	textViewFrame.origin = CGPointMake(0.0, 0.0);
+	textView.frame = textViewFrame;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	[self updateLayout];
 }
 
 
@@ -491,9 +662,7 @@
 	if (wordId==0 && [addWordToDictButton isHidden] && userwordsarr.count==0 && !isNumber && [[NSUserDefaults standardUserDefaults] boolForKey:@"word_pred"]) {
 		// show add word to dictionary button
 		[addWordToDictButton setHidden:NO];
-		CGRect frame = textView.frame;
-		frame.size.height = frame.size.height-addWordToDictButton.frame.size.height-8;
-		textView.frame = frame;
+		[self updateLayout];
 		
 		// let user know exactly what will be added
 		NSMutableString *buttonText = [NSMutableString stringWithString:@"add \""];
@@ -591,9 +760,7 @@
 	if (![addWordToDictButton isHidden] && ![currentWord isEqualToString:@""]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
-		CGRect frame = textView.frame;
-		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-		textView.frame = frame;
+		[self updateLayout];
 	}
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"word_pred"]) { // if word prediction is on
@@ -795,6 +962,9 @@
 	[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
 	[space0Button setTitle:@"space 0" forState:UIControlStateNormal];
 	[wordsButton setTitle:@"words" forState:UIControlStateNormal];
+	
+	[useButton setEnabled:YES];
+	[settingsButton setEnabled:YES];
 	[punct1LettersButton setEnabled:YES];
 	[abc2Button setEnabled:YES];
 	[def3Button setEnabled:YES];
@@ -810,11 +980,14 @@
 	[shiftButton setEnabled:YES];
 	[space0Button setEnabled:YES];
 	[wordsButton setEnabled:YES];
+	
 	[inputTimer invalidate];
 	timesCycled=0;
 }
 
 - (void)disableKeys {
+	[useButton setEnabled:NO];
+	[settingsButton setEnabled:NO];
 	[punct1LettersButton setEnabled:NO];
 	[abc2Button setEnabled:NO];
 	[def3Button setEnabled:NO];
