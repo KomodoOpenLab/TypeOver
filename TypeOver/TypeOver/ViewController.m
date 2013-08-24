@@ -662,9 +662,7 @@
 	if (wordId==0 && [addWordToDictButton isHidden] && userwordsarr.count==0 && !isNumber && [[NSUserDefaults standardUserDefaults] boolForKey:@"word_pred"]) {
 		// show add word to dictionary button
 		[addWordToDictButton setHidden:NO];
-		CGRect frame = textView.frame;
-		frame.size.height = frame.size.height-addWordToDictButton.frame.size.height-8;
-		textView.frame = frame;
+		[self updateLayout];
 		
 		// let user know exactly what will be added
 		NSMutableString *buttonText = [NSMutableString stringWithString:@"add \""];
@@ -762,9 +760,7 @@
 	if (![addWordToDictButton isHidden] && ![currentWord isEqualToString:@""]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
-		CGRect frame = textView.frame;
-		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-		textView.frame = frame;
+		[self updateLayout];
 	}
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"word_pred"]) { // if word prediction is on
