@@ -962,6 +962,9 @@
 	[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
 	[space0Button setTitle:@"space 0" forState:UIControlStateNormal];
 	[wordsButton setTitle:@"words" forState:UIControlStateNormal];
+	
+	[useButton setEnabled:YES];
+	[settingsButton setEnabled:YES];
 	[punct1LettersButton setEnabled:YES];
 	[abc2Button setEnabled:YES];
 	[def3Button setEnabled:YES];
@@ -977,11 +980,14 @@
 	[shiftButton setEnabled:YES];
 	[space0Button setEnabled:YES];
 	[wordsButton setEnabled:YES];
+	
 	[inputTimer invalidate];
 	timesCycled=0;
 }
 
 - (void)disableKeys {
+	[useButton setEnabled:NO];
+	[settingsButton setEnabled:NO];
 	[punct1LettersButton setEnabled:NO];
 	[abc2Button setEnabled:NO];
 	[def3Button setEnabled:NO];
