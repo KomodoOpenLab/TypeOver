@@ -18,8 +18,8 @@
 	
     __weak IBOutlet UITextView *textView;
 	__weak IBOutlet UIButton *addWordToDictButton;
-    __weak IBOutlet UIBarButtonItem *useButton;
-	__weak IBOutlet UIBarButtonItem *settingsButton;
+    __weak IBOutlet	UIButton *useButton;
+	__weak IBOutlet UIButton *settingsButton;
     __weak IBOutlet UIButton *punct1LettersButton;
     __weak IBOutlet UIButton *abc2Button;
     __weak IBOutlet UIButton *def3Button;
