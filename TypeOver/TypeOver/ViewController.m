@@ -87,7 +87,7 @@
 	
 	self.view.backgroundColor = [UIColor blackColor];
 	
-	// make navigation controller black 
+	// make navigation controller black
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	
 	if (![addWordToDictButton isHidden]) {
@@ -112,7 +112,7 @@
 }
 
 
-#pragma mark - layout 
+#pragma mark - layout
 
 - (void)updateLayout {
 	float viewWidth = self.view.bounds.size.width;
@@ -1026,33 +1026,7 @@
 			[punct1LettersButton setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			if ([punct1LettersButton.titleLabel.text isEqualToString:@"."]||[punct1LettersButton.titleLabel.text isEqualToString:@"?"]||[punct1LettersButton.titleLabel.text isEqualToString:@"!"]||[punct1LettersButton.titleLabel.text isEqualToString:@","]) {
-				if (st.length>0) {
-					if ([self isWordDelimiter:[textView.text characterAtIndex:[textView.text length] - 1]]) {
-						st = [NSMutableString stringWithString:[st substringToIndex:[st length] - 1]];
-					}
-				}
-				[st appendString:punct1LettersButton.titleLabel.text];
-			}
-			if ([punct1LettersButton.titleLabel.text isEqualToString:@"."]||[punct1LettersButton.titleLabel.text isEqualToString:@"?"]||[punct1LettersButton.titleLabel.text isEqualToString:@"!"]) {
-				wordId = 0;
-				[st appendString:@" "];
-				shift = true;
-				[self resetMisc];
-			}
-			else if ([punct1LettersButton.titleLabel.text isEqualToString:@","]) {
-				[st appendString:@" "];
-				shift = false;
-				[self resetMisc];
-			}
-			else {
-				[st appendString:punct1LettersButton.titleLabel.text];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			[self updatePredState];
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1072,24 +1046,7 @@
 			[abc2Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:abc2Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![abc2Button.titleLabel.text isEqualToString:@"2"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1128,24 +1085,7 @@
 			[def3Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:def3Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![def3Button.titleLabel.text isEqualToString:@"3"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1184,24 +1124,7 @@
 			[ghi4Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:ghi4Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![ghi4Button.titleLabel.text isEqualToString:@"4"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1240,24 +1163,7 @@
 			[jkl5Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:jkl5Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![jkl5Button.titleLabel.text isEqualToString:@"5"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1296,24 +1202,7 @@
 			[mno6Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:mno6Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![mno6Button.titleLabel.text isEqualToString:@"6"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1352,24 +1241,7 @@
 			[pqrs7Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:pqrs7Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![pqrs7Button.titleLabel.text isEqualToString:@"7"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1408,24 +1280,7 @@
 			[tuv8Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:tuv8Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![tuv8Button.titleLabel.text isEqualToString:@"8"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1464,24 +1319,7 @@
 			[wxyz9Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:wxyz9Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![wxyz9Button.titleLabel.text isEqualToString:@"9"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1533,19 +1371,7 @@
 		[space0Button setEnabled:YES];
 	}
 	else {
-		NSMutableString *st = [NSMutableString stringWithString:textView.text];
-		if ([space0Button.titleLabel.text isEqualToString:@"space"]) {
-			[st appendString:@" "];
-			shift = false;
-			[self resetMisc];
-		}
-		else {
-			[st appendString:@"0"];
-			shift = false;
-		}
-		[textView setText:st];
-		[self resetKeys];
-		[self updatePredState];
+		[self inputCharacterFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1597,7 +1423,77 @@
 }
 
 
-#pragma mark - keypad key methods
+#pragma mark - keypad key methods and functions
+
+- (void)inputCharacterFromKey:(UIButton *)key {
+	NSMutableString *st = [NSMutableString stringWithString:textView.text];
+	add = [NSMutableString stringWithString:key.titleLabel.text];
+	
+	// check if shift is on and make appropriate adjustments to the character
+	if (shift) {
+		add = [NSMutableString stringWithString:add.uppercaseString];
+	}
+	
+	// check if character is a number
+	BOOL numeric;
+	NSCharacterSet *alphaNums = [NSCharacterSet decimalDigitCharacterSet];
+	NSCharacterSet *inStringSet = [NSCharacterSet characterSetWithCharactersInString:add];
+	numeric = [alphaNums isSupersetOfSet:inStringSet];
+	
+	if (key==punct1LettersButton) {
+		if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]||[key.titleLabel.text isEqualToString:@","]) {
+			if (st.length>0) {
+				if ([self isWordDelimiter:[textView.text characterAtIndex:[textView.text length] - 1]]) {
+					st = [NSMutableString stringWithString:[st substringToIndex:[st length] - 1]];
+				}
+			}
+			[st appendString:key.titleLabel.text];
+		}
+		
+		if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]) {
+			wordId = 0;
+			[st appendString:@" "];
+			shift = true;
+			[self resetMisc];
+		}
+		else if ([key.titleLabel.text isEqualToString:@","]) {
+			[st appendString:@" "];
+			shift = false;
+			[self resetMisc];
+		}
+		else {
+			[st appendString:key.titleLabel.text];
+			shift = false;
+		}
+	}
+	else if (key==space0Button) {
+		if ([key.titleLabel.text isEqualToString:@"space"]) {
+			[st appendString:@" "];
+			shift = false;
+			[self resetMisc];
+		}
+		else {
+			[st appendString:@"0"];
+			shift = false;
+		}
+	}
+	else {
+		if (shift&&!numeric) {
+			[st appendString:add.uppercaseString];
+			shift = false;
+		}
+		else {
+			[st appendString:add];
+			shift = false;
+		}
+	}
+	
+	[textView setText:st];
+	
+	[self resetKeys];
+	
+	[self updatePredState];
+}
 
 - (void)punct1 {
 	if (timesCycled==2) {
