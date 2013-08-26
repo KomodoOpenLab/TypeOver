@@ -1402,8 +1402,13 @@
 		[self updatePredState];
 	}
 	else if (![textView.text isEqualToString:@""]) {
+		words = false;
+		letters = true;
+		[self wordsLetters];
+		
 		[self backspace]; // prevents a delay
 		backspaceTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
+		
 		[self disableKeys];
 		[backspaceButton setEnabled:YES];
 	}
@@ -1750,9 +1755,6 @@
     if ([st length] > 0) {
         st = [st substringToIndex:[st length] - 1];
         [textView setText:st];
-		words = false;
-		letters = true;
-		[self wordsLetters];
     }
 	if ([textView.text isEqual: @""]) {
 		shift = true;
