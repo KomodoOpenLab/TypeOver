@@ -42,7 +42,6 @@
     NSTimer *inputTimer, *backspaceTimer;
 	bool words, letters, shift, clearShift;
     NSString *clearString, *currentWord, *previousWord;
-	NSMutableString *add;
     NSMutableArray *predResultsArray;
     int timesCycled, wordId;
     sqlite3 *dbStockWordPrediction, *dbUserWordPrediction;
