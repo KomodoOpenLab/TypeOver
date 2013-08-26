@@ -938,9 +938,7 @@
 	if (![addWordToDictButton isHidden]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
-		CGRect frame = textView.frame;
-		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-		textView.frame = frame;
+		[self updateLayout];
 	}
     
 	currentWord = [NSMutableString stringWithString:@""];
@@ -1020,9 +1018,7 @@
 	[self addWordToDict:previousWord withFreq:1];
 	// hide add word to dictionary button
 	[addWordToDictButton setHidden:YES];
-	CGRect frame = textView.frame;
-	frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-	textView.frame = frame;
+	[self updateLayout];
 }
 
 - (IBAction)punct1LettersAct:(id)sender {
