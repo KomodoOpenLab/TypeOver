@@ -989,6 +989,8 @@
 	[backspaceTimer invalidate];
 	
 	timesCycled=0;
+	
+	[self checkShift];
 }
 
 - (void)disableKeys {
@@ -1433,17 +1435,17 @@
 
 - (void)inputCharacterFromKey:(UIButton *)key {
 	NSMutableString *st = [NSMutableString stringWithString:textView.text];
-	add = [NSMutableString stringWithString:key.titleLabel.text];
+	NSString *character = key.titleLabel.text;
 	
 	// check if shift is on and make appropriate adjustments to the character
 	if (shift) {
-		add = [NSMutableString stringWithString:add.uppercaseString];
+		character = character.uppercaseString;
 	}
 	
 	// check if character is a number
 	BOOL numeric;
 	NSCharacterSet *alphaNums = [NSCharacterSet decimalDigitCharacterSet];
-	NSCharacterSet *inStringSet = [NSCharacterSet characterSetWithCharactersInString:add];
+	NSCharacterSet *inStringSet = [NSCharacterSet characterSetWithCharactersInString:character];
 	numeric = [alphaNums isSupersetOfSet:inStringSet];
 	
 	if (key==punct1LettersButton) {
@@ -1485,11 +1487,7 @@
 	}
 	else {
 		if (shift&&!numeric) {
-			[st appendString:add.uppercaseString];
-			shift = false;
-		}
-		else {
-			[st appendString:add];
+			[st appendString:character];
 			shift = false;
 		}
 	}
@@ -1761,15 +1759,9 @@
 	}
     
 	NSString *st = textView.text;
-    NSString *wst = currentWord;
     if ([st length] > 0) {
         st = [st substringToIndex:[st length] - 1];
         [textView setText:st];
-		if ([wst length] > 0) {
-			wst = [wst substringToIndex:[wst length] - 1];
-			currentWord = [NSMutableString stringWithString:wst];
-			add = [NSMutableString stringWithString:@""];
-		}
 		words = false;
 		letters = true;
 		[self wordsLetters];
