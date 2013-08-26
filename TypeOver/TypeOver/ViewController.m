@@ -1442,12 +1442,6 @@
 		character = character.uppercaseString;
 	}
 	
-	// check if character is a number
-	BOOL numeric;
-	NSCharacterSet *alphaNums = [NSCharacterSet decimalDigitCharacterSet];
-	NSCharacterSet *inStringSet = [NSCharacterSet characterSetWithCharactersInString:character];
-	numeric = [alphaNums isSupersetOfSet:inStringSet];
-	
 	if (key==punct1LettersButton) {
 		if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]||[key.titleLabel.text isEqualToString:@","]) {
 			if (st.length>0) {
@@ -1486,10 +1480,8 @@
 		}
 	}
 	else {
-		if (shift&&!numeric) {
-			[st appendString:character];
-			shift = false;
-		}
+		[st appendString:character];
+		shift = false;
 	}
 	
 	[textView setText:st];
