@@ -82,22 +82,20 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+	
+	self.view.backgroundColor = [UIColor blackColor];
 	
 	// make navigation controller black
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	
-	// hide speak button from testers
-	[speakButton setHidden:YES];
-	
 	if (![addWordToDictButton isHidden]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
-		CGRect frame = textView.frame;
-		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-		textView.frame = frame;
 	}
+	
+	[self updateLayout];
 	
 	// dummy view to hide system keyboard
 	UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
@@ -111,6 +109,179 @@
 	wordId = 0;
 	[self checkShift];
     [self resetMisc];
+}
+
+
+#pragma mark - layout
+
+- (void)updateLayout {
+	float viewWidth = self.view.bounds.size.width;
+	float keyWidth = viewWidth / 3;
+	CGRect keyFrame;
+	
+	
+	// get keys right size
+	
+	keyFrame = addWordToDictButton.frame;
+	keyFrame.size.width = viewWidth;
+	addWordToDictButton.frame = keyFrame;
+	
+	keyFrame = useButton.frame;
+	keyFrame.size.width = keyWidth;
+	useButton.frame = keyFrame;
+	keyFrame = settingsButton.frame;
+	keyFrame.size.width = keyWidth;
+	settingsButton.frame = keyFrame;
+	keyFrame = wordsButton.frame;
+	keyFrame.size.width = keyWidth;
+	wordsButton.frame = keyFrame;
+	
+	keyFrame = punct1LettersButton.frame;
+	keyFrame.size.width = keyWidth;
+	punct1LettersButton.frame = keyFrame;
+	keyFrame = abc2Button.frame;
+	keyFrame.size.width = keyWidth;
+	abc2Button.frame = keyFrame;
+	keyFrame = def3Button.frame;
+	keyFrame.size.width = keyWidth;
+	def3Button.frame = keyFrame;
+	
+	keyFrame = ghi4Button.frame;
+	keyFrame.size.width = keyWidth;
+	ghi4Button.frame = keyFrame;
+	keyFrame = jkl5Button.frame;
+	keyFrame.size.width = keyWidth;
+	jkl5Button.frame = keyFrame;
+	keyFrame = mno6Button.frame;
+	keyFrame.size.width = keyWidth;
+	mno6Button.frame = keyFrame;
+	
+	keyFrame = pqrs7Button.frame;
+	keyFrame.size.width = keyWidth;
+	pqrs7Button.frame = keyFrame;
+	keyFrame = tuv8Button.frame;
+	keyFrame.size.width = keyWidth;
+	tuv8Button.frame = keyFrame;
+	keyFrame = wxyz9Button.frame;
+	keyFrame.size.width = keyWidth;
+	wxyz9Button.frame = keyFrame;
+	
+	keyFrame = space0Button.frame;
+	keyFrame.size.width = keyWidth;
+	space0Button.frame = keyFrame;
+	
+	keyFrame = shiftButton.frame;
+	keyFrame.size.width = keyWidth/2;
+	shiftButton.frame = keyFrame;
+	
+	keyFrame = speakButton.frame;
+	keyFrame.size.width = keyWidth/2;
+	speakButton.frame = keyFrame;
+	
+	keyFrame = backspaceButton.frame;
+	keyFrame.size.width = keyWidth/2;
+	backspaceButton.frame = keyFrame;
+	
+	keyFrame = clearButton.frame;
+	keyFrame.size.width = keyWidth/2;
+	clearButton.frame = keyFrame;
+	
+	
+	// position keys
+	
+	keyFrame = addWordToDictButton.frame;
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*6);
+	addWordToDictButton.frame = keyFrame;
+	
+	keyFrame = useButton.frame;
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*5);
+	useButton.frame = keyFrame;
+	keyFrame = punct1LettersButton.frame;
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*4);
+	punct1LettersButton.frame = keyFrame;
+	keyFrame = ghi4Button.frame;
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*3);
+	ghi4Button.frame = keyFrame;
+	keyFrame = pqrs7Button.frame;
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*2);
+	pqrs7Button.frame = keyFrame;
+	keyFrame = shiftButton.frame;
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height);
+	shiftButton.frame = keyFrame;
+	keyFrame = speakButton.frame;
+	keyFrame.origin.x = shiftButton.frame.size.width;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height);
+	speakButton.frame = keyFrame;
+	
+	keyFrame = settingsButton.frame;
+	keyFrame.origin.x = keyWidth;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*5);
+	settingsButton.frame = keyFrame;
+	keyFrame = abc2Button.frame;
+	keyFrame.origin.x = keyWidth;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*4);
+	abc2Button.frame = keyFrame;
+	keyFrame = jkl5Button.frame;
+	keyFrame.origin.x = keyWidth;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*3);
+	jkl5Button.frame = keyFrame;
+	keyFrame = tuv8Button.frame;
+	keyFrame.origin.x = keyWidth;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*2);
+	tuv8Button.frame = keyFrame;
+	keyFrame = space0Button.frame;
+	keyFrame.origin.x = keyWidth;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height);
+	space0Button.frame = keyFrame;
+	
+	keyFrame = wordsButton.frame;
+	keyFrame.origin.x = keyWidth*2;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*5);
+	wordsButton.frame = keyFrame;
+	keyFrame = def3Button.frame;
+	keyFrame.origin.x = keyWidth*2;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*4);
+	def3Button.frame = keyFrame;
+	keyFrame = mno6Button.frame;
+	keyFrame.origin.x = keyWidth*2;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*3);
+	mno6Button.frame = keyFrame;
+	keyFrame = wxyz9Button.frame;
+	keyFrame.origin.x = keyWidth*2;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*2);
+	wxyz9Button.frame = keyFrame;
+	keyFrame = backspaceButton.frame;
+	keyFrame.origin.x = keyWidth*2;
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height);
+	backspaceButton.frame = keyFrame;
+	keyFrame = clearButton.frame;
+	keyFrame.origin.x = keyWidth*2+(keyWidth/2);
+	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height);
+	clearButton.frame = keyFrame;
+	
+	
+	// position textview
+	
+	CGRect textViewFrame;
+	textViewFrame.size.width = viewWidth;
+	if (!addWordToDictButton.hidden) {
+		textViewFrame.size.height = self.view.bounds.size.height-(keyFrame.size.height*6);
+	}
+	else {
+		textViewFrame.size.height = self.view.bounds.size.height-(keyFrame.size.height*5);
+	}
+	textViewFrame.origin = CGPointMake(0.0, 0.0);
+	textView.frame = textViewFrame;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	[self updateLayout];
 }
 
 
@@ -491,9 +662,7 @@
 	if (wordId==0 && [addWordToDictButton isHidden] && userwordsarr.count==0 && !isNumber && [[NSUserDefaults standardUserDefaults] boolForKey:@"word_pred"]) {
 		// show add word to dictionary button
 		[addWordToDictButton setHidden:NO];
-		CGRect frame = textView.frame;
-		frame.size.height = frame.size.height-addWordToDictButton.frame.size.height-8;
-		textView.frame = frame;
+		[self updateLayout];
 		
 		// let user know exactly what will be added
 		NSMutableString *buttonText = [NSMutableString stringWithString:@"add \""];
@@ -591,9 +760,7 @@
 	if (![addWordToDictButton isHidden] && ![currentWord isEqualToString:@""]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
-		CGRect frame = textView.frame;
-		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-		textView.frame = frame;
+		[self updateLayout];
 	}
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"word_pred"]) { // if word prediction is on
@@ -764,14 +931,14 @@
 
 - (void)resetMisc {
 	[inputTimer invalidate];
+	[backspaceTimer invalidate];
+	
     [predResultsArray removeAllObjects];
 	
 	if (![addWordToDictButton isHidden]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
-		CGRect frame = textView.frame;
-		frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-		textView.frame = frame;
+		[self updateLayout];
 	}
     
 	currentWord = [NSMutableString stringWithString:@""];
@@ -780,6 +947,8 @@
 	letters = true;
 	
 	[self wordsLetters];
+	[self checkShift];
+	[self updatePredState];
 	[self resetKeys];
 }
 
@@ -795,6 +964,9 @@
 	[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
 	[space0Button setTitle:@"space 0" forState:UIControlStateNormal];
 	[wordsButton setTitle:@"words" forState:UIControlStateNormal];
+	
+	[useButton setEnabled:YES];
+	[settingsButton setEnabled:YES];
 	[punct1LettersButton setEnabled:YES];
 	[abc2Button setEnabled:YES];
 	[def3Button setEnabled:YES];
@@ -810,11 +982,18 @@
 	[shiftButton setEnabled:YES];
 	[space0Button setEnabled:YES];
 	[wordsButton setEnabled:YES];
+	
 	[inputTimer invalidate];
+	[backspaceTimer invalidate];
+	
 	timesCycled=0;
+	
+	[self checkShift];
 }
 
 - (void)disableKeys {
+	[useButton setEnabled:NO];
+	[settingsButton setEnabled:NO];
 	[punct1LettersButton setEnabled:NO];
 	[abc2Button setEnabled:NO];
 	[def3Button setEnabled:NO];
@@ -839,9 +1018,7 @@
 	[self addWordToDict:previousWord withFreq:1];
 	// hide add word to dictionary button
 	[addWordToDictButton setHidden:YES];
-	CGRect frame = textView.frame;
-	frame.size.height = frame.size.height+addWordToDictButton.frame.size.height+8;
-	textView.frame = frame;
+	[self updateLayout];
 }
 
 - (IBAction)punct1LettersAct:(id)sender {
@@ -853,33 +1030,7 @@
 			[punct1LettersButton setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			if ([punct1LettersButton.titleLabel.text isEqualToString:@"."]||[punct1LettersButton.titleLabel.text isEqualToString:@"?"]||[punct1LettersButton.titleLabel.text isEqualToString:@"!"]||[punct1LettersButton.titleLabel.text isEqualToString:@","]) {
-				if (st.length>0) {
-					if ([self isWordDelimiter:[textView.text characterAtIndex:[textView.text length] - 1]]) {
-						st = [NSMutableString stringWithString:[st substringToIndex:[st length] - 1]];
-					}
-				}
-				[st appendString:punct1LettersButton.titleLabel.text];
-			}
-			if ([punct1LettersButton.titleLabel.text isEqualToString:@"."]||[punct1LettersButton.titleLabel.text isEqualToString:@"?"]||[punct1LettersButton.titleLabel.text isEqualToString:@"!"]) {
-				wordId = 0;
-				[st appendString:@" "];
-				shift = true;
-				[self resetMisc];
-			}
-			else if ([punct1LettersButton.titleLabel.text isEqualToString:@","]) {
-				[st appendString:@" "];
-				shift = false;
-				[self resetMisc];
-			}
-			else {
-				[st appendString:punct1LettersButton.titleLabel.text];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			[self updatePredState];
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -899,24 +1050,7 @@
 			[abc2Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:abc2Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![abc2Button.titleLabel.text isEqualToString:@"2"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -955,24 +1089,7 @@
 			[def3Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:def3Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![def3Button.titleLabel.text isEqualToString:@"3"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1011,24 +1128,7 @@
 			[ghi4Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:ghi4Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![ghi4Button.titleLabel.text isEqualToString:@"4"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1067,24 +1167,7 @@
 			[jkl5Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:jkl5Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![jkl5Button.titleLabel.text isEqualToString:@"5"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1123,24 +1206,7 @@
 			[mno6Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:mno6Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![mno6Button.titleLabel.text isEqualToString:@"6"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1179,24 +1245,7 @@
 			[pqrs7Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:pqrs7Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![pqrs7Button.titleLabel.text isEqualToString:@"7"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1235,24 +1284,7 @@
 			[tuv8Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:tuv8Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![tuv8Button.titleLabel.text isEqualToString:@"8"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1291,24 +1323,7 @@
 			[wxyz9Button setEnabled:YES];
 		}
 		else {
-			NSMutableString *st = [NSMutableString stringWithString:textView.text];
-			add = [NSMutableString stringWithString:wxyz9Button.titleLabel.text];
-			if (shift) {
-				add = [NSMutableString stringWithString:add.uppercaseString];
-			}
-			if (shift&&![wxyz9Button.titleLabel.text isEqualToString:@"9"]) {
-				[st appendString:add.uppercaseString];
-				shift = false;
-			}
-			else {
-				[st appendString:add];
-				shift = false;
-			}
-			[textView setText:st];
-			[self resetKeys];
-			if (![add isEqualToString:@""]) {
-				[self updatePredState];
-			}
+			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1360,19 +1375,7 @@
 		[space0Button setEnabled:YES];
 	}
 	else {
-		NSMutableString *st = [NSMutableString stringWithString:textView.text];
-		if ([space0Button.titleLabel.text isEqualToString:@"space"]) {
-			[st appendString:@" "];
-			shift = false;
-			[self resetMisc];
-		}
-		else {
-			[st appendString:@"0"];
-			shift = false;
-		}
-		[textView setText:st];
-		[self resetKeys];
-		[self updatePredState];
+		[self inputCharacterFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1399,8 +1402,13 @@
 		[self updatePredState];
 	}
 	else if (![textView.text isEqualToString:@""]) {
+		words = false;
+		letters = true;
+		[self wordsLetters];
+		
 		[self backspace]; // prevents a delay
 		backspaceTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
+		
 		[self disableKeys];
 		[backspaceButton setEnabled:YES];
 	}
@@ -1424,11 +1432,73 @@
 }
 
 
-#pragma mark - keypad key methods
+#pragma mark - keypad key methods and functions
+
+- (void)inputCharacterFromKey:(UIButton *)key {
+	NSMutableString *st = [NSMutableString stringWithString:textView.text];
+	NSString *character = key.titleLabel.text;
+	
+	// check if shift is on and make appropriate adjustments to the character
+	if (shift) {
+		character = character.uppercaseString;
+	}
+	
+	if (key==punct1LettersButton) {
+		if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]||[key.titleLabel.text isEqualToString:@","]) {
+			if (st.length>0) {
+				if ([self isWordDelimiter:[textView.text characterAtIndex:[textView.text length] - 1]]) {
+					st = [NSMutableString stringWithString:[st substringToIndex:[st length] - 1]];
+				}
+			}
+			[st appendString:key.titleLabel.text];
+		}
+		
+		if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]) {
+			wordId = 0;
+			[st appendString:@" "];
+			shift = true;
+			[self resetMisc];
+		}
+		else if ([key.titleLabel.text isEqualToString:@","]) {
+			[st appendString:@" "];
+			shift = false;
+			[self resetMisc];
+		}
+		else {
+			[st appendString:key.titleLabel.text];
+			shift = false;
+		}
+	}
+	else if (key==space0Button) {
+		if ([key.titleLabel.text isEqualToString:@"space"]) {
+			[st appendString:@" "];
+			shift = false;
+			[self resetMisc];
+		}
+		else {
+			[st appendString:@"0"];
+			shift = false;
+		}
+	}
+	else {
+		[st appendString:character];
+		shift = false;
+	}
+	
+	[textView setText:st];
+	
+	[self resetKeys];
+	
+	[self updatePredState];
+}
 
 - (void)punct1 {
 	if (timesCycled==2) {
 		[self resetKeys];
+		return;
+	}
+	else if (![punct1LettersButton accessibilityElementIsFocused]) {
+		[self inputCharacterFromKey:punct1LettersButton];
 		return;
 	}
 	if ([punct1LettersButton.titleLabel.text isEqualToString:@"."]) {
@@ -1463,6 +1533,10 @@
 		[self resetKeys];
 		return;
 	}
+	else if (![abc2Button accessibilityElementIsFocused]) {
+		[self inputCharacterFromKey:abc2Button];
+		return;
+	}
 	if ([abc2Button.titleLabel.text isEqualToString:@"a"]) {
 		[abc2Button setTitle:@"b" forState:UIControlStateNormal];
 	}
@@ -1481,6 +1555,10 @@
 - (void)def3 {
 	if (timesCycled==2) {
 		[self resetKeys];
+		return;
+	}
+	else if (![def3Button accessibilityElementIsFocused]) {
+		[self inputCharacterFromKey:def3Button];
 		return;
 	}
 	if ([def3Button.titleLabel.text isEqualToString:@"d"]) {
@@ -1503,6 +1581,10 @@
 		[self resetKeys];
 		return;
 	}
+	else if (![ghi4Button accessibilityElementIsFocused]) {
+		[self inputCharacterFromKey:ghi4Button];
+		return;
+	}
 	if ([ghi4Button.titleLabel.text isEqualToString:@"g"]) {
 		[ghi4Button setTitle:@"h" forState:UIControlStateNormal];
 	}
@@ -1521,6 +1603,10 @@
 - (void)jkl5 {
 	if (timesCycled==2) {
 		[self resetKeys];
+		return;
+	}
+	else if (![jkl5Button accessibilityElementIsFocused]) {
+		[self inputCharacterFromKey:jkl5Button];
 		return;
 	}
 	if ([jkl5Button.titleLabel.text isEqualToString:@"j"]) {
@@ -1543,6 +1629,10 @@
 		[self resetKeys];
 		return;
 	}
+	else if (![mno6Button accessibilityElementIsFocused]) {
+		[self inputCharacterFromKey:mno6Button];
+		return;
+	}
 	if ([mno6Button.titleLabel.text isEqualToString:@"m"]) {
 		[mno6Button setTitle:@"n" forState:UIControlStateNormal];
 	}
@@ -1561,6 +1651,10 @@
 - (void)pqrs7 {
 	if (timesCycled==2) {
 		[self resetKeys];
+		return;
+	}
+	else if (![pqrs7Button accessibilityElementIsFocused]) {
+		[self inputCharacterFromKey:pqrs7Button];
 		return;
 	}
 	if ([pqrs7Button.titleLabel.text isEqualToString:@"p"]) {
@@ -1586,6 +1680,10 @@
 		[self resetKeys];
 		return;
 	}
+	else if (![tuv8Button accessibilityElementIsFocused]) {
+		[self inputCharacterFromKey:tuv8Button];
+		return;
+	}
 	if ([tuv8Button.titleLabel.text isEqualToString:@"t"]) {
 		[tuv8Button setTitle:@"u" forState:UIControlStateNormal];
 	}
@@ -1604,6 +1702,10 @@
 - (void)wxyz9 {
 	if (timesCycled==2) {
 		[self resetKeys];
+		return;
+	}
+	else if (![wxyz9Button accessibilityElementIsFocused]) {
+		[self inputCharacterFromKey:wxyz9Button];
 		return;
 	}
 	if ([wxyz9Button.titleLabel.text isEqualToString:@"w"]) {
@@ -1629,6 +1731,10 @@
 		[self resetKeys];
 		return;
 	}
+	else if (![space0Button accessibilityElementIsFocused]) {
+		[self inputCharacterFromKey:space0Button];
+		return;
+	}
 	if ([space0Button.titleLabel.text isEqualToString:@"space"]) {
 		[space0Button setTitle:@"0" forState:UIControlStateNormal];
 	}
@@ -1639,25 +1745,19 @@
 }
 
 - (void)backspace {
-    NSString *st = textView.text;
-    NSString *wst = currentWord;
+	if (![backspaceButton accessibilityElementIsFocused]) {
+		[self resetKeys];
+		[self updatePredState];
+		return;
+	}
+    
+	NSString *st = textView.text;
     if ([st length] > 0) {
         st = [st substringToIndex:[st length] - 1];
         [textView setText:st];
-		if ([wst length] > 0) {
-			wst = [wst substringToIndex:[wst length] - 1];
-			currentWord = [NSMutableString stringWithString:wst];
-			add = [NSMutableString stringWithString:@""];
-		}
-		words = false;
-		letters = true;
-		[self wordsLetters];
     }
 	if ([textView.text isEqual: @""]) {
-		[backspaceTimer invalidate];
 		shift = true;
-		[self checkShift];
-		[self resetKeys];
 		[self resetMisc];
 	}
 	[self checkShift];

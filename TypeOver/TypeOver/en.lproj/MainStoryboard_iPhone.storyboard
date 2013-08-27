@@ -238,7 +238,7 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="LQa-8g-uAe">
-                                <rect key="frame" x="20" y="20" width="280" height="136"/>
+                                <rect key="frame" x="20" y="20" width="280" height="40"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
@@ -259,21 +259,40 @@
                                     <action selector="addWordToDictAct:" destination="2" eventType="touchUpInside" id="egQ-2J-O6v"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="yKX-NO-f3c" customClass="CustomButton">
+                                <rect key="frame" x="20" y="116" width="280" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="use">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="useAct:" destination="2" eventType="touchUpInside" id="cL6-Rb-JT4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="yme-MD-wWX" customClass="CustomButton">
+                                <rect key="frame" x="20" y="68" width="280" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="settings">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="1uy-sH-CXm" kind="push" id="0NK-2P-QpJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.21485582141106846" green="0.46408863844658815" blue="0.73913043478260865" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="TypeOver" id="LQ6-FM-ffp">
-                        <barButtonItem key="leftBarButtonItem" title="Use" id="qp0-QB-f2W">
-                            <connections>
-                                <action selector="useAct:" destination="2" id="13k-Kv-yLO"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Settings" id="hD1-dO-iew">
-                            <connections>
-                                <segue destination="1uy-sH-CXm" kind="push" id="rQO-C5-bKR"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="TypeOver" id="LQ6-FM-ffp"/>
                     <connections>
                         <outlet property="abc2Button" destination="wnj-wB-YMU" id="BWs-0u-kAn"/>
                         <outlet property="addWordToDictButton" destination="BWN-yZ-pVH" id="sjD-jQ-P6N"/>
@@ -285,13 +304,13 @@
                         <outlet property="mno6Button" destination="woa-ut-QD2" id="qFg-ks-509"/>
                         <outlet property="pqrs7Button" destination="tpo-Uc-ODi" id="NbR-jG-D2d"/>
                         <outlet property="punct1LettersButton" destination="kaw-P1-Jl1" id="Phl-u8-Fam"/>
-                        <outlet property="settingsButton" destination="hD1-dO-iew" id="1Gw-eD-0g6"/>
+                        <outlet property="settingsButton" destination="yme-MD-wWX" id="Q8b-9S-8h7"/>
                         <outlet property="shiftButton" destination="RRy-C4-q2B" id="Qmc-Tq-BgE"/>
                         <outlet property="space0Button" destination="qA3-WI-eD6" id="EtZ-P4-120"/>
                         <outlet property="speakButton" destination="ivG-YR-igD" id="1Z1-mP-gHp"/>
                         <outlet property="textView" destination="LQa-8g-uAe" id="v33-9x-wyp"/>
                         <outlet property="tuv8Button" destination="N4e-cc-FS2" id="6yP-vr-8fa"/>
-                        <outlet property="useButton" destination="qp0-QB-f2W" id="smh-oL-cjT"/>
+                        <outlet property="useButton" destination="yKX-NO-f3c" id="bmL-AB-2lc"/>
                         <outlet property="wordsButton" destination="Bh2-uK-kQX" id="ger-fS-F5p"/>
                         <outlet property="wxyz9Button" destination="uTv-a1-LeI" id="7tq-92-qGu"/>
                     </connections>
@@ -661,6 +680,99 @@
             <point key="canvasLocation" x="265" y="672"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="CustomButton" superclassName="UIButton">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CustomButton.h"/>
+        </class>
+        <class className="CustomToggleSwitch" superclassName="UISwitch">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CustomToggleSwitch.h"/>
+        </class>
+        <class className="SettingsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="aboutAutoPredAct:"/>
+                <relationship kind="action" name="aboutDwellTimeAct:"/>
+                <relationship kind="action" name="aboutFontSizeAct:"/>
+                <relationship kind="action" name="aboutManualDwellTimeAct:"/>
+                <relationship kind="action" name="aboutPredAfterAct:"/>
+                <relationship kind="action" name="aboutShorthandPredAct:"/>
+                <relationship kind="action" name="aboutWordPredAct:"/>
+                <relationship kind="action" name="autoPredAfterDownAct:"/>
+                <relationship kind="action" name="autoPredAfterUpAct:"/>
+                <relationship kind="action" name="autoPredictToggleAct:"/>
+                <relationship kind="action" name="dwellTimeDownAct:"/>
+                <relationship kind="action" name="dwellTimeUpAct:"/>
+                <relationship kind="action" name="fontSizeDownAct:"/>
+                <relationship kind="action" name="fontSizeUpAct:"/>
+                <relationship kind="action" name="manualDwellTimeToggleAct:"/>
+                <relationship kind="action" name="shorthandPredToggleAct:"/>
+                <relationship kind="action" name="wordPredToggleAct:"/>
+                <relationship kind="outlet" name="aboutAutoPredAfterButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="aboutAutoPredButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="aboutDwellTimeButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="aboutFontSize" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="aboutManualDwellTime" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="aboutShorthandPred" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="aboutWordPred" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="autoPredAfterDownButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="autoPredAfterLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="autoPredAfterUpButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="autoPredLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="autoPredToggleSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="dwellTimeDownButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="dwellTimeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="dwellTimeUpButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="fontSizeDownButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="fontSizeUpButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="manualDwellTimeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="manualDwellTimeToggleSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="shorthandPredLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="shorthandPredToggleSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="wordPredToggleSwitch" candidateClass="UISwitch"/>
+            </relationships>
+        </class>
+        <class className="ViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="abc2Act:"/>
+                <relationship kind="action" name="addWordToDictAct:"/>
+                <relationship kind="action" name="backspaceAct:"/>
+                <relationship kind="action" name="clearAct:"/>
+                <relationship kind="action" name="def3Act:"/>
+                <relationship kind="action" name="ghi4Act:"/>
+                <relationship kind="action" name="jkl5Act:"/>
+                <relationship kind="action" name="mno6Act:"/>
+                <relationship kind="action" name="pqrs7Act:"/>
+                <relationship kind="action" name="punct1LettersAct:"/>
+                <relationship kind="action" name="shiftAct:"/>
+                <relationship kind="action" name="space0Act:"/>
+                <relationship kind="action" name="speakAct:"/>
+                <relationship kind="action" name="tuv8Act:"/>
+                <relationship kind="action" name="useAct:"/>
+                <relationship kind="action" name="wordsLettersAct:"/>
+                <relationship kind="action" name="wxyz9Act:"/>
+                <relationship kind="outlet" name="abc2Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="addWordToDictButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="backspaceButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="clearButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="def3Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="ghi4Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="jkl5Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="mno6Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="pqrs7Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="punct1LettersButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="settingsButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="shiftButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="space0Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="speakButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="tuv8Button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="useButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="wordsButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="wxyz9Button" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

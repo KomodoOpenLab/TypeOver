@@ -62,24 +62,55 @@
 #pragma mark - drawing
 
 - (void)styleButton:(UIColor *)color {
-	// draw background image
+	// initialise graphics session 
+	
 	UIGraphicsBeginImageContext([self bounds].size);
 	CGContextRef context = UIGraphicsGetCurrentContext();
+	
+	
+	// fill rect with color
+	
 	CGContextSetFillColorWithColor(context, [color CGColor]);
-	CGContextFillRect(context, CGRectMake(0.0, 0.0, [self bounds].size.width, [self bounds].size.height));
+	CGContextFillRect(context, [self bounds]);
+	
 	
 	// draw radial gradient
+	
+	CGRect gradientRect = CGRectMake(self.bounds.origin.x + 0.2, self.bounds.origin.y + 0.2, self.bounds.size.width - 0.4, self.bounds.size.height - 0.4);
+	CGContextClipToRect(context, gradientRect);
+	
 	CGColorSpaceRef colourspace = CGColorSpaceCreateDeviceRGB();
-	CGFloat bComponents[] = {0.2, 0.2, 0.2, 0.8, 0.3, 0.3, 0.3, 0.2};
-	CGFloat bGlocations[] = {0.0, 1.0};
-	CGGradientRef gradient = CGGradientCreateWithColorComponents(colourspace, bComponents, bGlocations, 2);
-	CGPoint centerPoint = CGPointMake([self bounds].size.width/2, [self bounds].size.height/2);
-	CGContextDrawRadialGradient(context, gradient, centerPoint, 0.0, centerPoint, CGRectGetWidth([self bounds]), kCGGradientDrawsBeforeStartLocation);
+	CGFloat *bComponents = NULL;
+	if (color==[UIColor blackColor]) {
+		bComponents = (CGFloat[12]) {
+			0.2, 0.2, 0.2, 1.0,
+			0.2, 0.2, 0.2, 1.0,
+			0.12, 0.12, 0.12, 1.0
+		};
+	}
+	else if (color==[UIColor blueColor]) {
+		bComponents = (CGFloat[12]) {
+			0.3, 0.3, 255.0, 1.0,
+			0.3, 0.3, 255.0, 1.0,
+			0.0, 0.0, 255.0, 1.0
+		};
+	}
+	
+	CGFloat bGlocations[] = {0.0, 0.5, 1.0};
+	
+	CGGradientRef gradient = CGGradientCreateWithColorComponents(colourspace, bComponents, bGlocations, 3);
+	
+	CGPoint centerPoint = CGPointMake(gradientRect.size.width/2, gradientRect.size.height/2);
+	CGContextDrawRadialGradient(context, gradient, centerPoint, 0.0, centerPoint, CGRectGetWidth(gradientRect)*0.7, kCGGradientDrawsBeforeStartLocation);
+	
 	
 	// set button background
+	
 	[self setBackgroundImage:UIGraphicsGetImageFromCurrentImageContext() forState:UIControlStateNormal];
 	
+	
 	// end graphics session
+	
 	UIGraphicsEndImageContext();
 }
 
