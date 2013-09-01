@@ -1497,7 +1497,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![punct1LettersButton accessibilityElementIsFocused]) {
+	else if (![punct1LettersButton accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:punct1LettersButton];
 		return;
 	}
@@ -1533,7 +1533,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![abc2Button accessibilityElementIsFocused]) {
+	else if (![abc2Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:abc2Button];
 		return;
 	}
@@ -1557,7 +1557,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![def3Button accessibilityElementIsFocused]) {
+	else if (![def3Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:def3Button];
 		return;
 	}
@@ -1581,7 +1581,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![ghi4Button accessibilityElementIsFocused]) {
+	else if (![ghi4Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:ghi4Button];
 		return;
 	}
@@ -1605,7 +1605,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![jkl5Button accessibilityElementIsFocused]) {
+	else if (![jkl5Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:jkl5Button];
 		return;
 	}
@@ -1629,7 +1629,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![mno6Button accessibilityElementIsFocused]) {
+	else if (![mno6Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:mno6Button];
 		return;
 	}
@@ -1653,7 +1653,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![pqrs7Button accessibilityElementIsFocused]) {
+	else if (![pqrs7Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:pqrs7Button];
 		return;
 	}
@@ -1680,7 +1680,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![tuv8Button accessibilityElementIsFocused]) {
+	else if (![tuv8Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:tuv8Button];
 		return;
 	}
@@ -1704,7 +1704,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![wxyz9Button accessibilityElementIsFocused]) {
+	else if (![wxyz9Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:wxyz9Button];
 		return;
 	}
@@ -1731,7 +1731,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![space0Button accessibilityElementIsFocused]) {
+	else if (![space0Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:space0Button];
 		return;
 	}
@@ -1745,7 +1745,7 @@
 }
 
 - (void)backspace {
-	if (![backspaceButton accessibilityElementIsFocused]) {
+	if (![backspaceButton accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self resetKeys];
 		[self updatePredState];
 		return;
