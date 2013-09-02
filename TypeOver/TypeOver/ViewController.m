@@ -953,6 +953,9 @@
 }
 
 - (void)resetKeys {
+	letters = true;
+	words = false;
+	
 	[punct1LettersButton setTitle:@".,?!'@# 1" forState:UIControlStateNormal];
 	[abc2Button setTitle:@"abc 2" forState:UIControlStateNormal];
 	[def3Button setTitle:@"def 3" forState:UIControlStateNormal];
