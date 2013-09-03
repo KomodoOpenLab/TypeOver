@@ -7,7 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomButton.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController {
+	
+	
+	__weak IBOutlet UITextField *textView;
+	__weak IBOutlet UIButton *abc2Button;
+	
+	UIView *contentView;
+	CustomButton *firstContentButton, *secondContentButton, *thirdContentButton, *forthContentButton, *fifthContentButton, *sixthContentButton, *seventhContentButton, *eighthContentButton, *cancelContentButton;
+
+}
+
+
+- (IBAction)abc2Act:(id)sender;
+
 
 @end

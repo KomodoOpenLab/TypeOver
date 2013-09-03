@@ -23,6 +23,8 @@
 		6C416D2D17D4C14100BFE755 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C416D0817D4C14000BFE755 /* Foundation.framework */; };
 		6C416D3517D4C14100BFE755 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6C416D3317D4C14100BFE755 /* InfoPlist.strings */; };
 		6C416D3817D4C14100BFE755 /* iOS7ModeTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C416D3717D4C14100BFE755 /* iOS7ModeTestTests.m */; };
+		6C416D4317D4FBDE00BFE755 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C416D4217D4FBDE00BFE755 /* CustomButton.m */; };
+		6CE4859F17D5F8DA00EE0196 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C416D4217D4FBDE00BFE755 /* CustomButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,8 @@
 		6C416D3417D4C14100BFE755 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6C416D3617D4C14100BFE755 /* iOS7ModeTestTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iOS7ModeTestTests.h; sourceTree = "<group>"; };
 		6C416D3717D4C14100BFE755 /* iOS7ModeTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOS7ModeTestTests.m; sourceTree = "<group>"; };
+		6C416D4117D4FBDE00BFE755 /* CustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
+		6C416D4217D4FBDE00BFE755 /* CustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +123,8 @@
 			children = (
 				6C416D1517D4C14000BFE755 /* AppDelegate.h */,
 				6C416D1617D4C14000BFE755 /* AppDelegate.m */,
+				6C416D4117D4FBDE00BFE755 /* CustomButton.h */,
+				6C416D4217D4FBDE00BFE755 /* CustomButton.m */,
 				6C416D1E17D4C14100BFE755 /* MainStoryboard.storyboard */,
 				6C416D2117D4C14100BFE755 /* ViewController.h */,
 				6C416D2217D4C14100BFE755 /* ViewController.m */,
@@ -270,6 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CE4859F17D5F8DA00EE0196 /* CustomButton.m in Sources */,
 				6C416D1317D4C14000BFE755 /* main.m in Sources */,
 				6C416D1717D4C14000BFE755 /* AppDelegate.m in Sources */,
 				6C416D2317D4C14100BFE755 /* ViewController.m in Sources */,
@@ -281,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C416D3817D4C14100BFE755 /* iOS7ModeTestTests.m in Sources */,
+				6C416D4317D4FBDE00BFE755 /* CustomButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,6 +461,7 @@
 				6C416D3D17D4C14100BFE755 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6C416D3E17D4C14100BFE755 /* Build configuration list for PBXNativeTarget "iOS7ModeTestTests" */ = {
 			isa = XCConfigurationList;
@@ -461,6 +470,7 @@
 				6C416D4017D4C14100BFE755 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
