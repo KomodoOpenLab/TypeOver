@@ -804,6 +804,35 @@
     sqlite3_finalize(stmt);
 }
 
+- (BOOL)isUserAddedWord:(NSString *)word {
+	NSMutableArray *resultarr = [[NSMutableArray alloc] init];
+	NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD = '"];
+	[userWordsQuery appendString:word];
+	[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+	
+	sqlite3_stmt *statement;
+	int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &statement, nil);
+	
+	if (SQLITE_OK==result)
+	{
+		int prednum = 0;
+		while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
+		{
+			char *rowData = (char*)sqlite3_column_text(statement, 1);
+			NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+			NSLog(@"prediction %d: %@",prednum+1,str);
+			[resultarr addObject:str];
+			prednum++;
+		}
+	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
+	
+	return resultarr.count>0;
+}
+
 - (void)wordsLetters {
 	if (words) {
 		bool isUppercase = false;
