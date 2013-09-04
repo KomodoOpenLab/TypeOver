@@ -1086,28 +1086,7 @@
 		}
 	}
 	else if (words) {
-		if (![abc2Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:abc2Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:abc2Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1125,28 +1104,7 @@
 		}
 	}
 	else if (words) {
-		if (![def3Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:def3Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:def3Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1164,28 +1122,7 @@
 		}
 	}
 	else if (words) {
-		if (![ghi4Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:ghi4Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:ghi4Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1203,28 +1140,7 @@
 		}
 	}
 	else if (words) {
-		if (![jkl5Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:jkl5Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:jkl5Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1242,28 +1158,7 @@
 		}
 	}
 	else if (words) {
-		if (![mno6Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:mno6Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:mno6Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1281,28 +1176,7 @@
 		}
 	}
 	else if (words) {
-		if (![pqrs7Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:pqrs7Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:pqrs7Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1320,28 +1194,7 @@
 		}
 	}
 	else if (words) {
-		if (![tuv8Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:tuv8Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:tuv8Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1359,28 +1212,7 @@
 		}
 	}
 	else if (words) {
-		if (![wxyz9Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:wxyz9Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:wxyz9Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1522,6 +1354,31 @@
 	[self resetKeys];
 	
 	[self updatePredState];
+}
+
+- (void)inputPredictionFromKey:(UIButton *)key {
+	if (![key.titleLabel.text isEqualToString:@""]) {
+		if (![textView.text isEqualToString:@""]) {
+			NSString *st = textView.text;
+			NSString *wst = currentWord;
+			NSMutableString *final;
+			st = [st substringToIndex:[st length] - [wst length]];
+			textView.text = st;
+			final = [NSMutableString stringWithString:st];
+			if (![textView.text isEqualToString:@""]) {
+				[final appendString:key.titleLabel.text];
+				[final appendString:@" "];
+				textView.text = final;
+			}
+			else {
+				final = [NSMutableString stringWithString:key.titleLabel.text];
+				[final appendString:@" "];
+				textView.text = final;
+			}
+			[self resetMisc];
+			[self updatePredState];
+		}
+	}
 }
 
 - (void)punct1 {
