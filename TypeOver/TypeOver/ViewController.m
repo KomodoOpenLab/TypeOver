@@ -437,7 +437,7 @@
 		}
 		NSLog(@"Generating predictions with query: %@",strQuery);
 		
-		sqlite3_stmt *statement;
+		sqlite3_stmt *stmt;
 		
 		// get user's added words
 		NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
@@ -459,14 +459,14 @@
 		}
 		[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
 		
-		int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &statement, nil);
+		int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &stmt, nil);
 		
 		if (SQLITE_OK==result)
 		{
 			int prednum = 0;
-			while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
+			while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
 			{
-				char *rowData = (char*)sqlite3_column_text(statement, 1);
+				char *rowData = (char*)sqlite3_column_text(stmt, 1);
 				NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 				NSLog(@"prediction %d: %@",prednum+1,str);
 				[resultarr addObject:str];
@@ -478,15 +478,15 @@
 			NSLog(@"Query error number: %d",result);
 		}
 		
-		result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
 		
 		if (resultarr.count<8) {
 			if (SQLITE_OK==result)
 			{
 				int prednum = 0;
-				while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
+				while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
 				{
-					char *rowData = (char*)sqlite3_column_text(statement, 1);
+					char *rowData = (char*)sqlite3_column_text(stmt, 1);
 					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 					NSLog(@"prediction %d: %@",prednum+1,str);
 					[resultarr addObject:str];
@@ -502,16 +502,16 @@
 		if (resultarr.count<8&&bigram) { // bigram results didn't fill array
 			strQuery = [NSMutableString stringWithString:[self produceQueryWithContextOnly:strContext]];
 			
-			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
 			
 			if (SQLITE_OK==result)
 			{
 				int prednum = resultarr.count;
 				int remaining = 8-resultarr.count;
 				int count = 0;
-				while (count<remaining && SQLITE_ROW==sqlite3_step(statement))
+				while (count<remaining && SQLITE_ROW==sqlite3_step(stmt))
 				{
-					char *rowData = (char*)sqlite3_column_text(statement, 1);
+					char *rowData = (char*)sqlite3_column_text(stmt, 1);
 					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 					if (![resultarr containsObject:str]) {
 						NSLog(@"prediction %d: %@",prednum+1,str);
@@ -533,15 +533,15 @@
 		[strQuery appendString:@" ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
 		NSLog(@"Generating predictions with query: %@",strQuery);
 		
-		sqlite3_stmt *statement;
-		int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		sqlite3_stmt *stmt;
+		int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
 		
 		if (SQLITE_OK==result)
 		{
 			int prednum = 0;
-			while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
+			while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
 			{
-				char *rowData = (char*)sqlite3_column_text(statement, 1);
+				char *rowData = (char*)sqlite3_column_text(stmt, 1);
 				NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 				NSLog(@"prediction %d: %@",prednum+1,str);
 				[resultarr addObject:str];
@@ -557,16 +557,16 @@
 			[strQuery setString:@"SELECT * FROM WORDS"];
 			[strQuery appendString:@" ORDER BY FREQUENCY DESC LIMIT 10;"];
 			
-			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
 			
 			if (SQLITE_OK==result)
 			{
 				int prednum = resultarr.count;
 				int remaining = 8-resultarr.count;
 				int count = 0;
-				while (count<remaining && SQLITE_ROW==sqlite3_step(statement))
+				while (count<remaining && SQLITE_ROW==sqlite3_step(stmt))
 				{
-					char *rowData = (char*)sqlite3_column_text(statement, 1);
+					char *rowData = (char*)sqlite3_column_text(stmt, 1);
 					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 					if (![resultarr containsObject:str]) { // if word wasn't in bigram
 						NSLog(@"prediction %d: %@",prednum+1,str);
@@ -597,22 +597,22 @@
 	word = [word stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
     
 	NSMutableString *strQuery = [[NSMutableString alloc] init];
-	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORDS.WORD LIKE '"];
+	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD = '"];
 	[strQuery appendString:word];
 	[strQuery appendString:@"';"];
     
-	sqlite3_stmt *statement;
-    int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+	sqlite3_stmt *stmt;
+    int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
 	int arr[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // set to 10 just incase
 	NSMutableArray *wordsarr = [[NSMutableArray alloc] init];
 	
     if (SQLITE_OK==result)
     {
 		int i = 0;
-        while (SQLITE_ROW==sqlite3_step(statement))
+        while (SQLITE_ROW==sqlite3_step(stmt))
         {
-			arr[i] = sqlite3_column_int(statement, 0);
-			char *rowData = (char*)sqlite3_column_text(statement, 1);
+			arr[i] = sqlite3_column_int(stmt, 0);
+			char *rowData = (char*)sqlite3_column_text(stmt, 1);
 			NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 			[wordsarr addObject:str];
 			i++;
@@ -624,15 +624,15 @@
 		NSLog(@"Query error number: %d",result);
 	}
 	
-	result = sqlite3_prepare_v2(dbUserWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+	result = sqlite3_prepare_v2(dbUserWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
 	NSMutableArray *userwordsarr = [[NSMutableArray alloc] init];
 	
     if (SQLITE_OK==result)
     {
 		int i = 0;
-        while (SQLITE_ROW==sqlite3_step(statement))
+        while (SQLITE_ROW==sqlite3_step(stmt))
         {
-			char *rowData = (char*)sqlite3_column_text(statement, 1);
+			char *rowData = (char*)sqlite3_column_text(stmt, 1);
 			NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 			[userwordsarr addObject:str];
 			i++;
@@ -804,25 +804,68 @@
     sqlite3_finalize(stmt);
 }
 
+- (void)updateFrequencyForUserAddedWord:(NSString *)word {
+	// get current frequency
+	NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD = '"];
+	[userWordsQuery appendString:word];
+	[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+	
+	sqlite3_stmt *stmt;
+	int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &stmt, nil);
+	int arr[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // set to 10 just incase
+	
+    if (SQLITE_OK==result)
+    {
+		int i = 0;
+        while (SQLITE_ROW==sqlite3_step(stmt))
+        {
+			arr[i] = sqlite3_column_int(stmt, 0);
+			i++;
+        }
+	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
+	
+	int frequency = arr[0];
+	
+	
+	// increase frequency by one
+	char *errMsg = NULL;
+	
+	NSMutableString *updateStatement = [NSMutableString stringWithString:@"UPDATE WORDS SET FREQUENCY = "];
+	[updateStatement appendFormat:@"%i", frequency++];
+	[updateStatement appendString:@" WHERE WORD = '"];
+	[updateStatement appendString:word];
+	[updateStatement appendString:@"';"];
+	
+	sqlite3_exec(dbUserWordPrediction, [updateStatement UTF8String], NULL, NULL, &errMsg);
+	if (SQLITE_OK!=result)
+	{
+		NSLog(@"Error updating frequency: %s",errMsg);
+	}
+	else {
+		NSLog(@"Frequency updated");
+	}
+	}
+
 - (BOOL)isUserAddedWord:(NSString *)word {
 	NSMutableArray *resultarr = [[NSMutableArray alloc] init];
 	NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD = '"];
 	[userWordsQuery appendString:word];
 	[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
 	
-	sqlite3_stmt *statement;
-	int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &statement, nil);
+	sqlite3_stmt *stmt;
+	int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &stmt, nil);
 	
 	if (SQLITE_OK==result)
 	{
-		int prednum = 0;
-		while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
+		while (SQLITE_ROW==sqlite3_step(stmt))
 		{
-			char *rowData = (char*)sqlite3_column_text(statement, 1);
+			char *rowData = (char*)sqlite3_column_text(stmt, 1);
 			NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
-			NSLog(@"prediction %d: %@",prednum+1,str);
 			[resultarr addObject:str];
-			prednum++;
 		}
 	}
 	else
