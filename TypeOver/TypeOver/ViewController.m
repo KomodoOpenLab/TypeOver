@@ -32,6 +32,7 @@
 		NSLog(@"stock database successfully opened");
 	}
 	
+	
 	// load or create user word prediction database
 	NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 	NSString *dbFile = [documentsPath stringByAppendingPathComponent:@"UserWords"];
@@ -829,6 +830,69 @@
     sqlite3_finalize(stmt);
 }
 
+- (void)halveUserAddedWordFreqsIfNeeded {
+	// check if criteria is met 
+	NSMutableString *userWordFreqsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE FREQUENCY >= 100;"];
+	
+	sqlite3_stmt *stmt;
+	int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordFreqsQuery UTF8String], -1, &stmt, nil);
+	NSMutableArray *wordsarr = [[NSMutableArray alloc] init];
+	
+    if (SQLITE_OK==result)
+    {
+        while (SQLITE_ROW==sqlite3_step(stmt))
+        {
+			char *rowData = (char*)sqlite3_column_text(stmt, 1);
+			NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+			[wordsarr addObject:str];
+        }
+	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
+	
+	BOOL criteriaMet;
+	criteriaMet = wordsarr.count>=10;
+	
+	
+	// half frequencies if criteria is met
+	if (criteriaMet) {
+		NSMutableString *userWordHalfFreqsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS;"];
+		
+		result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordHalfFreqsQuery UTF8String], -1, &stmt, nil);
+		
+		if (SQLITE_OK==result)
+		{
+			while (SQLITE_ROW==sqlite3_step(stmt))
+			{
+				int row = sqlite3_column_int(stmt, 0);
+				int frequency = sqlite3_column_int(stmt, 2);
+			
+				char *errMsg = NULL;
+				
+				NSMutableString *updateStatement = [NSMutableString stringWithString:@"UPDATE WORDS SET FREQUENCY = "];
+				if (frequency/2 != 0) [updateStatement appendFormat:@"%i", frequency/2];
+				if (frequency/2 == 0) [updateStatement appendFormat:@"%i", 1];
+				[updateStatement appendString:@" WHERE ID = "];
+				[updateStatement appendFormat:@"%i", row];
+				[updateStatement appendString:@";"];
+				
+				sqlite3_exec(dbUserWordPrediction, [updateStatement UTF8String], NULL, NULL, &errMsg);
+				if (SQLITE_OK!=result)
+				{
+					NSLog(@"Error updating frequency: %s",errMsg);
+				}
+			}
+			NSLog(@"frequencies halved");
+		}
+		else
+		{
+			NSLog(@"Query error number: %d",result);
+		}
+	}
+}
+
 - (void)updateFrequencyForUserAddedWord:(NSString *)word {
 	// get current frequency
 	NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
@@ -894,6 +958,9 @@
 	
 	frequency = arr[0];
 	NSLog(@"New frequency is %i", frequency);
+	
+	
+	[self halveUserAddedWordFreqsIfNeeded];
 }
 
 - (BOOL)isUserAddedWord:(NSString *)word {
@@ -1136,6 +1203,7 @@
 
 - (IBAction)addWordToDictAct:(id)sender {
 	[self addWordToDict:previousWord withFreq:1];
+
 	// hide add word to dictionary button
 	[addWordToDictButton setHidden:YES];
 	[self updateLayout];
