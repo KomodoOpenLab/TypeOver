@@ -32,6 +32,7 @@
 		NSLog(@"stock database successfully opened");
 	}
 	
+	
 	// load or create user word prediction database
 	NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 	NSString *dbFile = [documentsPath stringByAppendingPathComponent:@"UserWords"];
@@ -73,6 +74,31 @@
 			}
 		}
 	}
+	
+	
+	// set user added word starting frequency
+	NSMutableString *userWordsStartFreqQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE ID = 200;"];
+	
+	sqlite3_stmt *stmt;
+	result = sqlite3_prepare_v2(dbStockWordPrediction, [userWordsStartFreqQuery UTF8String], -1, &stmt, nil);
+	int arr[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // set to 10 just incase
+	
+    if (SQLITE_OK==result)
+    {
+		int i = 0;
+        while (SQLITE_ROW==sqlite3_step(stmt))
+        {
+			arr[i] = sqlite3_column_int(stmt, 2);
+			i++;
+        }
+	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
+	
+	userAddedWordStartFreq = arr[0];
+	
 	
 	shift = true;
 }
@@ -437,7 +463,7 @@
 		}
 		NSLog(@"Generating predictions with query: %@",strQuery);
 		
-		sqlite3_stmt *statement;
+		sqlite3_stmt *stmt;
 		
 		// get user's added words
 		NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
@@ -459,14 +485,14 @@
 		}
 		[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
 		
-		int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &statement, nil);
+		int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &stmt, nil);
 		
 		if (SQLITE_OK==result)
 		{
 			int prednum = 0;
-			while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
+			while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
 			{
-				char *rowData = (char*)sqlite3_column_text(statement, 1);
+				char *rowData = (char*)sqlite3_column_text(stmt, 1);
 				NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 				NSLog(@"prediction %d: %@",prednum+1,str);
 				[resultarr addObject:str];
@@ -478,15 +504,15 @@
 			NSLog(@"Query error number: %d",result);
 		}
 		
-		result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
 		
 		if (resultarr.count<8) {
 			if (SQLITE_OK==result)
 			{
 				int prednum = 0;
-				while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
+				while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
 				{
-					char *rowData = (char*)sqlite3_column_text(statement, 1);
+					char *rowData = (char*)sqlite3_column_text(stmt, 1);
 					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 					NSLog(@"prediction %d: %@",prednum+1,str);
 					[resultarr addObject:str];
@@ -502,16 +528,16 @@
 		if (resultarr.count<8&&bigram) { // bigram results didn't fill array
 			strQuery = [NSMutableString stringWithString:[self produceQueryWithContextOnly:strContext]];
 			
-			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
 			
 			if (SQLITE_OK==result)
 			{
 				int prednum = resultarr.count;
 				int remaining = 8-resultarr.count;
 				int count = 0;
-				while (count<remaining && SQLITE_ROW==sqlite3_step(statement))
+				while (count<remaining && SQLITE_ROW==sqlite3_step(stmt))
 				{
-					char *rowData = (char*)sqlite3_column_text(statement, 1);
+					char *rowData = (char*)sqlite3_column_text(stmt, 1);
 					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 					if (![resultarr containsObject:str]) {
 						NSLog(@"prediction %d: %@",prednum+1,str);
@@ -533,15 +559,15 @@
 		[strQuery appendString:@" ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
 		NSLog(@"Generating predictions with query: %@",strQuery);
 		
-		sqlite3_stmt *statement;
-		int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+		sqlite3_stmt *stmt;
+		int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
 		
 		if (SQLITE_OK==result)
 		{
 			int prednum = 0;
-			while (prednum<8 && SQLITE_ROW==sqlite3_step(statement))
+			while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
 			{
-				char *rowData = (char*)sqlite3_column_text(statement, 1);
+				char *rowData = (char*)sqlite3_column_text(stmt, 1);
 				NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 				NSLog(@"prediction %d: %@",prednum+1,str);
 				[resultarr addObject:str];
@@ -557,16 +583,16 @@
 			[strQuery setString:@"SELECT * FROM WORDS"];
 			[strQuery appendString:@" ORDER BY FREQUENCY DESC LIMIT 10;"];
 			
-			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
 			
 			if (SQLITE_OK==result)
 			{
 				int prednum = resultarr.count;
 				int remaining = 8-resultarr.count;
 				int count = 0;
-				while (count<remaining && SQLITE_ROW==sqlite3_step(statement))
+				while (count<remaining && SQLITE_ROW==sqlite3_step(stmt))
 				{
-					char *rowData = (char*)sqlite3_column_text(statement, 1);
+					char *rowData = (char*)sqlite3_column_text(stmt, 1);
 					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 					if (![resultarr containsObject:str]) { // if word wasn't in bigram
 						NSLog(@"prediction %d: %@",prednum+1,str);
@@ -597,22 +623,22 @@
 	word = [word stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
     
 	NSMutableString *strQuery = [[NSMutableString alloc] init];
-	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORDS.WORD LIKE '"];
+	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 	[strQuery appendString:word];
 	[strQuery appendString:@"';"];
     
-	sqlite3_stmt *statement;
-    int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+	sqlite3_stmt *stmt;
+    int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
 	int arr[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // set to 10 just incase
 	NSMutableArray *wordsarr = [[NSMutableArray alloc] init];
 	
     if (SQLITE_OK==result)
     {
 		int i = 0;
-        while (SQLITE_ROW==sqlite3_step(statement))
+        while (SQLITE_ROW==sqlite3_step(stmt))
         {
-			arr[i] = sqlite3_column_int(statement, 0);
-			char *rowData = (char*)sqlite3_column_text(statement, 1);
+			arr[i] = sqlite3_column_int(stmt, 0);
+			char *rowData = (char*)sqlite3_column_text(stmt, 1);
 			NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 			[wordsarr addObject:str];
 			i++;
@@ -624,15 +650,15 @@
 		NSLog(@"Query error number: %d",result);
 	}
 	
-	result = sqlite3_prepare_v2(dbUserWordPrediction, [strQuery UTF8String], -1, &statement, nil);
+	result = sqlite3_prepare_v2(dbUserWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
 	NSMutableArray *userwordsarr = [[NSMutableArray alloc] init];
 	
     if (SQLITE_OK==result)
     {
 		int i = 0;
-        while (SQLITE_ROW==sqlite3_step(statement))
+        while (SQLITE_ROW==sqlite3_step(stmt))
         {
-			char *rowData = (char*)sqlite3_column_text(statement, 1);
+			char *rowData = (char*)sqlite3_column_text(stmt, 1);
 			NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
 			[userwordsarr addObject:str];
 			i++;
@@ -804,6 +830,165 @@
     sqlite3_finalize(stmt);
 }
 
+- (void)halveUserAddedWordFreqsIfNeeded {
+	// check if criteria is met 
+	NSMutableString *userWordFreqsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE FREQUENCY >= 100;"];
+	
+	sqlite3_stmt *stmt;
+	int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordFreqsQuery UTF8String], -1, &stmt, nil);
+	NSMutableArray *wordsarr = [[NSMutableArray alloc] init];
+	
+    if (SQLITE_OK==result)
+    {
+        while (SQLITE_ROW==sqlite3_step(stmt))
+        {
+			char *rowData = (char*)sqlite3_column_text(stmt, 1);
+			NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+			[wordsarr addObject:str];
+        }
+	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
+	
+	BOOL criteriaMet;
+	criteriaMet = wordsarr.count>=10;
+	
+	
+	// half frequencies if criteria is met
+	if (criteriaMet) {
+		NSMutableString *userWordHalfFreqsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS;"];
+		
+		result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordHalfFreqsQuery UTF8String], -1, &stmt, nil);
+		
+		if (SQLITE_OK==result)
+		{
+			while (SQLITE_ROW==sqlite3_step(stmt))
+			{
+				int row = sqlite3_column_int(stmt, 0);
+				int frequency = sqlite3_column_int(stmt, 2);
+			
+				char *errMsg = NULL;
+				
+				NSMutableString *updateStatement = [NSMutableString stringWithString:@"UPDATE WORDS SET FREQUENCY = "];
+				if (frequency/2 != 0) [updateStatement appendFormat:@"%i", frequency/2];
+				if (frequency/2 == 0) [updateStatement appendFormat:@"%i", 1];
+				[updateStatement appendString:@" WHERE ID = "];
+				[updateStatement appendFormat:@"%i", row];
+				[updateStatement appendString:@";"];
+				
+				sqlite3_exec(dbUserWordPrediction, [updateStatement UTF8String], NULL, NULL, &errMsg);
+				if (SQLITE_OK!=result)
+				{
+					NSLog(@"Error updating frequency: %s",errMsg);
+				}
+			}
+			NSLog(@"frequencies halved");
+		}
+		else
+		{
+			NSLog(@"Query error number: %d",result);
+		}
+	}
+}
+
+- (void)updateFrequencyForUserAddedWord:(NSString *)word {
+	// get current frequency
+	NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+	[userWordsQuery appendString:word];
+	[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+	
+	sqlite3_stmt *stmt;
+	int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &stmt, nil);
+	int arr[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // set to 10 just incase
+	
+    if (SQLITE_OK==result)
+    {
+		int i = 0;
+        while (SQLITE_ROW==sqlite3_step(stmt))
+        {
+			arr[i] = sqlite3_column_int(stmt, 2);
+			i++;
+        }
+	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
+	
+	int frequency = arr[0];
+	
+	
+	// increase frequency by one
+	char *errMsg = NULL;
+	
+	NSMutableString *updateStatement = [NSMutableString stringWithString:@"UPDATE WORDS SET FREQUENCY = "];
+	[updateStatement appendFormat:@"%i", frequency+1];
+	[updateStatement appendString:@" WHERE WORD LIKE '"];
+	[updateStatement appendString:word];
+	[updateStatement appendString:@"';"];
+	
+	sqlite3_exec(dbUserWordPrediction, [updateStatement UTF8String], NULL, NULL, &errMsg);
+	if (SQLITE_OK!=result)
+	{
+		NSLog(@"Error updating frequency: %s",errMsg);
+	}
+	else {
+		NSLog(@"Frequency updated");
+	}
+	
+	
+	// check frequency
+	result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &stmt, nil);
+	
+    if (SQLITE_OK==result)
+    {
+		int i = 0;
+        while (SQLITE_ROW==sqlite3_step(stmt))
+        {
+			arr[i] = sqlite3_column_int(stmt, 2);
+			i++;
+        }
+	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
+	
+	frequency = arr[0];
+	NSLog(@"New frequency is %i", frequency);
+	
+	
+	[self halveUserAddedWordFreqsIfNeeded];
+}
+
+- (BOOL)isUserAddedWord:(NSString *)word {
+	NSMutableArray *resultarr = [[NSMutableArray alloc] init];
+	NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
+	[userWordsQuery appendString:word];
+	[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+	
+	sqlite3_stmt *stmt;
+	int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &stmt, nil);
+	
+	if (SQLITE_OK==result)
+	{
+		while (SQLITE_ROW==sqlite3_step(stmt))
+		{
+			char *rowData = (char*)sqlite3_column_text(stmt, 1);
+			NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+			[resultarr addObject:str];
+		}
+	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
+	
+	return resultarr.count>0;
+}
+
 - (void)wordsLetters {
 	if (words) {
 		bool isUppercase = false;
@@ -948,11 +1133,13 @@
 	
 	[self wordsLetters];
 	[self checkShift];
-	[self updatePredState];
 	[self resetKeys];
 }
 
 - (void)resetKeys {
+	letters = true;
+	words = false;
+	
 	[punct1LettersButton setTitle:@".,?!'@# 1" forState:UIControlStateNormal];
 	[abc2Button setTitle:@"abc 2" forState:UIControlStateNormal];
 	[def3Button setTitle:@"def 3" forState:UIControlStateNormal];
@@ -1016,6 +1203,7 @@
 
 - (IBAction)addWordToDictAct:(id)sender {
 	[self addWordToDict:previousWord withFreq:1];
+
 	// hide add word to dictionary button
 	[addWordToDictButton setHidden:YES];
 	[self updateLayout];
@@ -1054,28 +1242,7 @@
 		}
 	}
 	else if (words) {
-		if (![abc2Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:abc2Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:abc2Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1093,28 +1260,7 @@
 		}
 	}
 	else if (words) {
-		if (![def3Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:def3Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:def3Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1132,28 +1278,7 @@
 		}
 	}
 	else if (words) {
-		if (![ghi4Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:ghi4Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:ghi4Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1171,28 +1296,7 @@
 		}
 	}
 	else if (words) {
-		if (![jkl5Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:jkl5Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:jkl5Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1210,28 +1314,7 @@
 		}
 	}
 	else if (words) {
-		if (![mno6Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:mno6Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:mno6Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1249,28 +1332,7 @@
 		}
 	}
 	else if (words) {
-		if (![pqrs7Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:pqrs7Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:pqrs7Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1288,28 +1350,7 @@
 		}
 	}
 	else if (words) {
-		if (![tuv8Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:tuv8Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:tuv8Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1327,28 +1368,7 @@
 		}
 	}
 	else if (words) {
-		if (![wxyz9Button.titleLabel.text isEqualToString:@""]) {
-			if (![textView.text isEqualToString:@""]) {
-				NSString *st = textView.text;
-				NSString *wst = currentWord;
-				NSMutableString *final;
-				st = [st substringToIndex:[st length] - [wst length]];
-				textView.text = st;
-				final = [NSMutableString stringWithString:st];
-				if (![textView.text isEqualToString:@""]) {
-					[final appendString:wxyz9Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				else {
-					final = [NSMutableString stringWithString:wxyz9Button.titleLabel.text];
-					[final appendString:@" "];
-					textView.text = final;
-				}
-				[self resetMisc];
-				[self updatePredState];
-			}
-		}
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1492,12 +1512,43 @@
 	[self updatePredState];
 }
 
+- (void)inputPredictionFromKey:(UIButton *)key {
+	if (![key.titleLabel.text isEqualToString:@""]) {
+		if (![textView.text isEqualToString:@""]) {
+			NSString *st = textView.text;
+			NSString *wst = currentWord;
+			NSMutableString *final;
+			
+			st = [st substringToIndex:[st length] - [wst length]];
+			final = [NSMutableString stringWithString:st];
+			
+			if (![textView.text isEqualToString:@""]) {
+				[final appendString:key.titleLabel.text];
+				[final appendString:@" "];
+			}
+			else {
+				final = [NSMutableString stringWithString:key.titleLabel.text];
+				[final appendString:@" "];
+			}
+			
+			[textView setText:final];
+			
+			if ([self isUserAddedWord:key.titleLabel.text]) {
+				[self updateFrequencyForUserAddedWord:key.titleLabel.text];
+			}
+			
+			[self resetMisc];
+			[self updatePredState];
+		}
+	}
+}
+
 - (void)punct1 {
 	if (timesCycled==2) {
 		[self resetKeys];
 		return;
 	}
-	else if (![punct1LettersButton accessibilityElementIsFocused]) {
+	else if (![punct1LettersButton accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:punct1LettersButton];
 		return;
 	}
@@ -1533,7 +1584,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![abc2Button accessibilityElementIsFocused]) {
+	else if (![abc2Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:abc2Button];
 		return;
 	}
@@ -1557,7 +1608,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![def3Button accessibilityElementIsFocused]) {
+	else if (![def3Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:def3Button];
 		return;
 	}
@@ -1581,7 +1632,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![ghi4Button accessibilityElementIsFocused]) {
+	else if (![ghi4Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:ghi4Button];
 		return;
 	}
@@ -1605,7 +1656,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![jkl5Button accessibilityElementIsFocused]) {
+	else if (![jkl5Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:jkl5Button];
 		return;
 	}
@@ -1629,7 +1680,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![mno6Button accessibilityElementIsFocused]) {
+	else if (![mno6Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:mno6Button];
 		return;
 	}
@@ -1653,7 +1704,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![pqrs7Button accessibilityElementIsFocused]) {
+	else if (![pqrs7Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:pqrs7Button];
 		return;
 	}
@@ -1680,7 +1731,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![tuv8Button accessibilityElementIsFocused]) {
+	else if (![tuv8Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:tuv8Button];
 		return;
 	}
@@ -1704,7 +1755,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![wxyz9Button accessibilityElementIsFocused]) {
+	else if (![wxyz9Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:wxyz9Button];
 		return;
 	}
@@ -1731,7 +1782,7 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![space0Button accessibilityElementIsFocused]) {
+	else if (![space0Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self inputCharacterFromKey:space0Button];
 		return;
 	}
@@ -1745,7 +1796,7 @@
 }
 
 - (void)backspace {
-	if (![backspaceButton accessibilityElementIsFocused]) {
+	if (![backspaceButton accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self resetKeys];
 		[self updatePredState];
 		return;

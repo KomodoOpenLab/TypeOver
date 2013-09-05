@@ -43,7 +43,7 @@
 	bool words, letters, shift, clearShift;
     NSString *clearString, *currentWord, *previousWord;
     NSMutableArray *predResultsArray;
-    int timesCycled, wordId;
+    int timesCycled, wordId, userAddedWordStartFreq;
     sqlite3 *dbStockWordPrediction, *dbUserWordPrediction;
 	
 	
