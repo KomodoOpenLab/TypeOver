@@ -597,7 +597,7 @@
 	word = [word stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
     
 	NSMutableString *strQuery = [[NSMutableString alloc] init];
-	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD = '"];
+	[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 	[strQuery appendString:word];
 	[strQuery appendString:@"';"];
     
@@ -806,7 +806,7 @@
 
 - (void)updateFrequencyForUserAddedWord:(NSString *)word {
 	// get current frequency
-	NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD = '"];
+	NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 	[userWordsQuery appendString:word];
 	[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
 	
@@ -819,7 +819,7 @@
 		int i = 0;
         while (SQLITE_ROW==sqlite3_step(stmt))
         {
-			arr[i] = sqlite3_column_int(stmt, 0);
+			arr[i] = sqlite3_column_int(stmt, 2);
 			i++;
         }
 	}
@@ -835,8 +835,8 @@
 	char *errMsg = NULL;
 	
 	NSMutableString *updateStatement = [NSMutableString stringWithString:@"UPDATE WORDS SET FREQUENCY = "];
-	[updateStatement appendFormat:@"%i", frequency++];
-	[updateStatement appendString:@" WHERE WORD = '"];
+	[updateStatement appendFormat:@"%i", frequency+1];
+	[updateStatement appendString:@" WHERE WORD LIKE '"];
 	[updateStatement appendString:word];
 	[updateStatement appendString:@"';"];
 	
@@ -848,11 +848,32 @@
 	else {
 		NSLog(@"Frequency updated");
 	}
+	
+	
+	// check frequency
+	result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &stmt, nil);
+	
+    if (SQLITE_OK==result)
+    {
+		int i = 0;
+        while (SQLITE_ROW==sqlite3_step(stmt))
+        {
+			arr[i] = sqlite3_column_int(stmt, 2);
+			i++;
+        }
 	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
+	
+	frequency = arr[0];
+	NSLog(@"New frequency is %i", frequency);
+}
 
 - (BOOL)isUserAddedWord:(NSString *)word {
 	NSMutableArray *resultarr = [[NSMutableArray alloc] init];
-	NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD = '"];
+	NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
 	[userWordsQuery appendString:word];
 	[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
 	
@@ -1020,7 +1041,6 @@
 	
 	[self wordsLetters];
 	[self checkShift];
-	[self updatePredState];
 	[self resetKeys];
 }
 
@@ -1405,19 +1425,25 @@
 			NSString *st = textView.text;
 			NSString *wst = currentWord;
 			NSMutableString *final;
+			
 			st = [st substringToIndex:[st length] - [wst length]];
-			textView.text = st;
 			final = [NSMutableString stringWithString:st];
+			
 			if (![textView.text isEqualToString:@""]) {
 				[final appendString:key.titleLabel.text];
 				[final appendString:@" "];
-				textView.text = final;
 			}
 			else {
 				final = [NSMutableString stringWithString:key.titleLabel.text];
 				[final appendString:@" "];
-				textView.text = final;
 			}
+			
+			[textView setText:final];
+			
+			if ([self isUserAddedWord:key.titleLabel.text]) {
+				[self updateFrequencyForUserAddedWord:key.titleLabel.text];
+			}
+			
 			[self resetMisc];
 			[self updatePredState];
 		}
