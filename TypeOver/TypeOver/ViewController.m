@@ -74,6 +74,31 @@
 		}
 	}
 	
+	
+	// set user added word starting frequency
+	NSMutableString *userWordsStartFreqQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE ID = 200;"];
+	
+	sqlite3_stmt *stmt;
+	result = sqlite3_prepare_v2(dbStockWordPrediction, [userWordsStartFreqQuery UTF8String], -1, &stmt, nil);
+	int arr[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // set to 10 just incase
+	
+    if (SQLITE_OK==result)
+    {
+		int i = 0;
+        while (SQLITE_ROW==sqlite3_step(stmt))
+        {
+			arr[i] = sqlite3_column_int(stmt, 2);
+			i++;
+        }
+	}
+	else
+	{
+		NSLog(@"Query error number: %d",result);
+	}
+	
+	userAddedWordStartFreq = arr[0];
+	
+	
 	shift = true;
 }
 
