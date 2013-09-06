@@ -17,7 +17,7 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-		// set button appearance 
+		// set button appearance
 		[self styleButton:[UIColor blackColor]];
 		[self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 		
@@ -62,30 +62,33 @@
 #pragma mark - drawing
 
 - (void)styleButton:(UIColor *)color {
-	// initialise graphics session 
-	
+	// initialise graphics session
 	UIGraphicsBeginImageContext([self bounds].size);
 	CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSaveGState(context);
 	
 	
 	// fill rect with color
-	
 	CGContextSetFillColorWithColor(context, [color CGColor]);
 	CGContextFillRect(context, [self bounds]);
 	
-	
 	// draw radial gradient
-	
 	CGRect gradientRect = CGRectMake(self.bounds.origin.x + 0.2, self.bounds.origin.y + 0.2, self.bounds.size.width - 0.4, self.bounds.size.height - 0.4);
-	CGContextClipToRect(context, gradientRect);
+    CGFloat ratio = gradientRect.size.height/gradientRect.size.width;
+    NSLog(@"ratio=%f",ratio);
+	CGPoint centerPoint = CGPointMake(gradientRect.size.width/2.0, gradientRect.size.height/2.0/ratio);
 	
+    // apply an affine transform to scale y by the same factor as the aspect ratio of the key
+	CGContextScaleCTM(context, 1.0, ratio);
+    
 	CGColorSpaceRef colourspace = CGColorSpaceCreateDeviceRGB();
 	CGFloat *bComponents = NULL;
 	if (color==[UIColor blackColor]) {
 		bComponents = (CGFloat[12]) {
 			0.2, 0.2, 0.2, 1.0,
 			0.2, 0.2, 0.2, 1.0,
-			0.12, 0.12, 0.12, 1.0
+			0.14, 0.14, 0.14, 1.0
 		};
 	}
 	else if (color==[UIColor blueColor]) {
@@ -96,21 +99,25 @@
 		};
 	}
 	
-	CGFloat bGlocations[] = {0.0, 0.5, 1.0};
+	CGFloat bGlocations[] = {0.0, 0.1, 1.0};
 	
 	CGGradientRef gradient = CGGradientCreateWithColorComponents(colourspace, bComponents, bGlocations, 3);
-	
-	CGPoint centerPoint = CGPointMake(gradientRect.size.width/2, gradientRect.size.height/2);
-	CGContextDrawRadialGradient(context, gradient, centerPoint, 0.0, centerPoint, CGRectGetWidth(gradientRect)*0.7, kCGGradientDrawsBeforeStartLocation);
+    
+	CGContextDrawRadialGradient(context, gradient, centerPoint, 0.0, centerPoint, CGRectGetWidth(gradientRect), 0);
+    
+    CGContextRestoreGState(context);
+    
+    
+    CGContextSetRGBStrokeColor(context, 0.15, 0.15, 0.15, 1.0);
+    CGContextSetLineWidth(context,2.0);
+    CGContextStrokeRect(context, self.bounds);
 	
 	
 	// set button background
-	
 	[self setBackgroundImage:UIGraphicsGetImageFromCurrentImageContext() forState:UIControlStateNormal];
 	
 	
 	// end graphics session
-	
 	UIGraphicsEndImageContext();
 }
 
