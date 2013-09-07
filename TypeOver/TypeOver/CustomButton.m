@@ -31,6 +31,10 @@
 			[self.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20.0]];
 		}
 		
+		// set drop shadow
+		[self setTitleShadowColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[self.titleLabel setShadowOffset:CGSizeMake(2.5, 2.5)];
+		
 		// set font autosize
 		self.titleLabel.numberOfLines = 1;
 		self.titleLabel.adjustsFontSizeToFitWidth = YES;
