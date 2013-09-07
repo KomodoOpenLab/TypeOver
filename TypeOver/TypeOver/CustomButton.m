@@ -10,6 +10,8 @@
 
 @implementation CustomButton
 
+#define IS_IPAD ([[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)] && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+
 
 #pragma mark - button methods
 
@@ -20,6 +22,14 @@
 		// set button appearance
 		[self styleButton:[UIColor blackColor]];
 		[self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+		
+		// set font
+		if (IS_IPAD) {
+			[self.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30.0]];
+		}
+		else {
+			[self.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20.0]];
+		}
 		
 		// set font autosize
 		self.titleLabel.numberOfLines = 1;
