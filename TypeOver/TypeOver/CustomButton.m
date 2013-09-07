@@ -15,35 +15,47 @@
 
 #pragma mark - button methods
 
+- (id)initWithFrame:(CGRect)frame {
+	self = [super initWithFrame:frame];
+    if (self) {
+		[self initialise];
+    }
+    return self;
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-		// set button appearance
-		[self styleButton:[UIColor blackColor]];
-		[self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-		
-		// set font
-		if (IS_IPAD) {
-			[self.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30.0]];
-		}
-		else {
-			[self.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20.0]];
-		}
-		
-		// set drop shadow
-		[self setTitleShadowColor:[UIColor blackColor] forState:UIControlStateNormal];
-		[self.titleLabel setShadowOffset:CGSizeMake(2.5, 2.5)];
-		
-		// set font autosize
-		self.titleLabel.numberOfLines = 1;
-		self.titleLabel.adjustsFontSizeToFitWidth = YES;
-		self.titleLabel.lineBreakMode = NSLineBreakByClipping;
-		
-        // add event to button press
-		[self addTarget:self action:@selector(touchButton) forControlEvents:UIControlEventAllTouchEvents];
+		[self initialise];
     }
     return self;
+}
+
+- (void)initialise {
+	// set button appearance
+	[self styleButton:[UIColor blackColor]];
+	[self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	
+	// set font
+	if (IS_IPAD) {
+		[self.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:30.0]];
+	}
+	else {
+		[self.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20.0]];
+	}
+	
+	// set drop shadow
+	[self setTitleShadowColor:[UIColor blackColor] forState:UIControlStateNormal];
+	[self.titleLabel setShadowOffset:CGSizeMake(2.5, 2.5)];
+	
+	// set font autosize
+	self.titleLabel.numberOfLines = 1;
+	self.titleLabel.adjustsFontSizeToFitWidth = YES;
+	self.titleLabel.lineBreakMode = NSLineBreakByClipping;
+	
+	// add event to button press
+	[self addTarget:self action:@selector(touchButton) forControlEvents:UIControlEventAllTouchEvents];
 }
 
 - (void)accessibilityElementDidBecomeFocused {
