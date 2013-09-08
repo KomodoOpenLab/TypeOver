@@ -835,16 +835,14 @@
 	NSMutableString *userWordFreqsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE FREQUENCY >= 100;"];
 	
 	sqlite3_stmt *stmt;
+    int matchcount = 0;
 	int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordFreqsQuery UTF8String], -1, &stmt, nil);
-	NSMutableArray *wordsarr = [[NSMutableArray alloc] init];
 	
     if (SQLITE_OK==result)
     {
         while (SQLITE_ROW==sqlite3_step(stmt))
         {
-			char *rowData = (char*)sqlite3_column_text(stmt, 1);
-			NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
-			[wordsarr addObject:str];
+            matchcount++;
         }
 	}
 	else
@@ -853,8 +851,7 @@
 	}
 	
 	BOOL criteriaMet;
-	criteriaMet = wordsarr.count>=10;
-	
+	criteriaMet = matchcount>=10;
 	
 	// half frequencies if criteria is met
 	if (criteriaMet) {
