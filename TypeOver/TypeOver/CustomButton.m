@@ -102,7 +102,6 @@
 	// draw radial gradient
 	CGRect gradientRect = CGRectMake(self.bounds.origin.x + 0.2, self.bounds.origin.y + 0.2, self.bounds.size.width - 0.4, self.bounds.size.height - 0.4);
     CGFloat ratio = gradientRect.size.height/gradientRect.size.width;
-    NSLog(@"ratio=%f",ratio);
 	CGPoint centerPoint = CGPointMake(gradientRect.size.width/2.0, gradientRect.size.height/2.0/ratio);
 	
     // apply an affine transform to scale y by the same factor as the aspect ratio of the key

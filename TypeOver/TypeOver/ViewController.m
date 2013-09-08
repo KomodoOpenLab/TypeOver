@@ -448,7 +448,7 @@
 
 - (NSMutableArray*) predictHelper:(NSString*) strContext
 {
-    NSMutableString *strQuery = [[NSMutableString alloc] init];
+    NSMutableString *strQuery;
     NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:8];
 	
 	if (![strContext isEqualToString:@""]) {
@@ -466,25 +466,8 @@
 		sqlite3_stmt *stmt;
 		
 		// get user's added words
-		NSMutableString *userWordsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-			NSLog(@"shorthand prediction");
-			[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-			NSMutableString *str = [[NSMutableString alloc] init];
-			int i = 0;
-			while (i<strContext.length) {
-				[str appendString:[strContext substringWithRange:NSMakeRange(i, 1)]];
-				[str appendString:@"%"];
-				i++;
-			}
-			[userWordsQuery appendString:str];
-		}
-		else {
-			[userWordsQuery appendString:strContext];
-			[userWordsQuery appendString:@"%"];
-		}
-		[userWordsQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
-		
+        NSString *userWordsQuery = [NSString stringWithString:[self produceQueryWithContextOnly:strContext]];
+
 		int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &stmt, nil);
 		
 		if (SQLITE_OK==result)
@@ -553,7 +536,8 @@
 			}
 		}
 	}
-	else {
+	else { //no context -- next word prediction only
+        strQuery = [[NSMutableString alloc] initWithCapacity:100];
 		[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
 		[strQuery appendFormat:@"%i", wordId];
 		[strQuery appendString:@" ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
