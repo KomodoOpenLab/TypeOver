@@ -33,13 +33,13 @@
     __weak IBOutlet UIButton *wordsLettersButton;
 	__weak IBOutlet UIButton *speakButton;
     __weak IBOutlet UIButton *space0Button;
-    __weak IBOutlet UIButton *backspaceButton;
+    __weak IBOutlet UIButton *delButton;
     __weak IBOutlet UIButton *clearButton;
     
 	
 #pragma mark - variables and pointers
     
-    NSTimer *inputTimer, *backspaceTimer;
+    NSTimer *inputTimer, *delTimer;
 	bool words, letters, shift, clearShift;
     NSString *clearString, *currentWord, *previousWord;
     NSMutableArray *predResultsArray;
@@ -67,7 +67,7 @@
 - (IBAction)shiftAct:(id)sender;
 - (IBAction)space0Act:(id)sender;
 - (IBAction)wordsLettersAct:(id)sender;
-- (IBAction)backspaceAct:(id)sender;
+- (IBAction)delAct:(id)sender;
 - (IBAction)clearAct:(id)sender;
 
 

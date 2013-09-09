@@ -14,6 +14,8 @@
 
 @implementation ViewController
 
+#define IS_IPAD ([[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)] && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+
 
 #pragma mark - view controller methods
 
@@ -204,9 +206,9 @@
 	keyFrame.size.width = keyWidth/2;
 	speakButton.frame = keyFrame;
 	
-	keyFrame = backspaceButton.frame;
+	keyFrame = delButton.frame;
 	keyFrame.size.width = keyWidth/2;
-	backspaceButton.frame = keyFrame;
+	delButton.frame = keyFrame;
 	
 	keyFrame = clearButton.frame;
 	keyFrame.size.width = keyWidth/2;
@@ -282,10 +284,10 @@
 	keyFrame.origin.x = keyWidth*2;
 	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*2);
 	wxyz9Button.frame = keyFrame;
-	keyFrame = backspaceButton.frame;
+	keyFrame = delButton.frame;
 	keyFrame.origin.x = keyWidth*2;
 	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height);
-	backspaceButton.frame = keyFrame;
+	delButton.frame = keyFrame;
 	keyFrame = clearButton.frame;
 	keyFrame.origin.x = keyWidth*2+(keyWidth/2);
 	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height);
@@ -832,7 +834,7 @@
 }
 
 - (void)halveUserAddedWordFreqsIfNeeded {
-	// check if criteria is met 
+	// check if criteria is met
 	NSMutableString *userWordFreqsQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS WHERE FREQUENCY >= 100;"];
 	
 	sqlite3_stmt *stmt;
@@ -869,7 +871,7 @@
 			{
 				int row = sqlite3_column_int(stmt, 0);
 				int frequency = sqlite3_column_int(stmt, 2);
-			
+				
 				char *errMsg = NULL;
 				
 				NSMutableString *updateStatement = [NSMutableString stringWithString:@"UPDATE WORDS SET FREQUENCY = "];
@@ -1127,7 +1129,7 @@
 
 - (void)resetMisc {
 	[inputTimer invalidate];
-	[backspaceTimer invalidate];
+	[delTimer invalidate];
 	
     [predResultsArray removeAllObjects];
 	
@@ -1162,13 +1164,15 @@
 	[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
 	[space0Button setTitle:@"space 0" forState:UIControlStateNormal];
 	[wordsLettersButton setTitle:@"words" forState:UIControlStateNormal];
+	if (IS_IPAD) [delButton setTitle:@"delete" forState:UIControlStateNormal];
+	if (!IS_IPAD) [delButton setTitle:@"del" forState:UIControlStateNormal];
 	
 	[useButton setEnabled:YES];
 	[settingsButton setEnabled:YES];
 	[punct1Button setEnabled:YES];
 	[abc2Button setEnabled:YES];
 	[def3Button setEnabled:YES];
-	[backspaceButton setEnabled:YES];
+	[delButton setEnabled:YES];
 	[ghi4Button setEnabled:YES];
 	[jkl5Button setEnabled:YES];
 	[mno6Button setEnabled:YES];
@@ -1182,7 +1186,7 @@
 	[wordsLettersButton setEnabled:YES];
 	
 	[inputTimer invalidate];
-	[backspaceTimer invalidate];
+	[delTimer invalidate];
 	
 	timesCycled=0;
 	
@@ -1195,7 +1199,7 @@
 	[punct1Button setEnabled:NO];
 	[abc2Button setEnabled:NO];
 	[def3Button setEnabled:NO];
-	[backspaceButton setEnabled:NO];
+	[delButton setEnabled:NO];
 	[ghi4Button setEnabled:NO];
 	[jkl5Button setEnabled:NO];
 	[mno6Button setEnabled:NO];
@@ -1214,7 +1218,7 @@
 
 - (IBAction)addWordToDictAct:(id)sender {
 	[self addWordToDict:previousWord withFreq:1];
-
+	
 	// hide add word to dictionary button
 	[addWordToDictButton setHidden:YES];
 	[self updateLayout];
@@ -1424,22 +1428,26 @@
 	}
 }
 
-- (IBAction)backspaceAct:(id)sender {
-	if ([backspaceTimer isValid]) {
-		[backspaceTimer invalidate];
-		[self resetKeys];
-		[self updatePredState];
+- (IBAction)delAct:(id)sender {
+	if (![inputTimer isValid]) {
+		if (IS_IPAD) [delButton setTitle:@"backspace" forState:UIControlStateNormal];
+		if (!IS_IPAD) [delButton setTitle:@"bksp" forState:UIControlStateNormal];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspaceDelWord) userInfo:nil repeats:YES];
+		[self disableKeys];
+		[delButton setEnabled:YES];
 	}
 	else if (![textView.text isEqualToString:@""]) {
-		words = false;
-		letters = true;
-		[self wordsLetters];
-		
-		[self backspace]; // prevents a delay
-		backspaceTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
+		if ([delButton.titleLabel.text isEqualToString:@"bksp"]||[delButton.titleLabel.text isEqualToString:@"backspace"]) {
+			[self backspace]; // prevents a delay
+			delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
+		}
+		else if ([delButton.titleLabel.text isEqualToString:@"del wd"]||[delButton.titleLabel.text isEqualToString:@"delete word"]) {
+			[self delWord]; // prevents a delay
+			delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(delWord) userInfo:nil repeats:YES];
+		}
 		
 		[self disableKeys];
-		[backspaceButton setEnabled:YES];
+		[delButton setEnabled:YES];
 	}
 }
 
@@ -1804,8 +1812,70 @@
 	}
 }
 
+- (void)backspaceDelWord {
+	if (timesCycled==2) {
+		[self resetKeys];
+		return;
+	}
+	else if (![delButton accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
+		if ([delButton.titleLabel.text isEqualToString:@"bksp"]||[delButton.titleLabel.text isEqualToString:@"backspace"]) {
+			[self backspace]; // prevents a delay
+			delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
+		}
+		else if ([delButton.titleLabel.text isEqualToString:@"del wd"]||[delButton.titleLabel.text isEqualToString:@"delete word"]) {
+			[self delWord]; // prevents a delay
+			delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(delWord) userInfo:nil repeats:YES];
+		}
+		return;
+	}
+	if ([delButton.titleLabel.text isEqualToString:@"bksp"]||[delButton.titleLabel.text isEqualToString:@"backspace"]) {
+		if (IS_IPAD) {
+			[delButton setTitle:@"delete word" forState:UIControlStateNormal];
+		}
+		else {
+			[delButton setTitle:@"del wd" forState:UIControlStateNormal];
+		}
+	}
+	else if ([delButton.titleLabel.text isEqualToString:@"del wd"]||[delButton.titleLabel.text isEqualToString:@"delete word"]) {
+		if (IS_IPAD) {
+			[delButton setTitle:@"backspace" forState:UIControlStateNormal];
+		}
+		else {
+			[delButton setTitle:@"bksp" forState:UIControlStateNormal];
+		}
+		timesCycled++;
+	}
+}
+
+- (void)delWord {
+	if (![delButton accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
+		[self resetKeys];
+		[self updatePredState];
+		return;
+	}
+    
+	[self updatePredState];
+	
+	NSString *st = textView.text;
+    
+	if ([st length] > 0) {
+		if ([currentWord isEqualToString:@""]) st = [st substringToIndex:[st length] - [previousWord length] - 1];
+		if (![currentWord isEqualToString:@""]) st = [st substringToIndex:[st length] - [currentWord length]];
+        [textView setText:st];
+    }
+	else {
+		[self resetKeys];
+	}
+	
+	if ([textView.text isEqual: @""]) {
+		shift = true;
+		[self resetMisc];
+	}
+	[self checkShift];
+}
+
 - (void)backspace {
-	if (![backspaceButton accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
+	if (![delButton accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
 		[self resetKeys];
 		[self updatePredState];
 		return;
