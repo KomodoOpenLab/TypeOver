@@ -125,6 +125,8 @@
 	
 	[self updateLayout];
 	
+	[self checkNeededKeys];
+	
 	// dummy view to hide system keyboard
 	UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
 	textView.inputView = dummyView;
@@ -795,6 +797,8 @@
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"word_pred"]) { // if word prediction is on
 		[self predict];
 	}
+	
+	[self checkNeededKeys];
 }
 
 - (void)predict {
@@ -1185,6 +1189,8 @@
 	[space0Button setEnabled:YES];
 	[wordsLettersButton setEnabled:YES];
 	
+	[self checkNeededKeys];
+	
 	[inputTimer invalidate];
 	[delTimer invalidate];
 	
@@ -1211,6 +1217,23 @@
 	[shiftButton setEnabled:NO];
 	[space0Button setEnabled:NO];
 	[wordsLettersButton setEnabled:NO];
+}
+
+- (void)checkNeededKeys {
+	if ([textView.text isEqualToString:@""]) {
+		[useButton setEnabled:NO];
+		[wordsLettersButton setEnabled:NO];
+		[speakButton setEnabled:NO];
+		[delButton setEnabled:NO];
+		[clearButton setEnabled:NO];
+	}
+	else {
+		[useButton setEnabled:YES];
+		[wordsLettersButton setEnabled:YES];
+		[speakButton setEnabled:YES];
+		[delButton setEnabled:YES];
+		[clearButton setEnabled:YES];
+	}
 }
 
 
