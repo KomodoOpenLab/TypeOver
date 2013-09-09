@@ -158,13 +158,13 @@
 	keyFrame = settingsButton.frame;
 	keyFrame.size.width = keyWidth;
 	settingsButton.frame = keyFrame;
-	keyFrame = wordsButton.frame;
+	keyFrame = wordsLettersButton.frame;
 	keyFrame.size.width = keyWidth;
-	wordsButton.frame = keyFrame;
+	wordsLettersButton.frame = keyFrame;
 	
-	keyFrame = punct1LettersButton.frame;
+	keyFrame = punct1Button.frame;
 	keyFrame.size.width = keyWidth;
-	punct1LettersButton.frame = keyFrame;
+	punct1Button.frame = keyFrame;
 	keyFrame = abc2Button.frame;
 	keyFrame.size.width = keyWidth;
 	abc2Button.frame = keyFrame;
@@ -224,10 +224,10 @@
 	keyFrame.origin.x = 0;
 	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*5);
 	useButton.frame = keyFrame;
-	keyFrame = punct1LettersButton.frame;
+	keyFrame = punct1Button.frame;
 	keyFrame.origin.x = 0;
 	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*4);
-	punct1LettersButton.frame = keyFrame;
+	punct1Button.frame = keyFrame;
 	keyFrame = ghi4Button.frame;
 	keyFrame.origin.x = 0;
 	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*3);
@@ -266,10 +266,10 @@
 	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height);
 	space0Button.frame = keyFrame;
 	
-	keyFrame = wordsButton.frame;
+	keyFrame = wordsLettersButton.frame;
 	keyFrame.origin.x = keyWidth*2;
 	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*5);
-	wordsButton.frame = keyFrame;
+	wordsLettersButton.frame = keyFrame;
 	keyFrame = def3Button.frame;
 	keyFrame.origin.x = keyWidth*2;
 	keyFrame.origin.y = self.view.frame.size.height-(keyFrame.size.height*4);
@@ -448,8 +448,9 @@
 
 - (NSMutableArray*) predictHelper:(NSString*) strContext
 {
+	int predictionPlaces = 9;
     NSMutableString *strQuery = [[NSMutableString alloc] init];
-    NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:8];
+    NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:predictionPlaces];
 	
 	if (![strContext isEqualToString:@""]) {
 		bool bigram;
@@ -490,7 +491,7 @@
 		if (SQLITE_OK==result)
 		{
 			int prednum = 0;
-			while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
+			while (prednum<predictionPlaces && SQLITE_ROW==sqlite3_step(stmt))
 			{
 				char *rowData = (char*)sqlite3_column_text(stmt, 1);
 				NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
@@ -506,11 +507,11 @@
 		
 		result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
 		
-		if (resultarr.count<8) {
+		if (resultarr.count<predictionPlaces) {
 			if (SQLITE_OK==result)
 			{
 				int prednum = 0;
-				while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
+				while (prednum<predictionPlaces && SQLITE_ROW==sqlite3_step(stmt))
 				{
 					char *rowData = (char*)sqlite3_column_text(stmt, 1);
 					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
@@ -525,7 +526,7 @@
 			}
 		}
 		
-		if (resultarr.count<8&&bigram) { // bigram results didn't fill array
+		if (resultarr.count<predictionPlaces&&bigram) { // bigram results didn't fill array
 			strQuery = [NSMutableString stringWithString:[self produceQueryWithContextOnly:strContext]];
 			
 			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
@@ -533,7 +534,7 @@
 			if (SQLITE_OK==result)
 			{
 				int prednum = resultarr.count;
-				int remaining = 8-resultarr.count;
+				int remaining = predictionPlaces-resultarr.count;
 				int count = 0;
 				while (count<remaining && SQLITE_ROW==sqlite3_step(stmt))
 				{
@@ -565,7 +566,7 @@
 		if (SQLITE_OK==result)
 		{
 			int prednum = 0;
-			while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
+			while (prednum<predictionPlaces && SQLITE_ROW==sqlite3_step(stmt))
 			{
 				char *rowData = (char*)sqlite3_column_text(stmt, 1);
 				NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
@@ -579,7 +580,7 @@
 			NSLog(@"Query error number: %d",result);
 		}
 		
-		if (resultarr.count<8) { // bigram results didn't fill array
+		if (resultarr.count<predictionPlaces) { // bigram results didn't fill array
 			[strQuery setString:@"SELECT * FROM WORDS"];
 			[strQuery appendString:@" ORDER BY FREQUENCY DESC LIMIT 10;"];
 			
@@ -588,7 +589,7 @@
 			if (SQLITE_OK==result)
 			{
 				int prednum = resultarr.count;
-				int remaining = 8-resultarr.count;
+				int remaining = predictionPlaces-resultarr.count;
 				int count = 0;
 				while (count<remaining && SQLITE_ROW==sqlite3_step(stmt))
 				{
@@ -997,10 +998,21 @@
 			isUppercase = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[currentWord characterAtIndex:0]];
 		}
 		int i = 0;
-		UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, punct1LettersButton);
-		[punct1LettersButton setTitle:@"letters" forState:UIControlStateNormal];
-		[wordsButton setHidden:YES];
-		if (predResultsArray.count > 0) {
+		[wordsLettersButton setTitle:@"letters" forState:UIControlStateNormal];
+		UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, wordsLettersButton);
+		if (predResultsArray.count > i) {
+			if (isUppercase) {
+				[punct1Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
+			}
+			else {
+				[punct1Button setTitle:[predResultsArray objectAtIndex:i] forState:UIControlStateNormal];
+			}
+			i++;
+		}
+		else {
+			[punct1Button setTitle:@"" forState:UIControlStateNormal];
+		}
+		if (predResultsArray.count > i) {
 			if (isUppercase) {
 				[abc2Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
 			}
@@ -1012,7 +1024,7 @@
 		else {
 			[abc2Button setTitle:@"" forState:UIControlStateNormal];
 		}
-		if (predResultsArray.count > 1) {
+		if (predResultsArray.count > i) {
 			if (isUppercase) {
 				[def3Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
 			}
@@ -1024,7 +1036,7 @@
 		else {
 			[def3Button setTitle:@"" forState:UIControlStateNormal];
 		}
-		if (predResultsArray.count > 2) {
+		if (predResultsArray.count > i) {
 			if (isUppercase) {
 				[ghi4Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
 			}
@@ -1036,7 +1048,7 @@
 		else {
 			[ghi4Button setTitle:@"" forState:UIControlStateNormal];
 		}
-		if (predResultsArray.count > 3) {
+		if (predResultsArray.count > i) {
 			if (isUppercase) {
 				[jkl5Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
 			}
@@ -1048,7 +1060,7 @@
 		else {
 			[jkl5Button setTitle:@"" forState:UIControlStateNormal];
 		}
-		if (predResultsArray.count > 4) {
+		if (predResultsArray.count > i) {
 			if (isUppercase) {
 				[mno6Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
 			}
@@ -1060,7 +1072,7 @@
 		else {
 			[mno6Button setTitle:@"" forState:UIControlStateNormal];
 		}
-		if (predResultsArray.count > 5) {
+		if (predResultsArray.count > i) {
 			if (isUppercase) {
 				[pqrs7Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
 			}
@@ -1072,7 +1084,7 @@
 		else {
 			[pqrs7Button setTitle:@"" forState:UIControlStateNormal];
 		}
-		if (predResultsArray.count > 6) {
+		if (predResultsArray.count > i) {
 			if (isUppercase) {
 				[tuv8Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
 			}
@@ -1084,7 +1096,7 @@
 		else {
 			[tuv8Button setTitle:@"" forState:UIControlStateNormal];
 		}
-		if (predResultsArray.count > 7) {
+		if (predResultsArray.count > i) {
 			if (isUppercase) {
 				[wxyz9Button setTitle:[[predResultsArray objectAtIndex:i] capitalizedString] forState:UIControlStateNormal];
 			}
@@ -1098,7 +1110,6 @@
 	}
 	if (letters) {
 		[self resetKeys];
-		[wordsButton setHidden:NO];
 	}
 }
 
@@ -1140,7 +1151,7 @@
 	letters = true;
 	words = false;
 	
-	[punct1LettersButton setTitle:@".,?!'@# 1" forState:UIControlStateNormal];
+	[punct1Button setTitle:@".,?!'@# 1" forState:UIControlStateNormal];
 	[abc2Button setTitle:@"abc 2" forState:UIControlStateNormal];
 	[def3Button setTitle:@"def 3" forState:UIControlStateNormal];
 	[ghi4Button setTitle:@"ghi 4" forState:UIControlStateNormal];
@@ -1150,11 +1161,11 @@
 	[tuv8Button setTitle:@"tuv 8" forState:UIControlStateNormal];
 	[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
 	[space0Button setTitle:@"space 0" forState:UIControlStateNormal];
-	[wordsButton setTitle:@"words" forState:UIControlStateNormal];
+	[wordsLettersButton setTitle:@"words" forState:UIControlStateNormal];
 	
 	[useButton setEnabled:YES];
 	[settingsButton setEnabled:YES];
-	[punct1LettersButton setEnabled:YES];
+	[punct1Button setEnabled:YES];
 	[abc2Button setEnabled:YES];
 	[def3Button setEnabled:YES];
 	[backspaceButton setEnabled:YES];
@@ -1168,7 +1179,7 @@
 	[speakButton setEnabled:YES];
 	[shiftButton setEnabled:YES];
 	[space0Button setEnabled:YES];
-	[wordsButton setEnabled:YES];
+	[wordsLettersButton setEnabled:YES];
 	
 	[inputTimer invalidate];
 	[backspaceTimer invalidate];
@@ -1181,7 +1192,7 @@
 - (void)disableKeys {
 	[useButton setEnabled:NO];
 	[settingsButton setEnabled:NO];
-	[punct1LettersButton setEnabled:NO];
+	[punct1Button setEnabled:NO];
 	[abc2Button setEnabled:NO];
 	[def3Button setEnabled:NO];
 	[backspaceButton setEnabled:NO];
@@ -1195,7 +1206,7 @@
 	[speakButton setEnabled:NO];
 	[shiftButton setEnabled:NO];
 	[space0Button setEnabled:NO];
-	[wordsButton setEnabled:NO];
+	[wordsLettersButton setEnabled:NO];
 }
 
 
@@ -1209,22 +1220,20 @@
 	[self updateLayout];
 }
 
-- (IBAction)punct1LettersAct:(id)sender {
+- (IBAction)punct1Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[punct1LettersButton setTitle:@"." forState:UIControlStateNormal];
+			[punct1Button setTitle:@"." forState:UIControlStateNormal];
 			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(punct1) userInfo:nil repeats:YES];
 			[self disableKeys];
-			[punct1LettersButton setEnabled:YES];
+			[punct1Button setEnabled:YES];
 		}
 		else {
 			[self inputCharacterFromKey:sender];
 		}
 	}
 	else if (words) {
-		words = false;
-		letters = true;
-		[self wordsLetters];
+		[self inputPredictionFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1463,7 +1472,7 @@
 		character = character.uppercaseString;
 	}
 	
-	if (key==punct1LettersButton) {
+	if (key==punct1Button) {
 		if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]||[key.titleLabel.text isEqualToString:@","]) {
 			if (st.length>0) {
 				if ([self isWordDelimiter:[textView.text characterAtIndex:[textView.text length] - 1]]) {
@@ -1548,33 +1557,33 @@
 		[self resetKeys];
 		return;
 	}
-	else if (![punct1LettersButton accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:punct1LettersButton];
+	else if (![punct1Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
+		[self inputCharacterFromKey:punct1Button];
 		return;
 	}
-	if ([punct1LettersButton.titleLabel.text isEqualToString:@"."]) {
-		[punct1LettersButton setTitle:@"," forState:UIControlStateNormal];
+	if ([punct1Button.titleLabel.text isEqualToString:@"."]) {
+		[punct1Button setTitle:@"," forState:UIControlStateNormal];
 	}
-	else if ([punct1LettersButton.titleLabel.text isEqualToString:@","]) {
-		[punct1LettersButton setTitle:@"?" forState:UIControlStateNormal];
+	else if ([punct1Button.titleLabel.text isEqualToString:@","]) {
+		[punct1Button setTitle:@"?" forState:UIControlStateNormal];
 	}
-	else if ([punct1LettersButton.titleLabel.text isEqualToString:@"?"]) {
-		[punct1LettersButton setTitle:@"!" forState:UIControlStateNormal];
+	else if ([punct1Button.titleLabel.text isEqualToString:@"?"]) {
+		[punct1Button setTitle:@"!" forState:UIControlStateNormal];
 	}
-	else if ([punct1LettersButton.titleLabel.text isEqualToString:@"!"]) {
-		[punct1LettersButton setTitle:@"'" forState:UIControlStateNormal];
+	else if ([punct1Button.titleLabel.text isEqualToString:@"!"]) {
+		[punct1Button setTitle:@"'" forState:UIControlStateNormal];
 	}
-	else if ([punct1LettersButton.titleLabel.text isEqualToString:@"'"]) {
-		[punct1LettersButton setTitle:@"@" forState:UIControlStateNormal];
+	else if ([punct1Button.titleLabel.text isEqualToString:@"'"]) {
+		[punct1Button setTitle:@"@" forState:UIControlStateNormal];
 	}
-	else if ([punct1LettersButton.titleLabel.text isEqualToString:@"@"]) {
-		[punct1LettersButton setTitle:@"#" forState:UIControlStateNormal];
+	else if ([punct1Button.titleLabel.text isEqualToString:@"@"]) {
+		[punct1Button setTitle:@"#" forState:UIControlStateNormal];
 	}
-	else if ([punct1LettersButton.titleLabel.text isEqualToString:@"#"]) {
-		[punct1LettersButton setTitle:@"1" forState:UIControlStateNormal];
+	else if ([punct1Button.titleLabel.text isEqualToString:@"#"]) {
+		[punct1Button setTitle:@"1" forState:UIControlStateNormal];
 	}
-	else if ([punct1LettersButton.titleLabel.text isEqualToString:@"1"]) {
-		[punct1LettersButton setTitle:@"." forState:UIControlStateNormal];
+	else if ([punct1Button.titleLabel.text isEqualToString:@"1"]) {
+		[punct1Button setTitle:@"." forState:UIControlStateNormal];
 		timesCycled++;
 	}
 }
