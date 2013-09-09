@@ -374,75 +374,90 @@
 
 #pragma mark - word prediction
 
-- (NSString*)produceQueryWithContextOnly:(NSString*)context {
-	NSMutableString *strQuery = [[NSMutableString alloc] init];
-	
+- (NSMutableString*)produceQueryWithContextOnly:(NSString*)context {
+    NSUInteger conlen = context.length;
+    NSMutableString *str;
+    
+	NSMutableString *strQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS "];
+    
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-		NSLog(@"shorthand prediction");
-		[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-		NSMutableString *str = [[NSMutableString alloc] init];
-		int i = 0;
-		while (i<context.length) {
-			[str appendString:[context substringWithRange:NSMakeRange(i, 1)]];
-			[str appendString:@"%"];
-			i++;
-		}
-		
-		// check if word contains an apostrophe and make it sql friendly
-		str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
-		
-		[strQuery appendString:str];
-		[strQuery appendString:@"' ORDER BY FREQUENCY DESC LIMIT 10;"];
+        if (0!=conlen) {
+            [strQuery appendString:@"WHERE WORD LIKE '"];
+            
+            str = [NSMutableString stringWithCapacity:30];
+            int i = 0;
+            while (i<conlen) {
+                [str appendString:[context substringWithRange:NSMakeRange(i, 1)]];
+                [str appendString:@"%"];
+                i++;
+            }
+            
+            // check if word contains an apostrophe and make it sql friendly
+            str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
+            
+            [strQuery appendString:str];
+            [strQuery appendString:@"' "];
+        }
 	}
-	else {
-		NSLog(@"normal prediction");
-		
+	else { //regular prediction
+        
 		// check if word contains an apostrophe and make it sql friendly
-		context = [NSMutableString stringWithString:[context stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
-		
-		[strQuery appendString:@"SELECT * FROM WORDS WHERE WORD LIKE '"];
-		[strQuery appendString:context];
-		[strQuery appendString:@"%' ORDER BY FREQUENCY DESC LIMIT 10;"];
+        if (0!=conlen) {
+            str = [NSMutableString stringWithString:[context stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
+            
+            [strQuery appendString:@"WHERE WORD LIKE '"];
+            [strQuery appendString:str];
+            [strQuery appendString:@"%' "];
+        }
 	}
+    
+    [strQuery appendString:@"ORDER BY FREQUENCY DESC LIMIT 10;"];
 	
 	return strQuery;
 }
 
-- (NSString*)produceBigramQueryWithContext:(NSString*)context {
-	NSMutableString *strQuery = [[NSMutableString alloc] init];
+- (NSMutableString*)produceBigramQueryWithContext:(NSString*)context {
+    NSUInteger conlen = context.length;
+    NSMutableString *str;
 	
+	NSMutableString *strQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS,BIGRAMDATA "];
+    [strQuery appendString:@"WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
+    [strQuery appendFormat:@"%i", wordId];
+    [strQuery appendString:@" "];
+    
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shorthand_pred"]) {
-		NSLog(@"shorthand prediction");
-		[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
-		[strQuery appendFormat:@"%i", wordId];
-		[strQuery appendString:@" AND WORDS.WORD LIKE '"];
-		NSMutableString *str = [[NSMutableString alloc] init];
-		int i = 0;
-		while (i<context.length) {
-			[str appendString:[context substringWithRange:NSMakeRange(i, 1)]];
-			[str appendString:@"%"];
-			i++;
-		}
-		
-		// check if word contains an apostrophe and make it sql friendly
-		str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
-		
-		[strQuery appendString:str];
-		[strQuery appendString:@"' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
+        if (0!=conlen) {
+            [strQuery appendString:@"AND WORDS.WORD LIKE '"];
+            
+            str = [NSMutableString stringWithCapacity:30];
+            int i = 0;
+            while (i<context.length) {
+                [str appendString:[context substringWithRange:NSMakeRange(i, 1)]];
+                [str appendString:@"%"];
+                i++;
+            }
+            
+            // check if word contains an apostrophe and make it sql friendly
+            str = [NSMutableString stringWithString:[str stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
+            
+            [strQuery appendString:str];
+            [strQuery appendString:@"' "];
+        }
 	}
-	else {
-		NSLog(@"normal prediction");
+	else { //regular prediction
 		
 		// check if word contains an apostrophe and make it sql friendly
 		context = [NSMutableString stringWithString:[context stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
-		
-		[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
-		[strQuery appendFormat:@"%i", wordId];
-		[strQuery appendString:@" AND WORDS.WORD LIKE '"];
-		[strQuery appendString:context];
-		[strQuery appendString:@"%' ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
+		        
+        if (0!=conlen) {
+            [strQuery appendString:@"AND WORDS.WORD LIKE '"];
+            [strQuery appendString:context];
+            [strQuery appendString:@"%' "];
+        }
 	}
-	
+ 
+    [strQuery appendString:@"ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
+    
 	return strQuery;
 }
 
@@ -451,148 +466,92 @@
     NSMutableString *strQuery;
     NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:8];
 	
-	if (![strContext isEqualToString:@""]) {
-		bool bigram;
-		if (wordId == 0) {
-			strQuery = [NSMutableString stringWithString:[self produceQueryWithContextOnly:strContext]];
-			bigram=false;
-		}
-		else {
-			strQuery = [NSMutableString stringWithString:[self produceBigramQueryWithContext:strContext]];
-			bigram=true;
-		}
-		NSLog(@"Generating predictions with query: %@",strQuery);
-		
-		sqlite3_stmt *stmt;
-		
-		// get user's added words
-        NSString *userWordsQuery = [NSString stringWithString:[self produceQueryWithContextOnly:strContext]];
+    bool bigram = (0!=wordId);
+    if (bigram) {
+        strQuery = [NSMutableString stringWithString:[self produceBigramQueryWithContext:strContext]];
+    }
+    else {
+        strQuery = [NSMutableString stringWithString:[self produceQueryWithContextOnly:strContext]];
+    }
+    
+    sqlite3_stmt *stmt;
+    
+    // get user's added words
+    NSString *userWordsQuery = [NSString stringWithString:[self produceQueryWithContextOnly:strContext]];
+    NSLog(@"Generating user predictions with query: %@",userWordsQuery);
 
-		int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &stmt, nil);
-		
-		if (SQLITE_OK==result)
-		{
-			int prednum = 0;
-			while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
-			{
-				char *rowData = (char*)sqlite3_column_text(stmt, 1);
-				NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
-				NSLog(@"prediction %d: %@",prednum+1,str);
-				[resultarr addObject:str];
-				prednum++;
-			}
-		}
-		else
-		{
-			NSLog(@"Query error number: %d",result);
-		}
-		
-		result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
-		
-		if (resultarr.count<8) {
-			if (SQLITE_OK==result)
-			{
-				int prednum = 0;
-				while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
-				{
-					char *rowData = (char*)sqlite3_column_text(stmt, 1);
-					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
-					NSLog(@"prediction %d: %@",prednum+1,str);
-					[resultarr addObject:str];
-					prednum++;
-				}
-			}
-			else
-			{
-				NSLog(@"Query error number: %d",result);
-			}
-		}
-		
-		if (resultarr.count<8&&bigram) { // bigram results didn't fill array
-			strQuery = [NSMutableString stringWithString:[self produceQueryWithContextOnly:strContext]];
-			
-			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
-			
-			if (SQLITE_OK==result)
-			{
-				int prednum = resultarr.count;
-				int remaining = 8-resultarr.count;
-				int count = 0;
-				while (count<remaining && SQLITE_ROW==sqlite3_step(stmt))
-				{
-					char *rowData = (char*)sqlite3_column_text(stmt, 1);
-					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
-					if (![resultarr containsObject:str]) {
-						NSLog(@"prediction %d: %@",prednum+1,str);
-						[resultarr addObject:str];
-						prednum++;
-						count++;
-					}
-				}
-			}
-			else
-			{
-				NSLog(@"Query error number: %d",result);
-			}
-		}
-	}
-	else { //no context -- next word prediction only
-        strQuery = [[NSMutableString alloc] initWithCapacity:100];
-		[strQuery appendString:@"SELECT * FROM WORDS, BIGRAMDATA WHERE WORDS.ID = BIGRAMDATA.ID2 AND BIGRAMDATA.ID1 = "];
-		[strQuery appendFormat:@"%i", wordId];
-		[strQuery appendString:@" ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 10;"];
-		NSLog(@"Generating predictions with query: %@",strQuery);
-		
-		sqlite3_stmt *stmt;
-		int result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
-		
-		if (SQLITE_OK==result)
-		{
-			int prednum = 0;
-			while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
-			{
-				char *rowData = (char*)sqlite3_column_text(stmt, 1);
-				NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
-				NSLog(@"prediction %d: %@",prednum+1,str);
-				[resultarr addObject:str];
-				prednum++;
-			}
-		}
-		else
-		{
-			NSLog(@"Query error number: %d",result);
-		}
-		
-		if (resultarr.count<8) { // bigram results didn't fill array
-			[strQuery setString:@"SELECT * FROM WORDS"];
-			[strQuery appendString:@" ORDER BY FREQUENCY DESC LIMIT 10;"];
-			
-			result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
-			
-			if (SQLITE_OK==result)
-			{
-				int prednum = resultarr.count;
-				int remaining = 8-resultarr.count;
-				int count = 0;
-				while (count<remaining && SQLITE_ROW==sqlite3_step(stmt))
-				{
-					char *rowData = (char*)sqlite3_column_text(stmt, 1);
-					NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
-					if (![resultarr containsObject:str]) { // if word wasn't in bigram
-						NSLog(@"prediction %d: %@",prednum+1,str);
-						[resultarr addObject:str];
-						prednum++;
-						count++;
-					}
-				}
-			}
-			else
-			{
-				NSLog(@"Query error number: %d",result);
-			}
-		}
-		
-	}
+    int result = sqlite3_prepare_v2(dbUserWordPrediction, [userWordsQuery UTF8String], -1, &stmt, nil);
+    
+    if (SQLITE_OK==result)
+    {
+        NSLog(@"user words");
+        int prednum = 0;
+        while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
+        {
+            char *rowData = (char*)sqlite3_column_text(stmt, 1);
+            NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+            NSLog(@"prediction %d: %@",prednum+1,str);
+            [resultarr addObject:str];
+            prednum++;
+        }
+    }
+    else
+    {
+        NSLog(@"Query error number: %d",result);
+    }
+    
+    NSLog(@"Generating base predictions with query: %@",strQuery);
+    result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
+    
+    if (resultarr.count<8) {
+        if (SQLITE_OK==result)
+        {
+            NSLog(@"stock words");
+            int prednum = resultarr.count;
+            while (prednum<8 && SQLITE_ROW==sqlite3_step(stmt))
+            {
+                char *rowData = (char*)sqlite3_column_text(stmt, 1);
+                NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+                NSLog(@"prediction %d: %@",prednum+1,str);
+                [resultarr addObject:str];
+                prednum++;
+            }
+        }
+        else
+        {
+            NSLog(@"Query error number: %d",result);
+        }
+    }
+    
+    if (resultarr.count<8&&bigram) { // bigram results didn't fill array
+        strQuery = [NSMutableString stringWithString:[self produceQueryWithContextOnly:strContext]];
+        
+        NSLog(@"Filling rest of list with unigram query: %@",strQuery);
+        
+        result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
+        
+        if (SQLITE_OK==result)
+        {
+            int prednum = resultarr.count;
+            int remaining = 8-resultarr.count;
+            int count = 0;
+            while (count<remaining && SQLITE_ROW==sqlite3_step(stmt))
+            {
+                char *rowData = (char*)sqlite3_column_text(stmt, 1);
+                NSString *str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+                if (![resultarr containsObject:str]) {
+                    NSLog(@"prediction %d: %@",prednum+1,str);
+                    [resultarr addObject:str];
+                    prednum++;
+                    count++;
+                }
+            }
+        }
+        else
+        {
+            NSLog(@"Query error number: %d",result);
+        }
+    }
 	
     return(resultarr);
 }
