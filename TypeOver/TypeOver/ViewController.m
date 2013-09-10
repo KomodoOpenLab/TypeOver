@@ -30,6 +30,7 @@
 	else
 	{
 		NSLog(@"stock database successfully opened");
+        freqAtPosition200 = [self findFrequencyAtLocationInUnigramFrequencyList];
 	}
 	
 	
@@ -374,11 +375,23 @@
 
 #pragma mark - word prediction
 
-- (int)findFrequencyAtLocationInUnigramFrequencyList:(int)pos
+- (int)findFrequencyAtLocationInUnigramFrequencyList
 {
     int retval = 0;
+    int result;
+    sqlite3_stmt *stmt;
+    
 	NSMutableString *strQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS ORDER BY FREQUENCY DESC LIMIT 200"];
     
+    result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
+    
+    if (SQLITE_OK==result)
+    {
+        while (SQLITE_ROW==sqlite3_step(stmt))
+        {
+            retval = sqlite3_column_int(stmt, 2);
+        }
+    }
     
     return(retval);
 }
