@@ -45,7 +45,7 @@
     NSMutableArray *predResultsArray;
     int timesCycled, wordId, userAddedWordStartFreq;
     sqlite3 *dbStockWordPrediction, *dbUserWordPrediction;
-    int freqAtPosition200;
+    int userFreqOffset;
 }
 
 

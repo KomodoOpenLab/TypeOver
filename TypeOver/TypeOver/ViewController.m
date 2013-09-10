@@ -30,7 +30,7 @@
 	else
 	{
 		NSLog(@"stock database successfully opened");
-        freqAtPosition200 = [self findFrequencyAtLocationInUnigramFrequencyList];
+        userFreqOffset = [self findFrequencyAtLocationInUnigramFrequencyList];
 	}
 	
 	
