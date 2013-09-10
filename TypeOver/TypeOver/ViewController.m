@@ -374,6 +374,15 @@
 
 #pragma mark - word prediction
 
+- (int)findFrequencyAtLocationInUnigramFrequencyList:(int)pos
+{
+    int retval = 0;
+	NSMutableString *strQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS ORDER BY FREQUENCY DESC LIMIT 200"];
+    
+    
+    return(retval);
+}
+
 - (NSMutableString*)produceQueryWithContextOnly:(NSString*)context {
     NSUInteger conlen = context.length;
     NSMutableString *str;
