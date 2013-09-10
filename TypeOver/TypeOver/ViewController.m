@@ -379,19 +379,50 @@
 {
     int retval = 0;
     int result;
+    int frequencysum = 0;
     sqlite3_stmt *stmt;
+    int criticalfrequency;
+    int criticallocation;
+    int cumulativefrequency;
+    int totalwords;
+    char *szWord = NULL;
     
-	NSMutableString *strQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS ORDER BY FREQUENCY DESC LIMIT 200"];
+	NSMutableString *strQuery = [NSMutableString stringWithString:@"SELECT * FROM WORDS ORDER BY FREQUENCY DESC"];
     
     result = sqlite3_prepare_v2(dbStockWordPrediction, [strQuery UTF8String], -1, &stmt, nil);
     
+    //sum all of the unigram frequencies so we can find the 67-percentile
+    totalwords = 0;
     if (SQLITE_OK==result)
     {
         while (SQLITE_ROW==sqlite3_step(stmt))
         {
-            retval = sqlite3_column_int(stmt, 2);
+            frequencysum += sqlite3_column_int(stmt, 2);
+            totalwords++;
         }
     }
+    
+    criticalfrequency = frequencysum * 10 / 100;
+    
+    cumulativefrequency = 0;
+    criticallocation = 0;
+    if (SQLITE_OK==sqlite3_reset(stmt))
+    {
+        while (SQLITE_ROW==sqlite3_step(stmt) && cumulativefrequency<criticalfrequency)
+        {
+            szWord = (char*)sqlite3_column_text(stmt, 1);
+            retval = sqlite3_column_int(stmt, 2);	
+            cumulativefrequency += retval;
+            criticallocation++;
+        }
+    }
+    
+    NSLog(@"Stock database stats");
+    NSLog(@"Number of words: %d",totalwords);
+    NSLog(@"total frequency: %d",frequencysum);
+    NSLog(@"10th percentile location: %d",criticallocation);
+    NSLog(@"word at 10th percentile: %s",szWord);
+    NSLog(@"frequency at 10th percentile: %d",retval);
     
     return(retval);
 }
