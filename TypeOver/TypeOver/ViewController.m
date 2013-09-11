@@ -514,6 +514,52 @@
 	return strQuery;
 }
 
+- (int)findWord:(NSString*)str inSortingArray:(NSArray*)arr
+{
+    int i;
+    BOOL bFound = NO;
+    int numitems = arr.count;
+    wordInfoStruct *record;
+    
+    i=0;
+    while (i<numitems && !bFound)
+    {
+        record = [arr objectAtIndex:i];
+        if ([str isEqualToString:record.word])
+        {
+            bFound = YES;
+        }
+        else
+        {
+            i++;
+        }
+    }
+    
+    
+    return(bFound ? i : -1);
+}
+
+-(float)calculateScore:(wordInfoStruct*)item withTotalUnigramFreq:(float)fTotalUnigramFreq withTotalBigramFreq:(float)fTotalBigramFreq
+{
+    float rval;
+    float fUnigramProbability=0.0,fBigramProbability=0.0;
+    float fUnigramWeight = 0.1;
+    
+    if (fTotalUnigramFreq>=0.9)
+    {
+        fUnigramProbability = (float)(item.unigramFreq)/fTotalUnigramFreq;
+    }
+    
+    if (fTotalBigramFreq>=0.9)
+    {
+        fBigramProbability = (float)(item.bigramFreq)/fTotalUnigramFreq;
+    }
+    
+    rval = fUnigramProbability*fUnigramWeight + fBigramProbability*(1.0-fUnigramWeight);
+    
+    return(rval);
+}
+
 - (NSMutableArray*) predictHelper:(NSString*) strContext
 {
     NSMutableString *strStockUnigramQuery;
@@ -522,6 +568,9 @@
     NSMutableArray *sortingarr = [NSMutableArray arrayWithCapacity:60];
     NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:8];
     sqlite3_stmt *stmt;
+    wordInfoStruct *item;    
+    int i;
+    float totalunigramfreq,totalbigramfreq;
 	
     bool bigram = (0!=wordId);
             
@@ -542,7 +591,7 @@
             item.word = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
             item.unigramFreq = freq + userFreqOffset; //add headstart value to unigram frequencies from the user table
             item.bigramFreq = 0;
-            NSLog(@"prediction %d: %@ freq=%d",prednum+1,item.word,item.unigramFreq);
+            //NSLog(@"prediction %d: %@ freq=%d",prednum+1,item.word,item.unigramFreq);
             [sortingarr addObject:item];
             prednum++;
         }
@@ -568,7 +617,7 @@
             item.word = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
             item.unigramFreq = freq;
             item.bigramFreq = 0;
-            NSLog(@"prediction %d: %@ freq=%d",prednum+1,item.word,freq);
+            //NSLog(@"prediction %d: %@ freq=%d",prednum+1,item.word,freq);
             [sortingarr addObject:item];
             prednum++;
         }
@@ -589,14 +638,24 @@
             int prednum = 0;
             while (prednum<20 && SQLITE_ROW==sqlite3_step(stmt))
             {
-                wordInfoStruct* item = [[wordInfoStruct alloc] init];
                 int freq = (int)sqlite3_column_int(stmt,6); //bigram frequency is in column 6
                 char *rowData = (char*)sqlite3_column_text(stmt, 1);
-                item.word = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
-                item.bigramFreq = freq;
-                item.unigramFreq = 0;
-                NSLog(@"prediction %d: %@ freq=%d",prednum+1,item.word,freq);
-                [sortingarr addObject:item];
+                NSString* str = [NSString stringWithCString:rowData encoding:NSUTF8StringEncoding];
+                //NSLog(@"prediction %d: %@ freq=%d",prednum+1,str,freq);
+                int nSub = [self findWord:str inSortingArray:sortingarr];
+                if (nSub==-1) //word not there, add it
+                {
+                    item = [[wordInfoStruct alloc] init];
+                    item.word = str;
+                    item.bigramFreq = freq;
+                    item.unigramFreq = 0;
+                    [sortingarr addObject:item];
+                }
+                else //word already there, just change its bigram frequency
+                {
+                    item = [sortingarr objectAtIndex:nSub];
+                    item.bigramFreq = freq;
+                }
                 prednum++;
             }
         }
@@ -606,7 +665,62 @@
         }
     }
     
-	
+    i = 0;
+    totalunigramfreq = 0.0;
+    totalbigramfreq = 0.0;
+    while (i<[sortingarr count])
+    {
+        item = [sortingarr objectAtIndex:i];
+        NSLog(@"presort %d: w=%@ uni=%d bi=%d",i+1,item.word,item.unigramFreq,item.bigramFreq);
+        totalbigramfreq += (float)item.bigramFreq;
+        totalunigramfreq += (float)item.unigramFreq;
+        i++;
+    }
+    
+    //jumpdown sort to find the top 8 words in the combined list
+    int lochigh;
+    float highscore = 0.0;
+    float score;
+    i = 0;
+    wordInfoStruct *temp;
+    int j;
+    int numitems = [sortingarr count];
+    NSLog(@"sorting %d items",numitems);
+    if (numitems>1)
+    {
+        while (i<8 && i<numitems)
+        {
+            lochigh = i;
+            temp = [sortingarr objectAtIndex:i];
+            highscore = [self calculateScore:temp withTotalUnigramFreq:totalunigramfreq withTotalBigramFreq:totalbigramfreq];
+            for (j=i+1;j<numitems;j++)
+            {
+                temp = [sortingarr objectAtIndex:j];
+                score = [self calculateScore:temp withTotalUnigramFreq:totalunigramfreq withTotalBigramFreq:totalbigramfreq];
+                if (score>highscore)
+                {
+                    highscore = score;
+                    lochigh = j;
+                }
+            }
+            
+            if (lochigh!=i)
+            {
+                [sortingarr exchangeObjectAtIndex:lochigh withObjectAtIndex:i];
+            }
+            i++;
+        }
+    }
+    
+    i = 0;
+    while (i<8 && i<numitems)
+    {
+        temp = [sortingarr objectAtIndex:i];
+        [resultarr addObject:temp.word];
+        NSLog(@"word %d: %@ score:%f",i+1,temp.word,[self calculateScore:temp withTotalUnigramFreq:totalunigramfreq withTotalBigramFreq:totalbigramfreq]);
+        i++;
+    }
+    
     return(resultarr);
 }
 
