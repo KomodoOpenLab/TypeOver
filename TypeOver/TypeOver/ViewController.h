@@ -10,6 +10,7 @@
 #import <Social/Social.h>
 #import <sqlite3.h>
 #import <MessageUI/MessageUI.h>
+#import "wordInfoStruct.h"
 
 @interface ViewController : UIViewController <MFMessageComposeViewControllerDelegate, UIActionSheetDelegate> {
     
@@ -45,8 +46,7 @@
     NSMutableArray *predResultsArray;
     int timesCycled, wordId, userAddedWordStartFreq;
     sqlite3 *dbStockWordPrediction, *dbUserWordPrediction;
-	
-	
+    int userFreqOffset;
 }
 
 
