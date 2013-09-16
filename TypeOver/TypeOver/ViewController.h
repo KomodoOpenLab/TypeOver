@@ -11,6 +11,7 @@
 #import <sqlite3.h>
 #import <MessageUI/MessageUI.h>
 #import "wordInfoStruct.h"
+#import "CustomButton.h"
 
 @interface ViewController : UIViewController <MFMessageComposeViewControllerDelegate, UIActionSheetDelegate> {
     
@@ -18,24 +19,24 @@
 #pragma mark - outlets 
 	
     __weak IBOutlet UITextView *textView;
-	__weak IBOutlet UIButton *addWordToDictButton;
-    __weak IBOutlet	UIButton *useButton;
-	__weak IBOutlet UIButton *settingsButton;
-    __weak IBOutlet UIButton *punct1Button;
-    __weak IBOutlet UIButton *abc2Button;
-    __weak IBOutlet UIButton *def3Button;
-    __weak IBOutlet UIButton *ghi4Button;
-    __weak IBOutlet UIButton *jkl5Button;
-    __weak IBOutlet UIButton *mno6Button;
-    __weak IBOutlet UIButton *pqrs7Button;
-    __weak IBOutlet UIButton *tuv8Button;
-    __weak IBOutlet UIButton *wxyz9Button;
-    __weak IBOutlet UIButton *shiftButton;
-    __weak IBOutlet UIButton *wordsLettersButton;
-	__weak IBOutlet UIButton *speakButton;
-    __weak IBOutlet UIButton *space0Button;
-    __weak IBOutlet UIButton *delButton;
-    __weak IBOutlet UIButton *clearButton;
+	__weak IBOutlet CustomButton *addWordToDictButton;
+    __weak IBOutlet	CustomButton *useButton;
+	__weak IBOutlet CustomButton *settingsButton;
+    __weak IBOutlet CustomButton *punct1Button;
+    __weak IBOutlet CustomButton *abc2Button;
+    __weak IBOutlet CustomButton *def3Button;
+    __weak IBOutlet CustomButton *ghi4Button;
+    __weak IBOutlet CustomButton *jkl5Button;
+    __weak IBOutlet CustomButton *mno6Button;
+    __weak IBOutlet CustomButton *pqrs7Button;
+    __weak IBOutlet CustomButton *tuv8Button;
+    __weak IBOutlet CustomButton *wxyz9Button;
+    __weak IBOutlet CustomButton *shiftButton;
+    __weak IBOutlet CustomButton *wordsLettersButton;
+	__weak IBOutlet CustomButton *speakButton;
+    __weak IBOutlet CustomButton *space0Button;
+    __weak IBOutlet CustomButton *delButton;
+    __weak IBOutlet CustomButton *clearButton;
     
 	
 #pragma mark - variables and pointers
