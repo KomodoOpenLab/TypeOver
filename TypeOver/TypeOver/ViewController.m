@@ -145,6 +145,110 @@
 
 #pragma mark - layout
 
+- (void)displayContentViewWithContent:(NSString *)content useChars:(BOOL)usingchars {
+	content = [content stringByReplacingOccurrencesOfString:@" " withString:@""]; // remove spaces
+	
+	NSMutableArray *contentArray = [[NSMutableArray alloc] init];
+	if (usingchars) {
+		for (int i = 0; i < [content length]; i++) {
+			NSString *ch = [content substringWithRange:NSMakeRange(i, 1)];
+			[contentArray addObject:ch];
+		}
+	}
+	else {
+		contentArray = [NSMutableArray arrayWithObject:[content componentsSeparatedByString:@" "]];
+	}
+	
+	int keys = [contentArray count];
+	
+	float viewWidth = self.view.bounds.size.width;
+	float keyWidth = viewWidth / keys;
+	float keyHeight = (self.view.bounds.size.height-textView.bounds.size.height)*2;
+	
+	CGRect keyFrame = CGRectMake(0, 0, keyWidth, keyHeight);
+	
+	[contentView removeFromSuperview]; // kill last content view
+	
+	CGRect viewFrame = CGRectMake(0, useButton.frame.origin.y, self.view.bounds.size.width, self.view.bounds.size.height-useButton.frame.origin.y);
+	contentView = [[UIView alloc] initWithFrame:viewFrame];
+	contentView.backgroundColor = [UIColor blackColor];
+	[self.view addSubview:contentView];
+	
+	
+	// layout keys
+	
+	if (keys>=2) {
+		firstContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[firstContentButton setTitle:[contentArray objectAtIndex:0] forState:UIControlStateNormal];
+		
+		keyFrame.origin.x = keyFrame.size.width;
+		secondContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[secondContentButton setTitle:[contentArray objectAtIndex:1] forState:UIControlStateNormal];
+	}
+	
+	if (keys>=4) {
+		keyFrame.origin.x = keyFrame.size.width * 2;
+		thirdContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[thirdContentButton setTitle:[contentArray objectAtIndex:2] forState:UIControlStateNormal];
+		
+		keyFrame.origin.x = keyFrame.size.width * 3;
+		forthContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[forthContentButton setTitle:[contentArray objectAtIndex:3] forState:UIControlStateNormal];
+	}
+	
+	if (keys>=5) {
+		keyFrame.origin.x = keyFrame.size.width * 4;
+		fifthContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[firstContentButton setTitle:[contentArray objectAtIndex:4] forState:UIControlStateNormal];
+	}
+	
+	if (keys>=8) {
+		keyFrame.origin.x = keyFrame.size.width * 5;
+		sixthContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[sixthContentButton setTitle:[contentArray objectAtIndex:5] forState:UIControlStateNormal];
+		
+		keyFrame.origin.x = keyFrame.size.width * 6;
+		seventhContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[seventhContentButton setTitle:[contentArray objectAtIndex:6] forState:UIControlStateNormal];
+		
+		keyFrame.origin.x = keyFrame.size.width * 7;
+		eighthContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[eighthContentButton setTitle:[contentArray objectAtIndex:7] forState:UIControlStateNormal];
+	}
+	
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = keyFrame.size.height;
+	keyFrame.size.width = contentView.bounds.size.width;
+	cancelContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+	[cancelContentButton setTitle:@"cancel" forState:UIControlStateNormal];
+	
+	
+	// add actions to keys
+	
+	[firstContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[secondContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[thirdContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[forthContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[fifthContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[sixthContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[seventhContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[eighthContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[cancelContentButton addTarget:self action:@selector(hideContentView) forControlEvents:UIControlEventTouchUpInside];
+	
+	
+	// add keys to content view 
+	
+	[contentView addSubview:firstContentButton];
+	[contentView addSubview:secondContentButton];
+	[contentView addSubview:thirdContentButton];
+	[contentView addSubview:forthContentButton];
+	[contentView addSubview:fifthContentButton];
+	[contentView addSubview:sixthContentButton];
+	[contentView addSubview:seventhContentButton];
+	[contentView addSubview:eighthContentButton];
+	[contentView addSubview:cancelContentButton];
+}
+
 - (void)updateLayout {
 	float viewWidth = self.view.bounds.size.width;
 	float keyWidth = viewWidth / 3;
@@ -1600,6 +1704,22 @@
 
 
 #pragma mark - keypad key methods and functions
+
+- (void)inputFromKey:(id)sender {
+	CustomButton *button = sender;
+	
+	NSString *add = button.titleLabel.text;
+	NSMutableString *text = [NSMutableString stringWithString:textView.text];
+	
+	[text appendString:add];
+	[textView setText:text];
+	
+	[contentView setHidden:YES];
+}
+
+- (void)hideContentView {
+	[contentView setHidden:YES];
+}
 
 - (void)inputCharacterFromKey:(UIButton *)key {
 	NSMutableString *st = [NSMutableString stringWithString:textView.text];
