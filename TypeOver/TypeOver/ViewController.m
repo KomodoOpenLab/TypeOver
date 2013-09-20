@@ -158,6 +158,12 @@
 #pragma mark - layout
 
 - (void)displayContentViewWithContent:(NSString *)content useChars:(BOOL)usingchars {
+	UIView *contentView;
+	CustomButton *firstContentButton, *secondContentButton, *thirdContentButton, *forthContentButton, *fifthContentButton, *sixthContentButton, *seventhContentButton, *eighthContentButton, *cancelContentButton;
+	
+	contentView.tag = 1234; // used for removing the view
+	
+	
 	content = [content stringByReplacingOccurrencesOfString:@" " withString:@""]; // remove spaces
 	
 	NSMutableArray *contentArray = [[NSMutableArray alloc] init];
@@ -178,8 +184,6 @@
 	float keyHeight = (self.view.bounds.size.height-textView.bounds.size.height)/2;
 	
 	CGRect keyFrame = CGRectMake(0, 0, keyWidth, keyHeight);
-	
-	[contentView removeFromSuperview]; // kill last content view
 	
 	CGRect viewFrame = CGRectMake(0, useButton.frame.origin.y, self.view.bounds.size.width, self.view.bounds.size.height-textView.bounds.size.height);
 	contentView = [[UIView alloc] initWithFrame:viewFrame];
@@ -245,7 +249,7 @@
 	[sixthContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
 	[seventhContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
 	[eighthContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[cancelContentButton addTarget:self action:@selector(hideContentView) forControlEvents:UIControlEventTouchUpInside];
+	[cancelContentButton addTarget:self action:@selector(removeContentView:) forControlEvents:UIControlEventTouchUpInside];
 	
 	
 	// add keys to content view 
@@ -1414,8 +1418,6 @@
 	
 	[self checkNeededKeys];
 
-	[self hideContentView];
-	
 	[inputTimer invalidate];
 	[delTimer invalidate];
 	
@@ -1701,8 +1703,8 @@
 	}
 }
 
-- (void)hideContentView {
-	[contentView setHidden:YES];
+- (void)removeContentView:(UIButton *)key {
+	[key.superview removeFromSuperview];
 }
 
 - (void)inputCharacterFromKey:(UIButton *)key {
@@ -1759,6 +1761,8 @@
 	[textView setText:st];
 	
 	[self resetKeys];
+	
+	[self removeContentView:key];
 	
 	[self updatePredState];
 }

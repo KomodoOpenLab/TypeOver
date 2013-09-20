@@ -37,12 +37,6 @@
     __weak IBOutlet CustomButton *space0Button;
     __weak IBOutlet CustomButton *delButton;
     __weak IBOutlet CustomButton *clearButton;
-	
-	
-#pragma mark - ui elements
-	
-	UIView *contentView;
-	CustomButton *firstContentButton, *secondContentButton, *thirdContentButton, *forthContentButton, *fifthContentButton, *sixthContentButton, *seventhContentButton, *eighthContentButton, *cancelContentButton;
     
 	
 #pragma mark - variables and pointers
