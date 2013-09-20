@@ -237,14 +237,14 @@
 	
 	// add actions to keys
 	
-	[firstContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[secondContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[thirdContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[forthContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[fifthContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[sixthContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[seventhContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[eighthContentButton addTarget:self action:@selector(inputFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[firstContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[secondContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[thirdContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[forthContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[fifthContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[sixthContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[seventhContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[eighthContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
 	[cancelContentButton addTarget:self action:@selector(hideContentView) forControlEvents:UIControlEventTouchUpInside];
 	
 	
@@ -1716,18 +1716,6 @@
 
 
 #pragma mark - keypad key methods and functions
-
-- (void)inputFromKey:(id)sender {
-	CustomButton *button = sender;
-	
-	NSString *add = button.titleLabel.text;
-	NSMutableString *text = [NSMutableString stringWithString:textView.text];
-	
-	[text appendString:add];
-	[textView setText:text];
-	
-	[contentView setHidden:YES];
-}
 
 - (void)hideContentView {
 	[contentView setHidden:YES];
