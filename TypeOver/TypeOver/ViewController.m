@@ -15,6 +15,7 @@
 @implementation ViewController
 
 #define IS_IPAD ([[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)] && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 
 #pragma mark - view controller methods
@@ -119,6 +120,9 @@
 	// make navigation controller black
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	
+	// make navigation controller non-translucent
+	self.navigationController.navigationBar.translucent = NO;
+	
 	if (![addWordToDictButton isHidden]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
@@ -140,6 +144,14 @@
 	wordId = 0;
 	[self checkShift];
     [self resetMisc];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+		[self updateLayout]; // temporary fix for a layout bug when running iOS 7 on an iPhone 
+	}
 }
 
 
