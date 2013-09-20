@@ -175,13 +175,13 @@
 	
 	float viewWidth = self.view.bounds.size.width;
 	float keyWidth = viewWidth / keys;
-	float keyHeight = (self.view.bounds.size.height-textView.bounds.size.height)*2;
+	float keyHeight = (self.view.bounds.size.height-textView.bounds.size.height)/2;
 	
 	CGRect keyFrame = CGRectMake(0, 0, keyWidth, keyHeight);
 	
 	[contentView removeFromSuperview]; // kill last content view
 	
-	CGRect viewFrame = CGRectMake(0, useButton.frame.origin.y, self.view.bounds.size.width, self.view.bounds.size.height-useButton.frame.origin.y);
+	CGRect viewFrame = CGRectMake(0, useButton.frame.origin.y, self.view.bounds.size.width, self.view.bounds.size.height-textView.bounds.size.height);
 	contentView = [[UIView alloc] initWithFrame:viewFrame];
 	contentView.backgroundColor = [UIColor blackColor];
 	[self.view addSubview:contentView];
