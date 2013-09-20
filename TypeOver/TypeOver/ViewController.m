@@ -211,7 +211,7 @@
 	if (keys>=5) {
 		keyFrame.origin.x = keyFrame.size.width * 4;
 		fifthContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
-		[firstContentButton setTitle:[contentArray objectAtIndex:4] forState:UIControlStateNormal];
+		[fifthContentButton setTitle:[contentArray objectAtIndex:4] forState:UIControlStateNormal];
 	}
 	
 	if (keys>=8) {
