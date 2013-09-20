@@ -1413,6 +1413,8 @@
 	[wordsLettersButton setEnabled:YES];
 	
 	[self checkNeededKeys];
+
+	[self hideContentView];
 	
 	[inputTimer invalidate];
 	[delTimer invalidate];
