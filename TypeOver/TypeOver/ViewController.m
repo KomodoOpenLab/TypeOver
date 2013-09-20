@@ -1473,10 +1473,7 @@
 - (IBAction)punct1Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[punct1Button setTitle:@"." forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(punct1) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[punct1Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(punct1) usingChars:YES];
 		}
 		else {
 			[self inputCharacterFromKey:sender];
@@ -1491,10 +1488,7 @@
 - (IBAction)abc2Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[abc2Button setTitle:@"a" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(abc2) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[abc2Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(abc2) usingChars:YES];
 		}
 		else {
 			[self inputCharacterFromKey:sender];
@@ -1509,10 +1503,7 @@
 - (IBAction)def3Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[def3Button setTitle:@"d" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(def3) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[def3Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(def3) usingChars:YES];
 		}
 		else {
 			[self inputCharacterFromKey:sender];
@@ -1527,10 +1518,7 @@
 - (IBAction)ghi4Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[ghi4Button setTitle:@"g" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(ghi4) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[ghi4Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(ghi4) usingChars:YES];
 		}
 		else {
 			[self inputCharacterFromKey:sender];
@@ -1545,10 +1533,7 @@
 - (IBAction)jkl5Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[jkl5Button setTitle:@"j" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(jkl5) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[jkl5Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(jkl5) usingChars:YES];
 		}
 		else {
 			[self inputCharacterFromKey:sender];
@@ -1563,10 +1548,7 @@
 - (IBAction)mno6Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[mno6Button setTitle:@"m" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(mno6) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[mno6Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(mno6) usingChars:YES];
 		}
 		else {
 			[self inputCharacterFromKey:sender];
@@ -1581,10 +1563,7 @@
 - (IBAction)pqrs7Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[pqrs7Button setTitle:@"p" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(pqrs7) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[pqrs7Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(pqrs7) usingChars:YES];
 		}
 		else {
 			[self inputCharacterFromKey:sender];
@@ -1599,10 +1578,7 @@
 - (IBAction)tuv8Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[tuv8Button setTitle:@"t" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(tuv8) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[tuv8Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(tuv8) usingChars:YES];
 		}
 		else {
 			[self inputCharacterFromKey:sender];
@@ -1617,10 +1593,7 @@
 - (IBAction)wxyz9Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[wxyz9Button setTitle:@"w" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(wxyz9) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[wxyz9Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(wxyz9) usingChars:YES];
 		}
 		else {
 			[self inputCharacterFromKey:sender];
@@ -1648,10 +1621,7 @@
 
 - (IBAction)space0Act:(id)sender {
 	if (![inputTimer isValid]) {
-		[space0Button setTitle:@"space" forState:UIControlStateNormal];
-		inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(space0) userInfo:nil repeats:YES];
-		[self disableKeys];
-		[space0Button setEnabled:YES];
+		[self startModeForKey:sender withVoiceOverSelector:@selector(space0) usingChars:NO];
 	}
 	else {
 		[self inputCharacterFromKey:sender];
@@ -1716,6 +1686,18 @@
 
 
 #pragma mark - keypad key methods and functions
+
+- (void)startModeForKey:(UIButton *)key withVoiceOverSelector:(SEL)voSelector usingChars:(BOOL)usechars {
+	if (UIAccessibilityIsVoiceOverRunning()) {
+		[key setTitle:[key.titleLabel.text substringToIndex:1] forState:UIControlStateNormal];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:voSelector userInfo:nil repeats:YES];
+		[self disableKeys];
+		[key setEnabled:YES];
+	}
+	else {
+		[self displayContentViewWithContent:key.titleLabel.text useChars:usechars];
+	}
+}
 
 - (void)hideContentView {
 	[contentView setHidden:YES];
