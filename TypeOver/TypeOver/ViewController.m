@@ -132,10 +132,6 @@
 	
 	[self checkNeededKeys];
 	
-	// dummy view to hide system keyboard
-	UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
-	textView.inputView = dummyView;
-	
 	[textView becomeFirstResponder]; // activate textview
 	
 	[textView setFont:[UIFont systemFontOfSize:[[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"]]];
