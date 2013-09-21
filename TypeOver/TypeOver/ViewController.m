@@ -160,7 +160,7 @@
 	contentView.tag = 1234; // used for removing the view
 	
 	
-	content = [content stringByReplacingOccurrencesOfString:@" " withString:@""]; // remove spaces
+	if (usingchars) content = [content stringByReplacingOccurrencesOfString:@" " withString:@""]; // remove spaces
 	
 	NSMutableArray *contentArray = [[NSMutableArray alloc] init];
 	if (usingchars) {
@@ -170,7 +170,7 @@
 		}
 	}
 	else {
-		contentArray = [NSMutableArray arrayWithObject:[content componentsSeparatedByString:@" "]];
+		contentArray = [NSMutableArray arrayWithArray:[content componentsSeparatedByString:@" "]];
 	}
 	
 	int keys = [contentArray count];
