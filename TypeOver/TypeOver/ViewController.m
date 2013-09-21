@@ -259,6 +259,11 @@
 	[contentView addSubview:seventhContentButton];
 	[contentView addSubview:eighthContentButton];
 	[contentView addSubview:cancelContentButton];
+	
+	
+	// disable keys behind content view
+	
+	[self disableKeys];
 }
 
 - (void)updateLayout {
@@ -1701,6 +1706,8 @@
 
 - (void)removeContentView:(UIButton *)key {
 	[key.superview removeFromSuperview];
+	
+	[self resetKeys];
 }
 
 - (void)inputCharacterFromKey:(UIButton *)key {
