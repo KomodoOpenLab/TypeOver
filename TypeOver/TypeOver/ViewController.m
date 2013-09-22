@@ -1650,25 +1650,17 @@
 }
 
 - (IBAction)delAct:(id)sender {
-	if (![inputTimer isValid]) {
-		if (IS_IPAD) [delButton setTitle:@"backspace" forState:UIControlStateNormal];
-		if (!IS_IPAD) [delButton setTitle:@"bksp" forState:UIControlStateNormal];
-		inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspaceDelWord) userInfo:nil repeats:YES];
+	if (![delTimer isValid] && UIAccessibilityIsVoiceOverRunning()) {
+		[self backspace]; // prevents a delay
+		delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
 		[self disableKeys];
 		[delButton setEnabled:YES];
 	}
-	else if (![textView.text isEqualToString:@""]) {
-		if ([delButton.titleLabel.text isEqualToString:@"bksp"]||[delButton.titleLabel.text isEqualToString:@"backspace"]) {
-			[self backspace]; // prevents a delay
-			delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
-		}
-		else if ([delButton.titleLabel.text isEqualToString:@"del wd"]||[delButton.titleLabel.text isEqualToString:@"delete word"]) {
-			[self delWord]; // prevents a delay
-			delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(delWord) userInfo:nil repeats:YES];
-		}
-		
-		[self disableKeys];
-		[delButton setEnabled:YES];
+	else if ([delTimer isValid] && UIAccessibilityIsVoiceOverRunning()) {
+		[self resetKeys];
+	}
+	else if (!UIAccessibilityIsVoiceOverRunning()) {
+		[self backspace];
 	}
 }
 
@@ -2051,68 +2043,6 @@
 		[space0Button setTitle:@"space" forState:UIControlStateNormal];
 		timesCycled++;
 	}
-}
-
-- (void)backspaceDelWord {
-	if (timesCycled==2) {
-		[self resetKeys];
-		return;
-	}
-	else if (![delButton accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		if ([delButton.titleLabel.text isEqualToString:@"bksp"]||[delButton.titleLabel.text isEqualToString:@"backspace"]) {
-			[self backspace]; // prevents a delay
-			delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
-		}
-		else if ([delButton.titleLabel.text isEqualToString:@"del wd"]||[delButton.titleLabel.text isEqualToString:@"delete word"]) {
-			[self delWord]; // prevents a delay
-			delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(delWord) userInfo:nil repeats:YES];
-		}
-		return;
-	}
-	if ([delButton.titleLabel.text isEqualToString:@"bksp"]||[delButton.titleLabel.text isEqualToString:@"backspace"]) {
-		if (IS_IPAD) {
-			[delButton setTitle:@"delete word" forState:UIControlStateNormal];
-		}
-		else {
-			[delButton setTitle:@"del wd" forState:UIControlStateNormal];
-		}
-	}
-	else if ([delButton.titleLabel.text isEqualToString:@"del wd"]||[delButton.titleLabel.text isEqualToString:@"delete word"]) {
-		if (IS_IPAD) {
-			[delButton setTitle:@"backspace" forState:UIControlStateNormal];
-		}
-		else {
-			[delButton setTitle:@"bksp" forState:UIControlStateNormal];
-		}
-		timesCycled++;
-	}
-}
-
-- (void)delWord {
-	if (![delButton accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self resetKeys];
-		[self updatePredState];
-		return;
-	}
-    
-	[self updatePredState];
-	
-	NSString *st = textView.text;
-    
-	if ([st length] > 0) {
-		if ([currentWord isEqualToString:@""]) st = [st substringToIndex:[st length] - [previousWord length] - 1];
-		if (![currentWord isEqualToString:@""]) st = [st substringToIndex:[st length] - [currentWord length]];
-        [textView setText:st];
-    }
-	else {
-		[self resetKeys];
-	}
-	
-	if ([textView.text isEqual: @""]) {
-		shift = true;
-		[self resetMisc];
-	}
-	[self checkShift];
 }
 
 - (void)backspace {
