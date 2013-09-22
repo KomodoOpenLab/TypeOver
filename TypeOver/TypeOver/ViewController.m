@@ -818,7 +818,7 @@
     NSLog(@"sorting %d items",numitems);
     if (numitems>1)
     {
-        while (i<8 && i<numitems)
+        while (i<9 && i<numitems)
         {
             lochigh = i;
             temp = [sortingarr objectAtIndex:i];
@@ -843,7 +843,7 @@
     }
     
     i = 0;
-    while (i<8 && i<numitems)
+    while (i<9 && i<numitems)
     {
         temp = [sortingarr objectAtIndex:i];
         [resultarr addObject:temp.word];
