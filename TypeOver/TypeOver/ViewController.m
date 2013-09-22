@@ -128,6 +128,10 @@
 		[addWordToDictButton setHidden:YES];
 	}
 	
+	// dummy view to hide system keyboard
+	UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+	textView.inputView = dummyView;
+	
 	[self updateLayout];
 	
 	[self checkNeededKeys];
