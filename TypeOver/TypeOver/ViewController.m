@@ -105,6 +105,7 @@
 	
 	
 	shift = true;
+	clearString = @"";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -1457,7 +1458,7 @@
 		[wordsLettersButton setEnabled:NO];
 		[speakButton setEnabled:NO];
 		[delButton setEnabled:NO];
-		[clearButton setEnabled:NO];
+		if ([clearString isEqualToString:@""]) [clearButton setEnabled:NO];
 	}
 	else {
 		[useButton setEnabled:YES];
@@ -2068,6 +2069,7 @@
         [textView setText:st];
     }
 	if ([textView.text isEqual: @""]) {
+		clearString = @"";
 		shift = true;
 		[self resetMisc];
 	}
