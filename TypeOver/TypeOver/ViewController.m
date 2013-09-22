@@ -157,11 +157,16 @@
 
 #pragma mark - layout
 
-- (void)displayContentViewWithContent:(NSString *)content useChars:(BOOL)usingchars {
+- (void)displayContentViewWithContent:(NSString *)content usingChars:(BOOL)usingchars {
+	// disable keys behind content view
+	
+	[self disableKeys];
+	
+	
+	// declare ui elements
+	
 	UIView *contentView;
 	CustomButton *firstContentButton, *secondContentButton, *thirdContentButton, *forthContentButton, *fifthContentButton, *sixthContentButton, *seventhContentButton, *eighthContentButton, *cancelContentButton;
-	
-	contentView.tag = 1234; // used for removing the view
 	
 	
 	if (usingchars) content = [content stringByReplacingOccurrencesOfString:@" " withString:@""]; // remove spaces
@@ -263,11 +268,6 @@
 	[contentView addSubview:seventhContentButton];
 	[contentView addSubview:eighthContentButton];
 	[contentView addSubview:cancelContentButton];
-	
-	
-	// disable keys behind content view
-	
-	[self disableKeys];
 }
 
 - (void)updateLayout {
@@ -1688,7 +1688,7 @@
 
 #pragma mark - keypad key methods and functions
 
-- (void)startModeForKey:(UIButton *)key withVoiceOverSelector:(SEL)voSelector usingChars:(BOOL)usechars {
+- (void)startModeForKey:(UIButton *)key withVoiceOverSelector:(SEL)voSelector usingChars:(BOOL)usingChars {
 	if (UIAccessibilityIsVoiceOverRunning()) {
 		[key setTitle:[key.titleLabel.text substringToIndex:1] forState:UIControlStateNormal];
 		inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:voSelector userInfo:nil repeats:YES];
@@ -1696,7 +1696,7 @@
 		[key setEnabled:YES];
 	}
 	else {
-		[self displayContentViewWithContent:key.titleLabel.text useChars:usechars];
+		[self displayContentViewWithContent:key.titleLabel.text usingChars:usingChars];
 	}
 }
 
