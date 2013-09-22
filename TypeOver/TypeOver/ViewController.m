@@ -150,7 +150,7 @@
 	[super viewDidAppear:animated];
 	
 	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-		[self updateLayout]; // temporary fix for a layout bug when running iOS 7 on an iPhone 
+		[self updateLayout]; // temporary fix for a layout bug when running iOS 7 on an iPhone
 	}
 }
 
@@ -241,18 +241,18 @@
 	
 	// add actions to keys
 	
-	[firstContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[secondContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[thirdContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[forthContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[fifthContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[sixthContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[seventhContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
-	[eighthContentButton addTarget:self action:@selector(inputCharacterFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[firstContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[secondContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[thirdContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[forthContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[fifthContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[sixthContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[seventhContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[eighthContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
 	[cancelContentButton addTarget:self action:@selector(removeContentView:) forControlEvents:UIControlEventTouchUpInside];
 	
 	
-	// add keys to content view 
+	// add keys to content view
 	
 	[contentView addSubview:firstContentButton];
 	[contentView addSubview:secondContentButton];
@@ -540,7 +540,7 @@
         while (SQLITE_ROW==sqlite3_step(stmt) && cumulativefrequency<criticalfrequency)
         {
             szWord = (char*)sqlite3_column_text(stmt, 1);
-            retval = sqlite3_column_int(stmt, 2);	
+            retval = sqlite3_column_int(stmt, 2);
             cumulativefrequency += retval;
             criticallocation++;
         }
@@ -630,14 +630,14 @@
 		
 		// check if word contains an apostrophe and make it sql friendly
 		context = [NSMutableString stringWithString:[context stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
-		        
+		
         if (0!=conlen) {
             [strQuery appendString:@"AND WORDS.WORD LIKE '"];
             [strQuery appendString:context];
             [strQuery appendString:@"%' "];
         }
 	}
- 
+	
     [strQuery appendString:@"ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 20;"];
     
 	return strQuery;
@@ -697,16 +697,16 @@
     NSMutableArray *sortingarr = [NSMutableArray arrayWithCapacity:60];
     NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:8];
     sqlite3_stmt *stmt;
-    wordInfoStruct *item;    
+    wordInfoStruct *item;
     int i;
     float totalunigramfreq,totalbigramfreq;
 	
     bool bigram = (0!=wordId);
-            
+	
     // get user's added words
     strUserUnigramQuery = [NSString stringWithString:[self produceQueryWithContextOnly:strContext]];
     NSLog(@"User-word unigram query: %@",strUserUnigramQuery);
-
+	
     int result = sqlite3_prepare_v2(dbUserWordPrediction, [strUserUnigramQuery UTF8String], -1, &stmt, nil);
     
     if (SQLITE_OK==result)
@@ -1422,7 +1422,7 @@
 	[wordsLettersButton setEnabled:YES];
 	
 	[self checkNeededKeys];
-
+	
 	[inputTimer invalidate];
 	[delTimer invalidate];
 	
@@ -1485,7 +1485,7 @@
 			[self startModeForKey:sender withVoiceOverSelector:@selector(punct1) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1500,7 +1500,7 @@
 			[self startModeForKey:sender withVoiceOverSelector:@selector(abc2) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1515,7 +1515,7 @@
 			[self startModeForKey:sender withVoiceOverSelector:@selector(def3) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1530,7 +1530,7 @@
 			[self startModeForKey:sender withVoiceOverSelector:@selector(ghi4) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1545,7 +1545,7 @@
 			[self startModeForKey:sender withVoiceOverSelector:@selector(jkl5) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1560,7 +1560,7 @@
 			[self startModeForKey:sender withVoiceOverSelector:@selector(mno6) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1575,7 +1575,7 @@
 			[self startModeForKey:sender withVoiceOverSelector:@selector(pqrs7) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1590,7 +1590,7 @@
 			[self startModeForKey:sender withVoiceOverSelector:@selector(tuv8) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1605,7 +1605,7 @@
 			[self startModeForKey:sender withVoiceOverSelector:@selector(wxyz9) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1633,7 +1633,7 @@
 		[self startModeForKey:sender withVoiceOverSelector:@selector(space0) usingChars:NO];
 	}
 	else {
-		[self inputCharacterFromKey:sender];
+		[self inputContentFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1706,55 +1706,61 @@
 	[self resetKeys];
 }
 
-- (void)inputCharacterFromKey:(UIButton *)key {
+- (void)inputContentFromKey:(UIButton *)key {
 	NSMutableString *st = [NSMutableString stringWithString:textView.text];
-	NSString *character = key.titleLabel.text;
+	NSString *content = key.titleLabel.text;
 	
 	// check if shift is on and make appropriate adjustments to the character
-	if (shift) {
-		character = character.uppercaseString;
+	if (shift&&[content length]==1) {
+		content = content.uppercaseString;
 	}
 	
-	if (key==punct1Button) {
-		if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]||[key.titleLabel.text isEqualToString:@","]) {
-			if (st.length>0) {
-				if ([self isWordDelimiter:[textView.text characterAtIndex:[textView.text length] - 1]]) {
-					st = [NSMutableString stringWithString:[st substringToIndex:[st length] - 1]];
-				}
+	BOOL done = NO;
+	
+	if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]||[key.titleLabel.text isEqualToString:@","]) {
+		if (st.length>0) {
+			if ([self isWordDelimiter:[textView.text characterAtIndex:[textView.text length] - 1]]) {
+				st = [NSMutableString stringWithString:[st substringToIndex:[st length] - 1]];
 			}
-			[st appendString:key.titleLabel.text];
 		}
+		[st appendString:key.titleLabel.text];
 		
-		if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]) {
-			wordId = 0;
-			[st appendString:@" "];
-			shift = true;
-			[self resetMisc];
-		}
-		else if ([key.titleLabel.text isEqualToString:@","]) {
-			[st appendString:@" "];
-			shift = false;
-			[self resetMisc];
-		}
-		else {
-			[st appendString:key.titleLabel.text];
-			shift = false;
-		}
+		done = YES;
 	}
-	else if (key==space0Button) {
-		if ([key.titleLabel.text isEqualToString:@"space"]) {
-			[st appendString:@" "];
-			shift = false;
-			[self resetMisc];
-		}
-		else {
-			[st appendString:@"0"];
-			shift = false;
-		}
+	
+	if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]) {
+		wordId = 0;
+		[st appendString:@" "];
+		shift = true;
+		[self resetMisc];
+		
+		done = YES;
 	}
-	else {
-		[st appendString:character];
+	else if ([key.titleLabel.text isEqualToString:@","]) {
+		[st appendString:@" "];
 		shift = false;
+		[self resetMisc];
+		
+		done = YES;
+	}
+		
+	if ([key.titleLabel.text isEqualToString:@"space"]) {
+		[st appendString:@" "];
+		shift = false;
+		[self resetMisc];
+		
+		done = YES;
+	}
+	else if ([key.titleLabel.text isEqualToString:@"0"]) {
+		[st appendString:@"0"];
+		shift = false;
+		
+		done = YES;
+	}
+	
+	if (!done) {
+		[st appendString:content];
+		shift=false;
 	}
 	
 	[textView setText:st];
@@ -1803,7 +1809,7 @@
 		return;
 	}
 	else if (![punct1Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:punct1Button];
+		[self inputContentFromKey:punct1Button];
 		return;
 	}
 	if ([punct1Button.titleLabel.text isEqualToString:@"."]) {
@@ -1839,7 +1845,7 @@
 		return;
 	}
 	else if (![abc2Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:abc2Button];
+		[self inputContentFromKey:abc2Button];
 		return;
 	}
 	if ([abc2Button.titleLabel.text isEqualToString:@"a"]) {
@@ -1863,7 +1869,7 @@
 		return;
 	}
 	else if (![def3Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:def3Button];
+		[self inputContentFromKey:def3Button];
 		return;
 	}
 	if ([def3Button.titleLabel.text isEqualToString:@"d"]) {
@@ -1887,7 +1893,7 @@
 		return;
 	}
 	else if (![ghi4Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:ghi4Button];
+		[self inputContentFromKey:ghi4Button];
 		return;
 	}
 	if ([ghi4Button.titleLabel.text isEqualToString:@"g"]) {
@@ -1911,7 +1917,7 @@
 		return;
 	}
 	else if (![jkl5Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:jkl5Button];
+		[self inputContentFromKey:jkl5Button];
 		return;
 	}
 	if ([jkl5Button.titleLabel.text isEqualToString:@"j"]) {
@@ -1935,7 +1941,7 @@
 		return;
 	}
 	else if (![mno6Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:mno6Button];
+		[self inputContentFromKey:mno6Button];
 		return;
 	}
 	if ([mno6Button.titleLabel.text isEqualToString:@"m"]) {
@@ -1959,7 +1965,7 @@
 		return;
 	}
 	else if (![pqrs7Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:pqrs7Button];
+		[self inputContentFromKey:pqrs7Button];
 		return;
 	}
 	if ([pqrs7Button.titleLabel.text isEqualToString:@"p"]) {
@@ -1986,7 +1992,7 @@
 		return;
 	}
 	else if (![tuv8Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:tuv8Button];
+		[self inputContentFromKey:tuv8Button];
 		return;
 	}
 	if ([tuv8Button.titleLabel.text isEqualToString:@"t"]) {
@@ -2010,7 +2016,7 @@
 		return;
 	}
 	else if (![wxyz9Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:wxyz9Button];
+		[self inputContentFromKey:wxyz9Button];
 		return;
 	}
 	if ([wxyz9Button.titleLabel.text isEqualToString:@"w"]) {
@@ -2037,7 +2043,7 @@
 		return;
 	}
 	else if (![space0Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:space0Button];
+		[self inputContentFromKey:space0Button];
 		return;
 	}
 	if ([space0Button.titleLabel.text isEqualToString:@"space"]) {
