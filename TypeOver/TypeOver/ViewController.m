@@ -274,73 +274,42 @@
 - (void)updateLayout {
 	float viewWidth = self.view.bounds.size.width;
 	float keyWidth = viewWidth / 3;
+	float keyHeight = self.view.bounds.size.height/10;
 	CGRect keyFrame;
 	
 	
 	// get keys right size
 	
-	keyFrame = addWordToDictButton.frame;
+	keyFrame.size.height = keyHeight; // never changes
+	
 	keyFrame.size.width = viewWidth;
 	addWordToDictButton.frame = keyFrame;
 	
-	keyFrame = useButton.frame;
 	keyFrame.size.width = keyWidth;
+	
 	useButton.frame = keyFrame;
-	keyFrame = settingsButton.frame;
-	keyFrame.size.width = keyWidth;
 	settingsButton.frame = keyFrame;
-	keyFrame = wordsLettersButton.frame;
-	keyFrame.size.width = keyWidth;
 	wordsLettersButton.frame = keyFrame;
 	
-	keyFrame = punct1Button.frame;
-	keyFrame.size.width = keyWidth;
 	punct1Button.frame = keyFrame;
-	keyFrame = abc2Button.frame;
-	keyFrame.size.width = keyWidth;
 	abc2Button.frame = keyFrame;
-	keyFrame = def3Button.frame;
-	keyFrame.size.width = keyWidth;
 	def3Button.frame = keyFrame;
 	
-	keyFrame = ghi4Button.frame;
-	keyFrame.size.width = keyWidth;
 	ghi4Button.frame = keyFrame;
-	keyFrame = jkl5Button.frame;
-	keyFrame.size.width = keyWidth;
 	jkl5Button.frame = keyFrame;
-	keyFrame = mno6Button.frame;
-	keyFrame.size.width = keyWidth;
 	mno6Button.frame = keyFrame;
 	
-	keyFrame = pqrs7Button.frame;
-	keyFrame.size.width = keyWidth;
 	pqrs7Button.frame = keyFrame;
-	keyFrame = tuv8Button.frame;
-	keyFrame.size.width = keyWidth;
 	tuv8Button.frame = keyFrame;
-	keyFrame = wxyz9Button.frame;
-	keyFrame.size.width = keyWidth;
 	wxyz9Button.frame = keyFrame;
 	
-	keyFrame = space0Button.frame;
-	keyFrame.size.width = keyWidth;
 	space0Button.frame = keyFrame;
 	
-	keyFrame = shiftButton.frame;
 	keyFrame.size.width = keyWidth/2;
+	
 	shiftButton.frame = keyFrame;
-	
-	keyFrame = speakButton.frame;
-	keyFrame.size.width = keyWidth/2;
 	speakButton.frame = keyFrame;
-	
-	keyFrame = delButton.frame;
-	keyFrame.size.width = keyWidth/2;
 	delButton.frame = keyFrame;
-	
-	keyFrame = clearButton.frame;
-	keyFrame.size.width = keyWidth/2;
 	clearButton.frame = keyFrame;
 	
 	
