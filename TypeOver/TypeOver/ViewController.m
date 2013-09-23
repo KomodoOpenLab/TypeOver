@@ -159,9 +159,9 @@
 #pragma mark - layout
 
 - (void)displayContentViewWithContent:(NSString *)content usingChars:(BOOL)usingchars {
-	// disable keys behind content view
+	// hide keys behind content view
 	
-	[self disableKeys];
+	[self hideKeys];
 	
 	
 	// declare ui elements
@@ -1390,7 +1390,27 @@
 	[space0Button setEnabled:YES];
 	[wordsLettersButton setEnabled:YES];
 	
+	[useButton setHidden:NO];
+	[settingsButton setHidden:NO];
+	[punct1Button setHidden:NO];
+	[abc2Button setHidden:NO];
+	[def3Button setHidden:NO];
+	[delButton setHidden:NO];
+	[ghi4Button setHidden:NO];
+	[jkl5Button setHidden:NO];
+	[mno6Button setHidden:NO];
+	[clearButton setHidden:NO];
+	[pqrs7Button setHidden:NO];
+	[tuv8Button setHidden:NO];
+	[wxyz9Button setHidden:NO];
+	[speakButton setHidden:NO];
+	[shiftButton setHidden:NO];
+	[space0Button setHidden:NO];
+	[wordsLettersButton setHidden:NO];
+	
 	[self checkNeededKeys];
+	
+	[self updatePredState];
 	
 	[inputTimer invalidate];
 	[delTimer invalidate];
@@ -1419,6 +1439,27 @@
 	[shiftButton setEnabled:NO];
 	[space0Button setEnabled:NO];
 	[wordsLettersButton setEnabled:NO];
+}
+
+- (void)hideKeys {
+	[addWordToDictButton setHidden:YES];
+	[useButton setHidden:YES];
+	[settingsButton setHidden:YES];
+	[punct1Button setHidden:YES];
+	[abc2Button setHidden:YES];
+	[def3Button setHidden:YES];
+	[delButton setHidden:YES];
+	[ghi4Button setHidden:YES];
+	[jkl5Button setHidden:YES];
+	[mno6Button setHidden:YES];
+	[clearButton setHidden:YES];
+	[pqrs7Button setHidden:YES];
+	[tuv8Button setHidden:YES];
+	[wxyz9Button setHidden:YES];
+	[speakButton setHidden:YES];
+	[shiftButton setHidden:YES];
+	[space0Button setHidden:YES];
+	[wordsLettersButton setHidden:YES];
 }
 
 - (void)checkNeededKeys {
