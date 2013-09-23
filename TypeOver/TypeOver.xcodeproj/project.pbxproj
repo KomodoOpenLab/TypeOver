@@ -29,11 +29,23 @@
 		6C16FB5D16FF73FF00C62E49 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C16FB5C16FF73FF00C62E49 /* SettingsViewController.m */; };
 		6CCC87E217788F3F0083D694 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CCC87E117788F3F0083D694 /* MessageUI.framework */; };
 		6CD61DB717B96B43003907E7 /* CustomToggleSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CD61DB617B96B43003907E7 /* CustomToggleSwitch.m */; };
+		6CE4071517F08C6E001CAE63 /* clear-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4070517F08C6E001CAE63 /* clear-ipad.png */; };
+		6CE4071617F08C6E001CAE63 /* clear-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4070617F08C6E001CAE63 /* clear-ipad@2x.png */; };
+		6CE4071717F08C6E001CAE63 /* clear-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4070717F08C6E001CAE63 /* clear-iphone.png */; };
+		6CE4071817F08C6E001CAE63 /* clear-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4070817F08C6E001CAE63 /* clear-iphone@2x.png */; };
+		6CE4071917F08C6E001CAE63 /* delete-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4070917F08C6E001CAE63 /* delete-ipad.png */; };
+		6CE4071A17F08C6E001CAE63 /* delete-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4070A17F08C6E001CAE63 /* delete-ipad@2x.png */; };
+		6CE4071B17F08C6E001CAE63 /* delete-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4070B17F08C6E001CAE63 /* delete-iphone.png */; };
+		6CE4071C17F08C6E001CAE63 /* delete-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4070C17F08C6E001CAE63 /* delete-iphone@2x.png */; };
+		6CE4071D17F08C6E001CAE63 /* export-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4070D17F08C6E001CAE63 /* export-ipad.png */; };
+		6CE4071E17F08C6E001CAE63 /* export-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4070E17F08C6E001CAE63 /* export-ipad@2x.png */; };
+		6CE4071F17F08C6E001CAE63 /* export-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4070F17F08C6E001CAE63 /* export-iphone.png */; };
+		6CE4072017F08C6E001CAE63 /* export-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4071017F08C6E001CAE63 /* export-iphone@2x.png */; };
+		6CE4072117F08C6E001CAE63 /* settings-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4071117F08C6E001CAE63 /* settings-ipad.png */; };
+		6CE4072217F08C6E001CAE63 /* settings-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4071217F08C6E001CAE63 /* settings-ipad@2x.png */; };
+		6CE4072317F08C6E001CAE63 /* settings-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4071317F08C6E001CAE63 /* settings-iphone.png */; };
+		6CE4072417F08C6E001CAE63 /* settings-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE4071417F08C6E001CAE63 /* settings-iphone@2x.png */; };
 		E2A2001517DFCB7000A647E6 /* wordInfoStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = E2A2001417DFCB7000A647E6 /* wordInfoStruct.m */; };
-		F08FCD3617E3306D0091C481 /* settings-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F08FCD3217E3306D0091C481 /* settings-ipad.png */; };
-		F08FCD3717E3306D0091C481 /* settings-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F08FCD3317E3306D0091C481 /* settings-ipad@2x.png */; };
-		F08FCD3817E3306D0091C481 /* settings-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = F08FCD3417E3306D0091C481 /* settings-iphone.png */; };
-		F08FCD3917E3306D0091C481 /* settings-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F08FCD3517E3306D0091C481 /* settings-iphone@2x.png */; };
 		F0F831EB16FB8E6200535DC1 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F0F831EA16FB8E6200535DC1 /* libsqlite3.dylib */; };
 		F0F831ED16FB98DC00535DC1 /* EnWords in Resources */ = {isa = PBXBuildFile; fileRef = F0F831EC16FB98DC00535DC1 /* EnWords */; };
 /* End PBXBuildFile section */
@@ -80,12 +92,24 @@
 		6CCC87E117788F3F0083D694 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		6CD61DB517B96B43003907E7 /* CustomToggleSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomToggleSwitch.h; sourceTree = "<group>"; };
 		6CD61DB617B96B43003907E7 /* CustomToggleSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomToggleSwitch.m; sourceTree = "<group>"; };
+		6CE4070517F08C6E001CAE63 /* clear-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "clear-ipad.png"; path = "Keypad icons/add to project/clear-ipad.png"; sourceTree = "<group>"; };
+		6CE4070617F08C6E001CAE63 /* clear-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "clear-ipad@2x.png"; path = "Keypad icons/add to project/clear-ipad@2x.png"; sourceTree = "<group>"; };
+		6CE4070717F08C6E001CAE63 /* clear-iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "clear-iphone.png"; path = "Keypad icons/add to project/clear-iphone.png"; sourceTree = "<group>"; };
+		6CE4070817F08C6E001CAE63 /* clear-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "clear-iphone@2x.png"; path = "Keypad icons/add to project/clear-iphone@2x.png"; sourceTree = "<group>"; };
+		6CE4070917F08C6E001CAE63 /* delete-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "delete-ipad.png"; path = "Keypad icons/add to project/delete-ipad.png"; sourceTree = "<group>"; };
+		6CE4070A17F08C6E001CAE63 /* delete-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "delete-ipad@2x.png"; path = "Keypad icons/add to project/delete-ipad@2x.png"; sourceTree = "<group>"; };
+		6CE4070B17F08C6E001CAE63 /* delete-iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "delete-iphone.png"; path = "Keypad icons/add to project/delete-iphone.png"; sourceTree = "<group>"; };
+		6CE4070C17F08C6E001CAE63 /* delete-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "delete-iphone@2x.png"; path = "Keypad icons/add to project/delete-iphone@2x.png"; sourceTree = "<group>"; };
+		6CE4070D17F08C6E001CAE63 /* export-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "export-ipad.png"; path = "Keypad icons/add to project/export-ipad.png"; sourceTree = "<group>"; };
+		6CE4070E17F08C6E001CAE63 /* export-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "export-ipad@2x.png"; path = "Keypad icons/add to project/export-ipad@2x.png"; sourceTree = "<group>"; };
+		6CE4070F17F08C6E001CAE63 /* export-iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "export-iphone.png"; path = "Keypad icons/add to project/export-iphone.png"; sourceTree = "<group>"; };
+		6CE4071017F08C6E001CAE63 /* export-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "export-iphone@2x.png"; path = "Keypad icons/add to project/export-iphone@2x.png"; sourceTree = "<group>"; };
+		6CE4071117F08C6E001CAE63 /* settings-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "settings-ipad.png"; path = "Keypad icons/add to project/settings-ipad.png"; sourceTree = "<group>"; };
+		6CE4071217F08C6E001CAE63 /* settings-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "settings-ipad@2x.png"; path = "Keypad icons/add to project/settings-ipad@2x.png"; sourceTree = "<group>"; };
+		6CE4071317F08C6E001CAE63 /* settings-iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "settings-iphone.png"; path = "Keypad icons/add to project/settings-iphone.png"; sourceTree = "<group>"; };
+		6CE4071417F08C6E001CAE63 /* settings-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "settings-iphone@2x.png"; path = "Keypad icons/add to project/settings-iphone@2x.png"; sourceTree = "<group>"; };
 		E2A2001317DFCB7000A647E6 /* wordInfoStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wordInfoStruct.h; sourceTree = "<group>"; };
 		E2A2001417DFCB7000A647E6 /* wordInfoStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = wordInfoStruct.m; sourceTree = "<group>"; };
-		F08FCD3217E3306D0091C481 /* settings-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-ipad.png"; sourceTree = "<group>"; };
-		F08FCD3317E3306D0091C481 /* settings-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-ipad@2x.png"; sourceTree = "<group>"; };
-		F08FCD3417E3306D0091C481 /* settings-iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-iphone.png"; sourceTree = "<group>"; };
-		F08FCD3517E3306D0091C481 /* settings-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-iphone@2x.png"; sourceTree = "<group>"; };
 		F0F831EA16FB8E6200535DC1 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		F0F831EC16FB98DC00535DC1 /* EnWords */ = {isa = PBXFileReference; lastKnownFileType = file; path = EnWords; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -210,10 +234,22 @@
 		F08FCD3117E3303C0091C481 /* Button Icons */ = {
 			isa = PBXGroup;
 			children = (
-				F08FCD3217E3306D0091C481 /* settings-ipad.png */,
-				F08FCD3317E3306D0091C481 /* settings-ipad@2x.png */,
-				F08FCD3417E3306D0091C481 /* settings-iphone.png */,
-				F08FCD3517E3306D0091C481 /* settings-iphone@2x.png */,
+				6CE4070517F08C6E001CAE63 /* clear-ipad.png */,
+				6CE4070617F08C6E001CAE63 /* clear-ipad@2x.png */,
+				6CE4070717F08C6E001CAE63 /* clear-iphone.png */,
+				6CE4070817F08C6E001CAE63 /* clear-iphone@2x.png */,
+				6CE4070917F08C6E001CAE63 /* delete-ipad.png */,
+				6CE4070A17F08C6E001CAE63 /* delete-ipad@2x.png */,
+				6CE4070B17F08C6E001CAE63 /* delete-iphone.png */,
+				6CE4070C17F08C6E001CAE63 /* delete-iphone@2x.png */,
+				6CE4070D17F08C6E001CAE63 /* export-ipad.png */,
+				6CE4070E17F08C6E001CAE63 /* export-ipad@2x.png */,
+				6CE4070F17F08C6E001CAE63 /* export-iphone.png */,
+				6CE4071017F08C6E001CAE63 /* export-iphone@2x.png */,
+				6CE4071117F08C6E001CAE63 /* settings-ipad.png */,
+				6CE4071217F08C6E001CAE63 /* settings-ipad@2x.png */,
+				6CE4071317F08C6E001CAE63 /* settings-iphone.png */,
+				6CE4071417F08C6E001CAE63 /* settings-iphone@2x.png */,
 			);
 			name = "Button Icons";
 			sourceTree = "<group>";
@@ -289,17 +325,29 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CE4071817F08C6E001CAE63 /* clear-iphone@2x.png in Resources */,
+				6CE4071E17F08C6E001CAE63 /* export-ipad@2x.png in Resources */,
 				5A02A6BC16D401E1001ECCF4 /* InfoPlist.strings in Resources */,
 				5A02A6C416D401E1001ECCF4 /* Default.png in Resources */,
+				6CE4071F17F08C6E001CAE63 /* export-iphone.png in Resources */,
+				6CE4072317F08C6E001CAE63 /* settings-iphone.png in Resources */,
+				6CE4071717F08C6E001CAE63 /* clear-iphone.png in Resources */,
 				5A02A6C616D401E1001ECCF4 /* Default@2x.png in Resources */,
+				6CE4072217F08C6E001CAE63 /* settings-ipad@2x.png in Resources */,
+				6CE4071517F08C6E001CAE63 /* clear-ipad.png in Resources */,
+				6CE4071C17F08C6E001CAE63 /* delete-iphone@2x.png in Resources */,
+				6CE4071617F08C6E001CAE63 /* clear-ipad@2x.png in Resources */,
+				6CE4071A17F08C6E001CAE63 /* delete-ipad@2x.png in Resources */,
 				5A02A6C816D401E1001ECCF4 /* Default-568h@2x.png in Resources */,
+				6CE4072117F08C6E001CAE63 /* settings-ipad.png in Resources */,
+				6CE4071B17F08C6E001CAE63 /* delete-iphone.png in Resources */,
+				6CE4071917F08C6E001CAE63 /* delete-ipad.png in Resources */,
 				5A02A6CB16D401E1001ECCF4 /* MainStoryboard_iPhone.storyboard in Resources */,
 				5A02A6CE16D401E1001ECCF4 /* MainStoryboard_iPad.storyboard in Resources */,
 				F0F831ED16FB98DC00535DC1 /* EnWords in Resources */,
-				F08FCD3617E3306D0091C481 /* settings-ipad.png in Resources */,
-				F08FCD3717E3306D0091C481 /* settings-ipad@2x.png in Resources */,
-				F08FCD3817E3306D0091C481 /* settings-iphone.png in Resources */,
-				F08FCD3917E3306D0091C481 /* settings-iphone@2x.png in Resources */,
+				6CE4072417F08C6E001CAE63 /* settings-iphone@2x.png in Resources */,
+				6CE4072017F08C6E001CAE63 /* export-iphone@2x.png in Resources */,
+				6CE4071D17F08C6E001CAE63 /* export-ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
