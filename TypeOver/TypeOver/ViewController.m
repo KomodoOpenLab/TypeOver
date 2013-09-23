@@ -1401,8 +1401,6 @@
 	[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
 	[space0Button setTitle:@"space 0" forState:UIControlStateNormal];
 	[wordsLettersButton setTitle:@"words" forState:UIControlStateNormal];
-	if (IS_IPAD) [delButton setTitle:@"delete" forState:UIControlStateNormal];
-	if (!IS_IPAD) [delButton setTitle:@"del" forState:UIControlStateNormal];
 	
 	[addWordToDictButton setEnabled:YES];
 	[useButton setEnabled:YES];
