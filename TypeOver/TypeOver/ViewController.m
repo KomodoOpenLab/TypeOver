@@ -1390,27 +1390,7 @@
 	[space0Button setEnabled:YES];
 	[wordsLettersButton setEnabled:YES];
 	
-	[useButton setHidden:NO];
-	[settingsButton setHidden:NO];
-	[punct1Button setHidden:NO];
-	[abc2Button setHidden:NO];
-	[def3Button setHidden:NO];
-	[delButton setHidden:NO];
-	[ghi4Button setHidden:NO];
-	[jkl5Button setHidden:NO];
-	[mno6Button setHidden:NO];
-	[clearButton setHidden:NO];
-	[pqrs7Button setHidden:NO];
-	[tuv8Button setHidden:NO];
-	[wxyz9Button setHidden:NO];
-	[speakButton setHidden:NO];
-	[shiftButton setHidden:NO];
-	[space0Button setHidden:NO];
-	[wordsLettersButton setHidden:NO];
-	
 	[self checkNeededKeys];
-	
-	[self updatePredState];
 	
 	[inputTimer invalidate];
 	[delTimer invalidate];
@@ -1713,6 +1693,24 @@
 
 - (void)removeContentView:(UIButton *)key {
 	[key.superview removeFromSuperview];
+	
+	[useButton setHidden:NO];
+	[settingsButton setHidden:NO];
+	[punct1Button setHidden:NO];
+	[abc2Button setHidden:NO];
+	[def3Button setHidden:NO];
+	[delButton setHidden:NO];
+	[ghi4Button setHidden:NO];
+	[jkl5Button setHidden:NO];
+	[mno6Button setHidden:NO];
+	[clearButton setHidden:NO];
+	[pqrs7Button setHidden:NO];
+	[tuv8Button setHidden:NO];
+	[wxyz9Button setHidden:NO];
+	[speakButton setHidden:NO];
+	[shiftButton setHidden:NO];
+	[space0Button setHidden:NO];
+	[wordsLettersButton setHidden:NO];
 	
 	[self resetKeys];
 }
