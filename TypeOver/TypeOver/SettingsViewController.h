@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomButton.h"
+#import "CustomToggleSwitch.h"
 
 @interface SettingsViewController : UIViewController {
 	
@@ -14,25 +16,25 @@
 #pragma mark - outlets 
 	
 	__weak IBOutlet UILabel *manualDwellTimeLabel;
-	__weak IBOutlet UISwitch *manualDwellTimeToggleSwitch;
-    __weak IBOutlet UIButton *dwellTimeDownButton;
-    __weak IBOutlet UIButton *dwellTimeUpButton;
+	__weak IBOutlet CustomToggleSwitch *manualDwellTimeToggleSwitch;
+    __weak IBOutlet CustomButton *dwellTimeDownButton;
+    __weak IBOutlet CustomButton *dwellTimeUpButton;
 	__weak IBOutlet UILabel *dwellTimeLabel;
-	__weak IBOutlet UISwitch *wordPredToggleSwitch;
-	__weak IBOutlet UISwitch *autoPredToggleSwitch;
+	__weak IBOutlet CustomToggleSwitch *wordPredToggleSwitch;
+	__weak IBOutlet CustomToggleSwitch *autoPredToggleSwitch;
 	__weak IBOutlet UILabel *autoPredAfterLabel;
-	__weak IBOutlet UIButton *autoPredAfterDownButton;
-    __weak IBOutlet UIButton *fontSizeUpButton;
-	__weak IBOutlet UIButton *fontSizeDownButton;
-    __weak IBOutlet UIButton *autoPredAfterUpButton;
-	__weak IBOutlet UIButton *aboutDwellTimeButton;
-	__weak IBOutlet UIButton *aboutAutoPredButton;
-	__weak IBOutlet UIButton *aboutAutoPredAfterButton;
-	__weak IBOutlet UIButton *aboutManualDwellTime;
-	__weak IBOutlet UISwitch *shorthandPredToggleSwitch;
-	__weak IBOutlet UIButton *aboutShorthandPred;
-	__weak IBOutlet UIButton *aboutFontSize;
-	__weak IBOutlet UIButton *aboutWordPred;
+	__weak IBOutlet CustomButton *autoPredAfterDownButton;
+    __weak IBOutlet CustomButton *fontSizeUpButton;
+	__weak IBOutlet CustomButton *fontSizeDownButton;
+    __weak IBOutlet CustomButton *autoPredAfterUpButton;
+	__weak IBOutlet CustomButton *aboutDwellTimeButton;
+	__weak IBOutlet CustomButton *aboutAutoPredButton;
+	__weak IBOutlet CustomButton *aboutAutoPredAfterButton;
+	__weak IBOutlet CustomButton *aboutManualDwellTime;
+	__weak IBOutlet CustomToggleSwitch *shorthandPredToggleSwitch;
+	__weak IBOutlet CustomButton *aboutShorthandPred;
+	__weak IBOutlet CustomButton *aboutFontSize;
+	__weak IBOutlet CustomButton *aboutWordPred;
 	__weak IBOutlet UILabel *autoPredLabel;
 	__weak IBOutlet UILabel *shorthandPredLabel;
 	

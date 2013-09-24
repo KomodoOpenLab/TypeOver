@@ -15,6 +15,7 @@
 @implementation ViewController
 
 #define IS_IPAD ([[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)] && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 
 #pragma mark - view controller methods
@@ -104,6 +105,7 @@
 	
 	
 	shift = true;
+	clearString = @"";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -119,18 +121,21 @@
 	// make navigation controller black
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	
+	// make navigation controller non-translucent
+	self.navigationController.navigationBar.translucent = NO;
+	
 	if (![addWordToDictButton isHidden]) {
 		// hide add word to dictionary button
 		[addWordToDictButton setHidden:YES];
 	}
 	
+	// dummy view to hide system keyboard
+	UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+	textView.inputView = dummyView;
+	
 	[self updateLayout];
 	
 	[self checkNeededKeys];
-	
-	// dummy view to hide system keyboard
-	UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
-	textView.inputView = dummyView;
 	
 	[textView becomeFirstResponder]; // activate textview
 	
@@ -142,79 +147,169 @@
     [self resetMisc];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+		[self updateLayout]; // temporary fix for a layout bug when running iOS 7 on an iPhone
+	}
+}
+
 
 #pragma mark - layout
+
+- (void)displayContentViewWithContent:(NSString *)content usingChars:(BOOL)usingchars {
+	// hide keys behind content view
+	
+	[self hideKeys];
+	
+	
+	// declare ui elements
+	
+	UIView *contentView;
+	CustomButton *firstContentButton, *secondContentButton, *thirdContentButton, *forthContentButton, *fifthContentButton, *sixthContentButton, *seventhContentButton, *eighthContentButton, *cancelContentButton;
+	
+	
+	if (usingchars) content = [content stringByReplacingOccurrencesOfString:@" " withString:@""]; // remove spaces
+	
+	NSMutableArray *contentArray = [[NSMutableArray alloc] init];
+	if (usingchars) {
+		for (int i = 0; i < [content length]; i++) {
+			NSString *ch = [content substringWithRange:NSMakeRange(i, 1)];
+			[contentArray addObject:ch];
+		}
+	}
+	else {
+		contentArray = [NSMutableArray arrayWithArray:[content componentsSeparatedByString:@" "]];
+	}
+	
+	int keys = [contentArray count];
+	
+	float viewWidth = self.view.bounds.size.width;
+	float keyWidth = viewWidth / keys;
+	float keyHeight = (self.view.bounds.size.height-textView.bounds.size.height)/2;
+	
+	CGRect keyFrame = CGRectMake(0, 0, keyWidth, keyHeight);
+	
+	CGRect viewFrame = CGRectMake(0, textView.bounds.size.height, self.view.bounds.size.width, self.view.bounds.size.height-textView.bounds.size.height);
+	contentView = [[UIView alloc] initWithFrame:viewFrame];
+	contentView.backgroundColor = [UIColor blackColor];
+	[self.view addSubview:contentView];
+	
+	
+	// layout keys
+	
+	if (keys>=2) {
+		firstContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[firstContentButton setTitle:[contentArray objectAtIndex:0] forState:UIControlStateNormal];
+		
+		keyFrame.origin.x = keyFrame.size.width;
+		secondContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[secondContentButton setTitle:[contentArray objectAtIndex:1] forState:UIControlStateNormal];
+	}
+	
+	if (keys>=4) {
+		keyFrame.origin.x = keyFrame.size.width * 2;
+		thirdContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[thirdContentButton setTitle:[contentArray objectAtIndex:2] forState:UIControlStateNormal];
+		
+		keyFrame.origin.x = keyFrame.size.width * 3;
+		forthContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[forthContentButton setTitle:[contentArray objectAtIndex:3] forState:UIControlStateNormal];
+	}
+	
+	if (keys>=5) {
+		keyFrame.origin.x = keyFrame.size.width * 4;
+		fifthContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[fifthContentButton setTitle:[contentArray objectAtIndex:4] forState:UIControlStateNormal];
+	}
+	
+	if (keys>=8) {
+		keyFrame.origin.x = keyFrame.size.width * 5;
+		sixthContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[sixthContentButton setTitle:[contentArray objectAtIndex:5] forState:UIControlStateNormal];
+		
+		keyFrame.origin.x = keyFrame.size.width * 6;
+		seventhContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[seventhContentButton setTitle:[contentArray objectAtIndex:6] forState:UIControlStateNormal];
+		
+		keyFrame.origin.x = keyFrame.size.width * 7;
+		eighthContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+		[eighthContentButton setTitle:[contentArray objectAtIndex:7] forState:UIControlStateNormal];
+	}
+	
+	keyFrame.origin.x = 0;
+	keyFrame.origin.y = keyFrame.size.height;
+	keyFrame.size.width = contentView.bounds.size.width;
+	cancelContentButton = [[CustomButton alloc] initWithFrame:keyFrame];
+	[cancelContentButton setTitle:@"cancel" forState:UIControlStateNormal];
+	
+	
+	// add actions to keys
+	
+	[firstContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[secondContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[thirdContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[forthContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[fifthContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[sixthContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[seventhContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[eighthContentButton addTarget:self action:@selector(inputContentFromKey:) forControlEvents:UIControlEventTouchUpInside];
+	[cancelContentButton addTarget:self action:@selector(removeContentView:) forControlEvents:UIControlEventTouchUpInside];
+	
+	
+	// add keys to content view
+	
+	[contentView addSubview:firstContentButton];
+	[contentView addSubview:secondContentButton];
+	[contentView addSubview:thirdContentButton];
+	[contentView addSubview:forthContentButton];
+	[contentView addSubview:fifthContentButton];
+	[contentView addSubview:sixthContentButton];
+	[contentView addSubview:seventhContentButton];
+	[contentView addSubview:eighthContentButton];
+	[contentView addSubview:cancelContentButton];
+}
 
 - (void)updateLayout {
 	float viewWidth = self.view.bounds.size.width;
 	float keyWidth = viewWidth / 3;
+	float keyHeight = self.view.bounds.size.height/10;
 	CGRect keyFrame;
 	
 	
 	// get keys right size
 	
-	keyFrame = addWordToDictButton.frame;
+	keyFrame.size.height = keyHeight; // never changes
+	
 	keyFrame.size.width = viewWidth;
 	addWordToDictButton.frame = keyFrame;
 	
-	keyFrame = useButton.frame;
 	keyFrame.size.width = keyWidth;
+	
 	useButton.frame = keyFrame;
-	keyFrame = settingsButton.frame;
-	keyFrame.size.width = keyWidth;
 	settingsButton.frame = keyFrame;
-	keyFrame = wordsLettersButton.frame;
-	keyFrame.size.width = keyWidth;
 	wordsLettersButton.frame = keyFrame;
 	
-	keyFrame = punct1Button.frame;
-	keyFrame.size.width = keyWidth;
 	punct1Button.frame = keyFrame;
-	keyFrame = abc2Button.frame;
-	keyFrame.size.width = keyWidth;
 	abc2Button.frame = keyFrame;
-	keyFrame = def3Button.frame;
-	keyFrame.size.width = keyWidth;
 	def3Button.frame = keyFrame;
 	
-	keyFrame = ghi4Button.frame;
-	keyFrame.size.width = keyWidth;
 	ghi4Button.frame = keyFrame;
-	keyFrame = jkl5Button.frame;
-	keyFrame.size.width = keyWidth;
 	jkl5Button.frame = keyFrame;
-	keyFrame = mno6Button.frame;
-	keyFrame.size.width = keyWidth;
 	mno6Button.frame = keyFrame;
 	
-	keyFrame = pqrs7Button.frame;
-	keyFrame.size.width = keyWidth;
 	pqrs7Button.frame = keyFrame;
-	keyFrame = tuv8Button.frame;
-	keyFrame.size.width = keyWidth;
 	tuv8Button.frame = keyFrame;
-	keyFrame = wxyz9Button.frame;
-	keyFrame.size.width = keyWidth;
 	wxyz9Button.frame = keyFrame;
 	
-	keyFrame = space0Button.frame;
-	keyFrame.size.width = keyWidth;
 	space0Button.frame = keyFrame;
 	
-	keyFrame = shiftButton.frame;
 	keyFrame.size.width = keyWidth/2;
+	
 	shiftButton.frame = keyFrame;
-	
-	keyFrame = speakButton.frame;
-	keyFrame.size.width = keyWidth/2;
 	speakButton.frame = keyFrame;
-	
-	keyFrame = delButton.frame;
-	keyFrame.size.width = keyWidth/2;
 	delButton.frame = keyFrame;
-	
-	keyFrame = clearButton.frame;
-	keyFrame.size.width = keyWidth/2;
 	clearButton.frame = keyFrame;
 	
 	
@@ -415,7 +510,7 @@
         while (SQLITE_ROW==sqlite3_step(stmt) && cumulativefrequency<criticalfrequency)
         {
             szWord = (char*)sqlite3_column_text(stmt, 1);
-            retval = sqlite3_column_int(stmt, 2);	
+            retval = sqlite3_column_int(stmt, 2);
             cumulativefrequency += retval;
             criticallocation++;
         }
@@ -505,14 +600,14 @@
 		
 		// check if word contains an apostrophe and make it sql friendly
 		context = [NSMutableString stringWithString:[context stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
-		        
+		
         if (0!=conlen) {
             [strQuery appendString:@"AND WORDS.WORD LIKE '"];
             [strQuery appendString:context];
             [strQuery appendString:@"%' "];
         }
 	}
- 
+	
     [strQuery appendString:@"ORDER BY BIGRAMDATA.BIGRAMFREQ DESC LIMIT 20;"];
     
 	return strQuery;
@@ -572,16 +667,16 @@
     NSMutableArray *sortingarr = [NSMutableArray arrayWithCapacity:60];
     NSMutableArray *resultarr = [NSMutableArray arrayWithCapacity:8];
     sqlite3_stmt *stmt;
-    wordInfoStruct *item;    
+    wordInfoStruct *item;
     int i;
     float totalunigramfreq,totalbigramfreq;
 	
     bool bigram = (0!=wordId);
-            
+	
     // get user's added words
     strUserUnigramQuery = [NSString stringWithString:[self produceQueryWithContextOnly:strContext]];
     NSLog(@"User-word unigram query: %@",strUserUnigramQuery);
-
+	
     int result = sqlite3_prepare_v2(dbUserWordPrediction, [strUserUnigramQuery UTF8String], -1, &stmt, nil);
     
     if (SQLITE_OK==result)
@@ -692,7 +787,7 @@
     NSLog(@"sorting %d items",numitems);
     if (numitems>1)
     {
-        while (i<8 && i<numitems)
+        while (i<9 && i<numitems)
         {
             lochigh = i;
             temp = [sortingarr objectAtIndex:i];
@@ -717,7 +812,7 @@
     }
     
     i = 0;
-    while (i<8 && i<numitems)
+    while (i<9 && i<numitems)
     {
         temp = [sortingarr objectAtIndex:i];
         [resultarr addObject:temp.word];
@@ -1275,9 +1370,8 @@
 	[wxyz9Button setTitle:@"wxyz 9" forState:UIControlStateNormal];
 	[space0Button setTitle:@"space 0" forState:UIControlStateNormal];
 	[wordsLettersButton setTitle:@"words" forState:UIControlStateNormal];
-	if (IS_IPAD) [delButton setTitle:@"delete" forState:UIControlStateNormal];
-	if (!IS_IPAD) [delButton setTitle:@"del" forState:UIControlStateNormal];
 	
+	[addWordToDictButton setEnabled:YES];
 	[useButton setEnabled:YES];
 	[settingsButton setEnabled:YES];
 	[punct1Button setEnabled:YES];
@@ -1307,6 +1401,7 @@
 }
 
 - (void)disableKeys {
+	[addWordToDictButton setEnabled:NO];
 	[useButton setEnabled:NO];
 	[settingsButton setEnabled:NO];
 	[punct1Button setEnabled:NO];
@@ -1326,13 +1421,34 @@
 	[wordsLettersButton setEnabled:NO];
 }
 
+- (void)hideKeys {
+	[addWordToDictButton setHidden:YES];
+	[useButton setHidden:YES];
+	[settingsButton setHidden:YES];
+	[punct1Button setHidden:YES];
+	[abc2Button setHidden:YES];
+	[def3Button setHidden:YES];
+	[delButton setHidden:YES];
+	[ghi4Button setHidden:YES];
+	[jkl5Button setHidden:YES];
+	[mno6Button setHidden:YES];
+	[clearButton setHidden:YES];
+	[pqrs7Button setHidden:YES];
+	[tuv8Button setHidden:YES];
+	[wxyz9Button setHidden:YES];
+	[speakButton setHidden:YES];
+	[shiftButton setHidden:YES];
+	[space0Button setHidden:YES];
+	[wordsLettersButton setHidden:YES];
+}
+
 - (void)checkNeededKeys {
 	if ([textView.text isEqualToString:@""]) {
 		[useButton setEnabled:NO];
 		[wordsLettersButton setEnabled:NO];
 		[speakButton setEnabled:NO];
 		[delButton setEnabled:NO];
-		[clearButton setEnabled:NO];
+		if ([clearString isEqualToString:@""]) [clearButton setEnabled:NO];
 	}
 	else {
 		[useButton setEnabled:YES];
@@ -1357,13 +1473,10 @@
 - (IBAction)punct1Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[punct1Button setTitle:@"." forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(punct1) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[punct1Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(punct1) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1375,13 +1488,10 @@
 - (IBAction)abc2Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[abc2Button setTitle:@"a" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(abc2) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[abc2Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(abc2) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1393,13 +1503,10 @@
 - (IBAction)def3Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[def3Button setTitle:@"d" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(def3) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[def3Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(def3) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1411,13 +1518,10 @@
 - (IBAction)ghi4Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[ghi4Button setTitle:@"g" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(ghi4) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[ghi4Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(ghi4) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1429,13 +1533,10 @@
 - (IBAction)jkl5Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[jkl5Button setTitle:@"j" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(jkl5) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[jkl5Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(jkl5) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1447,13 +1548,10 @@
 - (IBAction)mno6Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[mno6Button setTitle:@"m" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(mno6) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[mno6Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(mno6) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1465,13 +1563,10 @@
 - (IBAction)pqrs7Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[pqrs7Button setTitle:@"p" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(pqrs7) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[pqrs7Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(pqrs7) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1483,13 +1578,10 @@
 - (IBAction)tuv8Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[tuv8Button setTitle:@"t" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(tuv8) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[tuv8Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(tuv8) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1501,13 +1593,10 @@
 - (IBAction)wxyz9Act:(id)sender {
 	if (letters) {
 		if (![inputTimer isValid]) {
-			[wxyz9Button setTitle:@"w" forState:UIControlStateNormal];
-			inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(wxyz9) userInfo:nil repeats:YES];
-			[self disableKeys];
-			[wxyz9Button setEnabled:YES];
+			[self startModeForKey:sender withVoiceOverSelector:@selector(wxyz9) usingChars:YES];
 		}
 		else {
-			[self inputCharacterFromKey:sender];
+			[self inputContentFromKey:sender];
 		}
 	}
 	else if (words) {
@@ -1532,13 +1621,10 @@
 
 - (IBAction)space0Act:(id)sender {
 	if (![inputTimer isValid]) {
-		[space0Button setTitle:@"space" forState:UIControlStateNormal];
-		inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(space0) userInfo:nil repeats:YES];
-		[self disableKeys];
-		[space0Button setEnabled:YES];
+		[self startModeForKey:sender withVoiceOverSelector:@selector(space0) usingChars:NO];
 	}
 	else {
-		[self inputCharacterFromKey:sender];
+		[self inputContentFromKey:sender];
 	}
 	[self checkShift];
 }
@@ -1559,25 +1645,17 @@
 }
 
 - (IBAction)delAct:(id)sender {
-	if (![inputTimer isValid]) {
-		if (IS_IPAD) [delButton setTitle:@"backspace" forState:UIControlStateNormal];
-		if (!IS_IPAD) [delButton setTitle:@"bksp" forState:UIControlStateNormal];
-		inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspaceDelWord) userInfo:nil repeats:YES];
+	if (![delTimer isValid] && UIAccessibilityIsVoiceOverRunning()) {
+		[self backspace]; // prevents a delay
+		delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
 		[self disableKeys];
 		[delButton setEnabled:YES];
 	}
-	else if (![textView.text isEqualToString:@""]) {
-		if ([delButton.titleLabel.text isEqualToString:@"bksp"]||[delButton.titleLabel.text isEqualToString:@"backspace"]) {
-			[self backspace]; // prevents a delay
-			delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
-		}
-		else if ([delButton.titleLabel.text isEqualToString:@"del wd"]||[delButton.titleLabel.text isEqualToString:@"delete word"]) {
-			[self delWord]; // prevents a delay
-			delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(delWord) userInfo:nil repeats:YES];
-		}
-		
-		[self disableKeys];
-		[delButton setEnabled:YES];
+	else if ([delTimer isValid] && UIAccessibilityIsVoiceOverRunning()) {
+		[self resetKeys];
+	}
+	else if (!UIAccessibilityIsVoiceOverRunning()) {
+		[self backspace];
 	}
 }
 
@@ -1601,60 +1679,115 @@
 
 #pragma mark - keypad key methods and functions
 
-- (void)inputCharacterFromKey:(UIButton *)key {
-	NSMutableString *st = [NSMutableString stringWithString:textView.text];
-	NSString *character = key.titleLabel.text;
-	
-	// check if shift is on and make appropriate adjustments to the character
-	if (shift) {
-		character = character.uppercaseString;
-	}
-	
-	if (key==punct1Button) {
-		if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]||[key.titleLabel.text isEqualToString:@","]) {
-			if (st.length>0) {
-				if ([self isWordDelimiter:[textView.text characterAtIndex:[textView.text length] - 1]]) {
-					st = [NSMutableString stringWithString:[st substringToIndex:[st length] - 1]];
-				}
+- (void)startModeForKey:(UIButton *)key withVoiceOverSelector:(SEL)voSelector usingChars:(BOOL)usingChars {
+	if (UIAccessibilityIsVoiceOverRunning()) {
+		NSMutableArray *contentArray = [[NSMutableArray alloc] init];
+		if (usingChars) {
+			for (int i = 0; i < [key.titleLabel.text length]; i++) {
+				NSString *ch = [key.titleLabel.text substringWithRange:NSMakeRange(i, 1)];
+				[contentArray addObject:ch];
 			}
-			[st appendString:key.titleLabel.text];
+		}
+		else {
+			contentArray = [NSMutableArray arrayWithArray:[key.titleLabel.text componentsSeparatedByString:@" "]];
 		}
 		
-		if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]) {
-			wordId = 0;
-			[st appendString:@" "];
-			shift = true;
-			[self resetMisc];
-		}
-		else if ([key.titleLabel.text isEqualToString:@","]) {
-			[st appendString:@" "];
-			shift = false;
-			[self resetMisc];
-		}
-		else {
-			[st appendString:key.titleLabel.text];
-			shift = false;
-		}
-	}
-	else if (key==space0Button) {
-		if ([key.titleLabel.text isEqualToString:@"space"]) {
-			[st appendString:@" "];
-			shift = false;
-			[self resetMisc];
-		}
-		else {
-			[st appendString:@"0"];
-			shift = false;
-		}
+		[key setTitle:[contentArray objectAtIndex:0] forState:UIControlStateNormal];
+		inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:voSelector userInfo:nil repeats:YES];
+		[self disableKeys];
+		[key setEnabled:YES];
 	}
 	else {
-		[st appendString:character];
+		[self displayContentViewWithContent:key.titleLabel.text usingChars:usingChars];
+	}
+}
+
+- (void)removeContentView:(UIButton *)key {
+	[key.superview removeFromSuperview];
+	
+	[useButton setHidden:NO];
+	[settingsButton setHidden:NO];
+	[punct1Button setHidden:NO];
+	[abc2Button setHidden:NO];
+	[def3Button setHidden:NO];
+	[delButton setHidden:NO];
+	[ghi4Button setHidden:NO];
+	[jkl5Button setHidden:NO];
+	[mno6Button setHidden:NO];
+	[clearButton setHidden:NO];
+	[pqrs7Button setHidden:NO];
+	[tuv8Button setHidden:NO];
+	[wxyz9Button setHidden:NO];
+	[speakButton setHidden:NO];
+	[shiftButton setHidden:NO];
+	[space0Button setHidden:NO];
+	[wordsLettersButton setHidden:NO];
+	
+	[self resetKeys];
+}
+
+- (void)inputContentFromKey:(UIButton *)key {
+	NSMutableString *st = [NSMutableString stringWithString:textView.text];
+	NSString *content = key.titleLabel.text;
+	
+	// check if shift is on and make appropriate adjustments to the character
+	if (shift&&[content length]==1) {
+		content = content.uppercaseString;
+	}
+	
+	BOOL done = NO;
+	
+	if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]||[key.titleLabel.text isEqualToString:@","]) {
+		if (st.length>0) {
+			if ([self isWordDelimiter:[textView.text characterAtIndex:[textView.text length] - 1]]) {
+				st = [NSMutableString stringWithString:[st substringToIndex:[st length] - 1]];
+			}
+		}
+		[st appendString:key.titleLabel.text];
+		
+		done = YES;
+	}
+	
+	if ([key.titleLabel.text isEqualToString:@"."]||[key.titleLabel.text isEqualToString:@"?"]||[key.titleLabel.text isEqualToString:@"!"]) {
+		wordId = 0;
+		[st appendString:@" "];
+		shift = true;
+		[self resetMisc];
+		
+		done = YES;
+	}
+	else if ([key.titleLabel.text isEqualToString:@","]) {
+		[st appendString:@" "];
 		shift = false;
+		[self resetMisc];
+		
+		done = YES;
+	}
+		
+	if ([key.titleLabel.text isEqualToString:@"space"]) {
+		[st appendString:@" "];
+		shift = false;
+		[self resetMisc];
+		
+		done = YES;
+	}
+	else if ([key.titleLabel.text isEqualToString:@"0"]) {
+		[st appendString:@"0"];
+		shift = false;
+		
+		done = YES;
+	}
+	
+	if (!done) {
+		[st appendString:content];
+		shift=false;
 	}
 	
 	[textView setText:st];
 	
 	[self resetKeys];
+	
+	[self removeContentView:key];
 	
 	[self updatePredState];
 }
@@ -1696,7 +1829,7 @@
 		return;
 	}
 	else if (![punct1Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:punct1Button];
+		[self inputContentFromKey:punct1Button];
 		return;
 	}
 	if ([punct1Button.titleLabel.text isEqualToString:@"."]) {
@@ -1732,7 +1865,7 @@
 		return;
 	}
 	else if (![abc2Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:abc2Button];
+		[self inputContentFromKey:abc2Button];
 		return;
 	}
 	if ([abc2Button.titleLabel.text isEqualToString:@"a"]) {
@@ -1756,7 +1889,7 @@
 		return;
 	}
 	else if (![def3Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:def3Button];
+		[self inputContentFromKey:def3Button];
 		return;
 	}
 	if ([def3Button.titleLabel.text isEqualToString:@"d"]) {
@@ -1780,7 +1913,7 @@
 		return;
 	}
 	else if (![ghi4Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:ghi4Button];
+		[self inputContentFromKey:ghi4Button];
 		return;
 	}
 	if ([ghi4Button.titleLabel.text isEqualToString:@"g"]) {
@@ -1804,7 +1937,7 @@
 		return;
 	}
 	else if (![jkl5Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:jkl5Button];
+		[self inputContentFromKey:jkl5Button];
 		return;
 	}
 	if ([jkl5Button.titleLabel.text isEqualToString:@"j"]) {
@@ -1828,7 +1961,7 @@
 		return;
 	}
 	else if (![mno6Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:mno6Button];
+		[self inputContentFromKey:mno6Button];
 		return;
 	}
 	if ([mno6Button.titleLabel.text isEqualToString:@"m"]) {
@@ -1852,7 +1985,7 @@
 		return;
 	}
 	else if (![pqrs7Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:pqrs7Button];
+		[self inputContentFromKey:pqrs7Button];
 		return;
 	}
 	if ([pqrs7Button.titleLabel.text isEqualToString:@"p"]) {
@@ -1879,7 +2012,7 @@
 		return;
 	}
 	else if (![tuv8Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:tuv8Button];
+		[self inputContentFromKey:tuv8Button];
 		return;
 	}
 	if ([tuv8Button.titleLabel.text isEqualToString:@"t"]) {
@@ -1903,7 +2036,7 @@
 		return;
 	}
 	else if (![wxyz9Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:wxyz9Button];
+		[self inputContentFromKey:wxyz9Button];
 		return;
 	}
 	if ([wxyz9Button.titleLabel.text isEqualToString:@"w"]) {
@@ -1930,7 +2063,7 @@
 		return;
 	}
 	else if (![space0Button accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self inputCharacterFromKey:space0Button];
+		[self inputContentFromKey:space0Button];
 		return;
 	}
 	if ([space0Button.titleLabel.text isEqualToString:@"space"]) {
@@ -1940,68 +2073,6 @@
 		[space0Button setTitle:@"space" forState:UIControlStateNormal];
 		timesCycled++;
 	}
-}
-
-- (void)backspaceDelWord {
-	if (timesCycled==2) {
-		[self resetKeys];
-		return;
-	}
-	else if (![delButton accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		if ([delButton.titleLabel.text isEqualToString:@"bksp"]||[delButton.titleLabel.text isEqualToString:@"backspace"]) {
-			[self backspace]; // prevents a delay
-			delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(backspace) userInfo:nil repeats:YES];
-		}
-		else if ([delButton.titleLabel.text isEqualToString:@"del wd"]||[delButton.titleLabel.text isEqualToString:@"delete word"]) {
-			[self delWord]; // prevents a delay
-			delTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:@selector(delWord) userInfo:nil repeats:YES];
-		}
-		return;
-	}
-	if ([delButton.titleLabel.text isEqualToString:@"bksp"]||[delButton.titleLabel.text isEqualToString:@"backspace"]) {
-		if (IS_IPAD) {
-			[delButton setTitle:@"delete word" forState:UIControlStateNormal];
-		}
-		else {
-			[delButton setTitle:@"del wd" forState:UIControlStateNormal];
-		}
-	}
-	else if ([delButton.titleLabel.text isEqualToString:@"del wd"]||[delButton.titleLabel.text isEqualToString:@"delete word"]) {
-		if (IS_IPAD) {
-			[delButton setTitle:@"backspace" forState:UIControlStateNormal];
-		}
-		else {
-			[delButton setTitle:@"bksp" forState:UIControlStateNormal];
-		}
-		timesCycled++;
-	}
-}
-
-- (void)delWord {
-	if (![delButton accessibilityElementIsFocused]&&UIAccessibilityIsVoiceOverRunning()) {
-		[self resetKeys];
-		[self updatePredState];
-		return;
-	}
-    
-	[self updatePredState];
-	
-	NSString *st = textView.text;
-    
-	if ([st length] > 0) {
-		if ([currentWord isEqualToString:@""]) st = [st substringToIndex:[st length] - [previousWord length] - 1];
-		if (![currentWord isEqualToString:@""]) st = [st substringToIndex:[st length] - [currentWord length]];
-        [textView setText:st];
-    }
-	else {
-		[self resetKeys];
-	}
-	
-	if ([textView.text isEqual: @""]) {
-		shift = true;
-		[self resetMisc];
-	}
-	[self checkShift];
 }
 
 - (void)backspace {
@@ -2017,6 +2088,7 @@
         [textView setText:st];
     }
 	if ([textView.text isEqual: @""]) {
+		clearString = @"";
 		shift = true;
 		[self resetMisc];
 	}
