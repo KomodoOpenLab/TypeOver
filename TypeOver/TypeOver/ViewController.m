@@ -1681,7 +1681,18 @@
 
 - (void)startModeForKey:(UIButton *)key withVoiceOverSelector:(SEL)voSelector usingChars:(BOOL)usingChars {
 	if (UIAccessibilityIsVoiceOverRunning()) {
-		[key setTitle:[key.titleLabel.text substringToIndex:1] forState:UIControlStateNormal];
+		NSMutableArray *contentArray = [[NSMutableArray alloc] init];
+		if (usingChars) {
+			for (int i = 0; i < [key.titleLabel.text length]; i++) {
+				NSString *ch = [key.titleLabel.text substringWithRange:NSMakeRange(i, 1)];
+				[contentArray addObject:ch];
+			}
+		}
+		else {
+			contentArray = [NSMutableArray arrayWithArray:[key.titleLabel.text componentsSeparatedByString:@" "]];
+		}
+		
+		[key setTitle:[contentArray objectAtIndex:0] forState:UIControlStateNormal];
 		inputTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"scan_rate_float"] target:self selector:voSelector userInfo:nil repeats:YES];
 		[self disableKeys];
 		[key setEnabled:YES];
