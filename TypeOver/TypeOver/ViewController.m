@@ -135,8 +135,6 @@
 	
 	[self updateLayout];
 	
-	[self checkNeededKeys];
-	
 	[textView becomeFirstResponder]; // activate textview
 	
 	[textView setFont:[UIFont systemFontOfSize:[[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"]]];
@@ -1002,8 +1000,6 @@
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"word_pred"]) { // if word prediction is on
 		[self predict];
 	}
-	
-	[self checkNeededKeys];
 }
 
 - (void)predict {
@@ -1390,8 +1386,6 @@
 	[space0Button setEnabled:YES];
 	[wordsLettersButton setEnabled:YES];
 	
-	[self checkNeededKeys];
-	
 	[inputTimer invalidate];
 	[delTimer invalidate];
 	
@@ -1440,23 +1434,6 @@
 	[shiftButton setHidden:YES];
 	[space0Button setHidden:YES];
 	[wordsLettersButton setHidden:YES];
-}
-
-- (void)checkNeededKeys {
-	if ([textView.text isEqualToString:@""]) {
-		[useButton setEnabled:NO];
-		[wordsLettersButton setEnabled:NO];
-		[speakButton setEnabled:NO];
-		[delButton setEnabled:NO];
-		if ([clearString isEqualToString:@""]) [clearButton setEnabled:NO];
-	}
-	else {
-		[useButton setEnabled:YES];
-		[wordsLettersButton setEnabled:YES];
-		[speakButton setEnabled:YES];
-		[delButton setEnabled:YES];
-		[clearButton setEnabled:YES];
-	}
 }
 
 
