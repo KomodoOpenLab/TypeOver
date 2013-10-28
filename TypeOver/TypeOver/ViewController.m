@@ -139,6 +139,16 @@
 	
 	[textView setFont:[UIFont systemFontOfSize:[[NSUserDefaults standardUserDefaults] integerForKey:@"font_size"]]];
 	
+	[self separateAccessibilityLabelContentInKey:punct1Button];
+	[self separateAccessibilityLabelContentInKey:abc2Button];
+	[self separateAccessibilityLabelContentInKey:def3Button];
+	[self separateAccessibilityLabelContentInKey:ghi4Button];
+	[self separateAccessibilityLabelContentInKey:jkl5Button];
+	[self separateAccessibilityLabelContentInKey:mno6Button];
+	[self separateAccessibilityLabelContentInKey:pqrs7Button];
+	[self separateAccessibilityLabelContentInKey:tuv8Button];
+	[self separateAccessibilityLabelContentInKey:wxyz9Button];
+	
 	letters = true;
 	wordId = 0;
 	[self checkShift];
@@ -406,6 +416,22 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	[self updateLayout];
+}
+
+
+#pragma mark - voiceover and switch control methods 
+
+- (void)separateAccessibilityLabelContentInKey:(UIButton *)key {
+	NSMutableString *content = [NSMutableString stringWithString:key.titleLabel.text];
+	
+	content = [NSMutableString stringWithString:[content stringByReplacingOccurrencesOfString:@" " withString:@""]];
+	
+	NSMutableArray *buffer = [NSMutableArray arrayWithCapacity:[content length]];
+	for (int i = 0; i < [content length]; i++) {
+		[buffer addObject:[NSString stringWithFormat:@"%C", [content characterAtIndex:i]]];
+	}
+	
+	[key setAccessibilityLabel:[buffer componentsJoinedByString:@" "]];
 }
 
 
