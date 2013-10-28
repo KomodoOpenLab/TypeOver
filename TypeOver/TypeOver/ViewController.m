@@ -1609,7 +1609,10 @@
 }
 
 - (IBAction)speakAct:(id)sender {
-	// future release
+	AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:textView.text];
+	[utterance setRate:0.4];
+	AVSpeechSynthesizer *synth = [[AVSpeechSynthesizer alloc] init];
+	[synth speakUtterance:utterance];
 }
 
 - (IBAction)shiftAct:(id)sender {

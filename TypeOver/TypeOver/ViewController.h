@@ -10,6 +10,7 @@
 #import <Social/Social.h>
 #import <sqlite3.h>
 #import <MessageUI/MessageUI.h>
+#import <AVFoundation/AVSpeechSynthesis.h>
 #import "wordInfoStruct.h"
 #import "CustomButton.h"
 
